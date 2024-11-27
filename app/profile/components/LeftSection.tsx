@@ -4,24 +4,11 @@ import Image from "next/image";
 import { FaGithub, FaLinkedin, FaInstagram, FaGlobe } from "react-icons/fa";
 import Link from "next/link";
 
-interface User {
-  name: string;
-  profilePicture: string;
-  jobTitle: string;
-  badges: string[];
-  socialMedia: {
-    github?: string;
-    linkedin?: string;
-    instagram?: string;
-    website?: string;
-  };
-  isEditing: boolean;
-  onEditClick: () => void;
-  editedData: { name: string; bio: string; };
-  handleChange: (field: string, value: string) => void;
-}
+import { UserType } from "@/types/UserTypes";
 
-const LeftSection = ({ user, isEditing, onEditClick, editedData, handleChange }: User) => {
+const LeftSection = ({ user, isEditing, onEditClick, editedData, handleChange }:{user:UserType,isEditing:boolean,onEditClick:() => void,editedData:{ name: string; bio: string; },handleChange:(field: string, value: string) => void}) => {
+  console.log("left section user data ",user)
+
   return (
     <motion.div
       className="col-span-1 h-fit rounded-xl bg-gray-800 p-6 shadow-xl"
@@ -32,7 +19,7 @@ const LeftSection = ({ user, isEditing, onEditClick, editedData, handleChange }:
       <div className="flex flex-col items-center">
         <div className="relative mb-4 size-32">
           <Image
-            src={user.profilePicture || "/default-profile.png"}
+            src={user.image || "/default-profile.png"}
             alt="Profile Picture"
             layout="fill"
             className="rounded-full border-4 border-indigo-600 object-cover"
@@ -48,34 +35,32 @@ const LeftSection = ({ user, isEditing, onEditClick, editedData, handleChange }:
         ) : (
           <h1 className="text-2xl font-semibold text-gray-100">{user.name}</h1>
         )}
-        <h2 className="text-lg text-gray-300">{user.jobTitle}</h2>
+        <h2 className="text-lg text-gray-300">{user.position}</h2>
         <div className="mt-2 flex space-x-2">
-          {user.badges.map((badge, idx) => (
-            <span key={idx} className="rounded-full bg-indigo-500 px-3 py-1 text-xs text-white">
-              {badge}
-            </span>
-          ))}
+          <span className="rounded-full bg-indigo-500 px-3 py-1 text-xs text-white">
+            {user.portfolio}
+          </span>
         </div>
         {/* Social Media Links */}
         <div className="mt-4 w-full space-y-4">
           <div className="flex justify-center gap-4">
-            {user.socialMedia.github && (
-              <Link href={user.socialMedia.github} target="_blank" className="text-indigo-500 hover:text-indigo-400">
+            {user.social.github && (
+              <Link href={user.social.github} target="_blank" className="text-indigo-500 hover:text-indigo-400">
                 <FaGithub size={24} />
               </Link>
             )}
-            {user.socialMedia.linkedin && (
-              <Link href={user.socialMedia.linkedin} target="_blank" className="text-indigo-500 hover:text-indigo-400">
+            {user.social.linkedin && (
+              <Link href={user.social.linkedin} target="_blank" className="text-indigo-500 hover:text-indigo-400">
                 <FaLinkedin size={24} />
               </Link>
             )}
-            {user.socialMedia.instagram && (
-              <Link href={user.socialMedia.instagram} target="_blank" className="text-indigo-500 hover:text-indigo-400">
+            {user.social.instagram && (
+              <Link href={user.social.instagram} target="_blank" className="text-indigo-500 hover:text-indigo-400">
                 <FaInstagram size={24} />
               </Link>
             )}
-            {user.socialMedia.website && (
-              <Link href={user.socialMedia.website} target="_blank" className="text-indigo-500 hover:text-indigo-400">
+            {user.social.custom && (
+              <Link href={user.social.custom} target="_blank" className="text-indigo-500 hover:text-indigo-400">
                 <FaGlobe size={24} />
               </Link>
             )}

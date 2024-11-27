@@ -2,10 +2,12 @@
 import { FC } from "react";
 import { motion } from "framer-motion";
 
+import { UserType } from "@/types/UserTypes";
+
 // import { User } from "../types"; // Assuming you have a separate types file for User, Education, etc.
 
 interface AboutSectionProps {
-  user: any;
+  user: UserType;
   isEditing: boolean;
   onEditClick: () => void;
   editedData: any;
@@ -36,7 +38,7 @@ const AboutSection: FC<AboutSectionProps> = ({
           className="mt-4 w-full rounded-md bg-gray-700 p-2 text-gray-100"
         />
       ) : (
-        <p className="mt-4 text-gray-300">{user.bio}</p>
+        <p className="mt-4 text-gray-300">{user.about}</p>
       )}
     </motion.div>
   );
