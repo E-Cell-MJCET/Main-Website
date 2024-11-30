@@ -104,12 +104,12 @@ function CompletePage({userData}:{userData:UserType}) {
   };
 
   // Save changes to profile
-  const handleSave = () => {
-    if (editedData) {
-      setUser(editedData);
-      setIsEditing(false);
-    }
-  };
+  // const handleSave = () => {
+  //   if (editedData) {
+  //     setUser(editedData);
+  //     setIsEditing(false);
+  //   }
+  // };
 
   // Handle experience popup to add new experience
   const handleAddExperience = () => {
