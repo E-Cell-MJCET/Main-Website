@@ -1,7 +1,7 @@
 import { supabase } from "@/utils/supabase";
 import { UserType } from "@/types/UserTypes";
-
-import CompletePage from "../components/Complete-Page";
+// import CompletePage from "../components/Complete-Page";
+import CompletePage from "@/components/profile/profile-page";
 
 // Function to fetch user data from Supabase based on user ID
 const fetchUserData = async (id: string) => {

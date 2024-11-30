@@ -39,3 +39,16 @@ export interface UserType {
     year: number;
     slur: string;
   }
+
+export interface Achievement {
+    id: string;
+    title: string;
+    description: string;
+  }
+
+export interface Projects {
+    id: string;
+    title: string;
+    description: string;
+    year: string;
+  }

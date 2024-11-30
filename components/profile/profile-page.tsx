@@ -1,6 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+
 import ExperienceSection from "./ExperienceSection";
 import AboutSection from "./AboutSection";
 import EducationSection from "./EducationSection";
@@ -16,7 +17,7 @@ interface Experience {
     description: string;
   }
   
-  interface Education {
+interface Education {
     id: string;
     degree: string;
     school: string;
@@ -64,24 +65,6 @@ interface UserType {
     year: number;
     slur: string;
   }
-
-// interface User {
-//     id: string;
-//     name: string;
-//     profilePicture: string;
-//     jobTitle: string;
-//     location: string;
-//     bio: string;
-//     badges: string[];
-//     experience: Experience[];
-//     education: Education[];
-//     socialMedia: {
-//       github?: string;
-//       linkedin?: string;
-//       instagram?: string;
-//       website?: string;
-//     };
-//   }
 
 function CompletePage({userData}:{userData:UserType}) {
   const [user, setUser] = useState<UserType>();
@@ -198,7 +181,7 @@ function CompletePage({userData}:{userData:UserType}) {
 
   return (
     <div>
-      {!user ? (<div>Loading...</div>) : ( <div className="min-h-screen bg-gray-900 text-white">
+      {!user ? (<div>Loading...</div>) : ( <div className="min-h-screen bg-black text-white">
         <div className="container mx-auto grid max-w-6xl grid-cols-1 gap-6 p-4 md:grid-cols-3">
           {/* Left Section */}
           <LeftSection
