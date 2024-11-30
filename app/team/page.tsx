@@ -1,10 +1,12 @@
 import React from 'react'
 
-import TeamComponent from '@/components/teams/teamComponent' 
+import GBComponent from '@/components/teams/gb'
+import TeamComponent from '@/components/teams/execom' 
 
 const Page = () => {
   return (
     <div>
+      <GBComponent />
       <TeamComponent />
     </div>
   )
