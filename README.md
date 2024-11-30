@@ -105,7 +105,7 @@ Welcome to the official repository for ecellmjcet.com, the website of the Entrep
 1. Get the API Key from the CTO
 2. Clone the repo
    ```sh
-   git clone https://github.com/E-Cell-MJCET/Website.git
+   git clone https://github.com/E-Cell-MJCET/Main-Website.git
    ```
 3. Install  packages
    ```sh
@@ -120,7 +120,7 @@ Welcome to the official repository for ecellmjcet.com, the website of the Entrep
    ```
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
-   git remote set-url origin https://github.com/E-Cell-MJCET/Website.git
+   git remote set-url origin https://github.com/E-Cell-MJCET/Main-Website.git
    git remote -v # confirm the changes
    ```
 
@@ -196,7 +196,7 @@ See the [open issues](https://github.com/github_username/repo_name/issues) for a
 
 # License
 
-This project is licensed under GPL-3.0 <a href="https://github.com/E-Cell-MJCET/Website/blob/main/LICENSE">Learn More</a>
+This project is licensed under GPL-3.0 <a href="https://github.com/E-Cell-MJCET/Main-Website/blob/main/LICENSE">Learn More</a>
 
 # Contact
 
