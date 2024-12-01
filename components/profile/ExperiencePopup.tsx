@@ -18,13 +18,22 @@ interface ExperiencePopupProps {
   experienceData?: Experience;
 }
 
-const ExperiencePopup: React.FC<ExperiencePopupProps> = ({ isOpen, onClose, onSave, experienceData }) => {
+const ExperiencePopup: React.FC<ExperiencePopupProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  experienceData,
+}) => {
   const [jobTitle, setJobTitle] = useState(experienceData?.jobTitle || "");
   const [company, setCompany] = useState(experienceData?.company || "");
   const [startDate, setStartDate] = useState(experienceData?.startDate || "");
   const [endDate, setEndDate] = useState(experienceData?.endDate || "");
-  const [description, setDescription] = useState(experienceData?.description || "");
-  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(experienceData?.endDate === "Present");
+  const [description, setDescription] = useState(
+    experienceData?.description || ""
+  );
+  const [isCurrentlyWorking, setIsCurrentlyWorking] = useState(
+    experienceData?.endDate === "Present"
+  );
 
   const handleSave = () => {
     const newExperience = {
@@ -42,8 +51,8 @@ const ExperiencePopup: React.FC<ExperiencePopupProps> = ({ isOpen, onClose, onSa
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <motion.div 
+    <div className="bg-opacity/50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+      <motion.div
         className="w-full max-w-md rounded-xl bg-gray-800 p-6"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -79,7 +88,9 @@ const ExperiencePopup: React.FC<ExperiencePopupProps> = ({ isOpen, onClose, onSa
             onChange={() => setIsCurrentlyWorking(!isCurrentlyWorking)}
             className="mr-2"
           />
-          <label className="text-gray-300">Currently working in this role</label>
+          <label className="text-gray-300">
+            Currently working in this role
+          </label>
         </div>
         {!isCurrentlyWorking && (
           <input
