@@ -1,4 +1,3 @@
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -15,7 +14,7 @@
   <h3 align="center">E-Cell MJCET</h3>
 
   <p align="center">
-	  Official website of E-Cell MJCET, fostering innovation and entrepreneurship through events, resources, and mentorship for aspiring entrepreneurs.
+	  Official website of E-Cell MJCET, fostering innovation and entrepreneurship through events, resources, and mentorship for aspiring entrepreneurs..
     <br />
     <br />
     <a href="#getting-started"><strong>Explore the docs »</strong></a>
@@ -57,16 +56,11 @@
   </ol>
 </details>
 
-
-
 ## About The Project
-
 
 Welcome to the official repository for ecellmjcet.com, the website of the Entrepreneurship Cell (E-Cell) at Muffakham Jah College of Engineering and Technology (MJCET). This platform serves as a hub for aspiring entrepreneurs, showcasing our initiatives, events, and resources aimed at fostering innovation, startup culture, and entrepreneurial growth among students.
 
-
 ### Built With
-
 
 <div>
   <p>
@@ -82,42 +76,43 @@ Welcome to the official repository for ecellmjcet.com, the website of the Entrep
   </p>
 </div>
 	
-	
 
 
 ## Getting Started
+
 ### Prerequisites
 
+- bun (MacOS or Linux)
 
-* bun (MacOS or Linux)
   ```sh
   npm install bun -g
   ```
 
-* bun (Windows)
+- bun (Windows)
   ```sh
   powershell -c "irm bun.sh/install.ps1 | iex"
   ```
 
 ### Installation
 
-
 1. Get the API Key from the CTO
 2. Clone the repo
    ```sh
    git clone https://github.com/E-Cell-MJCET/Main-Website.git
    ```
-3. Install  packages
+3. Install packages
    ```sh
    bun install
    ```
 4. Enter your credentials in `.env`
+
    ```sh
-   
+
     NEXT_PUBLIC_SUPABASE_URL="SUPABASE_URL"
     NEXT_PUBLIC_SUPABASE_ANON_KEY="SECRET_ANNON_KEY"
-            
+
    ```
+
 5. Change git remote url to avoid accidental pushes to base project
    ```sh
    git remote set-url origin https://github.com/E-Cell-MJCET/Main-Website.git
@@ -129,28 +124,38 @@ Welcome to the official repository for ecellmjcet.com, the website of the Entrep
 # Contributing Guidelines
 
 ## 1. Branching Strategy
+
 Start from dev branch: When starting any work, always create your branch from the dev branch.
 Branch naming convention:
-* For new features: feat/featurename
-* For bug fixes: fix/whatyouarefixing
-* For updating content: update/whereyouareupdating
-* For documentation updates: docs/whatyouupdated
-* For refactoring code: refactor/whatyourefactored
-* For urgent hotfixes: hotfix/urgentfix
+
+- For new features: feat/featurename
+- For bug fixes: fix/whatyouarefixing
+- For updating content: update/whereyouareupdating
+- For documentation updates: docs/whatyouupdated
+- For refactoring code: refactor/whatyourefactored
+- For urgent hotfixes: hotfix/urgentfix
 
 ## 2. Pull Request (PR) Workflow
+
 ### Step 1: Development
+
 After completing your task, push your changes and create a PR to merge your branch into the dev branch.
 Provide a clear description of the changes in the PR.
+
 ### Step 2: Testing
+
 Once all changes are merged into the dev branch by all contributors, a PR should be created from dev to the test branch.
 Ensure the code is properly tested.
 At least 2 members must review and approve the PR before merging into the test branch.
+
 ### Step 3: Production
+
 After successful testing, create a PR from the test branch to the main branch.
 This PR must be approved by the CTO and at least 1 other member.
 Once approved, the changes will be deployed to production.
+
 ## 3. Commit Message Guidelines
+
 Use the following prefixes for clear and consistent commit messages:
 
 ```
@@ -162,33 +167,43 @@ style: for formatting and style changes (not affecting code logic).
 test: for adding or updating tests.
 chore: for maintenance tasks.
 ```
+
 ```
 Example: feat: add user authentication to login page.
 ```
+
 ## 4. CI/CD Pipeline Requirements
+
 The CI/CD pipeline must run error-free.
 Both ESLint checks and Next.js build must pass successfully for the PR to be valid.
+
 ## 5. Conflict Resolution
+
 If any merge conflicts arise, contributors should immediately contact the CTO for resolution.
+
 ## 6. PR Review Time
+
 All PRs should be reviewed and resolved within 5 days of submission.
+
 ## 7. Emergency Procedure
+
 In case of critical hotfixes or urgent issues, the CTO must trigger the emergency procedure.
 The PR can then be approved by the CTO alone, bypassing the usual workflow.
 
-
 # Top Contributers
+
 <a href="https://github.com/E-Cell-MJCET/Website/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=E-Cell-MJCET/website" alt="contrib.rocks image" />
 </a>
 
 <!-- ROADMAP -->
+
 # Roadmap
 
-- [X] Feature 1
+- [x] Feature 1
 - [ ] Feature 2
 - [ ] Feature 3
-    - [ ] Nested Feature
+  - [ ] Nested Feature
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
@@ -204,13 +219,12 @@ Email - ecellmjcet@mjcollege.ac.in
 
 Send a message = www.ecellmjcet.com/contact
 
-
 # Acknowledgements
 
 These are the open source projects used to build E-Cell MJCET Website
-* Shadcn
-* Supabase
 
+- Shadcn
+- Supabase
 
 <!--Markdown Links-->
 
