@@ -160,7 +160,7 @@ const router = useRouter()
           // Optionally clear the form or show a success message here
         }
       })
-      router.push("/EP/success")
+      router.push("/ep/success")
   }
   
   return (
