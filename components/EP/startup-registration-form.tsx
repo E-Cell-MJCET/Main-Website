@@ -26,18 +26,35 @@ import {
 } from '@/components/ui/select'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { supabase } from '@/utils/supabase'
+import { useRouter } from 'next/navigation'
 
-const yearOptions = ['First Year', 'Second Year', 'Third Year', 'Fourth Year', 'Fifth Year']
+const yearOptions = [
+  {label:'I', value:1},
+  {label:'II', value:2},
+  {label:'III', value:3},
+  {label:'IV', value:4},
+]
 const departmentOptions = ['Computer Science', 'Electrical Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Chemical Engineering', 'Other']
 
-const coFounderSchema = z.object({
+const coFounderSchema1 = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phoneNumber: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
-  year: z.enum(yearOptions),
-  department: z.enum(departmentOptions),
+  year: z.string(),
+  department: z.string(),
   rollNumber: z.string().min(1, 'Roll number is required'),
   linkedinUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
+})
+
+const coFounderSchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').optional(),
+  email: z.string().email('Invalid email address').optional(),
+  phoneNumber: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits').optional(),
+  year: z.string().optional(),
+  department: z.string().optional(),
+  rollNumber: z.string().min(1, 'Roll number is required').optional(),
+  linkedinUrl: z.string().url('Invalid URL').optional().or(z.literal('')).optional(),
 })
 
 const formSchema = z.object({
@@ -45,12 +62,12 @@ const formSchema = z.object({
   founderName: z.string().min(2, 'Founder name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phoneNumber: z.string().regex(/^\d{10}$/, 'Phone number must be 10 digits'),
-  year: z.enum(yearOptions),
-  department: z.enum(departmentOptions),
+   year: z.string(),
+  department: z.string(),
   rollNumber: z.string().min(1, 'Roll number is required'),
   linkedinUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
   hasCoFounders: z.boolean(),
-  coFounder1: coFounderSchema.optional(),
+  coFounder1: coFounderSchema1.optional(),
   coFounder2: coFounderSchema.optional(),
   coFounder3: coFounderSchema.optional(),
   businessDomain: z.string().min(1, 'Business domain is required'),
@@ -63,13 +80,21 @@ export default function StartupRegistrationForm() {
   const [hasCoFounders, setHasCoFounders] = useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+     resolver: async (data, context, options) => {
+    const result = await zodResolver(formSchema)(data, context, options);
+    console.log("Validation result:", result);
+
+    return result;
+  },
+    
     defaultValues: {
       hasCoFounders: false,
     },
   })
+const router = useRouter()
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log("Check if running")
     const { startupName, founderName, email, phoneNumber, year, department, rollNumber, linkedinUrl, hasCoFounders, coFounder1, coFounder2, coFounder3, businessDomain, businessPitch, businessDescription, demoUrl } = values;
   
     // Construct the data to be inserted into Supabase
@@ -83,9 +108,9 @@ export default function StartupRegistrationForm() {
       roll_number: rollNumber,
       linkedin_url: linkedinUrl,
       has_co_founders: hasCoFounders,
-      business_domain: businessDomain,
-      business_pitch: businessPitch,
-      business_description: businessDescription,
+      domain: businessDomain,
+      pitch_idea: businessPitch,
+      idea_desc: businessDescription,
       demo_url: demoUrl || null, // Optional field, set to null if not provided
       co_founders: [] as any[],  // Initialize empty array for co-founders
   
@@ -125,7 +150,7 @@ export default function StartupRegistrationForm() {
   
     // Send data to Supabase
     supabase
-      .from('startups')  // Replace 'startups' with your actual table name
+      .from('EP')  // Replace 'startups' with your actual table name
       .insert([data])
       .then(response => {
         if (response.error) {
@@ -138,9 +163,9 @@ export default function StartupRegistrationForm() {
       .catch(error => {
         console.error('Error inserting data:', error);
       });
+      router.push("/EP/success")
   }
   
-
   return (
     <Card className="w-full border-0 bg-white shadow-lg">
       <CardHeader className="border-b bg-gradient-to-r from-[#FF4D00] to-[#FF0000] px-6 py-4">
@@ -149,7 +174,9 @@ export default function StartupRegistrationForm() {
       </CardHeader>
       <CardContent className="space-y-8 p-6">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={
+            form.handleSubmit(onSubmit)   
+          } onInvalid={(e) => console.log("Form invalid:", e)} className="space-y-8">
             <div className="space-y-4">
               <h2 className="border-b pb-2 text-lg font-semibold text-[#0A1930]">Startup Information</h2>
               <FormField
@@ -210,7 +237,7 @@ export default function StartupRegistrationForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel className="font-medium text-[#0A1930]">Year *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="border-[#4A154B]/20 bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
                           <SelectValue placeholder="Select year" />
@@ -218,8 +245,8 @@ export default function StartupRegistrationForm() {
                       </FormControl>
                       <SelectContent>
                         {yearOptions.map((year) => (
-                          <SelectItem key={year} value={year}>
-                            {year}
+                          <SelectItem key={year.value} value={year.value.toString()}>
+                            {year.label}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -234,7 +261,7 @@ export default function StartupRegistrationForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel className="font-medium text-[#0A1930]">Department *</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="border-[#4A154B]/20 bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
                           <SelectValue placeholder="Select department" />
@@ -318,22 +345,22 @@ export default function StartupRegistrationForm() {
                             <FormLabel className="font-medium text-[#0A1930]">{field.charAt(0).toUpperCase() + field.slice(1)} {index === 1 ? '*' : ''}</FormLabel>
                             <FormControl>
                               {field === 'year' ? (
-                                <Select onValueChange={fieldProps.onChange} defaultValue={fieldProps.value}>
+                                <Select onValueChange={fieldProps.onChange}>
                                   <FormControl>
-                                    <SelectTrigger className="border-[#4A154B]/20 bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
+                                    <SelectTrigger className="border-[#4A154B]/20 text-[#0A1930] bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
                                       <SelectValue placeholder={`Select ${field}`} />
                                     </SelectTrigger>
                                   </FormControl>
                                   <SelectContent>
                                     {yearOptions.map((year) => (
-                                      <SelectItem key={year} value={year}>
-                                        {year}
+                                      <SelectItem key={year.value} value={year.value.toString()}>
+                                        {year.label}
                                       </SelectItem>
                                     ))}
                                   </SelectContent>
                                 </Select>
                               ) : field === 'department' ? (
-                                <Select onValueChange={fieldProps.onChange} defaultValue={fieldProps.value}>
+                                <Select onValueChange={fieldProps.onChange}>
                                   <FormControl>
                                     <SelectTrigger className="border-[#4A154B]/20 bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
                                       <SelectValue placeholder={`Select ${field}`} />

@@ -66,28 +66,28 @@ const teamMembers: TeamMember[] = [
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Saif/Saif.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Saifuddin.gif"
+    gif: "/assets/Team/Execom/Entrepreneurship/Saif/Saifuddin.webp"
   },
   {
     name: "Saleha Baseer",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Saleha.gif"
+    gif: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.webp"
   },
   {
     name: "Nooria Yousuf",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.jpeg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Nooria.gif"
+    gif: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.webp"
   },
   {
     name: "Mohammed Rayyan Ali",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/MohammedRayyan.gif"
+    gif: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.webp"
   },
   // Human Resource Department
   {
@@ -95,14 +95,14 @@ const teamMembers: TeamMember[] = [
     role: "Human Resource Head",
     department: "Human Resource",
     image: "/assets/Team/Execom/HR/Afra/Afra.jpg",
-    gif: "/assets/Team/Execom/HR/Afra.gif"
+    gif: "/assets/Team/Execom/HR/Afra/Afra.gif"
   },
   {
     name: "Md. Faizullah Shareef",
     role: "Human Resource Head",
     department: "Human Resource",
     image: "/assets/Team/Execom/HR/Faizullah/Faizullah.jpg",
-    gif: "/assets/Team/Execom/HR/MohammedFaizullah.gif"
+    gif: "/assets/Team/Execom/HR/Faizullah/Faizullah.gif"
   },
   // Relations and Outreach Department
   {
@@ -110,14 +110,14 @@ const teamMembers: TeamMember[] = [
     role: "Relations and Outreach Head",
     department: "Relations and Outreach",
     image: "/assets/Team/Execom/Relations/Alyan/Alyan.jpg",
-    gif: "/assets/Team/Execom/Relations/SyedAlyan.gif"
+    gif: "/assets/Team/Execom/Relations/Alyan/Alyan.gif"
   },
   {
     name: "Faiz Ali",
     role: "Relations and Outreach Head",
     department: "Relations and Outreach",
     image: "/assets/Team/Execom/Relations/Faiz/Faiz.jpg",
-    gif: "/assets/Team/Execom/Relations/FaizAli.gif"
+    gif: "/assets/Team/Execom/Relations/Faiz/Faiz.gif"
   },
   // Design Department
   {
@@ -132,14 +132,14 @@ const teamMembers: TeamMember[] = [
     role: "Design Head",
     department: "Design",
     image: "/assets/Team/Execom/Design/Shafiya/Shafiya.webp",
-    gif: "/assets/Team/Execom/Design/Shafiya.gif"
+    gif: "/assets/Team/Execom/Design/Shafiya/Shafiya.gif"
   },
   {
     name: "Namirah Fathima",
     role: "Design Head",
     department: "Design",
     image: "/assets/Team/Execom/Design/Namirah/Namirah.jpg",
-    gif: "/assets/Team/Execom/Design/Namirah.gif"
+    gif: "/assets/Team/Execom/Design/Namirah/Namirah.gif"
   },
   // Editorial and Research Department
   {
@@ -147,14 +147,14 @@ const teamMembers: TeamMember[] = [
     role: "Editorial and Research Head",
     department: "Editorial and Research",
     image: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
-    gif: "/assets/Team/Execom/Editorial/Rukhaiya.gif"
+    gif: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.gif"
   },
   {
     name: "Nazmeen Sultana",
     role: "Editorial and Research Head",
     department: "Editorial and Research",
     image: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
-    gif: "/assets/Team/Execom/Editorial/Nazmeen.gif"
+    gif: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.gif"
   },
   // Media Department
   {
@@ -162,21 +162,21 @@ const teamMembers: TeamMember[] = [
     role: "Media Head",
     department: "Media",
     image: "/assets/Team/Execom/Media/Noor/Noor.JPG",
-    gif: "/assets/Team/Execom/Media/Noor.gif"
+    gif: "/assets/Team/Execom/Media/Noor/Noor.gif"
   },
   {
     name: "Abdul Rahman Hanzala",
     role: "Media Head",
     department: "Media",
     image: "/assets/Team/Execom/Media/Hanzala/Hanzala.heif",
-    gif: "/assets/Team/Execom/Media/AbdulRahman.gif"
+    gif: "/assets/Team/Execom/Media/Hanzala/Hanzala.gif"
   },
   {
     name: "Farzeen Naveed",
     role: "Media Head",
     department: "Media",
     image: "/assets/Team/Execom/Media/Farzeen/Farzeen.jpg",
-    gif: "/assets/Team/Execom/Media/Farzeen.gif"
+    gif: "/assets/Team/Execom/Media/Farzeen/Farzeen.gif"
   },
   // Marketing Department
   {
@@ -184,14 +184,14 @@ const teamMembers: TeamMember[] = [
     role: "Marketing Head",
     department: "Marketing",
     image: "/assets/Team/Execom/Marketing/Safwan/Safwan.jpeg",
-    gif: "/assets/Team/Execom/Marketing/Safwan.gif"
+    gif: "/assets/Team/Execom/Marketing/Safwan/Safwan.gif"
   },
   {
-    name: "Mohammed Abdur Raheem",
+    name: "Abdur Raheem",
     role: "Marketing Head",
     department: "Marketing",
     image: "/assets/Team/Execom/Marketing/Raheem/Raheem.jpg",
-    gif: "/assets/Team/Execom/Marketing/MohammedAbdur.gif"
+    gif: "/assets/Team/Execom/Marketing/Raheem/Raheem.gif"
   },
   // Events Department
   {
@@ -199,14 +199,14 @@ const teamMembers: TeamMember[] = [
     role: "Events Head",
     department: "Events",
     image: "/assets/Team/Execom/Events/Amena/Amena.jpg",
-    gif: "/assets/Team/Execom/Events/Amena.gif"
+    gif: "/assets/Team/Execom/Events/Haseeb/Amena.gif"
   },
   {
     name: "Haseeb Rahman",
     role: "Events Head",
     department: "Events",
     image: "/assets/Team/Execom/Events/Haseeb/Haseeb.jpg",
-    gif: "/assets/Team/Execom/Events/Haseeb.gif"
+    gif: "/assets/Team/Execom/Events/Haseeb/Haseeb.gif"
   },
   // Operations Department
   {
@@ -214,14 +214,14 @@ const teamMembers: TeamMember[] = [
     role: "Operations Head",
     department: "Operations",
     image: "/assets/Team/Execom/Operations/Umar/Umar.jpeg",
-    gif: "/assets/Team/Execom/Operations/MohammedUmar.gif"
+    gif: "/assets/Team/Execom/Operations/Umar/Umar.gif"
   },
   {
     name: "Aziz Ur Rahman",
     role: "Operations Head",
     department: "Operations",
     image: "/assets/Team/Execom/Operations/Aziz/Aziz.jpeg",
-    gif: "/assets/Team/Execom/Operations/AzizUrRahman.gif"
+    gif: "/assets/Team/Execom/Operations/Aziz/Aziz.gif"
   }
 ]
 
