@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface MemberCardProps {
   name: string;
@@ -10,17 +11,17 @@ interface MemberCardProps {
 
 const MemberCard: React.FC<MemberCardProps> = ({ name, role, imageUrl, bgColor, quote }) => {
   return (
-    <div className="group relative cursor-pointer w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)] max-w-sm">
+    <div className="group relative w-full max-w-sm cursor-pointer sm:w-[calc(50%-1rem)] lg:w-[calc(33.33%-1rem)]">
       <div className={`relative overflow-hidden rounded-2xl ${bgColor} transition-all duration-500 ease-out group-hover:scale-[1.02]`}>
         <div className="relative aspect-[3/4]">
-          <img
+          <Image
             src={imageUrl}
             alt={name}
             className="size-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100">
             <div className="absolute bottom-32 p-6 text-center">
-              <p className="text-white italic text-sm leading-relaxed">"{quote}"</p>
+              <p className="text-sm italic leading-relaxed text-white">&quot;{quote}&quot;</p>
             </div>
           </div>
         </div>

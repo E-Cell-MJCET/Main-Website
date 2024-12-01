@@ -286,15 +286,15 @@ export default function TeamComponent() {
           </div>
         </div>
         {/* Team Members Grid */}
-        <div className="gap-8 flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center gap-8">
           {teamMembers
             .filter(member => filter === "All" || member.department === filter)
             .map((member) => (
               <div 
                 key={member.name}
-                className="gradient-card p-1 rounded-xl"
+                className="gradient-card rounded-xl p-1"
               >
-                <div className="gradient-card-content rounded-lg overflow-hidden">
+                <div className="gradient-card-content overflow-hidden rounded-lg">
                   <div className="w-[280px]">
                     <div className="relative">
                       <Image
@@ -307,7 +307,7 @@ export default function TeamComponent() {
                         onMouseLeave={handleMouseLeave}
                       />
                     </div>
-                    <div className="flex flex-col items-center space-y-4 p-6 bg-gray-800">
+                    <div className="flex flex-col items-center space-y-4 bg-gray-800 p-6">
                       <h3 className="text-center text-xl font-semibold text-gray-100">
                         {member.name}
                       </h3>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
+import { useRouter } from 'next/navigation'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -27,7 +28,6 @@ import {
 import { Checkbox } from '@/components/ui/checkbox'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { supabase } from '@/utils/supabase'
-import { useRouter } from 'next/navigation'
 
 const yearOptions = [
   {label:'I', value:1},
@@ -197,7 +197,7 @@ const router = useRouter()
                 name="founderName"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
-                    <FormLabel className="font-medium text-[#0A1930]">Founder's Name *</FormLabel>
+                    <FormLabel className="font-medium text-[#0A1930]">Founder&apos;s Name *</FormLabel>
                     <FormControl>
                       <Input className="border-[#4A154B]/20 bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20" placeholder="Enter founder's name" {...field} />
                     </FormControl>
@@ -347,7 +347,7 @@ const router = useRouter()
                               {field === 'year' ? (
                                 <Select onValueChange={fieldProps.onChange}>
                                   <FormControl>
-                                    <SelectTrigger className="border-[#4A154B]/20 text-[#0A1930] bg-white focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
+                                    <SelectTrigger className="border-[#4A154B]/20 bg-white text-[#0A1930] focus:border-[#FF4D00] focus:ring-[#FF4D00]/20">
                                       <SelectValue placeholder={`Select ${field}`} />
                                     </SelectTrigger>
                                   </FormControl>
