@@ -160,9 +160,6 @@ const router = useRouter()
           // Optionally clear the form or show a success message here
         }
       })
-      .catch(error => {
-        console.error('Error inserting data:', error);
-      });
       router.push("/EP/success")
   }
   
