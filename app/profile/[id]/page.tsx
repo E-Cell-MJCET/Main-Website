@@ -7,16 +7,16 @@ import CompletePage from "@/components/profile/profile-page";
 const fetchUserData = async (id: string) => {
   const { data, error } = await supabase
     .from("members") // Replace with your actual table name (e.g., 'users')
-    .select("*")  // Adjust the fields you need
+    .select("*") // Adjust the fields you need
     .eq("slur", id)
     .single(); // Assuming 'id' is unique, fetch a single record
 
-    console.log("data found ",data);
+  console.log("data found ", data);
 
   if (error) {
     console.error("Error fetching user data:", error);
-    
-return null;
+
+    return null;
   }
 
   return data;
@@ -30,7 +30,7 @@ export default async function Page({
   const { id } = await params; // Destructure 'id' from the params
 
   // Fetch user data
-  const userData:UserType = await fetchUserData(id);
+  const userData: UserType = await fetchUserData(id);
 
   if (!userData) {
     // Handle case where no user data is found
@@ -38,7 +38,5 @@ export default async function Page({
   }
 
   // Pass the user data as props to CompletePage
-  return (
-    <CompletePage userData={userData} />
-  );
+  return <CompletePage userData={userData} />;
 }
