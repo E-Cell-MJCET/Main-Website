@@ -95,7 +95,7 @@ const GoverningBody: React.FC = () => {
   const bottomRow = members.slice(2);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black px-4 py-20 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black px-4 py-20 pt-40 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h1 className="mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">

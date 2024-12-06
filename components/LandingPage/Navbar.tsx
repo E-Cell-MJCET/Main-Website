@@ -35,22 +35,34 @@ const Navbar = () => {
             Home
           </Link>
           <Link
-            href="/products"
+            href="/events"
             className="text-gray-200 hover:text-blue-500 dark:text-gray-300"
           >
-            Products
+            Events
           </Link>
           <Link
-            href="/about"
+            href="/team"
             className="text-gray-200 hover:text-blue-500 dark:text-gray-300"
           >
-            About
+            Teams
           </Link>
           <Link
-            href="/contact"
+            href="/blogs"
             className="text-gray-200 hover:text-blue-500 dark:text-gray-300"
           >
-            Contact
+            Blogs
+          </Link>
+          <Link
+            href="/contactus"
+            className="text-gray-200 hover:text-blue-500 dark:text-gray-300"
+          >
+            Contact us
+          </Link>
+          <Link
+            href="/membership"
+            className="text-gray-200 hover:text-blue-500 dark:text-gray-300"
+          >
+            Become a Member
           </Link>
         </div>
         {/* CTA Button */}
