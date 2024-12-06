@@ -5,7 +5,8 @@ import { useScroll, useTransform, motion } from "framer-motion";
 
 import team1 from "@/public/assets/team1.png";
 import team3 from "@/public/assets/team3.png";
-import team4 from "@/public/assets/dean.jpeg";
+import ethinic from "@/public/assets/hero/ethinic.jpeg";
+import mm from "@/public/assets/hero/mm.jpeg";
 import team5 from "@/public/assets/team5.jpg";
 import team6 from "@/public/assets/team6.png";
 import team2 from "@/public/assets/team2.jpeg";
@@ -40,12 +41,12 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
       classes: "relative top-[-30%] left-[5%] w-[35%] h-[30%]",
     },
     {
-      src: team3,
+      src: mm,
       scale: scale3,
       classes: "relative top-[-29%] left-[-25%] w-[20%] h-[28%]",
     },
     {
-      src: team4,
+      src: ethinic,
       scale: scale2,
       classes: "relative left-[27.5%] w-[25%] h-[25%]",
     },

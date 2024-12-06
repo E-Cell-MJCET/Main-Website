@@ -18,9 +18,7 @@ const Dummy = () => {
   return (
     <div className="bg-black">
       <div className="block sm:hidden">
-        {/* <HorizontalScroll /> */}
-        {/* <TwoWayParallaxDemo/> */}
-        {/* <HorizontalScroll/> */}
+        <video src="/assets/hero/mayhem.mp4" autoPlay loop muted />
       </div>
       <div className="ZoomParallaxDiv hidden sm:block">
         <ZoomParallax />

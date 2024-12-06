@@ -20,21 +20,21 @@ const Navbar = () => {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
-        <div className=" w-full items-center justify-between ">
-          <Link href="/" className="text-2xl font-bold text-blue-500">
+        <div className=" flex w-full items-center justify-between ">
+          <Link href="/" className=" font-bold text-blue-500">
             <Image
               src={logo}
               alt="Logo"
               width={140}
               height={60}
-              className="hidden object-contain md:block"
+              className="hidden object-contain md:flex"
             />
             <Image
               src={small_logo}
               alt="Small Logo"
               width={100}
               height={60}
-              className="size-[48px] object-contain"
+              className="block size-[48px] object-contain md:hidden"
             />
           </Link>
           {/* Menu Items */}

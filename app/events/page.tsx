@@ -9,20 +9,20 @@ const EventsPage = () => {
   return (
     <div>
       <Navbar />
-      <div className="min-h-screen bg-black p-8">
-        <h1 className="mb-16 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-center text-5xl font-extrabold text-transparent">
+      <div className="bg-black p-8">
+        <h1 className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text pt-40 text-center text-5xl font-extrabold text-transparent">
           Events
         </h1>
-        <section className="mb-16 w-full text-center">
-          <h2 className="mb-12 text-4xl font-semibold text-gray-800">
-            <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
+        <section className="w-full text-center">
+          <h2 className="text-4xl font-semibold text-gray-800">
+            <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text pt-10 text-transparent">
               Upcoming Events
             </span>
           </h2>
           <UpcomingEvents />
         </section>
         <section className="w-full text-center">
-          <h2 className="mb-12 text-4xl font-semibold text-gray-800">
+          <h2 className="text-4xl font-semibold text-gray-800">
             <span className="bg-gradient-to-r from-green-500 to-blue-500 bg-clip-text text-transparent">
               Previous Events
             </span>

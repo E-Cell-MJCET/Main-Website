@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 
 import useInkCursor from "@/hooks/inkCursor";
+import { useRouter } from "next/navigation";
 
 const JoinUs = () => {
   const parentRef = useRef(null);
@@ -62,6 +63,8 @@ const JoinUs = () => {
     });
   };
 
+  const router = useRouter();
+
   return (
     <div
       ref={parentRef}
@@ -88,6 +91,9 @@ const JoinUs = () => {
       </div>
       <button
         ref={buttonRef}
+        onClick={() => {
+          router.push("/membership");
+        }}
         className="m-10 rounded-full border-2 border-white p-5 px-10 text-3xl text-yellow-50 hover:cursor-none  md:text-5xl "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
