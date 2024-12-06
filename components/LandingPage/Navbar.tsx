@@ -27,14 +27,14 @@ const Navbar = () => {
               alt="Logo"
               width={140}
               height={60}
-              className="object-contain hidden md:block"
+              className="hidden object-contain md:block"
             />
             <Image
               src={small_logo}
               alt="Small Logo"
               width={100}
               height={60}
-              className="object-contain h-[48px] w-[48px]"
+              className="size-[48px] object-contain"
             />
           </Link>
           {/* Menu Items */}
@@ -77,7 +77,7 @@ const Navbar = () => {
             </Link>
           </div>
         </div>
-        <div className="w-full mr-5 text-right transition duration-300 ease-in-out lg:hidden">
+        <div className="mr-5 w-full text-right transition duration-300 ease-in-out lg:hidden">
           <Sheet>
             <SheetTrigger>
               {" "}
