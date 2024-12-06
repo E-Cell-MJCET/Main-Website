@@ -17,7 +17,7 @@ export const OFE = () => {
         time="4 min"
       />
       <Image
-        src={"/assets/blogs/tre/title.png"}
+        src={"/assets/blogs/ofe.jpg"}
         width={500}
         height={300}
         alt={""}

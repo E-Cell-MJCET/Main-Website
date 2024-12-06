@@ -17,7 +17,7 @@ export const SBS = () => {
         time="4 min"
       />
       <Image
-        src={"/assets/blogs/tre/title.png"}
+        src={"/assets/blogs/sbs.jpg"}
         width={500}
         height={300}
         alt={""}
