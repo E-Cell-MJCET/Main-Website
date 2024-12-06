@@ -4,11 +4,11 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
 import blogs from "@/public/assets/blogs.png";
-import ecell from "@/public/assets/Logo/logo-big-colour.png";
 import team from "@/public/assets/team1.png";
 import dean from "@/public/assets/dean.jpeg";
 import event from "@/public/assets/team5.jpg";
 import hackathon from "@/public/assets/hackathon.jpeg";
+import ecell from "@/public/assets/Logo/logo-big-colour.png";
 
 import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
 

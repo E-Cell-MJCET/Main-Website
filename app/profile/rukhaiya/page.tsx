@@ -4,6 +4,8 @@ import React from "react";
 
 import { UserType } from "@/types/UserTypes";
 import CompletePage from "@/components/profile/profile-page";
+import Navbar from "@/components/LandingPage/Navbar";
+import Footer from "@/components/LandingPage/Footer";
 
 const userData: UserType = {
   roll_no: "1604-22-733-063",
@@ -98,7 +100,9 @@ const userData: UserType = {
 const RukhaiyaPage = () => {
   return (
     <div>
+      <Navbar />
       <CompletePage userData={userData} />
+      <Footer />
     </div>
   );
 };
