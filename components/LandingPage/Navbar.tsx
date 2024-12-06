@@ -64,6 +64,12 @@ const Navbar = () => {
               Blogs
             </Link>
             <Link
+              href="/aboutus"
+              className="font-bold text-gray-200 hover:text-blue-500 dark:text-gray-300"
+            >
+              About us
+            </Link>
+            <Link
               href="/contactus"
               className="font-bold text-gray-200 hover:text-blue-500 dark:text-gray-300"
             >
