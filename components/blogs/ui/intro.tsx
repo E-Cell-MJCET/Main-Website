@@ -4,6 +4,7 @@ import { IoShareOutline } from "react-icons/io5";
 import { toast } from "sonner";
 
 import rukhaiya from "@/public/assets/Team/Execom/Editorial/Rukhaiya/RukhaiyaBlog.jpg";
+import Link from "next/link";
 
 const BlogIntro = ({
   title,
@@ -38,7 +39,12 @@ const BlogIntro = ({
                 className="size-12 rounded-full object-fill"
               />
               <div className="ml-3 flex flex-col">
-                <span className=" block text-gray-900 underline">{author}</span>
+                <Link
+                  href="https://www.ecellmjcet.com/profile/rukhaiya/"
+                  className=" block text-gray-900 underline"
+                >
+                  {author}
+                </Link>
                 <div className="flex flex-row">
                   {" "}
                   <span className="block text-sm text-gray-400">{date}</span>
