@@ -23,7 +23,7 @@ const About = () => {
   }, []);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-black p-6 py-16 font-inter text-white">
+    <div className="flex h-screen w-screen flex-col items-center justify-center bg-black  py-16 font-inter text-white">
       <div className="about flex size-full flex-col items-center justify-center bg-black p-6 font-inter text-white">
         <h1 className="my-6 w-full text-center text-3xl font-[900] md:text-5xl">
           About E-Cell MJCET

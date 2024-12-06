@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useScroll, useTransform, motion } from "framer-motion";
 
 import team1 from "@/public/assets/team1.png";
-import team from "@/public/assets/GB.jpg";
 import team3 from "@/public/assets/team3.png";
 import team4 from "@/public/assets/dean.jpeg";
 import team5 from "@/public/assets/team5.jpg";
-import team2 from "@/public/assets/team6.png";
+import team6 from "@/public/assets/team6.png";
+import team2 from "@/public/assets/team2.jpeg";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -30,12 +30,12 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
 
   const pictures = [
     {
-      src: team,
+      src: team2,
       scale: scale1,
       classes: "relative w-[25%] h-[25%]",
     },
     {
-      src: team2,
+      src: team6,
       scale: scale2,
       classes: "relative top-[-30%] left-[5%] w-[35%] h-[30%]",
     },
@@ -60,7 +60,7 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
       classes: "relative top-[27.5%] left-[5%] w-[20%] h-[25%]",
     },
     {
-      src: team,
+      src: team2,
       scale: scale5,
       classes: "relative top-[22.5%] left-[25%] w-[15%] h-[15%]",
     },
@@ -69,7 +69,7 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
   return (
     <section
       ref={container}
-      className={cn("relative h-[200vh] w-full", classes)}
+      className={cn("relative h-[130vh] w-full", classes)}
     >
       <div className="sticky top-0 h-[210vh] overflow-hidden">
         {pictures.map(({ src, scale, classes }, index) => {
