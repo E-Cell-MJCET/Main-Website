@@ -1,60 +1,113 @@
-import React, { useState } from 'react';
-import { User, Mail, Phone, FileText, Calendar, Image, Palette } from 'lucide-react';
+import React, { useState } from "react";
+import { User, Mail, Phone, FileText, Calendar, Palette } from "lucide-react";
 
-import type { ProfileFormData } from '../../types/ProfileTypes';
+import { supabase } from "@/utils/supabase";
 
-import { ExperienceSection } from './ExperienceSection';
-import { EducationSection } from './EducationSection';
-import { SocialSection } from './SocialSection';
-import { ProjectsSection } from './ProjectsSection';
-import { AchievementsSection } from './AchievementsSection';
-import { ExtracurricularSection } from './ExtracurricularSection.';
+import type { ProfileFormData } from "../../types/ProfileTypes";
+
+import { ExperienceSection } from "./ExperienceSection";
+import { EducationSection } from "./EducationSection";
+import { SocialSection } from "./SocialSection";
+import { ProjectsSection } from "./ProjectsSection";
+import { AchievementsSection } from "./AchievementsSection";
+import { ExtracurricularSection } from "./ExtracurricularSection.";
 
 const initialFormData: ProfileFormData = {
-  name: '',
-  email: '',
-  phoneNo: '',
-  portfolio: '',
-  profileUrl: '',
-  experiences: [{ company: '', jobTitle: '', startDate: '', endDate: '', description: '' }],
-  education: [{ startDate: '', endDate: '', school: '', degree: '', description: '' }],
-  about: '',
+  name: "",
+  email: "",
+  phoneNo: "",
+  portfolio: "",
+  profileUrl: "",
+  experiences: [
+    { company: "", jobTitle: "", startDate: "", endDate: "", description: "" },
+  ],
+  education: [
+    { startDate: "", endDate: "", school: "", degree: "", description: "" },
+  ],
+  about: "",
   social: {},
-  position: '',
-  dob: '',
+  position: "",
+  dob: "",
   image: null,
-  theme: 'dark',
+  theme: "",
   projects: [],
   achievements: [],
-  branch: '',
-  year: '',
+  branch: "",
+  year: "",
+  rollno: "",
   extracurricular: [],
 };
 
 export function ProfileForm() {
   const [formData, setFormData] = useState<ProfileFormData>(initialFormData);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Here you would typically send the data to your backend
-  };
+    console.log("Form submitted:", formData);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData({ ...formData, image: e.target.files[0] });
+    // Upload image to Supabase storage if an image is selected
+    // let imageUrl = null;
+    // if (formData.image) {
+    //   const { data, error } = await supabase.storage
+    //     .from("profile-images")
+    //     .upload(`public/${formData.image.name}`, formData.image);
+
+    //   if (error) {
+    //     console.error("Error uploading image:", error);
+    //     return;
+    //   }
+
+    //   imageUrl = data?.Key;
+    // }
+
+    // Insert form data into Supabase
+    const { error } = await supabase.from("members").insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        roll_no: formData.rollno,
+        phone_no: formData.phoneNo,
+        experience: formData.experiences,
+        about: formData.about,
+        social: formData.social,
+        portfolio: formData.portfolio,
+        position: formData.position,
+        dob: formData.dob,
+        // image: imageUrl,
+        theme: formData.theme,
+        education: formData.education,
+        projects: formData.projects,
+        branch: formData.branch,
+        year: formData.year,
+        slur: formData.profileUrl,
+        achievements: formData.achievements,
+        extracurricular: formData.extracurricular,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error inserting data:", error);
+    } else {
+      console.log("Data inserted successfully");
     }
   };
 
-  const inputClass = "mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-blue-500 focus:ring-blue-500";
+  const inputClass =
+    "mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-blue-500 focus:ring-blue-500 p-3";
   const labelClass = "block text-sm font-medium text-gray-200";
-  const sectionClass = "bg-gray-800 rounded-lg shadow-md p-6 space-y-6 border border-gray-700";
+  const sectionClass =
+    "bg-gray-800 rounded-lg shadow-md p-6 space-y-6 border border-gray-700";
 
   return (
-    <form onSubmit={handleSubmit} className="mx-auto max-w-4xl space-y-8 px-4 py-8">
+    <form
+      onSubmit={handleSubmit}
+      className="mx-auto max-w-4xl space-y-8 px-4 py-8"
+    >
       {/* Personal Information */}
       <section className={sectionClass}>
-        <h2 className="text-2xl font-bold text-gray-100">Personal Information</h2>
+        <h2 className="text-2xl font-bold text-gray-100">
+          Personal Information
+        </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Required Fields */}
           <div className="space-y-2">
@@ -65,7 +118,9 @@ export function ProfileForm() {
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className={inputClass}
               required
             />
@@ -78,7 +133,9 @@ export function ProfileForm() {
             <input
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className={inputClass}
               required
             />
@@ -91,21 +148,11 @@ export function ProfileForm() {
             <input
               type="tel"
               value={formData.phoneNo}
-              onChange={(e) => setFormData({ ...formData, phoneNo: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, phoneNo: e.target.value })
+              }
               className={inputClass}
               placeholder="Ex: +91 73962 11824"
-            />
-          </div>
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 text-gray-200">
-              <Calendar className="size-5" />
-              <span>Date of Birth</span>
-            </label>
-            <input
-              type="date"
-              value={formData.dob}
-              onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-              className={inputClass}
             />
           </div>
           <div className="space-y-2">
@@ -116,7 +163,9 @@ export function ProfileForm() {
             <input
               type="text"
               value={formData.branch}
-              onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, branch: e.target.value })
+              }
               className={inputClass}
               placeholder="Ex: Computer Science"
             />
@@ -129,21 +178,26 @@ export function ProfileForm() {
             <input
               type="text"
               value={formData.year}
-              onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, year: e.target.value })
+              }
               className={inputClass}
               placeholder="Ex: 2024"
             />
           </div>
           <div className="space-y-2">
-            <label className="flex items-center space-x-2 text-gray-200">
-              <Image alt="" className="size-5"/>
-              <span>Profile Image</span>
+            <label className="flex items-center space-x-1 text-gray-200">
+              <FileText className="size-5" />
+              <span>Roll No</span>
             </label>
             <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="block w-full text-sm text-gray-400 file:mr-4 file:rounded-md file:border-0 file:bg-gray-700 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-gray-200 hover:file:bg-gray-600"
+              type="text"
+              value={formData.rollno}
+              onChange={(e) =>
+                setFormData({ ...formData, rollno: e.target.value })
+              }
+              className={inputClass}
+              placeholder="1604-xx-xxx-xxx"
             />
           </div>
           <div className="space-y-2">
@@ -151,22 +205,23 @@ export function ProfileForm() {
               <Palette className="size-5" />
               <span>Theme</span>
             </label>
-            <select
+            <input
+              placeholder="Ex: Blue,Red,Purple"
               value={formData.theme}
-              onChange={(e) => setFormData({ ...formData, theme: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, theme: e.target.value })
+              }
               className={inputClass}
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-              <option value="system">System</option>
-            </select>
+            />
           </div>
         </div>
         <div className="space-y-2">
           <label className={labelClass}>About</label>
           <textarea
             value={formData.about}
-            onChange={(e) => setFormData({ ...formData, about: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, about: e.target.value })
+            }
             rows={4}
             className={inputClass}
             placeholder="Write a brief description about yourself"
@@ -177,9 +232,23 @@ export function ProfileForm() {
           <input
             type="text"
             value={formData.portfolio}
-            onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, portfolio: e.target.value })
+            }
             className={inputClass}
             placeholder="Ex: Editorial and Research"
+          />
+        </div>
+        <div className="space-y-2">
+          <label className={labelClass}>Position</label>
+          <input
+            type="text"
+            value={formData.position}
+            onChange={(e) =>
+              setFormData({ ...formData, position: e.target.value })
+            }
+            className={inputClass}
+            placeholder="Ex: Execom, GB, Core, Member"
           />
         </div>
         <div className="space-y-2">
@@ -189,7 +258,9 @@ export function ProfileForm() {
             <input
               type="text"
               value={formData.profileUrl}
-              onChange={(e) => setFormData({ ...formData, profileUrl: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, profileUrl: e.target.value })
+              }
               className={inputClass}
               required
               placeholder="username"
@@ -229,14 +300,18 @@ export function ProfileForm() {
       <section className={sectionClass}>
         <AchievementsSection
           achievements={formData.achievements}
-          onChange={(achievements) => setFormData({ ...formData, achievements })}
+          onChange={(achievements) =>
+            setFormData({ ...formData, achievements })
+          }
         />
       </section>
       {/* Extracurricular Activities */}
       <section className={sectionClass}>
         <ExtracurricularSection
           activities={formData.extracurricular}
-          onChange={(extracurricular: any) => setFormData({ ...formData, extracurricular })}
+          onChange={(extracurricular: any) =>
+            setFormData({ ...formData, extracurricular })
+          }
         />
       </section>
       {/* Submit Button */}

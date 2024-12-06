@@ -1,28 +1,37 @@
-import React from 'react';
-import { Trash2 } from 'lucide-react';
+import React from "react";
+import { Trash2 } from "lucide-react";
 
-import type { Achievement } from '../../types/ProfileTypes';
+import type { Achievement } from "../../types/ProfileTypes";
 
 interface AchievementsSectionProps {
   achievements: Achievement[];
   onChange: (achievements: Achievement[]) => void;
 }
 
-export function AchievementsSection({ achievements, onChange }: AchievementsSectionProps) {
+export function AchievementsSection({
+  achievements,
+  onChange,
+}: AchievementsSectionProps) {
   const addAchievement = () => {
-    onChange([...achievements, { title: '', description: '' }]);
+    onChange([...achievements, { title: "", description: "" }]);
   };
 
   const removeAchievement = (index: number) => {
     onChange(achievements.filter((_, i) => i !== index));
   };
 
-  const updateAchievement = (index: number, field: keyof Achievement, value: string) => {
+  const updateAchievement = (
+    index: number,
+    field: keyof Achievement,
+    value: string
+  ) => {
     const updatedAchievements = achievements.map((ach, i) =>
       i === index ? { ...ach, [field]: value } : ach
     );
     onChange(updatedAchievements);
   };
+  const inputClass =
+    "mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-blue-500 focus:ring-blue-500 p-3";
 
   return (
     <div className="space-y-6">
@@ -37,7 +46,10 @@ export function AchievementsSection({ achievements, onChange }: AchievementsSect
         </button>
       </div>
       {achievements.map((achievement, index) => (
-        <div key={index} className="space-y-4 rounded-lg bg-gray-800 p-4 shadow">
+        <div
+          key={index}
+          className="space-y-4 rounded-lg bg-gray-800 p-4 shadow"
+        >
           <div className="flex justify-end">
             <button
               type="button"
@@ -48,22 +60,30 @@ export function AchievementsSection({ achievements, onChange }: AchievementsSect
             </button>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-200">Title</label>
+            <label className="block text-sm font-medium text-gray-200">
+              Title
+            </label>
             <input
               type="text"
               value={achievement.title}
-              onChange={(e) => updateAchievement(index, 'title', e.target.value)}
-              className="mt-1 block w-full rounded-md border-gray-300 bg-gray-700 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+              onChange={(e) =>
+                updateAchievement(index, "title", e.target.value)
+              }
+              className={inputClass}
               placeholder="Ex: Best Research Paper"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-200">Description</label>
+            <label className="block text-sm font-medium text-gray-200">
+              Description
+            </label>
             <textarea
               value={achievement.description}
-              onChange={(e) => updateAchievement(index, 'description', e.target.value)}
+              onChange={(e) =>
+                updateAchievement(index, "description", e.target.value)
+              }
               rows={3}
-              className="mt-1 block w-full rounded-md border-gray-300 bg-gray-700 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+              className={inputClass}
               placeholder="Describe the achievement"
             />
           </div>

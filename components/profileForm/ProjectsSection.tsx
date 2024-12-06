@@ -1,7 +1,7 @@
-import React from 'react';
-import { Trash2 } from 'lucide-react';
+import React from "react";
+import { Trash2 } from "lucide-react";
 
-import type { Project } from '../../types/ProfileTypes';
+import type { Project } from "../../types/ProfileTypes";
 
 interface ProjectsSectionProps {
   projects: Project[];
@@ -10,19 +10,26 @@ interface ProjectsSectionProps {
 
 export function ProjectsSection({ projects, onChange }: ProjectsSectionProps) {
   const addProject = () => {
-    onChange([...projects, { title: '', description: '', year: '' }]);
+    onChange([...projects, { title: "", description: "", year: "" }]);
   };
 
   const removeProject = (index: number) => {
     onChange(projects.filter((_, i) => i !== index));
   };
 
-  const updateProject = (index: number, field: keyof Project, value: string) => {
+  const updateProject = (
+    index: number,
+    field: keyof Project,
+    value: string
+  ) => {
     const updatedProjects = projects.map((proj, i) =>
       i === index ? { ...proj, [field]: value } : proj
     );
     onChange(updatedProjects);
   };
+
+  const inputClass =
+    "mt-1 block w-full rounded-md bg-gray-700 border-gray-600 text-gray-200 focus:border-blue-500 focus:ring-blue-500 p-3";
 
   return (
     <div className="space-y-6">
@@ -37,7 +44,10 @@ export function ProjectsSection({ projects, onChange }: ProjectsSectionProps) {
         </button>
       </div>
       {projects.map((project, index) => (
-        <div key={index} className="space-y-4 rounded-lg bg-gray-800 p-4 shadow">
+        <div
+          key={index}
+          className="space-y-4 rounded-lg bg-gray-800 p-4 shadow"
+        >
           <div className="flex justify-end">
             <button
               type="button"
@@ -49,33 +59,41 @@ export function ProjectsSection({ projects, onChange }: ProjectsSectionProps) {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-gray-200">Title</label>
+              <label className="block text-sm font-medium text-gray-200">
+                Title
+              </label>
               <input
                 type="text"
                 value={project.title}
-                onChange={(e) => updateProject(index, 'title', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 bg-gray-700 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                onChange={(e) => updateProject(index, "title", e.target.value)}
+                className={inputClass}
                 placeholder="Ex: Portfolio Website"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-200">Year</label>
+              <label className="block text-sm font-medium text-gray-200">
+                Year
+              </label>
               <input
                 type="text"
                 value={project.year}
-                onChange={(e) => updateProject(index, 'year', e.target.value)}
-                className="mt-1 block w-full rounded-md border-gray-300 bg-gray-700 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+                onChange={(e) => updateProject(index, "year", e.target.value)}
+                className={inputClass}
                 placeholder="Ex: 2023"
               />
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-200">Description</label>
+            <label className="block text-sm font-medium text-gray-200">
+              Description
+            </label>
             <textarea
               value={project.description}
-              onChange={(e) => updateProject(index, 'description', e.target.value)}
+              onChange={(e) =>
+                updateProject(index, "description", e.target.value)
+              }
               rows={3}
-              className="mt-1 block w-full rounded-md border-gray-300 bg-gray-700 shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500"
+              className={inputClass}
               placeholder="Describe the project"
             />
           </div>
