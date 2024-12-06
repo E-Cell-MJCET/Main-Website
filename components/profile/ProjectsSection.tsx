@@ -7,7 +7,7 @@ import { Projects } from "@/types/UserTypes";
 const ProjectSection = ({ user }: { user: Projects[] }) => {
   return (
     <motion.div
-      className="rounded-xl border-l-4 border-[#EDE8D0] bg-gray-800 p-6 shadow-xl"
+      className="rounded-xl border-l-4 border-[#8e2ea3] bg-gray-800 p-6 shadow-xl"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7 }}

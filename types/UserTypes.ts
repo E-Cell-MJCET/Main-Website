@@ -7,6 +7,19 @@ export interface Experience {
   description: string;
 }
 
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface Projects {
+  id: string;
+  title: string;
+  description: string;
+  year: string;
+}
+
 export interface Education {
   id: string;
   degree: string;
@@ -16,7 +29,6 @@ export interface Education {
 }
 
 export interface UserType {
-  id: string;
   roll_no: string;
   created_at: any;
   name: string;
@@ -32,6 +44,8 @@ export interface UserType {
   };
   portfolio: string;
   position: string;
+  projects: Projects[];
+  achievements: Achievement[];
   dob: any;
   image: string;
   theme: string;
@@ -39,17 +53,4 @@ export interface UserType {
   branch: string;
   year: number;
   slur: string;
-}
-
-export interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-}
-
-export interface Projects {
-  id: string;
-  title: string;
-  description: string;
-  year: string;
 }
