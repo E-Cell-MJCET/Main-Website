@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
-import { AnimatedTooltip } from "../ui/animated-tooltip";
 import Image from "next/image";
+import Link from "next/link";
+
 import ecell from "@/public/assets/Logo/logo-big-white.png";
 import Insta from "@/public/assets/SM-logo/Insta.jpeg";
 import Facebook from "@/public/assets/SM-logo/Facebook.png";
@@ -10,7 +11,10 @@ import Twitter from "@/public/assets/SM-logo/X.png";
 import LinkTree from "@/public/assets/SM-logo/LinkTree.png";
 import Email from "@/public/assets/SM-logo/gmail.png";
 import faiz from "@/public/assets/faiz.jpeg";
-import irfan from "@/public/assets/irfan.jpeg";import Link from "next/link";
+import irfan from "@/public/assets/irfan.jpeg";
+
+import { AnimatedTooltip } from "../ui/animated-tooltip";
+
 const Footer = () => {
   const people = [
     {
@@ -68,17 +72,17 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-[#685797] md:p-0 pt-10 text-white flex flex-col w-full">
-      <div className="flex flex-col md:flex-row h-auto md:h-[60vh]">
-        <div className="w-full md:w-1/4 flex justify-center items-center p-4 md:p-0">
-          <Image src={ecell} className="w-40 md:w-60 h-auto" alt="ecell" />
+    <footer className="flex w-full flex-col bg-[#685797] pt-10 text-white md:p-0">
+      <div className="flex h-auto flex-col md:h-[60vh] md:flex-row">
+        <div className="flex w-full items-center justify-center p-4 md:w-1/4 md:p-0">
+          <Image src={ecell} className="h-auto w-40 md:w-60" alt="ecell" />
         </div>
         {/* Quick Access Section */}
-        <div className="w-full md:w-1/3 flex flex-col justify-center items-center md:items-start p-5 md:p-10">
-          <h2 className="font-semibold mb-5 text-2xl md:text-3xl font-inter">
+        <div className="flex w-full flex-col items-center justify-center p-5 md:w-1/3 md:items-start md:p-10">
+          <h2 className="mb-5 font-inter text-2xl font-semibold md:text-3xl">
             Quick Access
           </h2>
-          <ul className="text-lg md:text-2xl grid grid-cols-3 gap-4 md:flex md:flex-wrap md:gap-x-8">
+          <ul className="grid grid-cols-3 gap-4 text-lg md:flex md:flex-wrap md:gap-x-8 md:text-2xl">
             <li>
               <a href="#home" className="hover:underline">
                 Home
@@ -112,8 +116,8 @@ const Footer = () => {
           </ul>
         </div>
         {/* Follow Us Section */}
-        <div className="w-full md:w-1/4 flex flex-col justify-center items-center p-4 md:p-0">
-          <p className="text-xl md:text-3xl font-bold font-inter mb-2">
+        <div className="flex w-full flex-col items-center justify-center p-4 md:w-1/4 md:p-0">
+          <p className="mb-2 font-inter text-xl font-bold md:text-3xl">
             Follow Us
           </p>
           <div className="flex">
@@ -121,11 +125,11 @@ const Footer = () => {
           </div>
         </div>
         {/* Contact Us Section */}
-        <div className="w-full md:w-1/4 text-sm md:text-2xl flex justify-center flex-col gap-4 items-center p-4 md:p-0">
-          <h2 className="font-semibold md:mb-4 text-lg md:text-2xl">
+        <div className="flex w-full flex-col items-center justify-center gap-4 p-4 text-sm md:w-1/4 md:p-0 md:text-2xl">
+          <h2 className="text-lg font-semibold md:mb-4 md:text-2xl">
             Contact Us
           </h2>
-          <ul className="text-xs md:text-sm font-semibold space-y-2">
+          <ul className="space-y-2 text-xs font-semibold md:text-sm">
             <li>
               <a
                 href="mailto:ecellmjcet@mjcollege.ac.in"
@@ -138,20 +142,20 @@ const Footer = () => {
             <li>8-2-249, Banjara Hills</li>
             <li>Hyderabad, Telangana 500034</li>
           </ul>
-          <div className="flex gap-1 flex-col">
-            {contacts.map((ele,idx) => {
+          <div className="flex flex-col gap-1">
+            {contacts.map((ele, idx) => {
               return (
                 <Link
                   href={ele.Number}
                   key={idx}
-                  className="flex items-center rounded-md bg-gray-950 p-1 justify-center gap-1"
+                  className="flex items-center justify-center gap-1 rounded-md bg-gray-950 p-1"
                 >
                   <Image
                     src={ele.image}
                     alt="image"
-                    className="h-12 w-12 rounded-full"
+                    className="size-12 rounded-full"
                   />
-                  <div className="w-44 text-sm  border-black">
+                  <div className="w-44 border-black  text-sm">
                     <p>{ele.name}</p>
                     <p>{ele.designation}</p>
                     <p>{ele.Number}</p>
@@ -162,9 +166,8 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      <div className="h-[1px] bg-white w-full"></div>
-      <div className="flex flex-col md:flex-row items-center h-auto md:h-[10vh] justify-between mx-5 px-5 py-4 md:py-0">
+      <div className="h-px w-full bg-white"></div>
+      <div className="mx-5 flex h-auto flex-col items-center justify-between px-5 py-4 md:h-[10vh] md:flex-row md:py-0">
         <p className="text-sm md:text-base">© Copyright E-Cell MJCET.</p>
         <p className="text-sm md:text-base">All Rights Reserved.</p>
       </div>

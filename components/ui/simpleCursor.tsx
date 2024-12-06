@@ -13,7 +13,7 @@ export default function FollowCursorHideCursor() {
       ref={parentRef}
     >
       <div
-        className="-top-3 -left-3 pointer-events-none absolute size-6 rounded-full border border-neutral-500/20 bg-neutral-500/15"
+        className="pointer-events-none absolute -left-3 -top-3 size-6 rounded-full border border-neutral-500/20 bg-neutral-500/15"
         style={{
           transform: translate3d,
         }}

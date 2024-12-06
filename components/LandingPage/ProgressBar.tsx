@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 
 type ProgressbarProps = {
   current: any;
@@ -7,7 +7,6 @@ type ProgressbarProps = {
 };
 const ProgressBar = ({ target }: { target: ProgressbarProps }) => {
   const [readingProgres, setReadingProgress] = React.useState(0);
-  const [progressBarColor, setProgressBarColor] = useState("black");
 
   const scrollListener = useCallback(() => {
     if (!target.current) {
@@ -39,11 +38,11 @@ const ProgressBar = ({ target }: { target: ProgressbarProps }) => {
     return () => {
       window.removeEventListener("scroll", scrollListener);
     };
-  }, []);
+  }, [scrollListener]);
 
   return (
     <div
-      className="w-screen fixed top-0 left-0 right-0  z-50"
+      className="fixed inset-x-0 top-0 z-50 w-screen"
       style={{ pointerEvents: "none" }}
     >
       <div

@@ -1,20 +1,19 @@
-"use client"
-import React, { useEffect, useRef } from "react";
-import ZoomParallax from "../ui/zoom-parallax";
-import { div } from "framer-motion/client";
-import HorizontalScroll from "./MobZoomParallax";
+"use client";
+import React from "react";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-const Dummy = () => {
+import { gsap } from "gsap";
 
-    useGSAP(()=>{
-      gsap.from(".ZoomParallaxDiv", {
-        duration: 1,
-        y: 50,
-        opacity:0,
-        delay:2.37
-      });
-    },[])
+import ZoomParallax from "../ui/zoom-parallax";
+
+const Dummy = () => {
+  useGSAP(() => {
+    gsap.from(".ZoomParallaxDiv", {
+      duration: 1,
+      y: 50,
+      opacity: 0,
+      delay: 2.37,
+    });
+  }, []);
 
   return (
     <div className="bg-black">
@@ -23,7 +22,7 @@ const Dummy = () => {
         {/* <TwoWayParallaxDemo/> */}
         {/* <HorizontalScroll/> */}
       </div>
-      <div className="hidden sm:block ZoomParallaxDiv">
+      <div className="ZoomParallaxDiv hidden sm:block">
         <ZoomParallax />
       </div>
     </div>

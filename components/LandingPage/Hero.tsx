@@ -134,12 +134,12 @@ const Hero = () => {
           <Image
             src={Abid}
             alt="Abid"
-            className="abid relative z-10 h-[300px] w-fit -translate-x-[190px]"
+            className="abid relative z-10 h-[300px] w-fit translate-x-[-190px]"
           />
           <Image
             src={Maleha}
             alt="Maleha"
-            className="maleha z-20 h-[300px] w-fit -translate-x-[150px]"
+            className="maleha z-20 h-[300px] w-fit translate-x-[-150px]"
           />
           <Image
             src={Shuja}

@@ -16,6 +16,7 @@ const HorizontalScrollCarousel: FC<Props> = ({ images }) => {
 
   if (!Array.isArray(images) || images.length === 0) {
     console.error("Invalid images array");
+
     return null;
   }
 

@@ -1,7 +1,8 @@
 "use client";
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { gsap } from "gsap";
+
 import useInkCursor from "@/hooks/inkCursor";
 
 const JoinUs = () => {
@@ -21,7 +22,6 @@ const JoinUs = () => {
         // markers: true,
       },
     });
-   
   }, []);
 
   const buttonRef = useRef(null);
@@ -44,7 +44,7 @@ const JoinUs = () => {
   };
 
   const textRef = useRef(null);
-  const handleMouseEnter2 = (e:any) => {
+  const handleMouseEnter2 = (e: any) => {
     const letter = e.target;
     gsap.to(letter, {
       y: -20,
@@ -53,7 +53,7 @@ const JoinUs = () => {
     });
   };
 
-  const handleMouseLeave2 = (e:any) => {
+  const handleMouseLeave2 = (e: any) => {
     const letter = e.target;
     gsap.to(letter, {
       y: 0,
@@ -65,14 +65,13 @@ const JoinUs = () => {
   return (
     <div
       ref={parentRef}
-      className="bg-black max-w-screen w-screen overflow-hidden flex-col h-[70vh] flex justify-center items-center relative z-10 cursor-none"
+      className="max-w-screen relative z-10 flex h-[70vh] w-screen cursor-none flex-col items-center justify-center overflow-hidden bg-black"
     >
       {inkCursorComponent}
-
-      <div className="font-inter text-7xl joinUs text-yellow-50 hover:cursor-none">
+      <div className="joinUs font-inter text-7xl text-yellow-50 hover:cursor-none">
         <p
           ref={textRef}
-          className="font-inter text-4xl md:text-7xl text-yellow-50 hover:cursor-none"
+          className="font-inter text-4xl text-yellow-50 hover:cursor-none md:text-7xl"
           style={{ display: "flex", gap: "0.1em" }}
         >
           {"Launch dreams.".split("").map((char, index) => (
@@ -89,7 +88,7 @@ const JoinUs = () => {
       </div>
       <button
         ref={buttonRef}
-        className="text-yellow-50 m-10 rounded-full p-5 px-10 border-white border-2 md:text-5xl text-3xl  hover:cursor-none "
+        className="m-10 rounded-full border-2 border-white p-5 px-10 text-3xl text-yellow-50 hover:cursor-none  md:text-5xl "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

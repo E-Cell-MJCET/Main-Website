@@ -1,14 +1,14 @@
-"use client"
+"use client";
 import { FC, useRef } from "react";
 import Image from "next/image";
-import team1 from "@/public/assets/team1.png"
+import { useScroll, useTransform, motion } from "framer-motion";
+
+import team1 from "@/public/assets/team1.png";
 import team from "@/public/assets/GB.jpg";
 import team3 from "@/public/assets/team3.png";
 import team4 from "@/public/assets/dean.jpeg";
 import team5 from "@/public/assets/team5.jpg";
 import team2 from "@/public/assets/team6.png";
-import team7 from "@/public/assets/team7.jpg";
-import { useScroll, useTransform, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -60,7 +60,7 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
       classes: "relative top-[27.5%] left-[5%] w-[20%] h-[25%]",
     },
     {
-      src:team,
+      src: team,
       scale: scale5,
       classes: "relative top-[22.5%] left-[25%] w-[15%] h-[15%]",
     },
@@ -77,7 +77,7 @@ const ZoomParallax: FC<Props> = ({ classes }) => {
             <motion.div
               key={index}
               style={{ scale }}
-              className="absolute top-0 flex h-full w-full items-center justify-center"
+              className="absolute top-0 flex size-full items-center justify-center"
             >
               <div className={` bg-zinc-200 dark:bg-zinc-800 ${classes}`}>
                 <Image
