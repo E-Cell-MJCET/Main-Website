@@ -3,8 +3,7 @@
 import React from "react";
 
 import { UserType } from "@/types/UserTypes";
-
-import CompletePage from "../../../components/profile/profile-page";
+import CompletePage from "@/components/profile/profile-page";
 
 const userData: UserType = {
   roll_no: "1604-22-733-063",

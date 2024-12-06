@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
+import { Doto, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+
+const doto = Doto({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-doto",
+});
+
+const inter = Inter({
+  subsets: ["latin"], // Only include the Latin subset
+  weight: ["400", "600"], // Choose specific weights you need
+  variable: "--font-inter", // Custom CSS variable
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${doto.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>
