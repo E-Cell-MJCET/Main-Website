@@ -1,12 +1,10 @@
 import type { Metadata } from "next";
-import { Doto, Inter } from "next/font/google";
+import { Doto, Inter, Playfair_Display } from "next/font/google";
 // import localFont from "next/font/local";
-import { Playfair_Display } from "next/font/google";
 
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
-
 
 const doto = Doto({
   subsets: ["latin"],
@@ -54,7 +52,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${doto.variable} ${inter.variable} antialiased`}>
+      <body
+        className={`${playfair.variable} ${doto.variable} ${inter.variable} antialiased`}
+      >
         {children}
         <Toaster />
       </body>
