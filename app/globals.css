@@ -69,27 +69,17 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-} 
-
-    --radius: 0.5rem;
-  }
 }
 
 @layer components {
   .gradient-text {
-    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
     font-weight: 600;
     letter-spacing: -0.5px;
     color: transparent;
-    text-shadow: 
-      0 0 5px rgba(66, 160, 255, 0.5),
-      0 0 10px rgba(66, 160, 255, 0.5),
-      0 0 15px rgba(66, 160, 255, 0.5);
-    background: linear-gradient(
-      to right,
-      #390039,
-      #18B4B9
-    );
+    text-shadow: 0 0 5px rgba(66, 160, 255, 0.5),
+      0 0 10px rgba(66, 160, 255, 0.5), 0 0 15px rgba(66, 160, 255, 0.5);
+    background: linear-gradient(to right, #390039, #18b4b9);
     -webkit-background-clip: text;
     background-clip: text;
     animation: neon-pulse 2s ease-in-out infinite alternate;
@@ -121,12 +111,9 @@ body {
     border-radius: 0.75rem;
     padding: 1px;
     background: var(--background);
-    -webkit-mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    -webkit-mask: linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
-    mask: 
-      linear-gradient(#fff 0 0) content-box, 
-      linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
   }

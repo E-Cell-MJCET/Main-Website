@@ -1,5 +1,6 @@
-import { cn } from "@/lib/utils";
 import Image from "next/image";
+
+import { cn } from "@/lib/utils";
 
 export const BentoGrid = ({
   className,
@@ -33,7 +34,7 @@ export const BentoGridItem = ({
   title?: string | React.ReactNode;
   description?: string | React.ReactNode;
   header?: React.ReactNode;
-  imageSrc?:any; // Image source URL instead of ReactNode icon
+  imageSrc?: any; // Image source URL instead of ReactNode icon
 }) => {
   return (
     <div
@@ -43,7 +44,7 @@ export const BentoGridItem = ({
       )}
     >
       {imageSrc ? (
-        <div className="w-full h-48 relative mb-4 hover:cursor-pointer">
+        <div className="relative mb-4 h-48 w-full hover:cursor-pointer">
           {" "}
           {/* Define size container */}
           <Image
@@ -51,17 +52,21 @@ export const BentoGridItem = ({
             alt="Image"
             layout="fill" // Ensures the image fills the container
             // objectFit="cover" // Ensures the image covers the container
-            className={`rounded-lg ${idx===1||idx===2||idx===3||idx===4 ?"object-cover":"object-contain"} `} // Optional styling
+            className={`rounded-lg ${
+              idx === 1 || idx === 2 || idx === 3
+                ? "object-cover"
+                : "object-contain"
+            } `} // Optional styling
           />
         </div>
       ) : (
         header
       )}
-      <div className="group-hover/bento:translate-x-2 transition duration-200">
-        <div className="font-sans font-bold text-neutral-600 dark:text-neutral-200 mb-2 mt-2">
+      <div className="transition duration-200 group-hover/bento:translate-x-2">
+        <div className="my-2 font-sans font-bold text-neutral-600 dark:text-neutral-200">
           {title}
         </div>
-        <div className="font-sans font-normal text-neutral-600 text-xs dark:text-neutral-300">
+        <div className="font-sans text-xs font-normal text-neutral-600 dark:text-neutral-300">
           {description}
         </div>
       </div>

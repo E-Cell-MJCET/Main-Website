@@ -1,22 +1,21 @@
-"use client"
+"use client";
 import React from "react";
 import Image from "next/image";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import Shuja from "@/public/assets/GB/Shuja.png";
 import Abid from "@/public/assets/GB/Abid.png";
 import Ayesha from "@/public/assets/GB/Ayesha.png";
 import Irfan from "@/public/assets/GB/Irfan.png";
 import Maleha from "@/public/assets/GB/Maleha.png";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+
 import { Spotlight } from "../ui/spotlight";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
-
-
-  
   useGSAP(() => {
     gsap.from(".gb", {
       scrollTrigger: {
@@ -26,7 +25,7 @@ const Hero = () => {
         scrub: true,
         // markers: true,
       },
-      scale: .5,
+      scale: 0.5,
       y: 300,
     });
   });
@@ -89,39 +88,39 @@ const Hero = () => {
       },
       x: 190,
     });
-     gsap.from(".malehamb", {
-       scrollTrigger: {
-         trigger: ".malehamb",
-         start: "top bottom",
-         end: "top center+=10%",
-         scrub: true,
-       },
-       x:-130,
-     });
+    gsap.from(".malehamb", {
+      scrollTrigger: {
+        trigger: ".malehamb",
+        start: "top bottom",
+        end: "top center+=10%",
+        scrub: true,
+      },
+      x: -130,
+    });
 
-       gsap.from(".ayeshamb", {
-         scrollTrigger: {
-           trigger: ".ayeshamb",
-           start: "top bottom",
-           end: "top center+=10%",
-           scrub: true,
-         },
-         x: 130,
-       });
+    gsap.from(".ayeshamb", {
+      scrollTrigger: {
+        trigger: ".ayeshamb",
+        start: "top bottom",
+        end: "top center+=10%",
+        scrub: true,
+      },
+      x: 130,
+    });
 
-       gsap.from(".abidmb", {
-         scrollTrigger: {
-           trigger: ".abidmb",
-           start: "top bottom",
-           end: "top center+=10%",
-           scrub: true,
-         },
-         x: -190,
-       });
+    gsap.from(".abidmb", {
+      scrollTrigger: {
+        trigger: ".abidmb",
+        start: "top bottom",
+        end: "top center+=10%",
+        scrub: true,
+      },
+      x: -190,
+    });
   });
 
   return (
-    <div className="w-screen relative overflow-hidden md:h-[700px] h-[65vh] bg-gray-950  overflow-x-hidden cursor-none">
+    <div className="relative h-[65vh] w-screen cursor-none overflow-hidden bg-gray-950  md:h-[700px]">
       <Spotlight
         className="bg-zinc-700 blur-2xl"
         size={100}
@@ -130,50 +129,50 @@ const Hero = () => {
           duration: 0.1,
         }}
       />
-      <div className="flex justify-end flex-col relative h-full">
-        <div className="hidden cursor-none md:flex flex-nowrap justify-center items-end w-full relative z-10 ">
+      <div className="relative flex h-full flex-col justify-end">
+        <div className="relative z-10 hidden w-full cursor-none flex-nowrap items-end justify-center md:flex ">
           <Image
             src={Abid}
             alt="Abid"
-            className="abid relative h-[300px] w-fit z-10 transform -translate-x-[190px]"
+            className="abid relative z-10 h-[300px] w-fit -translate-x-[190px]"
           />
           <Image
             src={Maleha}
             alt="Maleha"
-            className="maleha h-[300px] w-fit z-20 transform -translate-x-[150px]"
+            className="maleha z-20 h-[300px] w-fit -translate-x-[150px]"
           />
           <Image
             src={Shuja}
             alt="Shuja"
-            className="shuja z-30 w-fit h-[350px]"
+            className="shuja z-30 h-[350px] w-fit"
           />
           <Image
             src={Ayesha}
             alt="Ayesha"
-            className="ayesha h-[300px] translate-x-[150px] w-fit z-20 transform"
+            className="ayesha z-20 h-[300px] w-fit translate-x-[150px]"
           />
           <Image
             src={Irfan}
             alt="Irfan"
-            className="irfan z-10 h-[300px] w-fit transform translate-x-[250px]"
+            className="irfan z-10 h-[300px] w-fit translate-x-[250px]"
           />
         </div>
-        <div className="md:hidden flex flex-nowrap justify-center items-end w-full relative z-10">
+        <div className="relative z-10 flex w-full flex-nowrap items-end justify-center md:hidden">
           <Image
             src={Abid}
             alt="Abid"
-            className="abidmb relative h-[200px] w-fit z-10 translate-x-44 transform "
+            className="abidmb relative z-10 h-[200px] w-fit translate-x-44"
           />
           <Image
             src={Maleha}
             alt="Maleha"
-            className="h-[200px] w-fit z-20 translate-x-24 malehamb transform "
+            className="malehamb z-20 h-[200px] w-fit translate-x-24"
           />
-          <Image src={Shuja} alt="Shuja" className="z-30 w-fit h-[250px] " />
+          <Image src={Shuja} alt="Shuja" className="z-30 h-[250px] w-fit " />
           <Image
             src={Ayesha}
             alt="Ayesha"
-            className="ayeshamb h-[200px] w-fit z-20 -translate-x-24 transform"
+            className="ayeshamb z-20 h-[200px] w-fit -translate-x-24"
           />
           <Image
             src={Irfan}
@@ -182,8 +181,8 @@ const Hero = () => {
           />
         </div>
         {/* Governing Body text */}
-        <div className="absolute inset-0 flex justify-center md:items-baseline items-start gb z-0">
-          <p className="text-white font-extrabold font-doto text-[10vw] md:text-center text-start -translate-y-24 mt-48 cursor-none">
+        <div className="gb absolute inset-0 z-0 flex items-start justify-center md:items-baseline">
+          <p className="mt-48 -translate-y-24 cursor-none text-start font-doto text-[10vw] font-extrabold text-white md:text-center">
             Governing Body
           </p>
         </div>

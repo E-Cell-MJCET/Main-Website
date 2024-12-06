@@ -1,23 +1,22 @@
-"use client"
+"use client";
+import { useState } from "react";
+
 import DummyPage from "@/components/LandingPage/DummyPage";
-import LandingPage from "@/components/LandingPage/LandingPage"
+import LandingPage from "@/components/LandingPage/LandingPage";
 import Navbar from "@/components/LandingPage/Navbar";
-import { useRef, useState } from "react";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
 
-  const mainRef = useRef<HTMLElement | null>(null);
-
-  const  handleLoading = ()=>{
+  const handleLoading = () => {
     setLoading(false);
-  }
+  };
+
   return (
     <div className="max-w-screen overflow-hidden">
-      
-       <Navbar/>
+      <Navbar />
       <div
-        className={`fixed w-full h-screen z-50 ${
+        className={`fixed z-50 h-screen w-full ${
           loading ? "block" : "hidden"
         } `}
       >

@@ -1,33 +1,35 @@
-"use client"
-import { cn } from "@/lib/utils";
+"use client";
 import React from "react";
-import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
-import blogs from "@/public/assets/blogs.png"
-import ecell from "@/public/assets/Logo/logo-big-colour.png"
-import team from "@/public/assets/team1.png"
-import dean from "@/public/assets/dean.jpeg"
-import event from '@/public/assets/team5.jpg'
-import hackathon from "@/public/assets/hackathon.jpeg"
-import gsap from "gsap";
+import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 
+import blogs from "@/public/assets/blogs.png";
+import ecell from "@/public/assets/Logo/logo-big-colour.png";
+import team from "@/public/assets/team1.png";
+import dean from "@/public/assets/dean.jpeg";
+import event from "@/public/assets/team5.jpg";
+import hackathon from "@/public/assets/hackathon.jpeg";
+
+import { BentoGrid, BentoGridItem } from "../ui/bento-grid";
+
 export function BentoGridDemo() {
-    useGSAP(()=>{
-      gsap.to(".bent", {
-        scale: .9,
-        y:80,
-        scrollTrigger:{
-          trigger: ".bent",
-          start: "top 91%",
-          end: "top 50%",
-          scrub:true,
-          markers:true
-        }
-      });
-    },[])
+  useGSAP(() => {
+    gsap.to(".bent", {
+      scale: 0.9,
+      y: 80,
+      scrollTrigger: {
+        trigger: ".bent",
+        start: "top 91%",
+        end: "top 50%",
+        scrub: true,
+        markers: true,
+      },
+    });
+  }, []);
+
   return (
-    <div className="w-screen  pb-10 mb-10 h-max flex justify-center items-center bg-slate-200">
-      <BentoGrid className="max-w-4xl bent mb-7 mx-auto">
+    <div className="mb-10  flex h-max w-screen items-center justify-center bg-slate-200 pb-10">
+      <BentoGrid className="bent mx-auto mb-7 max-w-4xl">
         {items.map((item, idx) => (
           <BentoGridItem
             key={idx}
@@ -35,9 +37,9 @@ export function BentoGridDemo() {
             description={item.description}
             header={item.header}
             imageSrc={item.imageSrc}
-            idx = {idx}
-            className={`${idx === 3 || idx === 4 ? "min-h-[20pc] my-3" : ""} ${
-              idx === 1 || idx === 2 || idx===4 ? "object-cover" : "object-contain"
+            idx={idx}
+            className={`${idx === 3 || idx === 4 ? "my-3 min-h-[20pc]" : ""} ${
+              idx === 1 || idx === 2 ? "object-cover" : "object-contain"
             } ${idx === 2 || idx === 5 || idx == 1 ? "md:col-span-2 " : ""} `}
           />
         ))}
@@ -46,7 +48,7 @@ export function BentoGridDemo() {
   );
 }
 const Skeleton = () => (
-  <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-200 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
+  <div className="flex size-full min-h-24 flex-1 rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800"></div>
 );
 const items = [
   {
@@ -75,7 +77,7 @@ const items = [
     description:
       "We thrive in the hackathon circuit, hosting MJCET's annual flagship event and competing at top platforms. Our proudest achievement? Winning the prestigious IIT Hyderabad Hackathon. Join us as we innovate, compete, and leave our mark!",
     header: <Skeleton />,
-    imageSrc:hackathon
+    imageSrc: hackathon,
   },
   {
     title: "Blogs: Voices of Innovation",
