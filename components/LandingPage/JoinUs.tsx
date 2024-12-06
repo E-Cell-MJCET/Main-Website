@@ -2,9 +2,9 @@
 import React, { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
+import { useRouter } from "next/navigation";
 
 import useInkCursor from "@/hooks/inkCursor";
-import { useRouter } from "next/navigation";
 
 const JoinUs = () => {
   const parentRef = useRef(null);
