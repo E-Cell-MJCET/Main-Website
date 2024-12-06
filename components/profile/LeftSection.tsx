@@ -20,13 +20,13 @@ const LeftSection = ({ user }: { user: UserType }) => {
       transition={{ duration: 0.8 }}
     >
       <div className="flex flex-col items-center">
-        <div className="relative mb-4 size-32">
+        <div className="relative mb-4 size-36">
           <Image
             src={user.image}
             alt="Profile Picture"
             width={200}
             height={200}
-            className="size-40 rounded-full border-4 border-[#8e2ea3] object-cover"
+            className="size-36 rounded-full border-4 border-[#8e2ea3] object-cover"
           />
         </div>
         {/* Static Profile Name */}
@@ -44,7 +44,7 @@ const LeftSection = ({ user }: { user: UserType }) => {
               <Link
                 href={user.social.github}
                 target="_blank"
-                className="text-[#fe019a] hover:text-indigo-400"
+                className="text-white hover:text-indigo-400"
               >
                 <FaGithub size={24} />
               </Link>
@@ -53,7 +53,7 @@ const LeftSection = ({ user }: { user: UserType }) => {
               <Link
                 href={user.social.linkedin}
                 target="_blank"
-                className="text-[#8e2ea3] hover:text-indigo-400"
+                className="text-white hover:text-indigo-400"
               >
                 <FaLinkedin size={24} />
               </Link>
@@ -62,7 +62,7 @@ const LeftSection = ({ user }: { user: UserType }) => {
               <Link
                 href={user.social.instagram}
                 target="_blank"
-                className="text-[#fe019a] hover:text-indigo-400"
+                className="text-white hover:text-indigo-400"
               >
                 <FaInstagram size={24} />
               </Link>

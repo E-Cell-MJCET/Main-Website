@@ -51,7 +51,8 @@ const userData: UserType = {
   portfolio: "Editorial & Research",
   position: "Execom",
   dob: new Date("2005-03-11"),
-  image: "/assets/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
+  image:
+    "http://localhost:3000/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
   theme: "dark",
   education: [
     {
@@ -95,7 +96,7 @@ const userData: UserType = {
   slur: "rukhaiya",
 };
 
-const NazmeenPage = () => {
+const RukhaiyaPage = () => {
   return (
     <div>
       <CompletePage userData={userData} />
@@ -103,4 +104,4 @@ const NazmeenPage = () => {
   );
 };
 
-export default NazmeenPage;
+export default RukhaiyaPage;

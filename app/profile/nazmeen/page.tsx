@@ -2,12 +2,8 @@
 
 import React from "react";
 
-import Footer from "@/components/home/footer";
-import Footers from "@/components/home/footer2";
-import Nav from "@/components/nav";
+import CompletePage from "@/components/profile/profile-page";
 import { UserType } from "@/types/UserTypes";
-
-import CompletePage from "../../../components/profile/profile-page";
 
 const userData: UserType = {
   roll_no: "12345",
@@ -73,7 +69,7 @@ const userData: UserType = {
   portfolio: "Editorial & Research",
   position: "Execom",
   dob: new Date("2004-08-29"),
-  image: "/assets/GB/nazmeen.jpg",
+  image: "/assets/Team/GB/abid.png",
   theme: "dark",
   education: [
     {
@@ -134,10 +130,7 @@ const userData: UserType = {
 const NazmeenPage = () => {
   return (
     <div>
-      <Nav />
       <CompletePage userData={userData} />
-      <Footer />
-      <Footers />
     </div>
   );
 };

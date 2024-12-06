@@ -2,9 +2,6 @@
 
 import React from "react";
 
-import Footer from "@/components/home/footer";
-import Footers from "@/components/home/footer2";
-import Nav from "@/components/nav";
 import { UserType } from "@/types/UserTypes";
 
 import CompletePage from "../../../components/profile/profile-page";
@@ -64,14 +61,14 @@ const userData: UserType = {
     },
 
     {
-        id: "6",
-        jobTitle: "Operations Volunteer",
-        company: "Hyderabad FC",
-        startDate: "Nov 2022",
-        endDate: "Aug 2023 (10 mos)",
-        description:
-          "Supported various operational tasks, contributing to event success and organizational efficiency.",
-      },
+      id: "6",
+      jobTitle: "Operations Volunteer",
+      company: "Hyderabad FC",
+      startDate: "Nov 2022",
+      endDate: "Aug 2023 (10 mos)",
+      description:
+        "Supported various operational tasks, contributing to event success and organizational efficiency.",
+    },
   ],
   about:
     "I am a fourth-year Computer Science Engineering student driven by a passion for innovation, leadership, and continuous growth. Over the years, I have embraced challenges as opportunities to refine my skills, solve real-world problems, and create impactful solutions emphasizing simplicity, efficiency, and innovation. As the Chief Coordinator of the E-Cell at MJCET, I foster creativity and collaboration while balancing my commitment to football, having served as an AIFF LOC member for international tournaments. My experience with Hyderabad FC’s operations team further honed my ability to manage responsibilities effectively. Guided by resilience, curiosity, and a desire to leave a lasting impact, I strive to break boundaries and build legacies.",
@@ -81,7 +78,7 @@ const userData: UserType = {
   portfolio: "Chief Coordinator",
   position: "Governing Body",
   dob: new Date("2004-08-29"),
-  image: "/assets/GB/shuja.jpeg",
+  image: "/assets/Team/GB/shuja.jpeg",
   theme: "dark",
   education: [
     {
@@ -112,20 +109,17 @@ const userData: UserType = {
       year: "2021-2025",
       description: "2021-2025",
     },
-
   ],
   achievements: [
     {
       id: "1",
       title: "2nd Place Hack4SG",
-      description:
-        "",
+      description: "",
     },
     {
       id: "2",
       title: "1st Place HackRevolution",
-      description:
-        "",
+      description: "",
     },
   ],
   projects: [
@@ -141,14 +135,14 @@ const userData: UserType = {
       title: "Munch Alert",
       description:
         "Created, Munch Alert an allergy shopping assistant app that helps users find allergen-free products, earning recognition as the winner of *Hack Revolution 2023*. Contributed to front-end development and pitched the app to a panel of judges at a hackathon with over 400 participants.Designed the mobile application to support individuals with food allergies in their daily lives, providing a user-friendly solution for grocery shopping.",
-      year:"",
+      year: "",
     },
     {
       id: "3",
       title: "WhatsApp Chat Analyzer",
       description:
         "Developed a decision tree classification model using Gini Index and Entropy, achieving high prediction accuracy.Processed and split data to train and test the model for optimal performance.Utilized Python and Scikit-learn for model evaluation, including the creation of a confusion matrix and accuracy score analysis.",
-      year:"",
+      year: "",
     },
   ],
   branch: "CSE",
@@ -159,10 +153,7 @@ const userData: UserType = {
 const ShujaPage = () => {
   return (
     <div>
-      <Nav />
       <CompletePage userData={userData} />
-      <Footer />
-      <Footers />
     </div>
   );
 };
