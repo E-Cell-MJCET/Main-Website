@@ -17,7 +17,7 @@ export const OFE = () => {
         time="4 min"
       />
       <Image
-        src={"/assets/blogs/tre/title.png"}
+        src={"/assets/blogs/fear-of-failure-in-entrepreneurship.jpg"}
         width={500}
         height={300}
         alt={""}
