@@ -2,9 +2,9 @@ import Image from "next/image";
 import React from "react";
 import { IoShareOutline } from "react-icons/io5";
 import { toast } from "sonner";
+import Link from "next/link";
 
 import rukhaiya from "@/public/assets/Team/Execom/Editorial/Rukhaiya/RukhaiyaBlog.jpg";
-import Link from "next/link";
 
 const BlogIntro = ({
   title,

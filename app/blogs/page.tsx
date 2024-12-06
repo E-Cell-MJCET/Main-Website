@@ -1,9 +1,5 @@
 import React from "react";
 
-import { TRE } from "@/components/blogs/tre";
-import { VBI } from "@/components/blogs/vbi";
-import { OFE } from "@/components/blogs/ofe";
-import { Subscript } from "lucide-react";
 import { SBS } from "@/components/blogs/sbs";
 
 const BlogPage = () => {
@@ -12,7 +8,7 @@ const BlogPage = () => {
       {/* <TRE /> */}
       {/* <VBI/> */}
       {/* <OFE/> */}
-      <SBS/>
+      <SBS />
     </div>
   );
 };
