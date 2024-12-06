@@ -66,13 +66,6 @@ const members = [
     quote: "You are not the work you do, you are the person you are.",
   },
   {
-    name: "Abid Nafi",
-    role: "Chief Technology Officer",
-    imageUrl: "https://www.ecellmjcet.com/_next/static/media/abid.47b4b1ff.png",
-    bgColor: "bg-gradient-to-br from-blue-600 to-cyan-800",
-    quote: "Have an attitude that you can do anything, only then you will go and try anything."
-  },
-  {
     name: "Mohammed Irfan",
     role: "Chief Information Officer",
     imageUrl: "/assets/Team/GB/irfan.jpeg",
