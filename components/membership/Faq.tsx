@@ -12,7 +12,7 @@ import { StarsBackground } from "../ui/starsbackground";
 
 export function FaqComp() {
   return (
-    <div className="flex w-screen flex-col items-center justify-center gap-3 px-5">
+    <div className="flex w-screen text-white flex-col bg-black items-center justify-center gap-3 px-5">
       <div className="text-center">
         <h1 className="font-silkscreen text-3xl font-bold text-[#f6e445] sm:text-4xl">
           Frequently Asked Questions
@@ -21,14 +21,14 @@ export function FaqComp() {
       <Accordion
         type="single"
         collapsible
-        className="font-silkscreen w-full bg-black sm:w-1/2"
+        className="font-silkscreen w-full text-white bg-black sm:w-1/2"
       >
         <AccordionItem value="item-1">
           <AccordionTrigger className="text-left">
             {" "}
             Can non-students join E-Cell?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             No, E-Cell focuses exclusively on current student members passionate
             about entrepreneurship and innovation. If you&apos;re a student
             interested in joining, we&apos;d love to have you! Please{" "}
@@ -44,7 +44,7 @@ export function FaqComp() {
             {" "}
             What is the membership fee?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             The membership fee helps us organize events, provide resources, and
             support entrepreneurial activities. We keep it affordable to ensure
             broad participation.
@@ -55,7 +55,7 @@ export function FaqComp() {
           <AccordionTrigger className="text-left">
             What is the membership time frame?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             The membership is typically valid for one academic year, giving you
             full access to all events, workshops, and resources during that
             time.
@@ -64,7 +64,7 @@ export function FaqComp() {
         {/* 4 */}
         <AccordionItem value="item-4">
           <AccordionTrigger> Can I pay in cash or online?</AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             We offer multiple payment options for your convenience. You can pay
             the membership fee online via the application form or make a cash
             payment at our registeration desk near Ad Cell or E-Cell Room
@@ -77,7 +77,7 @@ export function FaqComp() {
             {" "}
             Can students from different branches/departments join E-Cell?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             Yes, E-Cell is open to students from all branches and departments.
             Entrepreneurship is a universal skill that can benefit everyone, and
             we encourage students from diverse backgrounds to join and
@@ -90,7 +90,7 @@ export function FaqComp() {
             {" "}
             I&apos;m a first-year student. Can I join E-Cell?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             Absolutely! First-year students are welcome and encouraged to join.
             Being part of E-Cell early in your academic journey can help you
             develop entrepreneurial skills, gain mentorship, and start building
@@ -104,7 +104,7 @@ export function FaqComp() {
             {" "}
             How does E-Cell promote work-life balance for its members?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             We understand the importance of balancing academics and
             extracurricular activities. E-Cell&apos;s events are designed for
             flexibility, allowing you to participate without overwhelming your
@@ -117,7 +117,7 @@ export function FaqComp() {
             {" "}
             How do I sign up for membership?
           </AccordionTrigger>
-          <AccordionContent className="font-montserrat text-left">
+          <AccordionContent className="font-inter text-gray-400 text-left">
             Signing up is easy! Just click on Get Membership in this page or
             click{" "}
             <a className="underline" href="https://forms.gle/ePeDHzKgrb9MUGTx6">

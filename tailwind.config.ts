@@ -57,6 +57,7 @@ export default {
       fontFamily: {
         doto: ["var(--font-doto)", "sans-serif"],
         inter: ["var(--font-inter)", "serif"],
+        silkscreen: ["Silkscreen", "cursive"],
       },
       borderRadius: {
         lg: "var(--radius)",

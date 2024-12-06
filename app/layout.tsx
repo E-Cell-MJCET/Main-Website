@@ -3,6 +3,7 @@ import {
   Doto,
   Inter,
   Playfair_Display,
+  Pixelify_Sans,
   Silkscreen,
   Staatliches,
   Nanum_Pen_Script,
@@ -24,7 +25,11 @@ const inter = Inter({
   weight: ["400", "600"], // Choose specific weights you need
   variable: "--font-inter", // Custom CSS variable
 });
-
+const pixelify = Pixelify_Sans({
+  subsets: ["latin"], // Added subset for Pixelify Sans
+  weight: ["400", "500"], // Adjust the weights you need
+  variable: "--font-pixelify", // Custom CSS variable
+});
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
 //   variable: "--font-geist-sans",
@@ -78,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${silkscreen.variable} antialiased`}
+        className={`${playfair.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
       >
         {children}
         <Toaster />

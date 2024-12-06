@@ -70,15 +70,15 @@ const Hero = () => {
         height={304}
         className="demo1 z-10 mb-4 size-40 bg-clip-text sm:size-48 lg:size-64"
       />
-      <p className="demo font-silkscreen z-10 hidden bg-clip-text text-3xl font-extrabold text-white sm:block sm:text-5xl ">
+      <p className="demo font-silkscreen z-10 hidden bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:block sm:text-5xl ">
         Entrepreneurship Cell
       </p>
-      <p className="demo font-silkscreen z-10 bg-clip-text text-3xl font-extrabold text-white sm:hidden ">
+      <p className="demo z-10 bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:hidden ">
         E-Cell MJCET
       </p>
       <h1
-        className="font-silkscreen z-10 mt-2 items-center justify-center gap-3
-    bg-clip-text text-center text-2xl font-extrabold text-[#F6E445] sm:mt-6 sm:flex sm:flex-col sm:text-3xl lg:flex lg:flex-row lg:text-4xl"
+        className="z-10 mt-2 items-center justify-center gap-3 bg-clip-text
+    text-center font-silkscreen text-2xl font-extrabold text-[#F6E445] sm:mt-6 sm:flex sm:flex-col sm:text-3xl lg:flex lg:flex-row lg:text-4xl"
       >
         <div>
           <span>I</span>
@@ -115,7 +115,7 @@ const Hero = () => {
       <div className="mt-12 flex w-96 flex-col items-center justify-center gap-5 sm:flex-row">
         <Link
           href={"https://forms.gle/ePeDHzKgrb9MUGTx6"}
-          className="btn font-silkscreen relative z-10 mt-12 flex h-12 w-52 items-center justify-center rounded bg-blue-700 px-4 py-3 text-center text-sm text-white hover:cursor-pointer hover:bg-blue-600 sm:px-7 sm:py-4 sm:text-lg"
+          className="btn relative z-10 mt-12 flex h-12 w-52 items-center justify-center rounded bg-blue-700 px-4 py-3 text-center font-silkscreen text-sm text-white hover:cursor-pointer hover:bg-blue-600 sm:px-7 sm:py-4 sm:text-lg"
         >
           <div className="two absolute inset-0 flex items-center justify-center">
             Join us now
@@ -128,7 +128,7 @@ const Hero = () => {
           onClick={() =>
             window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
           }
-          className="btn font-silkscreen relative z-10 flex h-12 w-52 items-center justify-center rounded border-2 border-[#F6E445] px-4 py-3 text-center text-sm hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg lg:mt-12"
+          className="btn relative z-10 flex h-12 w-52 items-center justify-center text-[#F6E445] rounded border-2 bg-black border-[#F6E445] px-4 py-3 text-center font-silkscreen text-sm hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg lg:mt-12"
         >
           <p>Know more</p>
         </button>

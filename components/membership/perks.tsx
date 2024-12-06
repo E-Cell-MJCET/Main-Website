@@ -33,8 +33,8 @@ export function Perks() {
   useOutsideClick(ref, () => setActive(null));
 
   return (
-    <>
-      <h1 className="font-silkscreen mb-8 text-center text-4xl font-extrabold tracking-wide text-[#f6e445]">
+    <div className="bg-black">
+      <h1 className="font-silkscreen mb-8 text-center text-4xl font-extrabold tracking-wide  text-[#f6e445]">
         Perks of Membership
       </h1>
       <AnimatePresence>
@@ -86,11 +86,11 @@ export function Perks() {
                 />
               </motion.div>
               <div>
-                <div className="flex flex-col items-start justify-between p-4 md:flex-row">
+                <div className="flex  flex-col items-start justify-between p-4 md:flex-row">
                   <div className="w-full md:w-auto">
                     <motion.h3
                       layoutId={`title-${active.title}-${id}`}
-                      className="text-lg font-bold text-neutral-200"
+                      className="text-lg font-bold text-neutral-200 "
                     >
                       {active.title}
                     </motion.h3>
@@ -173,7 +173,7 @@ export function Perks() {
           </motion.div>
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 

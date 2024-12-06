@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const StorySect3 = () => {
   return (
-    <section className="mb-8 bg-black px-6 py-5 text-white md:px-16">
+    <section className=" bg-black px-6 py-5 text-white md:px-16">
       <div className="mx-auto max-w-6xl text-center">
         {/* Title Section */}
         <motion.h1

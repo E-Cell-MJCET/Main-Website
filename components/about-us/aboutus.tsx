@@ -63,7 +63,7 @@ return (
   <ReactLenis root>
     <main className='bg-black' ref={container}>
       <section className='grid  h-[70vh]  w-full place-content-center  bg-slate-950 text-white '>
-        <div className='absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:54px_54px]'></div>
+        <div className='absolute inset-0 '></div>
         <h1 className='px-8 text-center text-5xl font-semibold leading-[120%] tracking-tight 2xl:text-7xl'>We are Ecell <br /> </h1>
       </section>
       <section className='w-full   bg-slate-950 text-white  '>
