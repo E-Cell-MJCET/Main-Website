@@ -22,7 +22,6 @@ export function BentoGridDemo() {
         start: "top 91%",
         end: "top 50%",
         scrub: true,
-        markers: true,
       },
     });
   }, []);
