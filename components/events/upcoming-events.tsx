@@ -5,12 +5,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const UpcomingEvents = () => {
   const events = [
     {
-      title: "Market Mayhem",
-      date: "October 29",
+      title: "Hack Revolution 2025",
+      date: "January 05, 2025",
       description:
-        "Round 1. Guess the Price: Estimate the prices of various products Round 2. Guess the Brand Using Emojis: Identify brands based on emoji clues. Round 3. Debate: Teams engage in a marketing-related debate. Round 4. Surprise Round: A mystery challenge revealed on the spot. Participants: Duo: ₹60 Teams of up to 4 members: ₹100 Free for E-cell members",
-      image: "/assets/events/market-mayhem.png", // replace with actual image URL
-      link: "#",
+        "Ecell and CSI are back again with Hack Revolution . This 15-hour journey is all about pushing boundaries, where teams come together to build something meaningful from the ground up. It’s not just an event; it’s an experience that challenges you to innovate with purpose and passion.",
+      image: "/assets/events/hackrev.png", // replace with actual image URL
+      link: "https://hackrevolution.in",
     },
   ];
 
