@@ -1,10 +1,10 @@
 /* eslint-disable tailwindcss/no-contradicting-classname */
 "use client";
 
-import React,{ useRef } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
-import { ReactLenis } from 'lenis/react';
-import { useTransform, motion, useScroll, MotionValue } from 'framer-motion';
+import { ReactLenis } from "lenis/react";
+import { useTransform, motion, useScroll, MotionValue } from "framer-motion";
 
 // import team from "@/public/assets/team3.png"
 
@@ -30,7 +30,7 @@ const projects = [
     description:
       "Our hackathons provide a platform for students to solve real-world problems with innovative solutions, fostering teamwork and technical excellence.",
     src: "/assets/hackathon1.jpeg", // Add this image to your project folder
-    link: "https://example.com/hackathons",
+    link: "https://hackrevolution.in",
     color: "bg-blue-500",
   },
   {
@@ -52,29 +52,31 @@ const projects = [
   },
 ];
 
- function AboutUs(): JSX.Element {
+function AboutUs(): JSX.Element {
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ['start start', 'end end'],
+    offset: ["start start", "end end"],
   });
-  
-return (
-  <ReactLenis root>
-    <main className='bg-black' ref={container}>
-      <section className='grid  h-[70vh]  w-full place-content-center  bg-slate-950 text-white '>
-        <div className='absolute inset-0 '></div>
-        <h1 className='px-8 text-center text-5xl font-semibold leading-[120%] tracking-tight 2xl:text-7xl'>We are Ecell <br /> </h1>
-      </section>
-      <section className='w-full   bg-slate-950 text-white  '>
-        {projects.map((project, i) => {
+
+  return (
+    <ReactLenis root>
+      <main className="bg-black" ref={container}>
+        <section className="grid  h-[70vh]  w-full place-content-center  bg-slate-950 text-white ">
+          <div className="absolute inset-0 "></div>
+          <h1 className="px-8 text-center text-5xl font-semibold leading-[120%] tracking-tight 2xl:text-7xl">
+            We are Ecell <br />{" "}
+          </h1>
+        </section>
+        <section className="w-full   bg-slate-950 text-white  ">
+          {projects.map((project, i) => {
             const targetScale = 1 - (projects.length - i) * 0.05;
-            
-return (
-  <Card
+
+            return (
+              <Card
                 key={`p_${i}`}
                 i={i}
-                url={"/"}
+                url={project.link}
                 src={project?.src}
                 title={project?.title}
                 color={project?.color}
@@ -84,19 +86,19 @@ return (
                 range={[i * 0.25, 1]}
                 targetScale={targetScale}
               />
-);
+            );
           })}
-      </section>
-    </main>
-  </ReactLenis>
-);
+        </section>
+      </main>
+    </ReactLenis>
+  );
 }
 interface CardProps {
   i: number;
   title: string;
   description: string;
   src: any;
-  ecell:boolean;
+  ecell: boolean;
   url: string;
   color: string;
   progress: MotionValue<number>;
@@ -108,6 +110,7 @@ export const Card: React.FC<CardProps> = ({
   title,
   description,
   src,
+  url,
   color,
   ecell,
   progress,
@@ -117,7 +120,7 @@ export const Card: React.FC<CardProps> = ({
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
-    offset: ['start end', 'start start'],
+    offset: ["start end", "start start"],
   });
 
   const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
@@ -141,7 +144,7 @@ export const Card: React.FC<CardProps> = ({
             <p className="text-base">{description}</p>
             <span className="flex items-center gap-2 pt-2">
               <a
-                href={"#"}
+                href={url}
                 target="_blank"
                 className="cursor-pointer underline"
               >
@@ -163,7 +166,12 @@ export const Card: React.FC<CardProps> = ({
           </div>
           <div className={`relative h-full  w-3/5 overflow-hidden rounded-lg `}>
             <motion.div className={`size-full`} style={{ scale: imageScale }}>
-              <Image fill src={src} alt="image" className={`${ecell ? "object-contain" : "object-cover"}`} />
+              <Image
+                fill
+                src={src}
+                alt="image"
+                className={`${ecell ? "object-contain" : "object-cover"}`}
+              />
             </motion.div>
           </div>
         </div>
