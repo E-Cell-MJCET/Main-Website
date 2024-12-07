@@ -98,7 +98,7 @@ interface CardProps {
   title: string;
   description: string;
   src: any;
-  ecell: boolean;
+  ecell?: boolean;
   url: string;
   color: string;
   progress: MotionValue<number>;

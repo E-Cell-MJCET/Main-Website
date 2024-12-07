@@ -3,7 +3,7 @@
 import React from "react";
 
 import { UserType } from "@/types/UserTypes";
-import CompletePage from "@/public/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg";
+import CompletePage from "@/components/profile/profile-page";
 
 const userData: UserType = {
   roll_no: "12345",

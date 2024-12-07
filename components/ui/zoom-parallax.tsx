@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useScroll, useTransform, motion } from "framer-motion";
 
 import team1 from "@/public/assets/team1.png";
-import team3 from "@/public/assets/team3.png";
 import ethinic from "@/public/assets/hero/ethinic.jpeg";
 import mm from "@/public/assets/hero/mm.jpeg";
 import team5 from "@/public/assets/team5.jpg";

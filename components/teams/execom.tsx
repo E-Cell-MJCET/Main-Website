@@ -173,7 +173,7 @@ const teamMembers: TeamMember[] = [
     department: "Editorial and Research",
     image: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
     gif: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.gif",
-    link: "",
+    link: "/profile/nazmeen",
   },
   // Media Department
   {
