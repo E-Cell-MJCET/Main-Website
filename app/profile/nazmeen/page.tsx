@@ -69,7 +69,7 @@ const userData: UserType = {
   portfolio: "Editorial & Research",
   position: "Execom",
   dob: new Date("2004-08-29"),
-  image: "/assets/Team/GB/abid.png",
+  image: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
   theme: "dark",
   education: [
     {
