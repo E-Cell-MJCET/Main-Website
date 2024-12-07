@@ -84,34 +84,34 @@ const Footer = () => {
           </h2>
           <ul className="grid grid-cols-3 gap-4 text-lg md:flex md:flex-wrap md:gap-x-8 md:text-2xl">
             <li>
-              <a href="#home" className="hover:underline">
+              <Link href="/" className="hover:underline">
                 Home
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#about" className="hover:underline">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="#events" className="hover:underline">
+              <Link href="/events" className="hover:underline">
                 Events
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#team" className="hover:underline">
+              <Link href="/team" className="hover:underline">
                 Team
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#sponsors" className="hover:underline">
-                Sponsors
-              </a>
+              <Link href="/blogs" className="hover:underline">
+                Blogs
+              </Link>
             </li>
             <li>
-              <a href="#contact" className="hover:underline">
-                Contact
-              </a>
+              <Link href="/aboutus" className="hover:underline">
+                About us
+              </Link>
+            </li>
+            <li>
+              <Link href="/contactus" className="hover:underline">
+                Contact us
+              </Link>
             </li>
           </ul>
         </div>
