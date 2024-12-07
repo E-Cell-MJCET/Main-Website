@@ -15,9 +15,18 @@ const Dummy = () => {
     });
   }, []);
 
+  useGSAP(() => {
+    gsap.from(".VideoDiv", {
+      duration: 1,
+      y: 100,
+      opacity: 0,
+      delay: 3.9,
+    });
+  }, []);
+
   return (
     <div className="bg-black">
-      <div className="block sm:hidden">
+      <div className="VideoDiv block sm:hidden">
         <video src="/assets/hero/mayhem.mp4" autoPlay loop muted />
       </div>
       <div className="ZoomParallaxDiv hidden sm:block">

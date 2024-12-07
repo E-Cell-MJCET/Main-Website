@@ -1,19 +1,19 @@
 import React from "react";
 
-import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
-import Blogs from "@/components/blogs/blogs";
+import Navbar from "@/components/LandingPage/Navbar";
+import { TRE } from "@/components/blogs/tre";
 
-const BlogPage = () => {
+const TRE_Page = () => {
   return (
     <div>
       <Navbar />
       <div className="flex w-full items-center justify-center">
-        <Blogs />
+        <TRE />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default BlogPage;
+export default TRE_Page;

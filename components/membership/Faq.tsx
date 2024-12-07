@@ -12,7 +12,7 @@ import { StarsBackground } from "../ui/starsbackground";
 
 export function FaqComp() {
   return (
-    <div className="flex w-screen flex-col items-center justify-center gap-3 bg-black px-5 text-white">
+    <div className="flex w-screen flex-col py-5 items-center justify-center gap-3 bg-black px-5 text-white">
       <div className="text-center">
         <h1 className="font-silkscreen text-3xl font-bold text-[#f6e445] sm:text-4xl">
           Frequently Asked Questions

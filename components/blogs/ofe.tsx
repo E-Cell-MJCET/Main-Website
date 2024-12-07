@@ -98,16 +98,14 @@ export const OFE = () => {
           </li>
         </ul>
       </div>
-      <BlogSub text="Build Resilience: The Key to Bouncing Back"/>
-      <BlogText text="Resilience is the ability to bounce back from setbacks and persist in the face of adversity. It is a skill that can be developed over time. Here are a few ways to build resilience after failure:"/>
+      <BlogSub text="Build Resilience: The Key to Bouncing Back" />
+      <BlogText text="Resilience is the ability to bounce back from setbacks and persist in the face of adversity. It is a skill that can be developed over time. Here are a few ways to build resilience after failure:" />
       <BlogBigText text="a. Develop a Support System" />
       <BlogText text="Having a strong support network of mentors, fellow entrepreneurs, family, and friends can make all the difference when you face failure. Surround yourself with people who understand the challenges of entrepreneurship and can offer guidance, encouragement, and advice." />
       <BlogBigText text="b. Maintain a Healthy Work-Life Balance" />
       <BlogText text="Entrepreneurship is demanding, but maintaining a balance between work and personal life is essential for long-term success. Overworking can lead to burnout, poor decision-making, and emotional exhaustion, all of which can hinder your ability to overcome failure." />
       <BlogBigText text="c. Take Incremental Steps" />
-      <BlogText
-        text="After a setback, it’s tempting to jump into another project right away. However, it’s important to take incremental steps and gradually build momentum. Start by setting small, achievable goals that can help you regain your confidence and make progress toward your next business venture."
-      />
+      <BlogText text="After a setback, it’s tempting to jump into another project right away. However, it’s important to take incremental steps and gradually build momentum. Start by setting small, achievable goals that can help you regain your confidence and make progress toward your next business venture." />
       <BlogSub text="Conclusion" />
       <p className="text-gray">From Failure to Triumph:</p>
       <BlogText text=" Entrepreneurship is a journey filled with ups and downs, and failure is a natural part of the process. The key to overcoming failure lies not in avoiding mistakes but in how you respond to them. By acknowledging your emotions, learning from your failures, reframing your mindset, building resilience, and continuously moving forward, you can turn setbacks into opportunities for growth and success." />

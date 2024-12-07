@@ -148,7 +148,7 @@ const Footer = () => {
                 <Link
                   href={ele.Number}
                   key={idx}
-                  className="flex items-center justify-center gap-1 rounded-md bg-gray-950 p-1"
+                  className="flex items-center justify-center gap-1 rounded-md bg-[#8b76c6] p-1"
                 >
                   <Image
                     src={ele.image}

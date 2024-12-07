@@ -9,6 +9,13 @@ export default {
   ],
   theme: {
     extend: {
+      animation: {
+        grid: "grid 15s linear infinite",
+      },
+      grid: {
+        "0%": { transform: "translateY(-50%)" },
+        "100%": { transform: "translateY(0)" },
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

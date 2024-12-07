@@ -1,19 +1,19 @@
 import React from "react";
 
-import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
-import Blogs from "@/components/blogs/blogs";
+import Navbar from "@/components/LandingPage/Navbar";
+import { OFE } from "@/components/blogs/ofe";
 
-const BlogPage = () => {
+const OFE_Page = () => {
   return (
     <div>
       <Navbar />
       <div className="flex w-full items-center justify-center">
-        <Blogs />
+        <OFE />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default BlogPage;
+export default OFE_Page;

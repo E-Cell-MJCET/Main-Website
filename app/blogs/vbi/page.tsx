@@ -1,19 +1,19 @@
 import React from "react";
 
-import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
-import Blogs from "@/components/blogs/blogs";
+import Navbar from "@/components/LandingPage/Navbar";
+import { VBI } from "@/components/blogs/vbi";
 
-const BlogPage = () => {
+const VBI_Page = () => {
   return (
     <div>
       <Navbar />
       <div className="flex w-full items-center justify-center">
-        <Blogs />
+        <VBI />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default BlogPage;
+export default VBI_Page;

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import Image from "next/image";
-import React,{useRef} from "react";
+import React, { useRef } from "react";
 import { gsap } from "gsap";
 import Link from "next/link";
 
@@ -40,7 +40,7 @@ const data = [
 ];
 
 const Blogs = () => {
-    const textRef = useRef(null);
+  const textRef = useRef(null);
   const handleMouseEnter2 = (e: any) => {
     const letter = e.target;
     gsap.to(letter, {
@@ -95,7 +95,10 @@ const Blogs = () => {
             </h2>
             <p className="mt-2 text-center text-gray-600">{blog.description}</p>
             <p className="mt-4 text-sm text-gray-500">By: {blog.author}</p>
-            <Link href="./ofe" className="mt-4 rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-blue-600">
+            <Link
+              href={`/blogs/${blog.link}`}
+              className="mt-4 rounded-full bg-blue-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-blue-600"
+            >
               Read More
             </Link>
           </div>

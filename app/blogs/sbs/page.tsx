@@ -1,19 +1,19 @@
 import React from "react";
 
-import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
-import Blogs from "@/components/blogs/blogs";
+import Navbar from "@/components/LandingPage/Navbar";
+import { SBS } from "@/components/blogs/sbs";
 
-const BlogPage = () => {
+const SBS_Page = () => {
   return (
     <div>
       <Navbar />
       <div className="flex w-full items-center justify-center">
-        <Blogs />
+        <SBS />
       </div>
       <Footer />
     </div>
   );
 };
 
-export default BlogPage;
+export default SBS_Page;
