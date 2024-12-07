@@ -63,7 +63,7 @@ const Blogs = () => {
     <div className="z-30 flex w-screen flex-col items-center justify-start pb-10 pt-32">
       <p
         ref={textRef}
-        className="my-5 font-doto text-5xl font-extrabold  hover:cursor-none md:text-7xl"
+        className="my-5 font-doto text-3xl font-extrabold  hover:cursor-none md:text-7xl"
         style={{ display: "flex", gap: "0.1em" }}
       >
         {"Blog with Ecell".split("").map((char, index) => (
