@@ -331,6 +331,7 @@ export default function TeamComponent() {
                       <Image
                         width={280}
                         height={320}
+                        unoptimized
                         src={
                           hoveredMember === member.name && showGif
                             ? member.gif

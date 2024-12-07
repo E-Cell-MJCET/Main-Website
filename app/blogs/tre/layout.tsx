@@ -1,3 +1,4 @@
+import Head from "next/head";
 import type { ReactNode } from "react";
 
 export const metadata = {
@@ -43,8 +44,8 @@ export const metadata = {
 
 export default function Bloglayout({ children }: { children: ReactNode }) {
   return (
-    <html>
-      <head>
+    <>
+      <Head>
         <meta property="og:title" content={metadata.og.title} />
         <meta property="og:description" content={metadata.og.description} />
         <meta property="og:url" content={metadata.og.url} />
@@ -58,10 +59,8 @@ export default function Bloglayout({ children }: { children: ReactNode }) {
           content={metadata.twitter.description}
         />
         <meta name="twitter:image" content={metadata.twitter.image} />
-      </head>
-      <body>
-        <div> {children}</div>
-      </body>
-    </html>
+      </Head>
+      <div>{children}</div>
+    </>
   );
 }
