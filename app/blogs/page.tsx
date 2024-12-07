@@ -3,6 +3,7 @@ import React from "react";
 import { SBS } from "@/components/blogs/sbs";
 import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
+import Blogs from "@/components/blogs/blogs";
 
 const BlogPage = () => {
   return (
@@ -12,7 +13,7 @@ const BlogPage = () => {
         {/* <TRE /> */}
         {/* <VBI/> */}
         {/* <OFE/> */}
-        <SBS />
+        <Blogs/>
       </div>
       <Footer />
     </div>

@@ -34,7 +34,7 @@ export function Perks() {
 
   return (
     <div className="bg-black">
-      <h1 className="font-silkscreen mb-8 text-center text-4xl font-extrabold tracking-wide  text-[#f6e445]">
+      <h1 className="mb-8 text-center font-silkscreen text-4xl font-extrabold tracking-wide  text-[#f6e445]">
         Perks of Membership
       </h1>
       <AnimatePresence>
@@ -73,7 +73,7 @@ export function Perks() {
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="flex size-full  max-w-[500px] flex-col overflow-hidden  bg-white dark:bg-neutral-900 sm:rounded-3xl md:h-fit md:max-h-[90%]"
+              className="flex size-full  max-w-[500px] flex-col overflow-hidden  bg-neutral-900 sm:rounded-3xl md:h-fit md:max-h-[90%]"
             >
               <motion.div layoutId={`image-${active.title}-${id}`}>
                 <Image
@@ -134,7 +134,7 @@ export function Perks() {
             layoutId={`card-${card.title}-${id}`}
             key={`card-${card.title}-${id}`}
             onClick={() => setActive(card)}
-            className="flex cursor-pointer flex-col items-center justify-between rounded-xl p-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 md:flex-row"
+            className="flex cursor-pointer flex-col items-center justify-between rounded-xl p-4 hover:bg-neutral-800 md:flex-row"
           >
             <div className="flex w-full flex-col items-center gap-4 md:flex-row md:items-start">
               <motion.div
