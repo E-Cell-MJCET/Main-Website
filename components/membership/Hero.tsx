@@ -70,7 +70,7 @@ const Hero = () => {
         height={304}
         className="demo1 z-10 mb-4 size-40 bg-clip-text sm:size-48 lg:size-64"
       />
-      <p className="demo font-silkscreen z-10 hidden bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:block sm:text-5xl ">
+      <p className="demo z-10 hidden bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:block sm:text-5xl ">
         Entrepreneurship Cell
       </p>
       <p className="demo z-10 bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:hidden ">
@@ -128,7 +128,7 @@ const Hero = () => {
           onClick={() =>
             window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
           }
-          className="btn relative z-10 flex h-12 w-52 items-center justify-center text-[#F6E445] rounded border-2 bg-black border-[#F6E445] px-4 py-3 text-center font-silkscreen text-sm hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg lg:mt-12"
+          className="btn relative z-10 flex h-12 w-52 items-center justify-center rounded border-2 border-[#F6E445] bg-black px-4 py-3 text-center font-silkscreen text-sm text-[#F6E445] hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg lg:mt-12"
         >
           <p>Know more</p>
         </button>

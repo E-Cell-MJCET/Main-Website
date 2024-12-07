@@ -65,7 +65,6 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
         />
         <meta name="twitter:image" content={metadata.twitter.image} />
       </head>
-
       <body>{children}</body>
     </html>
   );

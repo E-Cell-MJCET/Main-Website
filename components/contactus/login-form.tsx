@@ -46,7 +46,7 @@ const LoginForm: FC<Props> = ({ classes }) => {
   };
 
   return (
-    <section className="z-10 w-full py-40 bg-black ">
+    <section className=" z-10 w-full bg-black py-40 ">
       <div className="mx-auto flex w-full flex-col items-center justify-center">
         <div
           className={`mx-12 w-full rounded-md  bg-zinc-900 text-white shadow-lg md:w-[480px] ${classes}`}

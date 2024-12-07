@@ -9,7 +9,7 @@ import BlogBigText from "./ui/bigtext";
 
 export const SBS = () => {
   return (
-    <div className="flex max-w-3xl pb-10 flex-col px-5 pt-40  md:px-20">
+    <div className="flex max-w-3xl flex-col px-5 pb-10 pt-40  md:px-20">
       <BlogIntro
         title="How to Build a Strong Brand for Your Startup"
         date="02 Dec 2024"

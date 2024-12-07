@@ -94,7 +94,7 @@ const Navbar = () => {
             >
               Get Membership
             </Link>
-            <button onClick={toggleMenu} className="h-8 w-8 px-1 text-white">
+            <button onClick={toggleMenu} className="size-8 px-1 text-white">
               {isMenuOpen ? (
                 <AiOutlineClose size={34} />
               ) : (
