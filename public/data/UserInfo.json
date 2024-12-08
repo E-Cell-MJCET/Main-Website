@@ -1,0 +1,51 @@
+{
+    "id": "123",
+    "name": "Adnan",
+    "profilePicture": "/assets/Trial.jpg",
+    "jobTitle": "Software Engineer",
+    "location": "Hyderabad, India",
+    "bio": "I just build something amazing!",
+    "badges": ["Verified", "Technical Execom"],
+    "experience": [
+      {
+        "id": "1",
+        "jobTitle": "Senior Software Engineer",
+        "company": "E-Cell",
+        "startDate": "2024-01-01",
+        "endDate": "Present",
+        "description": "Working with NextJS 15 is 😭."
+      },
+      {
+        "id": "2",
+        "jobTitle": "Founder, CEO",
+        "company": "Electroplix",
+        "startDate": "2024-01-01",
+        "endDate": "Present",
+        "description": "Developed full-stack applications with React, Express, and PostgreSQL."
+      },
+      {
+        "id": "3",
+        "jobTitle": "Software Engineer",
+        "company": "E-Cell",
+        "startDate": "2023-01-01",
+        "endDate": "2024-01-01",
+        "description": "Worked on various internal projects."
+      }
+    ],
+    "education": [
+      {
+        "id": "1",
+        "degree": "B.E in CSE",
+        "school": "MJCET",
+        "year": "2024",
+        "description": "Focused on software engineering, algorithms, and machine learning."
+      }
+    ],
+    "socialMedia": {
+      "github": "https://github.com/Adnan00786",
+      "linkedin": "https://linkedin.com/in/syedadnanali99",
+      "instagram": "https://instagram.com/yourinstagram",
+      "website": "https://electroplix.com"
+    }
+  }
+  

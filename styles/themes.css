@@ -1,0 +1,62 @@
+/* styles/themes.css */
+
+/* Base theme */
+:root {
+    --bg-color: #1a1a1a;
+    --text-color: #fff;
+    --primary-color: #3b82f6;
+    --secondary-color: #fbbf24;
+    --input-bg-color: #333;
+    --button-bg-color: #10b981;
+  }
+  
+  /* Light theme */
+  [data-theme='light'] {
+    --bg-color: #fff;
+    --text-color: #000;
+    --primary-color: #1e3a8a;
+    --secondary-color: #facc15;
+    --input-bg-color: #f3f4f6;
+    --button-bg-color: #34d399;
+  }
+  
+  /* Theme 2: Ocean */
+  [data-theme='ocean'] {
+    --bg-color: #006a73;
+    --text-color: #f0fdf4;
+    --primary-color: #04a5d6;
+    --secondary-color: #61c0bf;
+    --input-bg-color: #004d53;
+    --button-bg-color: #07b5c5;
+  }
+  
+  /* Theme 3: Warm */
+  [data-theme='warm'] {
+    --bg-color: #4f2a1e;
+    --text-color: #fef2e4;
+    --primary-color: #f67280;
+    --secondary-color: #f4a261;
+    --input-bg-color: #e9c1b4;
+    --button-bg-color: #ff6b6b;
+  }
+  
+  /* Theme 4: Forest */
+  [data-theme='forest'] {
+    --bg-color: #2f6a4f;
+    --text-color: #e9f7f1;
+    --primary-color: #4caf50;
+    --secondary-color: #8bc34a;
+    --input-bg-color: #2c5c44;
+    --button-bg-color: #66bb6a;
+  }
+  
+  /* Theme 5: Sunset */
+  [data-theme='sunset'] {
+    --bg-color: #fb8b24;
+    --text-color: #fff3e0;
+    --primary-color: #d32f2f;
+    --secondary-color: #ff7043;
+    --input-bg-color: #f4c1a5;
+    --button-bg-color: #ff5722;
+  }
+  
