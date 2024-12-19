@@ -165,13 +165,6 @@ const teamMembers: TeamMember[] = [
     gif: "/assets/Team/Execom/Media/Noor/Noor.gif"
   },
   {
-    name: "Abdul Rahman Hanzala",
-    role: "Media Head",
-    department: "Media",
-    image: "/assets/Team/Execom/Media/Hanzala/Hanzala.heif",
-    gif: "/assets/Team/Execom/Media/Hanzala/Hanzala.gif"
-  },
-  {
     name: "Farzeen Naveed",
     role: "Media Head",
     department: "Media",
@@ -185,13 +178,6 @@ const teamMembers: TeamMember[] = [
     department: "Marketing",
     image: "/assets/Team/Execom/Marketing/Safwan/Safwan.jpeg",
     gif: "/assets/Team/Execom/Marketing/Safwan/Safwan.gif"
-  },
-  {
-    name: "Abdur Raheem",
-    role: "Marketing Head",
-    department: "Marketing",
-    image: "/assets/Team/Execom/Marketing/Raheem/Raheem.jpg",
-    gif: "/assets/Team/Execom/Marketing/Raheem/Raheem.gif"
   },
   // Events Department
   {
@@ -216,13 +202,6 @@ const teamMembers: TeamMember[] = [
     image: "/assets/Team/Execom/Operations/Umar/Umar.jpeg",
     gif: "/assets/Team/Execom/Operations/Umar/Umar.gif"
   },
-  {
-    name: "Aziz Ur Rahman",
-    role: "Operations Head",
-    department: "Operations",
-    image: "/assets/Team/Execom/Operations/Aziz/Aziz.jpeg",
-    gif: "/assets/Team/Execom/Operations/Aziz/Aziz.gif"
-  }
 ]
 
 export default function TeamComponent() {

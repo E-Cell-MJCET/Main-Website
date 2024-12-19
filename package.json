@@ -33,6 +33,7 @@
     "eslint-plugin-tailwindcss": "^3.17.5",
     "eslint-plugin-unused-imports": "^4.1.4",
     "framer-motion": "^11.13.1",
+    "gsap": "^3.12.5",
     "lenis": "^1.1.18",
     "lucide-react": "^0.468.0",
     "motion": "^11.13.1",
