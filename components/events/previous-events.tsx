@@ -88,11 +88,11 @@ const PreviousEvents = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-black">
-      <div className="flex flex-wrap justify-between gap-6 p-5">
+      <div className="flex flex-wrap items-center justify-between gap-6 p-5">
         {events.map((event, index) => (
           <div
             key={index}
-            className="bg-black-200 my-10 h-[600px] max-w-sm rounded-lg border border-[#0b5db0] p-[3px] transition duration-300 hover:scale-105 hover:border-[#ff403c]"
+            className="bg-black-200 my-10 h-[600px]  max-w-sm rounded-lg border border-[#0b5db0] p-[3px] transition duration-300 hover:scale-105 hover:border-[#ff403c]"
           >
             <Image
               src={event.image}

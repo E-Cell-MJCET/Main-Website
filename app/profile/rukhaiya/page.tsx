@@ -52,8 +52,7 @@ const userData: UserType = {
   portfolio: "Editorial & Research",
   position: "Execom",
   dob: new Date("2005-03-11"),
-  image:
-    "http://localhost:3000/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
+  image: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
   theme: "dark",
   education: [
     {

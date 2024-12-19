@@ -9,7 +9,7 @@ import BlogBigText from "./ui/bigtext";
 
 export const SBS = () => {
   return (
-    <div className="flex max-w-3xl flex-col px-5 pt-40  md:px-20">
+    <div className="flex max-w-3xl flex-col px-5 pb-10 pt-40  md:px-20">
       <BlogIntro
         title="How to Build a Strong Brand for Your Startup"
         date="02 Dec 2024"
@@ -133,9 +133,7 @@ export const SBS = () => {
                     - Webinars or podcasts
                     - Tutorials or how-to guides"
             />
-            <BlogText text=
-            "By sharing insightful, helpful content, you not only build trust but also improve your SEO and drive organic traffic to your site."
-            />
+            <BlogText text="By sharing insightful, helpful content, you not only build trust but also improve your SEO and drive organic traffic to your site." />
           </li>
         </ul>
       </div>
@@ -147,8 +145,8 @@ export const SBS = () => {
       <BlogText text="Encourage your customers to share their experiences with your brand on social media. UGC builds social proof and helps strengthen your brand’s credibility. You can incentivize UGC by running contests, offering discounts, or featuring customer stories on your website or social media." />
       <BlogBigText text="c. Leverage Influencer Partnerships" />
       <BlogText text="Influencers can help amplify your brand to a wider audience. Identify influencers whose values align with your brand and who have an engaged following that overlaps with your target market." />
-      <BlogSub text="Monitor and Evolve Your Brand"/>
-      <BlogText text="Building a strong brand doesn’t stop once you’ve launched your startup. You need to continually monitor your brand’s performance, gather feedback, and be willing to evolve. Pay attention to customer reviews, social media mentions, and market trends to ensure that your brand stays relevant and resonates with your audience over time."/>
+      <BlogSub text="Monitor and Evolve Your Brand" />
+      <BlogText text="Building a strong brand doesn’t stop once you’ve launched your startup. You need to continually monitor your brand’s performance, gather feedback, and be willing to evolve. Pay attention to customer reviews, social media mentions, and market trends to ensure that your brand stays relevant and resonates with your audience over time." />
       <BlogSub text="Conclusion" />
       <BlogText text="Building a strong brand for your startup is a journey that requires careful planning, creativity, and consistency. By defining your brand identity, creating a memorable name and logo, developing powerful messaging, and building a strong online presence, you’ll set your startup up for success. Remember, branding is not a one-time effort, it's an ongoing process that will evolve as your business grows and adapts to market changes." />
       <BlogText text="The strength of your brand will directly impact your startup’s ability to attract and retain customers, create meaningful relationships, and ultimately thrive in a competitive marketplace. Take the time to build a brand that resonates with your audience, communicates your values, and sets you apart from the competition." />

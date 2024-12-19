@@ -4,6 +4,8 @@ import React from "react";
 
 import CompletePage from "@/components/profile/profile-page";
 import { UserType } from "@/types/UserTypes";
+import Navbar from "@/components/LandingPage/Navbar";
+import Footer from "@/components/LandingPage/Footer";
 
 const userData: UserType = {
   roll_no: "12345",
@@ -69,7 +71,7 @@ const userData: UserType = {
   portfolio: "Editorial & Research",
   position: "Execom",
   dob: new Date("2004-08-29"),
-  image: "/assets/Team/GB/abid.png",
+  image: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
   theme: "dark",
   education: [
     {
@@ -130,7 +132,9 @@ const userData: UserType = {
 const NazmeenPage = () => {
   return (
     <div>
+      <Navbar />
       <CompletePage userData={userData} />
+      <Footer />
     </div>
   );
 };

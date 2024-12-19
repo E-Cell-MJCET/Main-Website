@@ -3,7 +3,9 @@
 import React from "react";
 
 import { UserType } from "@/types/UserTypes";
-import CompletePage from "@/public/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg";
+import CompletePage from "@/components/profile/profile-page";
+import Footer from "@/components/LandingPage/Footer";
+import Navbar from "@/components/LandingPage/Navbar";
 
 const userData: UserType = {
   roll_no: "12345",
@@ -152,7 +154,9 @@ const userData: UserType = {
 const ShujaPage = () => {
   return (
     <div>
+      <Navbar />
       <CompletePage userData={userData} />
+      <Footer />
     </div>
   );
 };

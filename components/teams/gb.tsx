@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 interface MemberCardProps {
   name: string;
@@ -93,11 +93,13 @@ const GoverningBody: React.FC = () => {
   const topRow = members.slice(0, 2);
   const bottomRow = members.slice(2);
 
+  // bg-gradient-to-b from-gray-900 via-gray-800 to-black
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black px-4 py-20 pt-40 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black px-4 py-20 pt-40 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
-          <h1 className="mb-4 bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+          <h1 className="mb-4 bg-white bg-clip-text text-4xl font-extrabold text-transparent md:text-5xl">
             Our Governing Body
           </h1>
           <p className="mx-auto max-w-2xl text-lg text-gray-400">
@@ -106,7 +108,7 @@ const GoverningBody: React.FC = () => {
           </p>
         </div>
         <div className="flex flex-col gap-12">
-          <div className="flex flex-wrap justify-center gap-8">
+          <div className="flex flex-wrap items-center justify-center gap-8">
             {topRow.map((member, index) => (
               <MemberCard key={index} {...member} />
             ))}

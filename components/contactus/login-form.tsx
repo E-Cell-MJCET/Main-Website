@@ -6,9 +6,13 @@ interface Props {
 }
 
 const LoginForm: FC<Props> = ({ classes }) => {
-  const [form, setForm] = useState({ Name: "", Email: "", Phone:"",Message:"" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phoneno: "",
+    message: "",
+  });
   const inputs = [
-   
     {
       title: "Name",
       placeholder: "Enter Your Name",
@@ -16,25 +20,23 @@ const LoginForm: FC<Props> = ({ classes }) => {
       classes: "",
     },
     {
-        title: "Email",
-        placeholder: "sample@gmail.com",
-        type: "email",
-        classes: "",
-      },
+      title: "Email",
+      placeholder: "sample@gmail.com",
+      type: "email",
+      classes: "",
+    },
     {
-        title: "Phone",
-        placeholder: "Enter Your Contact Number",
-        type: "number",
-        classes: "",
-      },
-      {
-        title: "Message",
-        placeholder: "Drop In Your Enquiries",
-        type: "string",
-        classes: "",
-      },
-
-
+      title: "Phone",
+      placeholder: "Enter Your Contact Number",
+      type: "number",
+      classes: "",
+    },
+    {
+      title: "Message",
+      placeholder: "Drop In Your Enquiries",
+      type: "string",
+      classes: "",
+    },
   ];
 
   const handleSubmit = (e: any) => {
@@ -42,19 +44,15 @@ const LoginForm: FC<Props> = ({ classes }) => {
     console.log("form", form);
     // submit form here...
   };
-  
+
   return (
-    <section className="z-10 mx-4 w-full">
-      <div className="mx-auto flex w-full flex-col items-center justify-center">
+    <section className=" z-10 w-full bg-black py-40 ">
+      <div className="mx-auto flex w-full flex-col items-end justify-end">
         <div
-          className={`mx-12 w-full rounded-md bg-zinc-100 text-black shadow-lg dark:bg-zinc-900 dark:text-white md:w-[480px] ${classes}`}
+          className={`mx-12 w-full rounded-md  bg-zinc-900 text-white shadow-lg md:w-[480px] ${classes}`}
         >
           <div className="space-y-4 p-6 sm:p-8 md:space-y-6">
-            <h1 className="text-xl font-bold leading-tight tracking-tight">Login</h1>
-            <form
-              className="space-y-4 md:space-y-6"
-              onSubmit={handleSubmit}
-            >
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               {inputs.map(({ title, type, placeholder, classes }) => (
                 <div key={title}>
                   <label
@@ -80,34 +78,11 @@ const LoginForm: FC<Props> = ({ classes }) => {
                   />
                 </div>
               ))}
-              <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex h-5 items-center">
-                    <input
-                      id="remember"
-                      checked={form.rememberMe}
-                      aria-describedby="remember"
-                      onChange={() => setForm((prev) => ({ ...prev, rememberMe: !form.rememberMe }))}
-                      type="checkbox"
-                      className="size-4 rounded border outline-none focus:ring focus:ring-emerald-400"
-                    />
-                  </div>
-                  <div className="ml-3 text-sm">
-                    <label htmlFor="remember">Remember me</label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium outline-none hover:underline focus:ring focus:ring-emerald-400"
-                >
-                  Forget password?
-                </a>
-              </div>
               <button
                 type="submit"
                 className="w-full rounded-md bg-emerald-400 px-5 py-2.5 text-center text-sm font-medium text-black outline-none focus:ring focus:ring-gray-800 dark:bg-emerald-600 dark:focus:ring-gray-200"
               >
-                Sign in
+                Send Message
               </button>
             </form>
           </div>

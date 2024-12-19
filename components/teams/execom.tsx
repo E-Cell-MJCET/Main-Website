@@ -1,20 +1,22 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
-type Category = string
+type Category = string;
 
 type TeamMember = {
-  name: string
-  role: string
-  department: string
-  image: string
-  gif: string
-}
+  name: string;
+  role: string;
+  department: string;
+  image: string;
+  gif: string;
+  link: string;
+};
 
 const categories: Category[] = [
   "All",
@@ -28,7 +30,7 @@ const categories: Category[] = [
   "Media",
   "Marketing",
   "Operations",
-]
+];
 
 const teamMembers: TeamMember[] = [
   // Technical Department
@@ -37,28 +39,32 @@ const teamMembers: TeamMember[] = [
     role: "Technical Team Head",
     department: "Technical",
     image: "/assets/Team/Execom/Technical/Aayan/Aayan.jpg",
-    gif: "/assets/Team/Execom/Technical/Aayan/gif.gif"
+    gif: "/assets/Team/Execom/Technical/Aayan/gif.gif",
+    link: "",
   },
   {
     name: "Syed Abdul Muneeb",
     role: "Technical Team Head",
     department: "Technical",
     image: "/assets/Team/Execom/Technical/Muneeb/Muneeb.jpeg",
-    gif: "/assets/Team/Execom/Technical/Muneeb/Muneeb.gif"
+    gif: "/assets/Team/Execom/Technical/Muneeb/Muneeb.gif",
+    link: "",
   },
   {
     name: "Syed Adnan Ali",
     role: "Technical Team Head",
     department: "Technical",
     image: "/assets/Team/Execom/Technical/Adnan/Adnan.jpg",
-    gif: "/assets/Team/Execom/Technical/Adnan/Adnan.gif"
+    gif: "/assets/Team/Execom/Technical/Adnan/Adnan.gif",
+    link: "",
   },
   {
     name: "Neha Anjum",
     role: "Technical Team Head",
     department: "Technical",
     image: "/assets/Team/Execom/Technical/Neha/Neha.jpg",
-    gif: "/assets/Team/Execom/Technical/Neha/Neha.gif"
+    gif: "/assets/Team/Execom/Technical/Neha/Neha.gif",
+    link: "",
   },
   // Entrepreneurship Department
   {
@@ -66,28 +72,32 @@ const teamMembers: TeamMember[] = [
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Saif/Saif.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Saif/Saifuddin.webp"
+    gif: "/assets/Team/Execom/Entrepreneurship/Saif/Saifuddin.webp",
+    link: "",
   },
   {
     name: "Saleha Baseer",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.webp"
+    gif: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.webp",
+    link: "",
   },
   {
     name: "Nooria Yousuf",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.jpeg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.webp"
+    gif: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.webp",
+    link: "",
   },
   {
     name: "Mohammed Rayyan Ali",
     role: "Entrepreneurship Coordinator Head",
     department: "EC",
     image: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.jpg",
-    gif: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.webp"
+    gif: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.webp",
+    link: "",
   },
   // Human Resource Department
   {
@@ -95,14 +105,16 @@ const teamMembers: TeamMember[] = [
     role: "Human Resource Head",
     department: "Human Resource",
     image: "/assets/Team/Execom/HR/Afra/Afra.jpg",
-    gif: "/assets/Team/Execom/HR/Afra/Afra.gif"
+    gif: "/assets/Team/Execom/HR/Afra/Afra.gif",
+    link: "",
   },
   {
     name: "Md. Faizullah Shareef",
     role: "Human Resource Head",
     department: "Human Resource",
     image: "/assets/Team/Execom/HR/Faizullah/Faizullah.jpg",
-    gif: "/assets/Team/Execom/HR/Faizullah/Faizullah.gif"
+    gif: "/assets/Team/Execom/HR/Faizullah/Faizullah.gif",
+    link: "",
   },
   // Relations and Outreach Department
   {
@@ -110,14 +122,16 @@ const teamMembers: TeamMember[] = [
     role: "Relations and Outreach Head",
     department: "Relations and Outreach",
     image: "/assets/Team/Execom/Relations/Alyan/Alyan.jpg",
-    gif: "/assets/Team/Execom/Relations/Alyan/Alyan.gif"
+    gif: "/assets/Team/Execom/Relations/Alyan/Alyan.gif",
+    link: "",
   },
   {
     name: "Faiz Ali",
     role: "Relations and Outreach Head",
     department: "Relations and Outreach",
     image: "/assets/Team/Execom/Relations/Faiz/Faiz.jpg",
-    gif: "/assets/Team/Execom/Relations/Faiz/Faiz.gif"
+    gif: "/assets/Team/Execom/Relations/Faiz/Faiz.gif",
+    link: "",
   },
   // Design Department
   {
@@ -125,21 +139,24 @@ const teamMembers: TeamMember[] = [
     role: "Design Head",
     department: "Design",
     image: "/assets/Team/Execom/Design/Afzal/Afzal2.jpg",
-    gif: "/assets/Team/Execom/Design/Afzal/Afzal.gif"
+    gif: "/assets/Team/Execom/Design/Afzal/Afzal.gif",
+    link: "",
   },
   {
     name: "Shafiya Khanam",
     role: "Design Head",
     department: "Design",
     image: "/assets/Team/Execom/Design/Shafiya/Shafiya.webp",
-    gif: "/assets/Team/Execom/Design/Shafiya/Shafiya.gif"
+    gif: "/assets/Team/Execom/Design/Shafiya/Shafiya.gif",
+    link: "",
   },
   {
     name: "Namirah Fathima",
     role: "Design Head",
     department: "Design",
     image: "/assets/Team/Execom/Design/Namirah/Namirah.jpg",
-    gif: "/assets/Team/Execom/Design/Namirah/Namirah.gif"
+    gif: "/assets/Team/Execom/Design/Namirah/Namirah.gif",
+    link: "",
   },
   // Editorial and Research Department
   {
@@ -147,14 +164,16 @@ const teamMembers: TeamMember[] = [
     role: "Editorial and Research Head",
     department: "Editorial and Research",
     image: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
-    gif: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.gif"
+    gif: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.gif",
+    link: "/profile/rukhaiya",
   },
   {
     name: "Nazmeen Sultana",
     role: "Editorial and Research Head",
     department: "Editorial and Research",
     image: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
-    gif: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.gif"
+    gif: "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.gif",
+    link: "/profile/nazmeen",
   },
   // Media Department
   {
@@ -162,14 +181,16 @@ const teamMembers: TeamMember[] = [
     role: "Media Head",
     department: "Media",
     image: "/assets/Team/Execom/Media/Noor/Noor.JPG",
-    gif: "/assets/Team/Execom/Media/Noor/Noor.gif"
+    gif: "/assets/Team/Execom/Media/Noor/Noor.gif",
+    link: "",
   },
   {
     name: "Farzeen Naveed",
     role: "Media Head",
     department: "Media",
     image: "/assets/Team/Execom/Media/Farzeen/Farzeen.jpg",
-    gif: "/assets/Team/Execom/Media/Farzeen/Farzeen.gif"
+    gif: "/assets/Team/Execom/Media/Farzeen/Farzeen.gif",
+    link: "",
   },
   // Marketing Department
   {
@@ -177,7 +198,8 @@ const teamMembers: TeamMember[] = [
     role: "Marketing Head",
     department: "Marketing",
     image: "/assets/Team/Execom/Marketing/Safwan/Safwan.jpeg",
-    gif: "/assets/Team/Execom/Marketing/Safwan/Safwan.gif"
+    gif: "/assets/Team/Execom/Marketing/Safwan/Safwan.gif",
+    link: "",
   },
   // Events Department
   {
@@ -185,14 +207,16 @@ const teamMembers: TeamMember[] = [
     role: "Events Head",
     department: "Events",
     image: "/assets/Team/Execom/Events/Amena/Amena.jpg",
-    gif: "/assets/Team/Execom/Events/Haseeb/Amena.gif"
+    gif: "/assets/Team/Execom/Events/Haseeb/Amena.gif",
+    link: "",
   },
   {
     name: "Haseeb Rahman",
     role: "Events Head",
     department: "Events",
     image: "/assets/Team/Execom/Events/Haseeb/Haseeb.jpg",
-    gif: "/assets/Team/Execom/Events/Haseeb/Haseeb.gif"
+    gif: "/assets/Team/Execom/Events/Haseeb/Haseeb.gif",
+    link: "",
   },
   // Operations Department
   {
@@ -200,49 +224,48 @@ const teamMembers: TeamMember[] = [
     role: "Operations Head",
     department: "Operations",
     image: "/assets/Team/Execom/Operations/Umar/Umar.jpeg",
-    gif: "/assets/Team/Execom/Operations/Umar/Umar.gif"
+    gif: "/assets/Team/Execom/Operations/Umar/Umar.gif",
+    link: "",
   },
 ]
 
 export default function TeamComponent() {
-  const [filter, setFilter] = useState<Category>("All")
-  const [hoveredMember, setHoveredMember] = useState<string | null>(null)
-  const [showGif, setShowGif] = useState(false)
+  const [filter, setFilter] = useState<Category>("All");
+  const [hoveredMember, setHoveredMember] = useState<string | null>(null);
+  const [showGif, setShowGif] = useState(false);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout
+    let interval: NodeJS.Timeout;
 
     if (hoveredMember) {
-      setShowGif(true)
+      setShowGif(true);
       interval = setInterval(() => {
-        setShowGif(prev => !prev)
-      }, 3000)
+        setShowGif((prev) => !prev);
+      }, 3000);
     }
 
     return () => {
       if (interval) {
-        clearInterval(interval)
+        clearInterval(interval);
       }
-      setShowGif(false)
-    }
-  }, [hoveredMember])
+      setShowGif(false);
+    };
+  }, [hoveredMember]);
 
   const handleMouseEnter = (name: string) => {
-    setHoveredMember(name)
-  }
+    setHoveredMember(name);
+  };
 
   const handleMouseLeave = () => {
-    setHoveredMember(null)
-  }
+    setHoveredMember(null);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-900 px-4 py-12 text-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-black via-black to-[#685797] px-4 py-12 text-gray-100">
       <div className="mx-auto max-w-7xl">
         {/* Header Section with updated gradient effect */}
         <div className="mb-16 text-center">
-          <h1 className="gradient-text mb-4 text-6xl font-bold tracking-tight">
-            Exe-Com
-          </h1>
+          <h1 className=" mb-4 text-6xl font-bold tracking-tight">Execom</h1>
           <p className="text-xl text-gray-400">
             These are the people that make the magic happen.
           </p>
@@ -256,7 +279,9 @@ export default function TeamComponent() {
                 onClick={() => setFilter(category)}
                 variant={filter === category ? "default" : "secondary"}
                 className={`rounded-full transition-all duration-300 ${
-                  filter === category ? 'bg-blue-600 hover:bg-blue-700' : 'hover:bg-gray-400'
+                  filter === category
+                    ? "bg-blue-600 hover:bg-blue-700"
+                    : "hover:bg-gray-400"
                 }`}
               >
                 {category}
@@ -267,42 +292,50 @@ export default function TeamComponent() {
         {/* Team Members Grid */}
         <div className="flex flex-wrap justify-center gap-8">
           {teamMembers
-            .filter(member => filter === "All" || member.department === filter)
+            .filter(
+              (member) => filter === "All" || member.department === filter
+            )
             .map((member) => (
-              <div 
+              <Link
+                href={member.link}
                 key={member.name}
-                className="gradient-card rounded-xl p-1"
+                className="rounded-xl p-1 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
               >
-                <div className="gradient-card-content overflow-hidden rounded-lg">
+                <div className="overflow-hidden rounded-lg">
                   <div className="w-[280px]">
-                    <div className="relative">
+                    <div className="group relative">
                       <Image
                         width={280}
                         height={320}
-                        src={hoveredMember === member.name && showGif ? member.gif : member.image}
+                        unoptimized
+                        src={
+                          hoveredMember === member.name && showGif
+                            ? member.gif
+                            : member.image
+                        }
                         alt={member.name}
-                        className="h-[320px] w-full object-cover"
+                        className="h-[320px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
                         onMouseEnter={() => handleMouseEnter(member.name)}
                         onMouseLeave={handleMouseLeave}
                       />
                     </div>
-                    <div className="flex flex-col items-center space-y-4 bg-gray-800 p-6">
+                    <div className="flex flex-col items-center space-y-4 bg-gray-800 p-6 transition-opacity duration-300 group-hover:opacity-90">
                       <h3 className="text-center text-xl font-semibold text-gray-100">
                         {member.name}
                       </h3>
-                      <Badge 
-                        variant="secondary" 
-                        className="bg-blue-600/20 px-2 py-1 text-center text-base text-blue-400 hover:bg-blue-600/30"
+                      <Badge
+                        variant="secondary"
+                        className="bg-blue-600/20 px-2 py-1 text-center text-base text-blue-400 transition-all duration-300 hover:scale-105 hover:bg-blue-600/50"
                       >
                         {member.department}
                       </Badge>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
