@@ -3,10 +3,10 @@ import React from "react";
 const Headline = () => {
   return (
     <div className="flex flex-col items-center bg-black p-6 text-white">
-      <h1 className="mb-8 text-center font-silkscreen text-4xl font-serif tracking-wide text-[#20ebda]">
+      <h1 className="mb-8 text-center font-silkscreen text-4xl tracking-wide text-[#20ebda]">
         Empower Your Entrepreneurial Journey.
       </h1>
-      <h1 className="mb-8 text-center font-silkscreen text-4xl font-serif tracking-wide text-[#1a6099]">
+      <h1 className="mb-8 text-center font-silkscreen text-4xl tracking-wide text-[#1a6099]">
         Join our world-class entrepreneurship program designed to help
         innovators, creators, and dreamers succeed.
       </h1>
