@@ -133,7 +133,7 @@ const LandingPage = () => {
             onClick={() =>
               window.scrollTo({ top: window.innerHeight, behavior: "smooth" })
             }
-            className="btn relative z-10 flex h-12 w-52 items-center justify-center rounded border-2 border-[#F6E445] bg-black px-4 py-3 text-center font-silkscreen text-sm text-[#F6E445] hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg md:mt-12"
+            className="btn relative z-20 flex h-12 w-52 items-center justify-center rounded border-2 border-[#F6E445] bg-black px-4 py-3 text-center font-silkscreen text-sm text-[#F6E445] hover:cursor-pointer sm:mt-4 sm:px-7 sm:py-4 sm:text-lg md:mt-12"
           >
             <p>Know more</p>
           </button>
