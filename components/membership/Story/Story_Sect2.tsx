@@ -21,33 +21,6 @@ const StorySect2 = () => {
           </span>{" "}
           life.` <br />– Steve Jobs
         </motion.h2>
-        {/* <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ duration: 0.8 }} 
-          className="mb-8 flex flex-col items-center justify-center sm:flex-row sm:space-x-8"
-        >
-          <div className="mb-4 text-center sm:mb-0">
-            <Image 
-              src="/assets/gallery/1.webp" // Replace with the actual path of 2016 image
-              alt="2016"
-              width={256} // Adjust the width according to your design
-              height={256} // Adjust the height according to your design
-              className="mb-2 rounded-lg shadow-lg"
-            />
-            <p className="text-lg font-bold">2016</p>
-          </div>
-          <div className="text-center">
-            <Image 
-              src="/assets/gallery/2.webp" // Replace with the actual path of 2023 image
-              alt="2023"
-              width={256} // Adjust the width according to your design
-              height={256} // Adjust the height according to your design
-              className="mb-2 rounded-lg shadow-lg"
-            />
-            <p className="text-lg font-bold">2023</p>
-          </div>
-        </motion.div> */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

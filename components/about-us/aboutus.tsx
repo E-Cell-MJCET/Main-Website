@@ -1,12 +1,9 @@
-/* eslint-disable tailwindcss/no-contradicting-classname */
 "use client";
 
 import React, { useRef } from "react";
 import Image from "next/image";
 import { ReactLenis } from "lenis/react";
 import { useTransform, motion, useScroll, MotionValue } from "framer-motion";
-
-// import team from "@/public/assets/team3.png"
 
 const projects = [
   {
