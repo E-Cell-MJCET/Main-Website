@@ -44,7 +44,8 @@
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "react-icons": "^5.4.0",
-    "sonner": "^1.7.0"
+    "sonner": "^1.7.0",
+    "tailwind-merge": "^2.6.0"
   },
   "devDependencies": {
     "typescript": "^5",
