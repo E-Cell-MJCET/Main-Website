@@ -5,6 +5,8 @@ import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 
+import logo from "@/public/assets/Logo/logo-small-white.png"
+
 import { ShootingStars } from "../ui/shootingstars";
 import { StarsBackground } from "../ui/starsbackground";
 
@@ -64,10 +66,11 @@ const Hero = () => {
   return (
     <div className="max-w-screen flex h-screen flex-col items-center justify-center overflow-hidden bg-black px-4">
       <Image
-        src="/assets/Logo/ep-logo.png"
+        src={logo}
         alt="EP Logo"
         width={304}
         height={304}
+        priority
         className="demo1 z-10 mb-4 size-40 bg-clip-text sm:size-48 lg:size-64"
       />
       <p className="demo z-10 hidden bg-clip-text font-silkscreen text-3xl font-extrabold text-white sm:block sm:text-5xl ">

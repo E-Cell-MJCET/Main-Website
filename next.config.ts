@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
       "localhost",
       "img.freepik.com",
       "www.baass.com",
+      "images.unsplash.com",
     ], // Add your external image domains here
   },
 };
