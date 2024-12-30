@@ -34,12 +34,12 @@ const people = [
     designation: "/team",
     image: "/assets/Team/Execom/Technical/Aayan/Aayan.jpg",
   },
-  {
-    id: 6,
-    name: "Maliha Ishaq",
-    designation: "/team",
-    image: "/assets/Team/GB/maliha.jpeg",
-  },
+//   {
+//     id: 6,
+//     name: "Maliha Ishaq",
+//     designation: "/team",
+//     image: "/assets/Team/GB/maliha.jpeg",
+//   },
 ];
 
 export function TeamToolTip() {
