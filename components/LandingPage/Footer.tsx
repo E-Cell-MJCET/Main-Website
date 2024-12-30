@@ -176,7 +176,7 @@ const Footer = () => {
       <div className="h-px w-full bg-white"></div>
       <div className="mx-5 flex h-auto flex-col items-center justify-between px-5 py-4 md:h-[10vh] md:flex-row md:py-0">
         <p className="text-sm md:text-base">© Copyright E-Cell MJCET.</p>
-        <span className="flex flex-col items-center justify-center my-1 md:my-0 md:gap-5 font-silkscreen md:flex-row">
+        <span className="my-1 flex flex-col items-center justify-center font-silkscreen md:my-0 md:flex-row md:gap-5">
           <span className="text-sm md:text-base">Developed By :</span> <TeamToolTip />
         </span>
         <p className="text-sm md:text-base">All Rights Reserved.</p>
