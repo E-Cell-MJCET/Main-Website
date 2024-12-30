@@ -52,7 +52,7 @@ const DummyPage = ({ handleLoading }: { handleLoading?: any }) => {
   useGSAP(() => {
     gsap.to(".onemb", {
       delay: 0.2,
-      duration: 0.3,
+      duration: 0.2,
       //  x: 2000,
 
       onComplete: () => {
@@ -61,8 +61,8 @@ const DummyPage = ({ handleLoading }: { handleLoading?: any }) => {
       },
     });
     gsap.to(".twomb", {
-      delay: 0.5,
-      duration: 0.3,
+      delay: 0.4,
+      duration: 0.6,
 
       //  y: 2000,
       onComplete: () => {
@@ -72,8 +72,8 @@ const DummyPage = ({ handleLoading }: { handleLoading?: any }) => {
     });
 
     gsap.to(".threemb", {
-      delay: 0.8,
-      duration: 0.3,
+      delay: 0.6,
+      duration: 0.8,
       //  x: 2000,
 
       onComplete: () => {
@@ -85,7 +85,7 @@ const DummyPage = ({ handleLoading }: { handleLoading?: any }) => {
 
     gsap.to(".boxmb", {
       delay: 2,
-      duration: 2,
+      duration: 1.6,
       y: -2000,
       onComplete: () => {
         handleLoading();

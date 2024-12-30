@@ -101,7 +101,7 @@ const PreviousEvents = () => {
               height={200}
               className="h-[190px] w-full object-cover"
             />
-            <div className=" flex-col hidden h-[410] md:flex justify-between p-4 text-left">
+            <div className=" hidden h-[410] flex-col justify-between p-4 text-left md:flex">
               <div>
                 <h2 className="mb-2 text-lg font-bold text-white md:text-xl">
                   {event.title}
@@ -120,7 +120,7 @@ const PreviousEvents = () => {
                 Learn more <FaArrowRightLong />
               </a>
             </div>
-            <div className=" flex-col flex md:hidden justify-between p-4 text-left">
+            <div className=" flex flex-col justify-between p-4 text-left md:hidden">
               <div>
                 <h2 className="mb-2 text-lg font-bold text-white md:text-xl">
                   {event.title}

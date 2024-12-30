@@ -15,6 +15,8 @@ import irfan from "@/public/assets/irfan.jpeg";
 
 import { AnimatedTooltip } from "../ui/animated-tooltip";
 
+import { TeamToolTip } from "./teamToolTip";
+
 const Footer = () => {
   const people = [
     {
@@ -174,6 +176,9 @@ const Footer = () => {
       <div className="h-px w-full bg-white"></div>
       <div className="mx-5 flex h-auto flex-col items-center justify-between px-5 py-4 md:h-[10vh] md:flex-row md:py-0">
         <p className="text-sm md:text-base">© Copyright E-Cell MJCET.</p>
+        <span className="flex items-center gap-5 font-silkscreen">
+          Developed By : <TeamToolTip />
+        </span>
         <p className="text-sm md:text-base">All Rights Reserved.</p>
       </div>
     </footer>

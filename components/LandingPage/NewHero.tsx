@@ -138,8 +138,8 @@ const ParallaxImages = () => {
   );
 };
 
-const ParallaxImg = ({ className, alt, src, start, end }) => {
-  const ref = useRef(null);
+const ParallaxImg = ({ className, alt, src, start, end }:{className:any, alt:any,src:any, start:any,end:any}) => {
+  const ref = useRef(null); 
 
   const { scrollYProgress } = useScroll({
     target: ref,
