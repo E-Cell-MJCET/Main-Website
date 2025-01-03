@@ -1,3 +1,5 @@
+import CompleteProfilePage from "@/components/AdvanceProfile/CompletePage"
+
 export default async function Page({
   params,
 }: {
@@ -5,5 +7,5 @@ export default async function Page({
 }) {
   const username = (await params).username
   
-return <div>Profile of: {username}</div>
+return <CompleteProfilePage params={{ username }} />
 }
