@@ -1,12 +1,13 @@
 "use client";
 import Image from 'next/image';
 import { FaUserTie, FaUsers } from 'react-icons/fa'; // Add FaUsers for Governing Body badge
+// import { MdEdit } from "react-icons/md";// edit Icons 
 
 import { HeaderProps } from '@/types/ProfileTypes';
 
 const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Personal_url }) => {
   return (
-    <div className="rounded-2xl bg-gray-200">
+    <div className="w-5/6 rounded-2xl bg-gray-200 p-6 md:w-2/3">
       {/* Banner Section */}
       <div className="relative">
         <Image
@@ -16,9 +17,9 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
           width={1200}
           height={400}
         />
-        <button className="absolute right-4 top-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
-          <i className="fas fa-edit"></i>
-        </button>
+        {/* <button className="absolute right-4 top-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
+          <MdEdit />
+        </button> */}
       </div>
       {/* Profile Picture Section */}
       <div className="relative flex justify-center">
@@ -31,9 +32,9 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
             height={200}
           />
         </div>
-        <button className="absolute bottom-0 right-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
-          <i className="fas fa-camera"></i>
-        </button>
+        {/* <button className="absolute right-4 top-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
+          <MdEdit />
+        </button> */}
       </div>
       {/* User Info Section */}
       <div className="mt-6 text-center">
@@ -70,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
             Visit my Website
           </a>
         )}
-        <p className="text-gray-500">471 connections</p>
+        {/* <p className="text-gray-500">471 connections</p> */}
       </div>
       {/* Buttons Section */}
       <div className="mt-6 flex justify-center space-x-4">

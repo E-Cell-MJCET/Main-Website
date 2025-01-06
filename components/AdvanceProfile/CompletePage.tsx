@@ -5,6 +5,9 @@ import { createClient } from '@supabase/supabase-js';
 
 import Header from '@/components/AdvanceProfile/Header';
 
+import AdvExperience from './Experience';
+import AdvEducation from './Education';
+
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -51,16 +54,21 @@ export default function CompleteProfilePage({ params }: { params: { username: st
   if (!userData) return <div>No user found</div>;
   console.log(userData)
 
-  return (
-    <div className="flex flex-col items-center">
-      <br />
-      <Header
+return (
+  <div className="flex flex-col items-center">
+    <br />
+    <Header
         name={userData.Name}
         Location={userData.Location}
         member_Type={userData.Member_Type}
         Personal_url={userData.Personal_url}
         about={userData.About}
-      />
-    </div>
-  );
+        />
+    <br />
+    <AdvExperience experienceData={userData.Experience!} />
+    <br />
+    <AdvEducation educationData={userData.Education!} />
+  </div>
+      
+);
 }

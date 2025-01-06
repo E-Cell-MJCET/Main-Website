@@ -33,6 +33,8 @@ yarn-error.log*
 .env
 .env.local
 .env.original
+## Local development env variables for cloudflare workers instead of wrangler.toml
+.dev.vars 
 
 # vercel
 .vercel
