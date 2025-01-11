@@ -1,7 +1,6 @@
 "use client";
 import Image from 'next/image';
 import { FaUserTie, FaUsers } from 'react-icons/fa'; // Add FaUsers for Governing Body badge
-// import { MdEdit } from "react-icons/md";// edit Icons 
 
 import { HeaderProps } from '@/types/ProfileTypes';
 
@@ -17,9 +16,6 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
           width={1200}
           height={400}
         />
-        {/* <button className="absolute right-4 top-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
-          <MdEdit />
-        </button> */}
       </div>
       {/* Profile Picture Section */}
       <div className="relative flex justify-center">
@@ -32,9 +28,6 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
             height={200}
           />
         </div>
-        {/* <button className="absolute right-4 top-4 rounded-full bg-gray-800 p-2 text-white hover:bg-gray-700">
-          <MdEdit />
-        </button> */}
       </div>
       {/* User Info Section */}
       <div className="mt-6 text-center">
