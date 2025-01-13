@@ -4,7 +4,7 @@ import { FaUserTie, FaUsers } from 'react-icons/fa'; // Add FaUsers for Governin
 
 import { HeaderProps } from '@/types/ProfileTypes';
 
-const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Personal_url }) => {
+const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, Personal_url }) => {
   return (
     <div className="w-5/6 rounded-2xl bg-gray-200 p-6 md:w-2/3">
       {/* Banner Section */}
@@ -46,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Per
           </span>
         </h1>
         <p className="mx-8 mt-2 text-gray-600">
-          {about}
+          {Tagline}
         </p>
         <div className="mt-4 flex items-center justify-center space-x-4">
           <p className="text-gray-500">{Location}</p>

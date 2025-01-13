@@ -35,11 +35,13 @@ export default function CompleteProfilePage({ params }: { params: { username: st
           .single(); // Expecting a single row
 
         if (error) {
+          console.log("Error is :-> ",error)
           setError('Error fetching profile data');
         } else {
           setUserData(data);
         }
       } catch (err: any) {
+        console.log(err);
         setError(`An error occurred while fetching profile data: ${err.message}`);
       } finally {
         setLoading(false);
@@ -62,7 +64,7 @@ return (
         Location={userData.Location}
         member_Type={userData.Member_Type}
         Personal_url={userData.Personal_url}
-        about={userData.About}
+        Tagline={userData.Tagline}
         contact_info={userData.Contact_Info}
     />
     <br />
@@ -71,7 +73,7 @@ return (
         Location={userData.Location}
         member_Type={userData.Member_Type}
         Personal_url={userData.Personal_url}
-        about={userData.About}
+        Tagline={userData.Tagline}
         contact_info={userData.Contact_Info}
         />
     <br />

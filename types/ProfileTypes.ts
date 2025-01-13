@@ -46,7 +46,7 @@ interface ContactInfo {
 
 export interface HeaderProps{
   name:string;
-  about:string;
+  Tagline:string;
   member_Type:string;
   Location:string;
   Personal_url:string;

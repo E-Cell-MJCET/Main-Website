@@ -7,7 +7,7 @@ import { HeaderProps } from '@/types/ProfileTypes';
 
 import Popup from './ContactPopup'; // Import the Popup component
 
-const Header2: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Personal_url,contact_info }) => {
+const Header2: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, Personal_url,contact_info }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
 
   // Function to open the popup
@@ -21,7 +21,7 @@ const Header2: React.FC<HeaderProps> = ({ name, about, member_Type, Location, Pe
       {/* Left Content Section */}
       <div className="flex w-full flex-col items-start space-y-4 md:w-1/2">
         <h1 className="text-3xl font-bold md:text-4xl">Hi! 👋<br /> I`m {name}</h1>
-        <p className="text-lg text-gray-300">{about}</p>
+        <p className="text-lg text-gray-300">{Tagline}</p>
         <div className="flex items-center space-x-2">
           <span className="text-sm font-medium text-gray-400">{Location}</span>
         </div>
