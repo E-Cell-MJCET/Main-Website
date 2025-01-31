@@ -7,7 +7,6 @@ import Header from '@/components/AdvanceProfile/Header';
 
 import AdvExperience from './Experience';
 import AdvEducation from './Education';
-import Header2 from './H2';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -58,17 +57,9 @@ export default function CompleteProfilePage({ params }: { params: { username: st
   console.log(userData)
 
 return (
-  <div className="flex flex-col items-center">
-    <Header2
-        name={userData.Name}
-        Location={userData.Location}
-        member_Type={userData.Member_Type}
-        Personal_url={userData.Personal_url}
-        Tagline={userData.Tagline}
-        contact_info={userData.Contact_Info}
-    />
-    <br />
-    <Header
+  <>
+    <div className="flex flex-col items-center bg-gradient-to-r from-black to-teal-900 p-6">
+      <Header
         name={userData.Name}
         Location={userData.Location}
         member_Type={userData.Member_Type}
@@ -76,13 +67,17 @@ return (
         Tagline={userData.Tagline}
         contact_info={userData.Contact_Info}
         />
+    </div>
     <br />
     <br />
-    <AdvExperience experienceData={userData.Experience!} />
+    <div className='flex flex-col items-center'>
+      <AdvExperience experienceData={userData.Experience!} />
+    </div>
     <br />
-    <AdvEducation educationData={userData.Education!} />
+    <div className='flex flex-col items-center'>
+      <AdvEducation educationData={userData.Education!} />
+    </div>
     <br />
-  </div>
-      
+  </>
 );
 }

@@ -1,39 +1,32 @@
 "use client";
+import React, { useState } from 'react';
 import Image from 'next/image';
-import { FaUserTie, FaUsers } from 'react-icons/fa'; // Add FaUsers for Governing Body badge
+import { FaInstagram, FaLinkedin, FaGlobe, FaBehance, FaUserTie, FaUsers } from 'react-icons/fa';
 
 import { HeaderProps } from '@/types/ProfileTypes';
 
-const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, Personal_url }) => {
+import Popup from './ContactPopup'; // Import the Popup component
+
+const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, Personal_url,contact_info }) => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
+
+  // Function to open the popup
+  const openPopup = () => setIsPopupOpen(true);
+
+  // Function to close the popup
+  const closePopup = () => setIsPopupOpen(false);
+
   return (
-    <div className="w-5/6 rounded-2xl bg-gray-200 p-6 md:w-2/3">
-      {/* Banner Section */}
-      <div className="relative">
-        <Image
-          src="/assets/execomTH.webp"
-          alt="Banner"
-          className="h-58 w-full object-cover md:h-64"
-          width={1200}
-          height={400}
-        />
-      </div>
-      {/* Profile Picture Section */}
-      <div className="relative flex justify-center">
-        <div className="-mt-16 size-32 overflow-hidden rounded-full border-4 border-white md:size-40">
-          <Image
-            src="/assets/Team/Execom/Technical/Adnan/trial_logo.jpg" // This should be dynamically passed as a prop if needed
-            alt="Profile"
-            className="size-full object-cover"
-            width={200}
-            height={200}
-          />
+    <div className="flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-gradient-to-r from-black to-teal-900 p-6 text-white md:flex-row md:items-center md:justify-between">
+      {/* Left Content Section */}
+      <div className="flex w-full flex-col items-start space-y-4 md:w-1/2">
+        <h1 className="text-3xl font-bold md:text-4xl">Hi! 👋<br /> I`m {name}</h1>
+        <p className="text-lg text-gray-300">{Tagline}</p>
+        <div className="flex items-center space-x-2">
+          <span className="text-sm font-medium text-gray-400">{Location}</span>
         </div>
-      </div>
-      {/* User Info Section */}
-      <div className="mt-6 text-center">
-        <h1 className="text-2xl font-bold md:text-3xl">
-          {name}
-          <span className="ml-3 inline-flex items-center justify-center rounded-full border-2 border-gray-300 px-3 py-1 text-sm font-medium text-gray-700">
+        <div className="flex items-center space-x-2">
+          <span className="inline-flex items-center justify-center rounded-full border-2 border-gray-300 px-3 py-1 text-sm font-medium text-gray-300">
             {member_Type === "Executive" ? (
               <>
                 <FaUserTie className="mr-1" /> Executive Member
@@ -44,44 +37,49 @@ const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, P
               </>
             )}
           </span>
-        </h1>
-        <p className="mx-8 mt-2 text-gray-600">
-          {Tagline}
-        </p>
-        <div className="mt-4 flex items-center justify-center space-x-4">
-          <p className="text-gray-500">{Location}</p>
-          {Personal_url && (
-            <a href={Personal_url} className="text-blue-500 hover:underline">
-              Contact info
+        </div>
+        {/* Show Contact Info Button */}
+        <button
+          onClick={openPopup}
+          className="mt-4 rounded-md px-4 py-2 text-blue-500 hover:bg-black hover:text-white"
+        >
+          Show Contact Info
+        </button>
+        {/* Buttons Section */}
+        <div className="mt-4 flex space-x-4">
+          <button className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+            Download CV
+          </button>
+          <div className="flex space-x-4">
+            <a href="#" className="text-gray-400 hover:text-blue-500">
+              <FaInstagram size={24} />
             </a>
-          )}
+            <a href="#" className="text-gray-400 hover:text-blue-500">
+              <FaLinkedin size={24} />
+            </a>
+            <a href={Personal_url} className="text-gray-400 hover:text-blue-500">
+              <FaGlobe size={24} />
+            </a>
+            <a href={Personal_url} className="text-gray-400 hover:text-blue-500">
+              <FaBehance size={24} />
+            </a>
+          </div>
         </div>
       </div>
-      {/* Links Section */}
-      <div className="mt-6 flex items-center justify-center space-x-6">
-        {Personal_url && (
-          <a href={Personal_url} className="text-blue-500 hover:underline">
-            Visit my Website
-          </a>
-        )}
-        {/* <p className="text-gray-500">471 connections</p> */}
+      {/* Right Image Section */}
+      <div className="relative mt-8 flex w-full justify-center md:mt-0 md:w-1/2">
+        <div className="h-[350px] w-[250px] rounded-lg border-4 border-blue-500 shadow-xl transition-all duration-300 hover:scale-105 hover:border-blue-700 md:h-[400px] md:w-[280px]">
+          <Image
+            src="/assets/Team/Execom/Technical/Adnan/trial_logo.jpg" // Replace with dynamic image if needed
+            alt="Profile"
+            className="size-full object-cover"
+            width={280}
+            height={400}
+          />
+        </div>
       </div>
-      {/* Buttons Section */}
-      <div className="mt-6 flex justify-center space-x-4">
-        <button className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-          Open to
-        </button>
-        <button className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300">
-          Add profile section
-        </button>
-        <button className="rounded-md bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300">
-          Enhance profile
-        </button>
-      </div>
-      {/* Footer Section */}
-      <div className="mt-6 text-center text-gray-500">
-        <p>Resources</p>
-      </div>
+      {/* Contact Info Popup */}
+      <Popup isOpen={isPopupOpen} onClose={closePopup} contact_info={contact_info}/>
     </div>
   );
 };
