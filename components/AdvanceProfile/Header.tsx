@@ -1,9 +1,13 @@
 "use client";
 import React, { useState } from 'react';
 import Image from 'next/image';
+import {motion,useScroll,useTransform} from "framer-motion";
 import { FaInstagram, FaLinkedin, FaGlobe, FaBehance, FaUserTie, FaUsers } from 'react-icons/fa';
 
+// import { ParticleCanvas } from "@/hooks/particle";
+
 import { HeaderProps } from '@/types/ProfileTypes';
+import { ParticleCanvas } from '@/hooks/particle';
 
 import Popup from './ContactPopup'; // Import the Popup component
 
@@ -16,8 +20,12 @@ const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, P
   // Function to close the popup
   const closePopup = () => setIsPopupOpen(false);
 
+  const {scrollY} = useScroll();
+  const y   =useTransform(scrollY, [0, 500], [0, 100]);
+
   return (
     <div className="flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-gradient-to-r from-black to-teal-900 p-6 text-white md:flex-row md:items-center md:justify-between">
+      <ParticleCanvas/>
       {/* Left Content Section */}
       <div className="flex w-full flex-col items-start space-y-4 md:w-1/2">
         <h1 className="text-3xl font-bold md:text-4xl">Hi! 👋<br /> I`m {name}</h1>
@@ -67,7 +75,7 @@ const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, P
         </div>
       </div>
       {/* Right Image Section */}
-      <div className="relative mt-8 flex w-full justify-center md:mt-0 md:w-1/2">
+      {/* <div className="relative mt-8 flex w-full justify-center md:mt-0 md:w-1/2">
         <div className="h-[350px] w-[250px] rounded-lg border-4 border-blue-500 shadow-xl transition-all duration-300 hover:scale-105 hover:border-blue-700 md:h-[400px] md:w-[280px]">
           <Image
             src="/assets/Team/Execom/Technical/Adnan/trial_logo.jpg" // Replace with dynamic image if needed
@@ -77,7 +85,85 @@ const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, P
             height={400}
           />
         </div>
-      </div>
+      </div> */}
+      {/* Image Card */}
+      <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
+            // className="relative lg:w-2/5"
+            className="relative mt-8 w-full md:w-2/5"
+            style={{y}}
+        >
+        {/* <div className="realtive group aspect-square w-full"> */}
+        <div className="realtive aspect-w-1 aspect-h-1/2 group w-full">
+          {/* Animated Border */}
+          <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: 'mirror'
+                }}
+                className="absoulte to-tertiary/30 inset-0
+                    rounded-3xl bg-gradient-to-r
+                from-primary/30 via-secondary/30
+                  opacity-50"
+            />
+          {/* Floating Animation */}
+          <motion.div
+                animate={{ y: [0, -20, 0] }}
+                transition={{
+                    duration: 6,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                }}
+                className="realtive bg-surface aspect-square 
+                w-full overflow-hidden
+                rounded-3xl border border-white/10 
+                backdrop-blur-sm"
+            >
+            <Image src="/assets/Team/Execom/Technical/Adnan/trial_logo.jpg"
+                alt="Avatar"
+                fill
+                className="scale-110 object-cover transition-transform
+                        duration-500 group-hover:scale-100" />
+            <div
+                className="absoulte inset-0 bg-gradient-to-t
+                    from-black/60 to-transparent"
+            />
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{
+                    delay: 0.6
+                }}
+                className="absolute bottom-8 left-8"
+            >
+              <div className="text-content text-2xl font-bold">
+                Based in
+                <motion.span
+                      className="block bg-gradient-to-r
+                       from-primary to-secondary bg-clip-text text-transparent"
+                      animate={{ backgroundPosition: ['0% 50%', '100% 50%'] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: 'mirror'
+                      }}
+                      style={{
+                        backgroundSize: '200% 200%'
+                      }}
+                    >
+                  San Francisco, CA
+                </motion.span>
+              </div>
+            </motion.div>
+
+          </motion.div>
+        </div>
+      </motion.div>
       {/* Contact Info Popup */}
       <Popup isOpen={isPopupOpen} onClose={closePopup} contact_info={contact_info}/>
     </div>

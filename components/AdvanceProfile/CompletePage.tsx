@@ -59,6 +59,7 @@ export default function CompleteProfilePage({ params }: { params: { username: st
 return (
   <>
     <div className="flex flex-col items-center bg-gradient-to-r from-black to-teal-900 p-6">
+      <br />
       <Header
         name={userData.Name}
         Location={userData.Location}
@@ -68,8 +69,6 @@ return (
         contact_info={userData.Contact_Info}
         />
     </div>
-    <br />
-    <br />
     <div className='flex flex-col items-center'>
       <AdvExperience experienceData={userData.Experience!} />
     </div>
