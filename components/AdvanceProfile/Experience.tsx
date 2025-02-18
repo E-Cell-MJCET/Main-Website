@@ -25,7 +25,7 @@ interface ExperienceProps {
 
 const AdvExperience: React.FC<ExperienceProps> = ({ experienceData }) => {
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black">
+    <div className="relative min-h-screen w-full overflow-hidden bg-black py-4">
       {/* Particle Canvas for Experience Background */}
       <ParticleCanvas />
       {/* Experience Content */}
@@ -33,7 +33,7 @@ const AdvExperience: React.FC<ExperienceProps> = ({ experienceData }) => {
         <h1 className="mb-4 text-2xl font-bold">Experience</h1>
         <div>
           {experienceData.map((company, index) => (
-            <div key={index} className="mb-8">
+            <div key={index} className="mb-8 pb-9">
               {/* Company Header */}
               <div className="mb-4 flex items-center">
                 {company.logo && (
