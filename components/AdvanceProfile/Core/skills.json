@@ -1,0 +1,48 @@
+{
+      "Languages": [
+        "English"
+      ],
+      "Industry Knowledge": [
+        "Industrial Knowledge",
+        "Start-up Leadership",
+        "Software Design",
+        "Content Strategy",
+        "Social Media Content Creation",
+        "Digital Marketing Media",
+        "Database Design",
+        "Program Creation",
+        "Software Infrastructure",
+        "Project Management",
+        "API",
+        "GUI",
+        "User Interface Design",
+        "Social Media Marketing",
+        "Web Hosting",
+        "Research Skills",
+        "Web Development"
+      ],
+      "Interpersonal Skills": [
+        "Strategic Thinking",
+        "Strategic Planning",
+        "Leadership",
+        "Communication",
+        "Strategy",
+        "Problem Solving"
+      ],
+      "Tools & Technologies": [
+        "Arduino",
+        "Git Bash",
+        "MERN Stack",
+        "GIT",
+        "TailwindCSS",
+        "Tkinter",
+        "NextJS",
+        "CSS",
+        "Bootstrap",
+        "ReactJS",
+        "MYSQL",
+        "HTML",
+        "C (Programming Language)",
+        "Python"
+      ]
+}

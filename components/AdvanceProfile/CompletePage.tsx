@@ -6,7 +6,11 @@ import { createClient } from '@supabase/supabase-js';
 import Header from '@/components/AdvanceProfile/Header';
 
 import AdvExperience from './Experience';
-import AdvEducation from './Education';
+// import AdvEducation from './Education';
+import Loading from './Loading';
+import Education from './Core/Education';
+import About from './Core/About';
+import Skills from './Core/Skills';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -50,11 +54,13 @@ export default function CompleteProfilePage({ params }: { params: { username: st
     fetchData();
   }, [username]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
   if (error) return <div>{error}</div>;
 
   if (!userData) return <div>No user found</div>;
   console.log(userData)
+
+  const skillsData = userData.Skills || {};  // Ensure it's not undefined or null
 
 return (
   <>
@@ -69,14 +75,18 @@ return (
         contact_info={userData.Contact_Info}
         />
     </div>
+    <About aboutText={userData.About}/>
     <div className='flex flex-col items-center'>
       <AdvExperience experienceData={userData.Experience!} />
     </div>
-    <br />
+    {/* <br />
     <div className='flex flex-col items-center'>
       <AdvEducation educationData={userData.Education!} />
-    </div>
-    <br />
+    </div> */}
+    {/* <br /> */}
+    <Education educationData={userData.Education}/>
+    {/* <p>{userData.Skills}</p> */}
+    <Skills skills={skillsData}/>
   </>
 );
 }

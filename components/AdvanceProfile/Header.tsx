@@ -153,7 +153,7 @@ const Header: React.FC<HeaderProps> = ({ name, Tagline, member_Type, Location, P
                         backgroundSize: '200% 200%'
                       }}
                     >
-                  San Francisco, CA
+                  {Location}
                 </motion.span>
               </div>
             </motion.div>

@@ -18,7 +18,7 @@ interface EducationProps {
 
 const AdvEducation: React.FC<EducationProps> = ({ educationData }) => {
   return (
-    <div className="w-5/6 rounded-2xl bg-gray-200 p-6 md:w-2/3">
+    <div className="w-5/6 rounded-2xl from-black to-teal-900 p-6 md:w-2/3">
       <h1 className="mb-4 text-2xl font-bold">Education</h1>
       <div>
         {educationData.map((education, index) => (
