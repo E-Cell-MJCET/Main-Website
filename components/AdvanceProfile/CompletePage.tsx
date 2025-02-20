@@ -11,6 +11,11 @@ import Loading from './Loading';
 import Education from './Core/Education';
 import About from './Core/About';
 import Skills from './Core/Skills';
+import LicencesCertifications from './Recommended/Licences&Certifications';
+import Projects from './Recommended/Projects';
+import {Recommendations} from './Recommended/Recommendations';
+import Featured from './Recommended/Featured';
+// import Services from './Core/Services';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -87,6 +92,13 @@ return (
     <Education educationData={userData.Education}/>
     {/* <p>{userData.Skills}</p> */}
     <Skills skills={skillsData}/>
+    {/* <Services
+    services_info={userData.Services_Info}
+    /> */}
+    <LicencesCertifications Licenses_info={userData.LicensesCertifications}/>
+    <Projects projects={userData.Projects}/>
+    <Recommendations testimonials={userData.Testimonials.testimonials}/>
+    <Featured featuredItems={userData.Featured.featured}/>
   </>
 );
 }

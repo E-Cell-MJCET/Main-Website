@@ -93,7 +93,8 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
         </motion.div>
         {/* Skill Cards */}
         <motion.div
-          className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-2"
+          // className="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-2"
+          className="flex flex-wrap justify-center gap-0 py-4 md:justify-between lg:justify-center"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -102,18 +103,18 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
           {skills[activeCategory].slice(0, 2).map((skill, skillIndex) => (
             <motion.div
               key={skillIndex}
-              className="cursor-pointer rounded-lg bg-gray-800 p-6 shadow-lg"
+              className="cursor-pointer rounded-lg bg-gray-800 p-5 shadow-lg"
               variants={itemVariants}
               whileHover={hoverVariants}
               transition={{ type: 'spring', stiffness: 300 }}
             >
-              <p className="text-sm text-gray-300">{skill}</p>
+              <p className="text-xl text-gray-300">{skill}</p>
             </motion.div>
           ))}
           {/* "Show More" button in the same row as skills */}
           {skills[activeCategory].length > 2 && (
             <motion.button
-              className="col-span-1 mt-4 rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white hover:bg-blue-700 md:col-span-1 lg:col-span-1"
+              className="col-span-1  mt-4 rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white hover:bg-blue-700 md:col-span-1 lg:col-span-1"
               onClick={() => handleShowMore(activeCategory)}
             >
               Show More
