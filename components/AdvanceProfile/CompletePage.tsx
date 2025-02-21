@@ -15,6 +15,9 @@ import LicencesCertifications from './Recommended/Licences&Certifications';
 import Projects from './Recommended/Projects';
 import {Recommendations} from './Recommended/Recommendations';
 import Featured from './Recommended/Featured';
+import HonorsAwards from './Additional/Honors&Awards';
+import TestScores from './Additional/Test&Scores';
+import VolunteerExperience from './Additional/VolunteerExperience';
 // import Services from './Core/Services';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
@@ -99,6 +102,9 @@ return (
     <Projects projects={userData.Projects}/>
     <Recommendations testimonials={userData.Testimonials.testimonials}/>
     <Featured featuredItems={userData.Featured.featured}/>
+    <HonorsAwards HonorsAwards_info={userData.HonorsAwards}/>
+    <TestScores TestScores={userData.TestScores.TestScores}/>
+    <VolunteerExperience volunteerItems={userData.VolunteerExperience.volunteerContent}/>
   </>
 );
 }
