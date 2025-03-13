@@ -61,7 +61,7 @@ const About: React.FC<AboutProps> = ({ aboutText }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h2 className="mb-6 text-4xl font-bold text-gray-800">About Us</h2>
+          <h2 className="mb-6 text-4xl font-bold text-gray-800">About</h2>
           <p className="text-lg leading-relaxed text-gray-700">
             {aboutText}
           </p>

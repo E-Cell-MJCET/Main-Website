@@ -1,46 +1,203 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { MdInfoOutline, MdFileUpload, MdEdit } from "react-icons/md";
+import { IoMdCloseCircle } from "react-icons/io";
 
-const Step3Welcome = ({ onNext, onPrevious }: { onNext: () => void; onPrevious: () => void }) => {
-  const [learningPreferences, setLearningPreferences] = useState<string[]>([]);
-  const [pace, setPace] = useState("");
-  const [gamifiedInterest, setGamifiedInterest] = useState<number>(3); // Default to level 3
-  const [storytellingInterest, setStorytellingInterest] = useState<number>(3); // Default to level 3
+// Define a type for all possible section names
+type SectionName = 
+  | "About" | "Education" | "Products" | "Services" | "Skills"
+  | "Featured" | "Licenses & Certifications" | "Projects" | "Recommendations"
+  | "Causes" | "Honors & Awards" | "Test & Scores" | "Volunteer Experience";
 
-  const preferences = [
-    "Kinesthetic (hands-on, interactive projects)",
-    "Reading/Writing (text-based content, guides)",
-    "Gamified learning",
-    "Storytelling-based",
-    "A mix of everything",
-  ];
+const Step3Welcome = ({
+  onNext,
+  onPrevious,
+}: {
+  onNext: () => void;
+  onPrevious: () => void;
+}) => {
+  // State for selected sections in each category
+  const [coreSelections, setCoreSelections] = useState<SectionName[]>([]);
+  const [recommendedSelections, setRecommendedSelections] = useState<SectionName[]>([]);
+  const [additionalSelections, setAdditionalSelections] = useState<SectionName[]>([]);
+  
+  // State for interactive tooltips
+  const [activeTooltip, setActiveTooltip] = useState<SectionName | null>(null);
+  
+  // New state for profile image
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
+  const [showImageTooltip, setShowImageTooltip] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleCheckboxChange = (preference: string) => {
-    setLearningPreferences((prev) =>
-      prev.includes(preference) ? prev.filter((item) => item !== preference) : [...prev, preference]
-    );
+  // Effect to show initial tooltip
+  useEffect(() => {
+    // Auto-hide the tooltip after 5 seconds
+    const timer = setTimeout(() => {
+      setShowImageTooltip(false);
+    }, 5000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Handle image file selection
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setProfileImage(file);
+      setProfileImageURL(URL.createObjectURL(file));
+      setShowImageTooltip(false);
+    }
+  };
+
+  // Clear selected image
+  const clearImage = () => {
+    setProfileImage(null);
+    if (profileImageURL) {
+      URL.revokeObjectURL(profileImageURL);
+      setProfileImageURL(null);
+    }
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // Portfolio options by category
+  const portfolioSections: Record<'core' | 'recommended' | 'additional', SectionName[]> = {
+    core: ["About", "Education", "Products", "Services", "Skills"],
+    recommended: ["Featured", "Licenses & Certifications", "Projects", "Recommendations"],
+    additional: ["Causes", "Honors & Awards", "Test & Scores", "Volunteer Experience"]
+  };
+
+  // Section descriptions
+  const sectionDescriptions: Record<SectionName, string> = {
+    // Core
+    "About": "Your professional summary and personal bio to introduce yourself to visitors.",
+    "Education": "Your academic background, degrees, and certifications.",
+    "Products": "Products you've created or been involved with developing.",
+    "Services": "Professional services you offer or specialize in.",
+    "Skills": "Technical and soft skills that showcase your capabilities.",
+    
+    // Recommended
+    "Featured": "Highlight your best work, publications, or achievements at the top of your profile.",
+    "Licenses & Certifications": "Professional licenses and certifications you've earned.",
+    "Projects": "Significant projects you've completed or contributed to.",
+    "Recommendations": "Testimonials and endorsements from colleagues and clients.",
+    
+    // Additional
+    "Causes": "Social causes, initiatives, or organizations you support or volunteer with.",
+    "Honors & Awards": "Recognition and achievements you've received.",
+    "Test & Scores": "Standardized test scores or professional assessments.",
+    "Volunteer Experience": "Your history of volunteer work and community service."
+  };
+
+  // Handle selection changes
+  const handleSelectionChange = (category: 'core' | 'recommended' | 'additional', section: SectionName) => {
+    switch (category) {
+      case 'core':
+        setCoreSelections(prev => 
+          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
+        );
+        break;
+      case 'recommended':
+        setRecommendedSelections(prev => 
+          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
+        );
+        break;
+      case 'additional':
+        setAdditionalSelections(prev => 
+          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
+        );
+        break;
+    }
   };
 
   const handleNext = () => {
-    if (learningPreferences.length === 0 || pace.trim() === "") {
-      alert("Please select at least one learning preference and a pace.");
-      
-return;
-    }
-    console.log("Learning Preferences:", learningPreferences);
-    console.log("Preferred Pace:", pace);
-    if (learningPreferences.includes("Gamified learning")) {
-      console.log("Interest in Gamified Learning:", gamifiedInterest);
-    }
-    if (learningPreferences.includes("Storytelling-based")) {
-      console.log("Interest in Storytelling:", storytellingInterest);
-    }
+    console.log("Profile Image:", profileImage);
+    console.log("Core Selections:", coreSelections);
+    console.log("Recommended Selections:", recommendedSelections);
+    console.log("Additional Selections:", additionalSelections);
     onNext();
   };
 
+  const toggleTooltip = (section: SectionName) => {
+    if (activeTooltip === section) {
+      setActiveTooltip(null);
+    } else {
+      setActiveTooltip(section);
+    }
+  };
+
+  // Function to render section options
+  const renderSectionOptions = (
+    category: 'core' | 'recommended' | 'additional', 
+    selections: SectionName[], 
+    title: string,
+    bgColor: string,
+    borderColor: string
+  ) => (
+    <div className="mb-8">
+      <h3 className="mb-3 text-xl font-semibold text-gray-800">
+        {title}
+      </h3>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {portfolioSections[category].map((section) => (
+          <div key={section} className="relative">
+            <label
+              className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 transition ${
+                selections.includes(section)
+                  ? `border-${borderColor} bg-${bgColor}`
+                  : "border-gray-300 bg-gray-100"
+              }`}
+            >
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={selections.includes(section)}
+                  onChange={() => handleSelectionChange(category, section)}
+                  className={`form-checkbox text- size-5${borderColor}`}
+                />
+                <span className="ml-3 font-medium text-gray-700">{section}</span>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  toggleTooltip(section);
+                }}
+                className="text-gray-500 hover:text-gray-700"
+                aria-label={`Learn about ${section}`}
+              >
+                <MdInfoOutline size={20} />
+              </button>
+            </label>
+            {/* Tooltip */}
+            {activeTooltip === section && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute right-0 top-full z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white p-4 shadow-lg"
+              >
+                <p className="text-sm text-gray-700">
+                  {sectionDescriptions[section]}
+                </p>
+                <button
+                  onClick={() => setActiveTooltip(null)}
+                  className={`text- mt-2 text-sm${borderColor} hover:underline`}
+                >
+                  Close
+                </button>
+              </motion.div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-50 to-teal-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-50 to-red-100 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -48,103 +205,107 @@ return;
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Let’s understand your learning preferences! 📘🎮
+          Customize Your Portfolio 📋
         </h2>
-        {/* Learning Preferences */}
-        <div className="mb-6">
-          <h3 className="mb-3 text-lg font-semibold text-gray-700">
-            What is your preferred way of learning? (Select all that apply)
+        {/* Profile Image Upload Section */}
+        <div className="relative mb-10">
+          <h3 className="mb-3 text-xl font-semibold text-gray-800">
+            Profile Header Image
           </h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {preferences.map((preference) => (
-              <label
-                key={preference}
-                className="flex cursor-pointer items-center space-x-3 rounded-lg bg-teal-50 p-3 transition hover:bg-teal-100"
+          <div className="flex flex-col items-center">
+            <div 
+              className="relative mb-4 flex h-48 w-full max-w-lg flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50"
+            >
+              {profileImageURL ? (
+                <div className="relative size-full">
+                  <img 
+                    src={profileImageURL} 
+                    alt="Profile Header" 
+                    className="size-full rounded-lg object-cover"
+                  />
+                  <div className="absolute right-2 top-2 flex space-x-2">
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
+                      title="Change image"
+                    >
+                      <MdEdit size={20} className="text-gray-700" />
+                    </button>
+                    <button
+                      onClick={clearImage}
+                      className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
+                      title="Remove image"
+                    >
+                      <IoMdCloseCircle size={20} className="text-red-500" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <MdFileUpload className="size-12 text-gray-400" />
+                  <p className="mt-2 text-sm text-gray-500">Click to upload a profile header image</p>
+                  <p className="text-xs text-gray-400">Recommended size: 1200 x 300 pixels</p>
+                </>
+              )}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="hidden"
+              />
+              {/* Only show the overlay button if no image is selected */}
+              {!profileImageURL && (
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="absolute inset-0 size-full cursor-pointer"
+                  aria-label="Upload profile header image"
+                ></button>
+              )}
+            </div>
+            {/* Interactive tooltip that appears on first load */}
+            {showImageTooltip && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="absolute -top-16 w-full max-w-md rounded-lg border border-blue-200 bg-blue-50 p-4 shadow-lg"
               >
-                <input
-                  type="checkbox"
-                  value={preference}
-                  checked={learningPreferences.includes(preference)}
-                  onChange={() => handleCheckboxChange(preference)}
-                  className="form-checkbox size-5 text-teal-500"
-                />
-                <span className="font-medium text-gray-700">{preference}</span>
-              </label>
-            ))}
+                <div className="flex items-start">
+                  <MdInfoOutline size={24} className="mr-3 mt-0.5 shrink-0 text-blue-500" />
+                  <div>
+                    <p className="text-sm text-gray-700">
+                      <strong>Make a great first impression!</strong> Your profile header image is the first thing visitors will see. Choose an image that represents your professional identity or showcases your work.
+                    </p>
+                    <button
+                      onClick={() => setShowImageTooltip(false)}
+                      className="mt-2 text-sm text-blue-500 hover:underline"
+                    >
+                      Got it
+                    </button>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2 rotate-45 border-b border-r border-blue-200 bg-blue-50"></div>
+              </motion.div>
+            )}
           </div>
         </div>
-        {/* Gamified Interest Slider */}
-        {learningPreferences.includes("Gamified learning") && (
-          <div className="mb-6">
-            <h3 className="mb-3 text-lg font-medium text-gray-700">
-              How interested are you in gamified content? 🎮
-            </h3>
-            <input
-              type="range"
-              min="1"
-              max="5"
-              value={gamifiedInterest}
-              onChange={(e) => setGamifiedInterest(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-2 text-center text-gray-600">
-              {gamifiedInterest === 1
-                ? "Not interested"
-                : gamifiedInterest === 5
-                ? "Highly interested"
-                : `Level ${gamifiedInterest}`}
-            </p>
-          </div>
-        )}
-        {/* Storytelling Interest Slider */}
-        {learningPreferences.includes("Storytelling-based") && (
-          <div className="mb-6">
-            <h3 className="mb-3 text-lg font-medium text-gray-700">
-              How much storytelling do you want in your courses? 📖
-            </h3>
-            <input
-              type="range"
-              min="1"
-              max="5"
-              value={storytellingInterest}
-              onChange={(e) => setStorytellingInterest(Number(e.target.value))}
-              className="w-full"
-            />
-            <p className="mt-2 text-center text-gray-600">
-              {storytellingInterest === 1
-                ? "Minimal"
-                : storytellingInterest === 5
-                ? "A lot"
-                : `Level ${storytellingInterest}`}
-            </p>
-          </div>
-        )}
-        {/* Pace */}
-        <div className="mb-8">
-          <label htmlFor="pace" className="mb-2 block font-medium text-gray-700">
-            What pace works best for you?
-          </label>
-          <select
-            id="pace"
-            value={pace}
-            onChange={(e) => setPace(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 p-3 focus:border-teal-500 focus:ring-teal-500"
-          >
-            <option value="" disabled>
-              Select your preferred pace
-            </option>
-            <option value="Fast-paced (1-2 hours/day)">Fast-paced (1-2 hours/day)</option>
-            <option value="Moderate (30-60 minutes/day)">Moderate (30-60 minutes/day)</option>
-            <option value="Relaxed (less than 30 minutes/day)">Relaxed (less than 30 minutes/day)</option>
-          </select>
-        </div>
+        <p className="mb-6 text-center text-gray-600">
+          Choose which sections you`d like to include in your portfolio. You can select multiple options in each category.
+        </p>
+        {/* Core Sections */}
+        {renderSectionOptions('core', coreSelections, "Core Sections", "blue-100", "blue-500")}
+        {/* Recommended Sections */}
+        {renderSectionOptions('recommended', recommendedSelections, "Recommended Sections", "green-100", "green-500")}
+        {/* Additional Sections */}
+        {renderSectionOptions('additional', additionalSelections, "Additional Sections", "purple-100", "purple-500")}
         {/* Navigation Buttons */}
         <div className="flex justify-between">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={onPrevious}
-            className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 shadow transition hover:bg-gray-400"
+            className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
           >
             Previous
           </motion.button>
@@ -152,13 +313,11 @@ return;
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            disabled={
-              learningPreferences.length === 0 || pace.trim() === ""
-            }
+            disabled={coreSelections.length === 0 && recommendedSelections.length === 0 && additionalSelections.length === 0}
             className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
-              learningPreferences.length === 0 || pace.trim() === ""
+              coreSelections.length === 0 && recommendedSelections.length === 0 && additionalSelections.length === 0
                 ? "cursor-not-allowed bg-gray-300"
-                : "bg-teal-500 hover:bg-teal-600"
+                : "bg-red-500 hover:bg-red-600"
             }`}
           >
             Next

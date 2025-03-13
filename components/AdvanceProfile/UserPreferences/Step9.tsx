@@ -1,6 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { Trash2 } from "lucide-react"; // Importing a delete icon
+
+// Define types for the recommendation data structure
+type Recommendation = {
+  title: string;
+  description: string;
+  link: string;
+};
 
 const Step9Welcome = ({
   onNext,
@@ -9,33 +17,32 @@ const Step9Welcome = ({
   onNext: () => void;
   onPrevious: () => void;
 }) => {
-  const [language, setLanguage] = useState<string>("");
-  const [accessibilityNeeds, setAccessibilityNeeds] = useState<string[]>([]);
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([
+    { title: "", description: "", link: "" }
+  ]);
 
-  const accessibilityOptions = [
-    "High-Contrast Mode",
-    "Screen Reader Support",
-    "Captions/Subtitles",
-    "Keyboard Navigation",
-    "Reduced Animations",
-  ];
+  const handleAddRecommendation = () => {
+    setRecommendations([...recommendations, { title: "", description: "", link: "" }]);
+  };
 
-  const handleToggleAccessibility = (option: string) => {
-    setAccessibilityNeeds((prev) =>
-      prev.includes(option)
-        ? prev.filter((item) => item !== option)
-        : [...prev, option]
+  const handleRecommendationChange = (index: number, field: keyof Recommendation, value: string) => {
+    const updatedRecommendations = recommendations.map((recommendation, i) =>
+      i === index ? { ...recommendation, [field]: value } : recommendation
     );
+    setRecommendations(updatedRecommendations);
+  };
+
+  const handleRemoveRecommendation = (index: number) => {
+    setRecommendations(recommendations.filter((_, i) => i !== index));
   };
 
   const handleNext = () => {
-    console.log("Preferred Language:", language);
-    console.log("Accessibility Needs:", accessibilityNeeds);
+    console.log("Recommendations:", recommendations);
     onNext();
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-indigo-50 to-blue-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-gray-50 to-gray-200 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -43,54 +50,50 @@ const Step9Welcome = ({
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Accessibility and Language Preferences 🌍
+          Recommendation Input
         </h2>
-        <p className="mb-8 text-center text-gray-600">
-          Let us know your preferred language and any accessibility needs for an
-          optimized learning experience.
-        </p>
-        {/* Language Selection */}
+        {/* Recommendations Input */}
         <div className="mb-6">
-          <label
-            htmlFor="language"
-            className="mb-2 block text-lg font-medium text-gray-700"
+          <h3 className="mb-3 text-lg font-medium text-gray-700">Recommendations</h3>
+          {recommendations.map((recommendation, index) => (
+            <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
+              <div className="mb-2 flex items-center justify-between">
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={recommendation.title}
+                  onChange={(e) => handleRecommendationChange(index, "title", e.target.value)}
+                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                />
+                <button 
+                  onClick={() => handleRemoveRecommendation(index)} 
+                  className="ml-2 text-red-500 hover:text-red-700"
+                  aria-label="Remove recommendation"
+                >
+                  <Trash2 size={20} />
+                </button>
+              </div>
+              <textarea
+                placeholder="Description"
+                value={recommendation.description}
+                onChange={(e) => handleRecommendationChange(index, "description", e.target.value)}
+                className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+              />
+              <input
+                type="text"
+                placeholder="Link"
+                value={recommendation.link}
+                onChange={(e) => handleRecommendationChange(index, "link", e.target.value)}
+                className="w-full rounded-lg border border-gray-300 p-3"
+              />
+            </div>
+          ))}
+          <button
+            onClick={handleAddRecommendation}
+            className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
           >
-            Preferred Language
-          </label>
-          <select
-            id="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Select your language</option>
-            <option value="English">English</option>
-            <option value="Spanish">Spanish</option>
-            <option value="French">French</option>
-            <option value="German">German</option>
-            <option value="Mandarin">Mandarin</option>
-          </select>
-        </div>
-        {/* Accessibility Needs */}
-        <div className="mb-6">
-          <label className="mb-2 block text-lg font-medium text-gray-700">
-            Accessibility Needs
-          </label>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {accessibilityOptions.map((option) => (
-              <button
-                key={option}
-                onClick={() => handleToggleAccessibility(option)}
-                className={`rounded-lg border p-4 text-center font-medium transition ${
-                  accessibilityNeeds.includes(option)
-                    ? "border-blue-500 bg-blue-100 text-blue-800"
-                    : "border-gray-300 bg-gray-100 text-gray-700"
-                }`}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
+            Add Recommendation
+          </button>
         </div>
         {/* Navigation Buttons */}
         <div className="flex justify-between">
@@ -106,12 +109,7 @@ const Step9Welcome = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            disabled={!language}
-            className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
-              !language
-                ? "cursor-not-allowed bg-gray-300"
-                : "bg-blue-500 hover:bg-blue-600"
-            }`}
+            className="rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600"
           >
             Next
           </motion.button>
