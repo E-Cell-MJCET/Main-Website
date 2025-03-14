@@ -10,6 +10,23 @@ type SectionName =
   | "Featured" | "Licenses & Certifications" | "Projects" | "Recommendations"
   | "Causes" | "Honors & Awards" | "Test & Scores" | "Volunteer Experience";
 
+// Mapping between section names and step numbers
+const sectionToStepMap: Record<SectionName, number> = {
+  "About": 4,
+  "Education": 5,
+  "Skills": 6,
+  "Projects": 7,
+  "Licenses & Certifications": 8,
+  "Recommendations": 9,
+  "Honors & Awards": 10,
+  "Featured": 11,
+  "Causes": 12,
+  "Test & Scores": 14,
+  "Volunteer Experience": 15,
+  "Products": 13, // Assuming this maps to a step
+  "Services": 13  // Assuming this maps to the same step as Products
+};
+
 const Step3Welcome = ({
   onNext,
   onPrevious,
@@ -36,9 +53,23 @@ const Step3Welcome = ({
     // Auto-hide the tooltip after 5 seconds
     const timer = setTimeout(() => {
       setShowImageTooltip(false);
-    }, 5000);
+    }, 15000);
     
     return () => clearTimeout(timer);
+  }, []);
+
+  // Load any previously saved selections from localStorage
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedCoreSelections = localStorage.getItem(`${sessionId}_core_sections`);
+      const savedRecommendedSelections = localStorage.getItem(`${sessionId}_recommended_sections`);
+      const savedAdditionalSelections = localStorage.getItem(`${sessionId}_additional_sections`);
+      
+      if (savedCoreSelections) setCoreSelections(JSON.parse(savedCoreSelections));
+      if (savedRecommendedSelections) setRecommendedSelections(JSON.parse(savedRecommendedSelections));
+      if (savedAdditionalSelections) setAdditionalSelections(JSON.parse(savedAdditionalSelections));
+    }
   }, []);
 
   // Handle image file selection
@@ -118,6 +149,28 @@ const Step3Welcome = ({
     console.log("Core Selections:", coreSelections);
     console.log("Recommended Selections:", recommendedSelections);
     console.log("Additional Selections:", additionalSelections);
+    
+    // Get all selected sections and map them to step numbers
+    const allSelections = [...coreSelections, ...recommendedSelections, ...additionalSelections];
+    const stepSequence = allSelections
+      .map(section => sectionToStepMap[section])
+      .filter((step, index, self) => step && self.indexOf(step) === index) // Remove duplicates and undefined
+      .sort((a, b) => a - b); // Sort in ascending order
+
+    // Save to localStorage with the session ID
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_core_sections`, JSON.stringify(coreSelections));
+      localStorage.setItem(`${sessionId}_recommended_sections`, JSON.stringify(recommendedSelections));
+      localStorage.setItem(`${sessionId}_additional_sections`, JSON.stringify(additionalSelections));
+      localStorage.setItem(`${sessionId}_step_sequence`, JSON.stringify(stepSequence));
+      
+      // Store image URL if available (in a real app, you'd handle the file differently)
+      if (profileImageURL) {
+        localStorage.setItem(`${sessionId}_profile_image_url`, profileImageURL);
+      }
+    }
+
     onNext();
   };
 

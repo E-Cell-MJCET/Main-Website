@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 
 import Step1Welcome from "@/components/AdvanceProfile/UserPreferences/Step1";
 import Step2Welcome from "@/components/AdvanceProfile/UserPreferences/Step2"; // Themes
@@ -21,22 +21,111 @@ import Step16Welcome from "@/components/AdvanceProfile/UserPreferences/Step16";
 function Page() {
   const [currentStep, setCurrentStep] = useState(1);
   const TOTAL_STEPS = 16;
+  const [customStepSequence, setCustomStepSequence] = useState<number[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, TOTAL_STEPS)); // Use TOTAL_STEPS constant
+  // Base steps that are always included
+  const FIXED_STEPS = [1, 2, 3, 16];
+  const DEFAULT_MAX_STEP = 16;
+  
+  // Function to load step sequence from localStorage
+  const loadStepSequence = () => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedStepSequence = localStorage.getItem(`${sessionId}_step_sequence`);
+      if (savedStepSequence) {
+        // Create a complete sequence with fixed steps
+        const parsedSequence = JSON.parse(savedStepSequence);
+        const completeSequence = [
+          ...FIXED_STEPS.slice(0, 3), // Steps 1, 2, 3
+          ...parsedSequence,           // User-selected steps
+          FIXED_STEPS[3]               // Final step (16)
+        ];
+        setCustomStepSequence(completeSequence);
+        
+        return completeSequence; // Return the sequence for immediate use
+      }
+    }
+    
+    return []; // Return empty array if no sequence found
   };
 
+  // Load user's selected sections and create a step sequence on component mount
+  useEffect(() => {
+    loadStepSequence();
+    setIsLoading(false);
+  }, []);
+
+  // Convert from UI step index to actual step number
+  const getStepNumber = (stepIndex: number): number => {
+    if (customStepSequence.length > 0) {
+      return stepIndex < customStepSequence.length ? customStepSequence[stepIndex] : DEFAULT_MAX_STEP;
+    } else {
+      return stepIndex + 1; // Default behavior if no custom sequence
+    }
+  };
+  
+  // Convert from actual step number to UI step index
+  const getStepIndex = (stepNumber: number): number => {
+    if (customStepSequence.length > 0) {
+      const index = customStepSequence.indexOf(stepNumber);
+      
+      return index >= 0 ? index : customStepSequence.length - 1;
+    } else {
+      return stepNumber - 1; // Default behavior if no custom sequence
+    }
+  };
+   
+  // Special handler for Step3 completion
+  const handleStep3Next = () => {
+    // Reload the step sequence from localStorage
+    const updatedSequence = loadStepSequence();
+    
+    // If we have a valid sequence, use it to determine the next step
+    if (updatedSequence && updatedSequence.length > 3) {
+      // Set to the first custom step after the fixed initial steps (1,2,3)
+      setCurrentStep(updatedSequence[3]);
+    } else {
+      // Fall back to default behavior
+      setCurrentStep(4);
+    }
+  };
+  
+  const handleNext = () => {
+    // If we're on step 3, use the special handler
+    if (currentStep === 3) {
+      handleStep3Next();
+    
+      return;
+    }
+
+    setCurrentStep((prev) => {
+      const currentIndex = getStepIndex(prev);
+      const nextIndex = currentIndex + 1;
+      const maxIndex = customStepSequence.length > 0 ? customStepSequence.length - 1 : DEFAULT_MAX_STEP - 1;
+      
+      return getStepNumber(Math.min(nextIndex, maxIndex));
+    });
+  };
   const handleComplete = () => {
     console.log("Pushing Data to database....");
     // Data pushing to DB Here
   };
 
   const handlePrevious = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1)); // Ensure we don't go below step 1
+    setCurrentStep((prev) => {
+      const currentIndex = getStepIndex(prev);
+      const prevIndex = currentIndex - 1;
+      
+      return getStepNumber(Math.max(prevIndex, 0));
+    }); // Ensure we don't go below step 1
   };
 
   // Helper function to render the current step component
   const renderStepComponent = () => {
+    if (isLoading) {
+      return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    }
     switch (currentStep) {
       case 1:
         return <Step1Welcome onNext={handleNext} />;
@@ -75,31 +164,31 @@ function Page() {
     }
   };
 
-  // Render progress indicator
-  const renderProgressIndicator = () => {
-    return (
-      <div className="mb-4 flex justify-center">
-        <div className="flex items-center space-x-2">
-          {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-            <div
-              key={i}
-              className={`h-2 w-8 rounded-full ${
-                i + 1 <= currentStep ? "bg-indigo-500" : "bg-gray-300"
-              }`}
-            ></div>
-          ))}
-        </div>
-        <div className="ml-4 text-sm font-medium text-gray-700">
-          Step {currentStep} of {TOTAL_STEPS}
-        </div>
-      </div>
-    );
-  };
+  // // Render progress indicator
+  // const renderProgressIndicator = () => {
+  //   return (
+  //     <div className="mb-4 flex justify-center">
+  //       <div className="flex items-center space-x-2">
+  //         {Array.from({ length: TOTAL_STEPS }, (_, i) => (
+  //           <div
+  //             key={i}
+  //             className={`h-2 w-8 rounded-full ${
+  //               i + 1 <= currentStep ? "bg-indigo-500" : "bg-gray-300"
+  //             }`}
+  //           ></div>
+  //         ))}
+  //       </div>
+  //       <div className="ml-4 text-sm font-medium text-gray-700">
+  //         Step {currentStep} of {TOTAL_STEPS}
+  //       </div>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div>
       {/* Progress indicator */}
-      {renderProgressIndicator()}
+      {/* {renderProgressIndicator()} */}
       {/* Render current step component */}
       {renderStepComponent()}
       {/* Navigation Buttons (Only render if not handled by step components) */}
@@ -112,7 +201,8 @@ function Page() {
             Previous
           </button>
         )}
-        {currentStep < TOTAL_STEPS && currentStep > 1 && (
+        {/* {currentStep < TOTAL_STEPS && currentStep > 1 && ( */}
+        {currentStep < (customStepSequence.length > 0 ? customStepSequence[customStepSequence.length - 1] : TOTAL_STEPS) && currentStep > 1 && (
           <button
             onClick={handleNext}
             className="ml-auto rounded-md bg-indigo-500 px-4 py-2 text-white shadow transition hover:bg-indigo-600"

@@ -1,6 +1,13 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
+import { Trash2 } from "lucide-react";
+
+// Define the type for volunteer experience
+type VolunteerContent = {
+  title: string;
+  description: string;
+};
 
 const Step15Welcome = ({
   onNext,
@@ -9,8 +16,31 @@ const Step15Welcome = ({
   onNext: () => void;
   onPrevious: () => void;
 }) => {
+  // State for volunteer experience items
+  const [volunteerItems, setVolunteerItems] = useState<VolunteerContent[]>([
+    { title: "", description: "" }
+  ]);
+
+  // Add a new volunteer experience item
+  const handleAddVolunteer = () => {
+    setVolunteerItems([...volunteerItems, { title: "", description: "" }]);
+  };
+
+  // Update a volunteer experience item
+  const handleVolunteerChange = (index: number, field: keyof VolunteerContent, value: string) => {
+    const updatedVolunteerItems = volunteerItems.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
+    );
+    setVolunteerItems(updatedVolunteerItems);
+  };
+
+  // Remove a volunteer experience item
+  const handleRemoveVolunteer = (index: number) => {
+    setVolunteerItems(volunteerItems.filter((_, i) => i !== index));
+  };
+
   const handleNext = () => {
-    console.log("Step 15 completed");
+    console.log("Volunteer Experience:", volunteerItems);
     onNext();
   };
 
@@ -23,16 +53,78 @@ const Step15Welcome = ({
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Step 15
+          Volunteer Experience
         </h2>
         <div className="mb-6">
-          <p className="text-center text-gray-600">
-            15 is here
+          <p className="mb-4 text-center text-gray-600">
+            Share your volunteer experience to showcase your community involvement and social impact.
           </p>
-          {/* Add your form content here */}
-          <div className="my-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <p className="text-center text-gray-500">This section is under construction</p>
+          {/* Volunteer Experience Input */}
+          <div className="mb-6">
+            <h3 className="mb-3 text-lg font-medium text-gray-700">Volunteer Activities</h3>
+            {volunteerItems.map((item, index) => (
+              <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
+                <div className="mb-2 flex items-center justify-between">
+                  <input
+                    type="text"
+                    placeholder="Organization or Role"
+                    value={item.title}
+                    onChange={(e) => handleVolunteerChange(index, "title", e.target.value)}
+                    className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  />
+                  <button 
+                    onClick={() => handleRemoveVolunteer(index)} 
+                    className="ml-2 text-red-500 hover:text-red-700"
+                    aria-label="Remove volunteer experience"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+                <textarea
+                  placeholder="Describe your responsibilities, achievements, and the impact of your volunteer work"
+                  value={item.description}
+                  onChange={(e) => handleVolunteerChange(index, "description", e.target.value)}
+                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  rows={4}
+                />
+              </div>
+            ))}
+            <button
+              onClick={handleAddVolunteer}
+              className="rounded-lg bg-rose-500 px-4 py-2 font-semibold text-white hover:bg-rose-600"
+            >
+              Add Volunteer Experience
+            </button>
           </div>
+          {/* Preview section */}
+          {volunteerItems.some(item => item.title || item.description) && (
+            <div className="mt-8">
+              <h3 className="mb-4 text-lg font-medium text-gray-700">Preview</h3>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {volunteerItems.filter(item => item.title || item.description).map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col justify-between rounded-lg bg-white p-4 shadow-md"
+                    >
+                      <h4 className="mb-2 text-lg font-semibold text-gray-800">
+                        {item.title || "Untitled"}
+                      </h4>
+                      <p className="mb-3 text-sm text-gray-600">
+                        {item.description || "No description"}
+                      </p>
+                      <a
+                        href="#"
+                        className="text-sm font-medium text-rose-500 hover:text-rose-700"
+                      >
+                        Read more
+                      </a>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {/* Navigation Buttons */}
         <div className="flex justify-between">

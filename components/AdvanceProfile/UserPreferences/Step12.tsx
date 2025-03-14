@@ -1,6 +1,14 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
+import { Trash2 } from "lucide-react";
+
+// Define the type for causes
+type CauseContent = {
+  title: string;
+  description: string;
+  support: string;
+};
 
 const Step12Welcome = ({
   onNext,
@@ -9,8 +17,31 @@ const Step12Welcome = ({
   onNext: () => void;
   onPrevious: () => void;
 }) => {
+  // State for causes items
+  const [causes, setCauses] = useState<CauseContent[]>([
+    { title: "", description: "", support: "" }
+  ]);
+
+  // Add a new cause entry
+  const handleAddCause = () => {
+    setCauses([...causes, { title: "", description: "", support: "" }]);
+  };
+
+  // Update a cause entry
+  const handleCauseChange = (index: number, field: keyof CauseContent, value: string) => {
+    const updatedCauses = causes.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
+    );
+    setCauses(updatedCauses);
+  };
+
+  // Remove a cause entry
+  const handleRemoveCause = (index: number) => {
+    setCauses(causes.filter((_, i) => i !== index));
+  };
+
   const handleNext = () => {
-    console.log("Step 12 completed");
+    console.log("Causes:", causes);
     onNext();
   };
 
@@ -23,16 +54,91 @@ const Step12Welcome = ({
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Step 12
+          Causes You Care About
         </h2>
         <div className="mb-6">
-          <p className="text-center text-gray-600">
-            12 is here
+          <p className="mb-4 text-center text-gray-600">
+            Share the causes you`re passionate about to showcase your values and interests outside of professional work.
           </p>
-          {/* Add your form content here */}
-          <div className="my-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
-            <p className="text-center text-gray-500">This section is under construction</p>
+          {/* Causes Input */}
+          <div className="mb-6">
+            <h3 className="mb-3 text-lg font-medium text-gray-700">Your Causes</h3>
+            {causes.map((item, index) => (
+              <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
+                <div className="mb-2 flex items-center justify-between">
+                  <input
+                    type="text"
+                    placeholder="Cause Name (e.g., Climate Change, Education, Poverty)"
+                    value={item.title}
+                    onChange={(e) => handleCauseChange(index, "title", e.target.value)}
+                    className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  />
+                  <button 
+                    onClick={() => handleRemoveCause(index)} 
+                    className="ml-2 text-red-500 hover:text-red-700"
+                    aria-label="Remove cause"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+                <textarea
+                  placeholder="Why are you passionate about this cause?"
+                  value={item.description}
+                  onChange={(e) => handleCauseChange(index, "description", e.target.value)}
+                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  rows={3}
+                />
+                <textarea
+                  placeholder="How have you supported this cause? (e.g., donations, volunteering, awareness campaigns)"
+                  value={item.support}
+                  onChange={(e) => handleCauseChange(index, "support", e.target.value)}
+                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  rows={2}
+                />
+              </div>
+            ))}
+            <button
+              onClick={handleAddCause}
+              className="rounded-lg bg-cyan-500 px-4 py-2 font-semibold text-white hover:bg-cyan-600"
+            >
+              Add Another Cause
+            </button>
           </div>
+          {/* Preview section */}
+          {causes.some(item => item.title || item.description) && (
+            <div className="mt-8">
+              <h3 className="mb-4 text-lg font-medium text-gray-700">Preview</h3>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {causes.filter(item => item.title || item.description).map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col justify-between rounded-lg bg-white p-4 shadow-md"
+                    >
+                      <div className="mb-3">
+                        <h4 className="mb-2 text-lg font-semibold text-cyan-700">
+                          {item.title || "Untitled Cause"}
+                        </h4>
+                        {item.description && (
+                          <p className="mb-3 text-sm text-gray-600">
+                            {item.description}
+                          </p>
+                        )}
+                      </div>
+                      {item.support && (
+                        <div className="mt-auto">
+                          <h5 className="mb-1 text-sm font-medium text-gray-700">How I`ve Helped:</h5>
+                          <p className="text-sm italic text-gray-600">
+                            {item.support}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         {/* Navigation Buttons */}
         <div className="flex justify-between">

@@ -1,19 +1,14 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { motion } from "framer-motion";
-import { Trash2 } from "lucide-react"; 
+import { Trash2 } from "lucide-react";
 
-// Define types for the data structure
-type Honor = {
+// Define the type for honors and awards
+type HonorAwardContent = {
   title: string;
+  issuer: string;
+  date: string;
   description: string;
-  image: string;
-};
-
-type Award = {
-  title: string;
-  description: string;
-  image: string;
 };
 
 const Step10Welcome = ({
@@ -23,51 +18,36 @@ const Step10Welcome = ({
   onNext: () => void;
   onPrevious: () => void;
 }) => {
-  const [honors, setHonors] = useState<Honor[]>([
-    { title: "", description: "", image: "" }
-  ]);
-  const [awards, setAwards] = useState<Award[]>([
-    { title: "", description: "", image: "" }
+  // State for honors and awards items
+  const [honorsAwards, setHonorsAwards] = useState<HonorAwardContent[]>([
+    { title: "", issuer: "", date: "", description: "" }
   ]);
 
-  const handleAddHonor = () => {
-    setHonors([...honors, { title: "", description: "", image: "" }]);
+  // Add a new honor/award entry
+  const handleAddHonorAward = () => {
+    setHonorsAwards([...honorsAwards, { title: "", issuer: "", date: "", description: "" }]);
   };
 
-  const handleAddAward = () => {
-    setAwards([...awards, { title: "", description: "", image: "" }]);
-  };
-
-  const handleHonorChange = (index: number, field: keyof Honor, value: string) => {
-    const updatedHonors = honors.map((honor, i) =>
-      i === index ? { ...honor, [field]: value } : honor
+  // Update an honor/award entry
+  const handleHonorAwardChange = (index: number, field: keyof HonorAwardContent, value: string) => {
+    const updatedHonorsAwards = honorsAwards.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
     );
-    setHonors(updatedHonors);
+    setHonorsAwards(updatedHonorsAwards);
   };
 
-  const handleAwardChange = (index: number, field: keyof Award, value: string) => {
-    const updatedAwards = awards.map((award, i) =>
-      i === index ? { ...award, [field]: value } : award
-    );
-    setAwards(updatedAwards);
-  };
-
-  const handleRemoveHonor = (index: number) => {
-    setHonors(honors.filter((_, i) => i !== index));
-  };
-
-  const handleRemoveAward = (index: number) => {
-    setAwards(awards.filter((_, i) => i !== index));
+  // Remove an honor/award entry
+  const handleRemoveHonorAward = (index: number) => {
+    setHonorsAwards(honorsAwards.filter((_, i) => i !== index));
   };
 
   const handleNext = () => {
-    console.log("Honors:", honors);
-    console.log("Awards:", awards);
+    console.log("Honors and Awards:", honorsAwards);
     onNext();
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-gray-50 to-gray-200 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-50 to-teal-100 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,93 +55,97 @@ const Step10Welcome = ({
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Honors & Awards Input
+          Honors & Awards
         </h2>
-        {/* Honors Input */}
         <div className="mb-6">
-          <h3 className="mb-3 text-lg font-medium text-gray-700">Honors</h3>
-          {honors.map((honor, index) => (
-            <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
-              <div className="mb-2 flex items-center justify-between">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={honor.title}
-                  onChange={(e) => handleHonorChange(index, "title", e.target.value)}
+          <p className="mb-4 text-center text-gray-600">
+            Showcase the recognition you`ve received and the achievements you`re proud of.
+          </p>
+          {/* Honors & Awards Input */}
+          <div className="mb-6">
+            <h3 className="mb-3 text-lg font-medium text-gray-700">Your Achievements</h3>
+            {honorsAwards.map((item, index) => (
+              <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
+                <div className="mb-2 flex items-center justify-between">
+                  <input
+                    type="text"
+                    placeholder="Award or Honor Title"
+                    value={item.title}
+                    onChange={(e) => handleHonorAwardChange(index, "title", e.target.value)}
+                    className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  />
+                  <button 
+                    onClick={() => handleRemoveHonorAward(index)} 
+                    className="ml-2 text-red-500 hover:text-red-700"
+                    aria-label="Remove honor/award"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  <input
+                    type="text"
+                    placeholder="Issuing Organization"
+                    value={item.issuer}
+                    onChange={(e) => handleHonorAwardChange(index, "issuer", e.target.value)}
+                    className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Date (e.g., May 2023)"
+                    value={item.date}
+                    onChange={(e) => handleHonorAwardChange(index, "date", e.target.value)}
+                    className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  />
+                </div>
+                <textarea
+                  placeholder="Description of the award and its significance"
+                  value={item.description}
+                  onChange={(e) => handleHonorAwardChange(index, "description", e.target.value)}
                   className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  rows={3}
                 />
-                <button 
-                  onClick={() => handleRemoveHonor(index)} 
-                  className="ml-2 text-red-500 hover:text-red-700"
-                  aria-label="Remove honor"
-                >
-                  <Trash2 size={20} />
-                </button>
               </div>
-              <textarea
-                placeholder="Description"
-                value={honor.description}
-                onChange={(e) => handleHonorChange(index, "description", e.target.value)}
-                className="mb-2 w-full rounded-lg border border-gray-300 p-3"
-              />
-              <input
-                type="text"
-                placeholder="Image URL"
-                value={honor.image}
-                onChange={(e) => handleHonorChange(index, "image", e.target.value)}
-                className="w-full rounded-lg border border-gray-300 p-3"
-              />
-            </div>
-          ))}
-          <button
-            onClick={handleAddHonor}
-            className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-          >
-            Add Honor
-          </button>
-        </div>
-        {/* Awards Input */}
-        <div className="mb-6">
-          <h3 className="mb-3 text-lg font-medium text-gray-700">Awards</h3>
-          {awards.map((award, index) => (
-            <div key={index} className="mb-4 rounded-lg border p-4 shadow-sm">
-              <div className="mb-2 flex items-center justify-between">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={award.title}
-                  onChange={(e) => handleAwardChange(index, "title", e.target.value)}
-                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
-                />
-                <button 
-                  onClick={() => handleRemoveAward(index)} 
-                  className="ml-2 text-red-500 hover:text-red-700"
-                  aria-label="Remove award"
-                >
-                  <Trash2 size={20} />
-                </button>
+            ))}
+            <button
+              onClick={handleAddHonorAward}
+              className="rounded-lg bg-teal-500 px-4 py-2 font-semibold text-white hover:bg-teal-600"
+            >
+              Add Honor or Award
+            </button>
+          </div>
+          {/* Preview section */}
+          {honorsAwards.some(item => item.title || item.issuer) && (
+            <div className="mt-8">
+              <h3 className="mb-4 text-lg font-medium text-gray-700">Preview</h3>
+              <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {honorsAwards.filter(item => item.title || item.issuer).map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col justify-between rounded-lg bg-white p-4 shadow-md"
+                    >
+                      <div>
+                        <h4 className="mb-1 text-lg font-semibold text-gray-800">
+                          {item.title || "Untitled Award"}
+                        </h4>
+                        <div className="mb-2 flex items-center text-sm text-gray-600">
+                          {item.issuer && <span className="font-medium">{item.issuer}</span>}
+                          {item.issuer && item.date && <span className="mx-2">•</span>}
+                          {item.date && <span>{item.date}</span>}
+                        </div>
+                      </div>
+                      {item.description && (
+                        <p className="mt-2 text-sm text-gray-600">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <textarea
-                placeholder="Description"
-                value={award.description}
-                onChange={(e) => handleAwardChange(index, "description", e.target.value)}
-                className="mb-2 w-full rounded-lg border border-gray-300 p-3"
-              />
-              <input
-                type="text"
-                placeholder="Image URL"
-                value={award.image}
-                onChange={(e) => handleAwardChange(index, "image", e.target.value)}
-                className="w-full rounded-lg border border-gray-300 p-3"
-              />
             </div>
-          ))}
-          <button
-            onClick={handleAddAward}
-            className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
-          >
-            Add Award
-          </button>
+          )}
         </div>
         {/* Navigation Buttons */}
         <div className="flex justify-between">
@@ -177,7 +161,7 @@ const Step10Welcome = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            className="rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600"
+            className="rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white hover:bg-teal-600"
           >
             Next
           </motion.button>
