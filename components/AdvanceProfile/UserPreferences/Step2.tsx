@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { IoInformationCircleOutline } from "react-icons/io5";
 
@@ -90,21 +90,37 @@ const Step2Welcome = ({
   onNext: () => void;
   onPrevious: () => void;
 }) => {
-  const [selectedSkillLevel, setSelectedSkillLevel] = useState("");
-  const [background, setBackground] = useState("");
+  const [selected_Theme, setSelected_Theme] = useState("");
+  const [buildSuggest, setBuildSuggest] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("");
 
-  const skillLevels = [
+  const Themes_Available = [
     "Gradient Theme",
     "Monochromatic Theme",
     "Dark Theme with accent colors",
     "Default",
   ];
 
+  useEffect(()=>{
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedTheme = localStorage.getItem(`${sessionId}_theme`);
+      const savedBackground = localStorage.getItem(`${sessionId}_theme_suggest`);
+      
+      if (savedTheme) setSelected_Theme(savedTheme);
+      if (savedBackground) setBuildSuggest(savedBackground);
+    }
+  },[])
+
   const handleNext = () => {
-    console.log("Skill Level:", selectedSkillLevel);
-    console.log("Background:", background);
+    // Save data to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_theme`, selected_Theme);
+      localStorage.setItem(`${sessionId}_theme_background`, buildSuggest);
+    }
+
     onNext();
   };
   
@@ -132,22 +148,22 @@ const Step2Welcome = ({
             Select Theme:
           </h3>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {skillLevels.map((level) => (
+            {Themes_Available.map((level) => (
               <label
                 key={level}
                 className={`flex cursor-pointer items-center space-x-3 rounded-lg border p-3 transition ${
-                  selectedSkillLevel === level
+                  selected_Theme === level
                     ? "border-orange-500 bg-orange-100"
                     : "border-gray-300 bg-gray-100"
                 }`}
-                onClick={() => setSelectedSkillLevel(level)}
+                onClick={() => setSelected_Theme(level)}
               >
                 <input
                   type="radio"
                   name="skillLevel"
                   value={level}
-                  checked={selectedSkillLevel === level}
-                  onChange={() => setSelectedSkillLevel(level)}
+                  checked={selected_Theme === level}
+                  onChange={() => setSelected_Theme(level)}
                   className="form-radio size-5 text-orange-500"
                 />
                 <span className="font-medium text-gray-700">{level}</span>
@@ -165,15 +181,15 @@ const Step2Welcome = ({
         {/* Background Input */}
         <div className="mb-6">
           <label
-            htmlFor="background"
+            htmlFor="buildSuggest"
             className="mb-2 block text-lg font-medium text-gray-700"
           >
             Leave what would you like us to build (Optional):
           </label>
           <textarea
-            id="background"
-            value={background}
-            onChange={(e) => setBackground(e.target.value)}
+            id="buildSuggest"
+            value={buildSuggest}
+            onChange={(e) => setBuildSuggest(e.target.value)}
             placeholder="Describe your preferred color combinations or themes."
             rows={4}
             className="w-full rounded-lg border border-gray-300 p-3 focus:border-orange-500 focus:ring-orange-500"
@@ -193,9 +209,9 @@ const Step2Welcome = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
-            disabled={!selectedSkillLevel}
+            disabled={!selected_Theme}
             className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
-              !selectedSkillLevel
+              !selected_Theme
                 ? "cursor-not-allowed bg-gray-300"
                 : "bg-orange-500 hover:bg-orange-600"
             }`}

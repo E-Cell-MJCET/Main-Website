@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -22,6 +22,18 @@ const Step12Welcome = ({
     { title: "", description: "", support: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedCauses = localStorage.getItem(`${sessionId}_causes`);
+      
+      if (savedCauses && savedCauses !== "[]") {
+        setCauses(JSON.parse(savedCauses));
+      }
+    }
+  }, []);
+
   // Add a new cause entry
   const handleAddCause = () => {
     setCauses([...causes, { title: "", description: "", support: "" }]);
@@ -41,7 +53,19 @@ const Step12Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Causes:", causes);
+    // Filter out completely empty cause entries
+    const validCauses = causes.filter(
+      cause => cause.title || cause.description || cause.support
+    );
+    
+    console.log("Causes:", validCauses);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_causes`, JSON.stringify(validCauses));
+    }
+    
     onNext();
   };
 

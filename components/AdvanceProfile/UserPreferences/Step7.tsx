@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react"; // Importing a delete icon
 
@@ -21,6 +21,18 @@ const Step7Welcome = ({
     { title: "", description: "", image: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedProjects = localStorage.getItem(`${sessionId}_projects`);
+      
+      if (savedProjects && savedProjects !== "[]") {
+        setProjects(JSON.parse(savedProjects));
+      }
+    }
+  }, []);
+
   const handleAddProject = () => {
     setProjects([...projects, { title: "", description: "", image: "" }]);
   };
@@ -37,7 +49,19 @@ const Step7Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Projects:", projects);
+    // Filter out completely empty project entries
+    const validProjects = projects.filter(
+      project => project.title || project.description || project.image
+    );
+    
+    console.log("Projects:", validProjects);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_projects`, JSON.stringify(validProjects));
+    }
+    
     onNext();
   };
 

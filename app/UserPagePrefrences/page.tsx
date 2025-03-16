@@ -20,7 +20,7 @@ import Step16Welcome from "@/components/AdvanceProfile/UserPreferences/Step16";
 
 function Page() {
   const [currentStep, setCurrentStep] = useState(1);
-  const TOTAL_STEPS = 16;
+  // const TOTAL_STEPS = 16;
   const [customStepSequence, setCustomStepSequence] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -164,53 +164,9 @@ function Page() {
     }
   };
 
-  // // Render progress indicator
-  // const renderProgressIndicator = () => {
-  //   return (
-  //     <div className="mb-4 flex justify-center">
-  //       <div className="flex items-center space-x-2">
-  //         {Array.from({ length: TOTAL_STEPS }, (_, i) => (
-  //           <div
-  //             key={i}
-  //             className={`h-2 w-8 rounded-full ${
-  //               i + 1 <= currentStep ? "bg-indigo-500" : "bg-gray-300"
-  //             }`}
-  //           ></div>
-  //         ))}
-  //       </div>
-  //       <div className="ml-4 text-sm font-medium text-gray-700">
-  //         Step {currentStep} of {TOTAL_STEPS}
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   return (
     <div>
-      {/* Progress indicator */}
-      {/* {renderProgressIndicator()} */}
-      {/* Render current step component */}
       {renderStepComponent()}
-      {/* Navigation Buttons (Only render if not handled by step components) */}
-      <div className="fixed inset-x-4 bottom-4 flex items-center justify-between">
-        {currentStep > 1 && (
-          <button
-            onClick={handlePrevious}
-            className="rounded-md bg-gray-300 px-4 py-2 text-gray-800 shadow transition hover:bg-gray-400"
-          >
-            Previous
-          </button>
-        )}
-        {/* {currentStep < TOTAL_STEPS && currentStep > 1 && ( */}
-        {currentStep < (customStepSequence.length > 0 ? customStepSequence[customStepSequence.length - 1] : TOTAL_STEPS) && currentStep > 1 && (
-          <button
-            onClick={handleNext}
-            className="ml-auto rounded-md bg-indigo-500 px-4 py-2 text-white shadow transition hover:bg-indigo-600"
-          >
-            Next
-          </button>
-        )}
-      </div>
     </div>
   );
 }

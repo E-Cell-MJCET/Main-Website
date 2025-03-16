@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react"; // Importing a delete icon
 
@@ -26,6 +26,23 @@ const Step8Welcome = ({
   // Initialize with one empty license and certification
   const [licenses, setLicenses] = useState<License[]>([{ title: "", description: "", image: "" }]);
   const [certifications, setCertifications] = useState<Certification[]>([{ title: "", description: "", image: "" }]);
+
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedLicenses = localStorage.getItem(`${sessionId}_licenses`);
+      const savedCertifications = localStorage.getItem(`${sessionId}_certifications`);
+      
+      if (savedLicenses && savedLicenses !== "[]") {
+        setLicenses(JSON.parse(savedLicenses));
+      }
+      
+      if (savedCertifications && savedCertifications !== "[]") {
+        setCertifications(JSON.parse(savedCertifications));
+      }
+    }
+  }, []);
 
   const handleAddLicense = () => {
     setLicenses([...licenses, { title: "", description: "", image: "" }]);
@@ -58,8 +75,25 @@ const Step8Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Licenses:", licenses);
-    console.log("Certifications:", certifications);
+    // Filter out completely empty entries
+    const validLicenses = licenses.filter(
+      license => license.title || license.description || license.image
+    );
+    
+    const validCertifications = certifications.filter(
+      cert => cert.title || cert.description || cert.image
+    );
+    
+    console.log("Licenses:", validLicenses);
+    console.log("Certifications:", validCertifications);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_licenses`, JSON.stringify(validLicenses));
+      localStorage.setItem(`${sessionId}_certifications`, JSON.stringify(validCertifications));
+    }
+    
     onNext();
   };
 

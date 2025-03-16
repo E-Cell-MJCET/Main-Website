@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react"; // Importing a delete icon
 
@@ -21,6 +21,18 @@ const Step9Welcome = ({
     { title: "", description: "", link: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedRecommendations = localStorage.getItem(`${sessionId}_recommendations`);
+      
+      if (savedRecommendations && savedRecommendations !== "[]") {
+        setRecommendations(JSON.parse(savedRecommendations));
+      }
+    }
+  }, []);
+
   const handleAddRecommendation = () => {
     setRecommendations([...recommendations, { title: "", description: "", link: "" }]);
   };
@@ -37,7 +49,19 @@ const Step9Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Recommendations:", recommendations);
+    // Filter out completely empty recommendation entries
+    const validRecommendations = recommendations.filter(
+      rec => rec.title || rec.description || rec.link
+    );
+    
+    console.log("Recommendations:", validRecommendations);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_recommendations`, JSON.stringify(validRecommendations));
+    }
+    
     onNext();
   };
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { 
   FaInstagram, FaLinkedinIn, FaGithub, FaFacebookF, 
@@ -153,6 +153,40 @@ const Step4Welcome = ({
   // Ref for dropdown container
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      // Load personal information
+      const savedFullName = localStorage.getItem(`${sessionId}_fullName`);
+      const savedTagline = localStorage.getItem(`${sessionId}_tagline`);
+      const savedUsername = localStorage.getItem(`${sessionId}_username`);
+      const savedAbout = localStorage.getItem(`${sessionId}_about`);
+      const savedIndustryPreference = localStorage.getItem(`${sessionId}_industryPreference`);
+      const savedSecondaryPreference = localStorage.getItem(`${sessionId}_secondaryPreference`);
+      
+      // Load social media links
+      const savedSocialLinks = localStorage.getItem(`${sessionId}_socialLinks`);
+      
+      // Load contact info
+      const savedContactInfo = localStorage.getItem(`${sessionId}_contactInfo`);
+      
+      // Load location info
+      const savedLocationInfo = localStorage.getItem(`${sessionId}_locationInfo`);
+      
+      // Set state with saved values
+      if (savedFullName) setFullName(savedFullName);
+      if (savedTagline) setTagline(savedTagline);
+      if (savedUsername) setUsername(savedUsername);
+      if (savedAbout) setAbout(savedAbout);
+      if (savedIndustryPreference) setIndustryPreference(savedIndustryPreference);
+      if (savedSecondaryPreference) setSecondaryPreference(savedSecondaryPreference);
+      if (savedSocialLinks) setSocialLinks(JSON.parse(savedSocialLinks));
+      if (savedContactInfo) setContactInfo(JSON.parse(savedContactInfo));
+      if (savedLocationInfo) setLocationInfo(JSON.parse(savedLocationInfo));
+    }
+  }, []);
+
   // Filter countries based on search query
   const filteredCountries = countries.filter(country => 
     country.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -247,6 +281,28 @@ const Step4Welcome = ({
     console.log("Social Links:", socialLinks);
     console.log("Contact Info:", contactInfo);
     console.log("Location Info:", locationInfo);
+
+    // Save all data to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      // Save personal information
+      localStorage.setItem(`${sessionId}_fullName`, fullName);
+      localStorage.setItem(`${sessionId}_tagline`, tagline);
+      localStorage.setItem(`${sessionId}_username`, username);
+      localStorage.setItem(`${sessionId}_about`, about);
+      localStorage.setItem(`${sessionId}_industryPreference`, industryPreference);
+      localStorage.setItem(`${sessionId}_secondaryPreference`, secondaryPreference);
+      
+      // Save social media links as JSON
+      localStorage.setItem(`${sessionId}_socialLinks`, JSON.stringify(socialLinks));
+      
+      // Save contact info as JSON
+      localStorage.setItem(`${sessionId}_contactInfo`, JSON.stringify(contactInfo));
+      
+      // Save location info as JSON
+      localStorage.setItem(`${sessionId}_locationInfo`, JSON.stringify(locationInfo));
+    }
+
     onNext();
   };
 

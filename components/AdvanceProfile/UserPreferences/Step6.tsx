@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -33,6 +33,18 @@ const Step6Welcome = ({
     proficiency: "Intermediate"
   });
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedSkills = localStorage.getItem(`${sessionId}_skills`);
+      
+      if (savedSkills && savedSkills !== "[]") {
+        setSkills(JSON.parse(savedSkills));
+      }
+    }
+  }, []);
+
   const skillCategories: SkillCategory[] = ["Technical", "Soft Skills", "Languages", "Tools", "Other"];
   const proficiencyLevels: ProficiencyLevel[] = ["Beginner", "Intermediate", "Advanced", "Expert"];
 
@@ -65,6 +77,13 @@ const Step6Welcome = ({
     // Filter out empty skills
     const validSkills = skills.filter(skill => skill.name.trim() !== "");
     console.log("Skills:", validSkills);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_skills`, JSON.stringify(validSkills));
+    }
+
     onNext();
   };
 

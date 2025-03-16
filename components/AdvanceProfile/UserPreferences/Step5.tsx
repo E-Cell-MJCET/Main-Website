@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
 
@@ -17,6 +17,41 @@ const Step5Welcome = ({
   const [education, setEducation] = useState([
     { startDate: "", endDate: "", school: "", degree: "", description: "" },
   ]);
+
+  // Toggle for "Present" as end date
+  const [currentlyWorkingIndices, setCurrentlyWorkingIndices] = useState<number[]>([]);
+  const [currentlyStudyingIndices, setCurrentlyStudyingIndices] = useState<number[]>([]);
+
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      // Load experience data
+      const savedExperiences = localStorage.getItem(`${sessionId}_experiences`);
+      const savedWorkingIndices = localStorage.getItem(`${sessionId}_working_indices`);
+      
+      // Load education data
+      const savedEducation = localStorage.getItem(`${sessionId}_education`);
+      const savedStudyingIndices = localStorage.getItem(`${sessionId}_studying_indices`);
+      
+      // Set state with saved values
+      if (savedExperiences && savedExperiences !== "[]") {
+        setExperiences(JSON.parse(savedExperiences));
+      }
+      
+      if (savedWorkingIndices) {
+        setCurrentlyWorkingIndices(JSON.parse(savedWorkingIndices));
+      }
+      
+      if (savedEducation && savedEducation !== "[]") {
+        setEducation(JSON.parse(savedEducation));
+      }
+      
+      if (savedStudyingIndices) {
+        setCurrentlyStudyingIndices(JSON.parse(savedStudyingIndices));
+      }
+    }
+  }, []);
 
   const inputClass = "w-full rounded-lg border border-gray-300 p-3 focus:border-indigo-500 focus:ring-indigo-500";
   const labelClass = "block mb-2 font-medium text-gray-700";
@@ -39,6 +74,15 @@ const Step5Welcome = ({
   const removeExperience = (index: number) => {
     if (experiences.length > 1) {
       setExperiences(experiences.filter((_, i) => i !== index));
+      
+      // Also remove from currentlyWorkingIndices if present
+      if (currentlyWorkingIndices.includes(index)) {
+        setCurrentlyWorkingIndices(
+          currentlyWorkingIndices
+            .filter(i => i !== index)
+            .map(i => (i > index ? i - 1 : i)) // Adjust indices for items after the removed one
+        );
+      }
     }
   };
 
@@ -59,12 +103,17 @@ const Step5Welcome = ({
   const removeEducation = (index: number) => {
     if (education.length > 1) {
       setEducation(education.filter((_, i) => i !== index));
+      
+      // Also remove from currentlyStudyingIndices if present
+      if (currentlyStudyingIndices.includes(index)) {
+        setCurrentlyStudyingIndices(
+          currentlyStudyingIndices
+            .filter(i => i !== index)
+            .map(i => (i > index ? i - 1 : i)) // Adjust indices for items after the removed one
+        );
+      }
     }
   };
-
-  // Toggle for "Present" as end date
-  const [currentlyWorkingIndices, setCurrentlyWorkingIndices] = useState<number[]>([]);
-  const [currentlyStudyingIndices, setCurrentlyStudyingIndices] = useState<number[]>([]);
 
   const toggleCurrentlyWorking = (index: number) => {
     if (currentlyWorkingIndices.includes(index)) {
@@ -99,9 +148,30 @@ const Step5Welcome = ({
   };
 
   const handleNext = () => {
-    // Here you can process and save the form data if needed
-    console.log("Experiences:", experiences);
-    console.log("Education:", education);
+    // Filter out completely empty entries
+    const filteredExperiences = experiences.filter(
+      exp => exp.company || exp.jobTitle || exp.startDate || exp.description
+    );
+    
+    const filteredEducation = education.filter(
+      edu => edu.school || edu.degree || edu.startDate || edu.description
+    );
+    
+    console.log("Experiences:", filteredExperiences);
+    console.log("Education:", filteredEducation);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      // Save experiences data
+      localStorage.setItem(`${sessionId}_experiences`, JSON.stringify(filteredExperiences));
+      localStorage.setItem(`${sessionId}_working_indices`, JSON.stringify(currentlyWorkingIndices));
+      
+      // Save education data
+      localStorage.setItem(`${sessionId}_education`, JSON.stringify(filteredEducation));
+      localStorage.setItem(`${sessionId}_studying_indices`, JSON.stringify(currentlyStudyingIndices));
+    }
+    
     onNext();
   };
 

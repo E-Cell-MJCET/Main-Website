@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -21,6 +21,18 @@ const Step15Welcome = ({
     { title: "", description: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedVolunteerItems = localStorage.getItem(`${sessionId}_volunteer_experiences`);
+      
+      if (savedVolunteerItems && savedVolunteerItems !== "[]") {
+        setVolunteerItems(JSON.parse(savedVolunteerItems));
+      }
+    }
+  }, []);
+
   // Add a new volunteer experience item
   const handleAddVolunteer = () => {
     setVolunteerItems([...volunteerItems, { title: "", description: "" }]);
@@ -40,7 +52,18 @@ const Step15Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Volunteer Experience:", volunteerItems);
+    // Filter out completely empty volunteer experience entries
+    const validVolunteerItems = volunteerItems.filter(
+      item => item.title || item.description
+    );
+    
+    console.log("Volunteer Experience:", validVolunteerItems);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_volunteer_experiences`, JSON.stringify(validVolunteerItems));
+    }
     onNext();
   };
 

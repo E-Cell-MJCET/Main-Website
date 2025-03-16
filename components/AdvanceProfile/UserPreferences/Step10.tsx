@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -23,6 +23,18 @@ const Step10Welcome = ({
     { title: "", issuer: "", date: "", description: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedHonorsAwards = localStorage.getItem(`${sessionId}_honors_awards`);
+      
+      if (savedHonorsAwards && savedHonorsAwards !== "[]") {
+        setHonorsAwards(JSON.parse(savedHonorsAwards));
+      }
+    }
+  }, []);
+
   // Add a new honor/award entry
   const handleAddHonorAward = () => {
     setHonorsAwards([...honorsAwards, { title: "", issuer: "", date: "", description: "" }]);
@@ -42,7 +54,19 @@ const Step10Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Honors and Awards:", honorsAwards);
+    // Filter out completely empty entries
+    const validHonorsAwards = honorsAwards.filter(
+      honor => honor.title || honor.issuer || honor.date || honor.description
+    );
+    
+    console.log("Honors and Awards:", validHonorsAwards);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_honors_awards`, JSON.stringify(validHonorsAwards));
+    }
+    
     onNext();
   };
 

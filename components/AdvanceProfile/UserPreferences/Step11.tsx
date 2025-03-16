@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -21,6 +21,18 @@ const Step11Welcome = ({
     { title: "", description: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedFeaturedItems = localStorage.getItem(`${sessionId}_featured_items`);
+      
+      if (savedFeaturedItems && savedFeaturedItems !== "[]") {
+        setFeaturedItems(JSON.parse(savedFeaturedItems));
+      }
+    }
+  }, []);
+
   // Add a new featured item
   const handleAddFeatured = () => {
     setFeaturedItems([...featuredItems, { title: "", description: "" }]);
@@ -40,7 +52,19 @@ const Step11Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Featured Content:", featuredItems);
+    // Filter out completely empty featured items
+    const validFeaturedItems = featuredItems.filter(
+      item => item.title || item.description
+    );
+    
+    console.log("Featured Content:", validFeaturedItems);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_featured_items`, JSON.stringify(validFeaturedItems));
+    }
+    
     onNext();
   };
 

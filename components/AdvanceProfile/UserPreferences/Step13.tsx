@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2, DollarSign, Link2 } from "lucide-react";
+import Image from 'next/image';
 
 // Define types for the data structure
 type Product = {
@@ -36,6 +37,23 @@ const Step13Welcome = ({
   const [services, setServices] = useState<Service[]>([
     { name: "", description: "", specialties: "", pricing: "", imageUrl: "" }
   ]);
+
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedProducts = localStorage.getItem(`${sessionId}_products`);
+      const savedServices = localStorage.getItem(`${sessionId}_services`);
+      
+      if (savedProducts && savedProducts !== "[]") {
+        setProducts(JSON.parse(savedProducts));
+      }
+      
+      if (savedServices && savedServices !== "[]") {
+        setServices(JSON.parse(savedServices));
+      }
+    }
+  }, []);
 
   // Add a new product
   const handleAddProduct = () => {
@@ -75,8 +93,28 @@ const Step13Welcome = ({
 
   // Handle next button click
   const handleNext = () => {
-    console.log("Products:", products);
-    console.log("Services:", services);
+    // Filter out completely empty product entries
+    const validProducts = products.filter(
+      product => product.name || product.description || product.features || 
+                 product.price || product.imageUrl || product.productLink
+    );
+    
+    // Filter out completely empty service entries
+    const validServices = services.filter(
+      service => service.name || service.description || service.specialties || 
+                 service.pricing || service.imageUrl
+    );
+    
+    console.log("Products:", validProducts);
+    console.log("Services:", validServices);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_products`, JSON.stringify(validProducts));
+      localStorage.setItem(`${sessionId}_services`, JSON.stringify(validServices));
+    }
+    
     onNext();
   };
 
@@ -249,10 +287,12 @@ const Step13Welcome = ({
                       <div key={`preview-product-${index}`} className="flex flex-col rounded-lg bg-white p-4 shadow-md">
                         {product.imageUrl && (
                           <div className="mb-3 h-40 w-full overflow-hidden rounded-lg bg-gray-200">
-                            <img 
+                            <Image 
+                              width={500}
+                              height={500}
                               src={product.imageUrl} 
                               alt={product.name || "Product"} 
-                              className="h-full w-full object-cover"
+                              className="size-full object-cover"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x200?text=Product+Image";
                               }}
@@ -299,10 +339,12 @@ const Step13Welcome = ({
                       <div key={`preview-service-${index}`} className="flex flex-col rounded-lg bg-white p-4 shadow-md">
                         {service.imageUrl && (
                           <div className="mb-3 h-40 w-full overflow-hidden rounded-lg bg-gray-200">
-                            <img 
+                            <Image
+                              width={500}
+                              height={500} 
                               src={service.imageUrl} 
                               alt={service.name || "Service"} 
-                              className="h-full w-full object-cover"
+                              className="size-full object-cover"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x200?text=Service+Image";
                               }}

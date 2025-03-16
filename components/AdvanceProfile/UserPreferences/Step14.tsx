@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
 
@@ -22,6 +22,18 @@ const Step14Welcome = ({
     { title: "", score: "", description: "" }
   ]);
 
+  // Load saved data from localStorage on component mount
+  useEffect(() => {
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      const savedTestScores = localStorage.getItem(`${sessionId}_test_scores`);
+      
+      if (savedTestScores && savedTestScores !== "[]") {
+        setTestScores(JSON.parse(savedTestScores));
+      }
+    }
+  }, []);
+
   // Add a new test score entry
   const handleAddTestScore = () => {
     setTestScores([...testScores, { title: "", score: "", description: "" }]);
@@ -41,7 +53,19 @@ const Step14Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Test Scores:", testScores);
+    // Filter out completely empty test score entries
+    const validTestScores = testScores.filter(
+      score => score.title || score.score || score.description
+    );
+    
+    console.log("Test Scores:", validTestScores);
+    
+    // Save to localStorage
+    const sessionId = localStorage.getItem("personalized_session_id");
+    if (sessionId) {
+      localStorage.setItem(`${sessionId}_test_scores`, JSON.stringify(validTestScores));
+    }
+    
     onNext();
   };
 
