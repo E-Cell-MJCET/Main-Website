@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MdInfoOutline, MdFileUpload, MdEdit } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
+import Image from "next/image";
 
 // Define a type for all possible section names
 type SectionName = 
@@ -44,13 +45,23 @@ const Step3Welcome = ({
   
   // New state for profile image
   const [profileImage, setProfileImage] = useState<File | null>(null);
-  const [profileImageURL, setProfileImageURL] = useState<string | null>(null);
+  const [profileImageBase64, setProfileImageBase64] = useState<string | null>(null);
   const [showImageTooltip, setShowImageTooltip] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Convert file to base64
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   // Effect to show initial tooltip
   useEffect(() => {
-    // Auto-hide the tooltip after 5 seconds
+    // Auto-hide the tooltip after 15 seconds
     const timer = setTimeout(() => {
       setShowImageTooltip(false);
     }, 15000);
@@ -58,10 +69,11 @@ const Step3Welcome = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Load any previously saved selections from localStorage
+  // Load saved data from localStorage on component mount
   useEffect(() => {
     const sessionId = localStorage.getItem("personalized_session_id");
     if (sessionId) {
+      // Load section selections
       const savedCoreSelections = localStorage.getItem(`${sessionId}_core_sections`);
       const savedRecommendedSelections = localStorage.getItem(`${sessionId}_recommended_sections`);
       const savedAdditionalSelections = localStorage.getItem(`${sessionId}_additional_sections`);
@@ -69,26 +81,53 @@ const Step3Welcome = ({
       if (savedCoreSelections) setCoreSelections(JSON.parse(savedCoreSelections));
       if (savedRecommendedSelections) setRecommendedSelections(JSON.parse(savedRecommendedSelections));
       if (savedAdditionalSelections) setAdditionalSelections(JSON.parse(savedAdditionalSelections));
+      
+      // Load profile header image
+      const savedProfileImage = localStorage.getItem(`${sessionId}_profile_header_image`);
+      if (savedProfileImage) {
+        setProfileImageBase64(savedProfileImage);
+      }
     }
   }, []);
 
   // Handle image file selection
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      
+      // Check if file is an image
+      if (!file.type.match('image.*')) {
+        alert('Please select an image file');
+        
+return;
+      }
+      
+      // Check file size (limit to 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('File size should not exceed 2MB');
+        
+return;
+      }
+      
       setProfileImage(file);
-      setProfileImageURL(URL.createObjectURL(file));
-      setShowImageTooltip(false);
+      
+      try {
+        // Convert to base64 for storage
+        const base64Image = await convertToBase64(file);
+        setProfileImageBase64(base64Image);
+        setShowImageTooltip(false);
+      } catch (error) {
+        console.error('Error converting image to base64:', error);
+        alert('Failed to process image');
+      }
     }
   };
 
   // Clear selected image
   const clearImage = () => {
     setProfileImage(null);
-    if (profileImageURL) {
-      URL.revokeObjectURL(profileImageURL);
-      setProfileImageURL(null);
-    }
+    setProfileImageBase64(null);
+    
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -145,7 +184,7 @@ const Step3Welcome = ({
   };
 
   const handleNext = () => {
-    console.log("Profile Image:", profileImage);
+    console.log("Profile Image:", profileImage ? "Selected" : "None");
     console.log("Core Selections:", coreSelections);
     console.log("Recommended Selections:", recommendedSelections);
     console.log("Additional Selections:", additionalSelections);
@@ -165,9 +204,12 @@ const Step3Welcome = ({
       localStorage.setItem(`${sessionId}_additional_sections`, JSON.stringify(additionalSelections));
       localStorage.setItem(`${sessionId}_step_sequence`, JSON.stringify(stepSequence));
       
-      // Store image URL if available (in a real app, you'd handle the file differently)
-      if (profileImageURL) {
-        localStorage.setItem(`${sessionId}_profile_image_url`, profileImageURL);
+      // Store profile header image as base64 string
+      if (profileImageBase64) {
+        localStorage.setItem(`${sessionId}_profile_header_image`, profileImageBase64);
+      } else {
+        // If the image was cleared, remove it from localStorage
+        localStorage.removeItem(`${sessionId}_profile_header_image`);
       }
     }
 
@@ -214,6 +256,7 @@ const Step3Welcome = ({
                 <span className="ml-3 font-medium text-gray-700">{section}</span>
               </div>
               <button
+                type="button"
                 onClick={(e) => {
                   e.preventDefault();
                   toggleTooltip(section);
@@ -236,6 +279,7 @@ const Step3Welcome = ({
                   {sectionDescriptions[section]}
                 </p>
                 <button
+                  type="button"
                   onClick={() => setActiveTooltip(null)}
                   className={`text- mt-2 text-sm${borderColor} hover:underline`}
                 >
@@ -266,55 +310,68 @@ const Step3Welcome = ({
             Profile Header Image
           </h3>
           <div className="flex flex-col items-center">
-            <div 
-              className="relative mb-4 flex h-48 w-full max-w-lg flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50"
-            >
-              {profileImageURL ? (
-                <div className="relative size-full">
-                  <img 
-                    src={profileImageURL} 
-                    alt="Profile Header" 
-                    className="size-full rounded-lg object-cover"
-                  />
-                  <div className="absolute right-2 top-2 flex space-x-2">
-                    <button
-                      onClick={() => fileInputRef.current?.click()}
-                      className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
-                      title="Change image"
-                    >
-                      <MdEdit size={20} className="text-gray-700" />
-                    </button>
-                    <button
-                      onClick={clearImage}
-                      className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
-                      title="Remove image"
-                    >
-                      <IoMdCloseCircle size={20} className="text-red-500" />
-                    </button>
+            {/* 4:3 Aspect Ratio Container */}
+            <div className="relative mb-4 w-full max-w-lg">
+              {/* The div below creates a 4:3 aspect ratio box using padding-bottom trick */}
+              <div className="relative w-full overflow-hidden rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 pb-[75%]">
+                {profileImageBase64 ? (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Image
+                      width={800}
+                      height={600} 
+                      src={profileImageBase64} 
+                      alt="Profile Header" 
+                      className="absolute inset-0 size-full object-cover"
+                    />
+                    <div className="absolute right-2 top-2 z-10 flex space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
+                        title="Change image"
+                      >
+                        <MdEdit size={20} className="text-gray-700" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={clearImage}
+                        className="rounded-full bg-white p-2 shadow-md hover:bg-gray-100"
+                        title="Remove image"
+                      >
+                        <IoMdCloseCircle size={20} className="text-red-500" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <>
-                  <MdFileUpload className="size-12 text-gray-400" />
-                  <p className="mt-2 text-sm text-gray-500">Click to upload a profile header image</p>
-                  <p className="text-xs text-gray-400">Recommended size: 1200 x 300 pixels</p>
-                </>
-              )}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
-                className="hidden"
-              />
-              {/* Only show the overlay button if no image is selected */}
-              {!profileImageURL && (
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="absolute inset-0 size-full cursor-pointer"
-                  aria-label="Upload profile header image"
-                ></button>
-              )}
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <MdFileUpload className="size-12 text-gray-400" />
+                    <p className="mt-2 text-sm text-gray-500">Click to upload a profile header image</p>
+                    <p className="text-xs text-gray-400">4:3 aspect ratio recommended (800×600px)</p>
+                    {/* Visual aspect ratio guide */}
+                    <div className="mt-3 grid w-20 grid-cols-4 gap-0.5">
+                      {[...Array(12)].map((_, i) => (
+                        <div key={i} className="aspect-square bg-gray-300"></div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
+                {/* Only show the overlay button if no image is selected */}
+                {!profileImageBase64 && (
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute inset-0 size-full cursor-pointer"
+                    aria-label="Upload profile header image"
+                  ></button>
+                )}
+              </div>
             </div>
             {/* Interactive tooltip that appears on first load */}
             {showImageTooltip && (
@@ -328,9 +385,10 @@ const Step3Welcome = ({
                   <MdInfoOutline size={24} className="mr-3 mt-0.5 shrink-0 text-blue-500" />
                   <div>
                     <p className="text-sm text-gray-700">
-                      <strong>Make a great first impression!</strong> Your profile header image is the first thing visitors will see. Choose an image that represents your professional identity or showcases your work.
+                      <strong>Make a great first impression!</strong> Your profile header image is the first thing visitors will see. Choose a 4:3 aspect ratio image that represents your professional identity or showcases your work.
                     </p>
                     <button
+                      type="button"
                       onClick={() => setShowImageTooltip(false)}
                       className="mt-2 text-sm text-blue-500 hover:underline"
                     >
@@ -359,6 +417,7 @@ const Step3Welcome = ({
             whileTap={{ scale: 0.95 }}
             onClick={onPrevious}
             className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
+            type="button"
           >
             Previous
           </motion.button>
@@ -372,6 +431,7 @@ const Step3Welcome = ({
                 ? "cursor-not-allowed bg-gray-300"
                 : "bg-red-500 hover:bg-red-600"
             }`}
+            type="button"
           >
             Next
           </motion.button>

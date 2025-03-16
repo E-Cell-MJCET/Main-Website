@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from "framer-motion";
-import { Trash2, DollarSign, Link2 } from "lucide-react";
+import { Trash2, DollarSign, Link2, Upload, X } from "lucide-react";
 import Image from 'next/image';
 
 // Define types for the data structure
@@ -10,7 +10,7 @@ type Product = {
   description: string;
   features: string;
   price: string;
-  imageUrl: string;
+  image: string; // Will store image as base64 string
   productLink: string;
 };
 
@@ -19,7 +19,6 @@ type Service = {
   description: string;
   specialties: string;
   pricing: string;
-  imageUrl: string;
 };
 
 const Step13Welcome = ({
@@ -31,12 +30,15 @@ const Step13Welcome = ({
 }) => {
   // State for products and services
   const [products, setProducts] = useState<Product[]>([
-    { name: "", description: "", features: "", price: "", imageUrl: "", productLink: "" }
+    { name: "", description: "", features: "", price: "", image: "", productLink: "" }
   ]);
   
   const [services, setServices] = useState<Service[]>([
-    { name: "", description: "", specialties: "", pricing: "", imageUrl: "" }
+    { name: "", description: "", specialties: "", pricing: "" }
   ]);
+
+  // References to file inputs for products
+  const productFileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -55,9 +57,14 @@ const Step13Welcome = ({
     }
   }, []);
 
+  // Update file input refs when arrays change
+  useEffect(() => {
+    productFileInputRefs.current = productFileInputRefs.current.slice(0, products.length);
+  }, [products.length]);
+
   // Add a new product
   const handleAddProduct = () => {
-    setProducts([...products, { name: "", description: "", features: "", price: "", imageUrl: "", productLink: "" }]);
+    setProducts([...products, { name: "", description: "", features: "", price: "", image: "", productLink: "" }]);
   };
 
   // Update a product
@@ -75,7 +82,7 @@ const Step13Welcome = ({
   
   // Add a new service
   const handleAddService = () => {
-    setServices([...services, { name: "", description: "", specialties: "", pricing: "", imageUrl: "" }]);
+    setServices([...services, { name: "", description: "", specialties: "", pricing: "" }]);
   };
 
   // Update a service
@@ -91,18 +98,73 @@ const Step13Welcome = ({
     setServices(services.filter((_, i) => i !== index));
   };
 
+  // Convert file to base64 string
+  const convertToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  // Handle product image upload
+  const handleProductImageUpload = async (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      
+      // Check if file is an image
+      if (!file.type.match('image.*')) {
+        alert('Please select an image file');
+        
+        return;
+      }
+      
+      // Check file size (limit to 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('File size should not exceed 2MB');
+        
+        return;
+      }
+      
+      try {
+        const base64Image = await convertToBase64(file);
+        handleProductChange(index, "image", base64Image);
+      } catch (error) {
+        console.error('Error converting product image:', error);
+        alert('Failed to process image');
+      }
+    }
+  };
+
+  // Trigger product file input click
+  const triggerProductFileInput = (index: number) => {
+    if (productFileInputRefs.current[index]) {
+      productFileInputRefs.current[index]?.click();
+    }
+  };
+
+  // Clear product image
+  const clearProductImage = (index: number) => {
+    handleProductChange(index, "image", "");
+    // Reset file input
+    if (productFileInputRefs.current[index]) {
+      productFileInputRefs.current[index]!.value = "";
+    }
+  };
+
   // Handle next button click
   const handleNext = () => {
     // Filter out completely empty product entries
     const validProducts = products.filter(
       product => product.name || product.description || product.features || 
-                 product.price || product.imageUrl || product.productLink
+                 product.price || product.image || product.productLink
     );
     
     // Filter out completely empty service entries
     const validServices = services.filter(
       service => service.name || service.description || service.specialties || 
-                 service.pricing || service.imageUrl
+                 service.pricing
     );
     
     console.log("Products:", validProducts);
@@ -144,6 +206,7 @@ const Step13Welcome = ({
                   className="mb-2 w-full rounded-lg border border-gray-300 p-3"
                 />
                 <button 
+                  type="button"
                   onClick={() => handleRemoveProduct(index)} 
                   className="ml-2 text-red-500 hover:text-red-700"
                   aria-label="Remove product"
@@ -191,19 +254,64 @@ const Step13Welcome = ({
                   />
                 </div>
               </div>
-              <input
-                type="text"
-                placeholder="Image URL (optional)"
-                value={product.imageUrl}
-                onChange={(e) => handleProductChange(index, "imageUrl", e.target.value)}
-                className="w-full rounded-lg border border-gray-300 p-3"
-              />
+              {/* Product Image Input Section */}
+              <div className="mb-2 mt-3">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
+                  Product Image (Optional)
+                </label>
+                {/* Product Image Preview */}
+                {product.image ? (
+                  <div className="mt-3 rounded-lg border border-gray-200 p-2">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-sm font-medium text-gray-700">Image Preview</h4>
+                      <button 
+                        type="button"
+                        onClick={() => clearProductImage(index)}
+                        className="rounded p-1 text-red-500 hover:bg-red-50"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                    <div className="mt-2 flex justify-center overflow-hidden rounded-lg">
+                      <Image  
+                        width={500}
+                        height={500} 
+                        src={product.image} 
+                        alt={product.name || "Product image"} 
+                        className="max-h-48 object-contain"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  /* No Image Placeholder - Clickable Upload Area */
+                  <div 
+                    className="mt-3 flex h-32 cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100"
+                    onClick={() => triggerProductFileInput(index)}
+                  >
+                    <Upload size={36} className="mb-2 text-gray-400" />
+                    <p className="text-sm text-gray-500">Click to upload product image</p>
+                    <p className="mt-1 text-xs text-gray-400">Max size: 2MB</p>
+                  </div>
+                )}
+                {/* Hidden file input for product */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={(el) => {
+                    productFileInputRefs.current[index] = el;
+                  }}
+                  onChange={(e) => handleProductImageUpload(index, e)}
+                  className="hidden"
+                />
+              </div>
             </div>
           ))}
           <button
+            type="button"
             onClick={handleAddProduct}
-            className="rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-white hover:bg-emerald-600"
+            className="flex items-center rounded-lg bg-emerald-500 px-4 py-2 font-semibold text-white hover:bg-emerald-600"
           >
+            <Trash2 size={20} className="mr-2" />
             Add Another Product
           </button>
         </div>
@@ -222,6 +330,7 @@ const Step13Welcome = ({
                   className="mb-2 w-full rounded-lg border border-gray-300 p-3"
                 />
                 <button 
+                  type="button"
                   onClick={() => handleRemoveService(index)} 
                   className="ml-2 text-red-500 hover:text-red-700"
                   aria-label="Remove service"
@@ -243,59 +352,49 @@ const Step13Welcome = ({
                 className="mb-2 w-full rounded-lg border border-gray-300 p-3"
                 rows={2}
               />
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div className="relative">
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <DollarSign size={16} className="text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Pricing/Rate (optional)"
-                    value={service.pricing}
-                    onChange={(e) => handleServiceChange(index, "pricing", e.target.value)}
-                    className="mb-2 w-full rounded-lg border border-gray-300 p-3 pl-10"
-                  />
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <DollarSign size={16} className="text-gray-400" />
                 </div>
                 <input
                   type="text"
-                  placeholder="Image URL (optional)"
-                  value={service.imageUrl}
-                  onChange={(e) => handleServiceChange(index, "imageUrl", e.target.value)}
-                  className="mb-2 w-full rounded-lg border border-gray-300 p-3"
+                  placeholder="Pricing/Rate (optional)"
+                  value={service.pricing}
+                  onChange={(e) => handleServiceChange(index, "pricing", e.target.value)}
+                  className="mb-2 w-full rounded-lg border border-gray-300 p-3 pl-10"
                 />
               </div>
             </div>
           ))}
           <button
+            type="button"
             onClick={handleAddService}
-            className="rounded-lg bg-teal-500 px-4 py-2 font-semibold text-white hover:bg-teal-600"
+            className="flex items-center rounded-lg bg-teal-500 px-4 py-2 font-semibold text-white hover:bg-teal-600"
           >
+            <Trash2 size={20} className="mr-2" />
             Add Another Service
           </button>
         </div>
         {/* Preview Section */}
-        {(products.some(p => p.name || p.description) || services.some(s => s.name || s.description)) && (
+        {(products.some(p => p.name || p.description || p.image) || services.some(s => s.name || s.description)) && (
           <div className="mt-8">
             <h3 className="mb-4 text-lg font-medium text-gray-700">Preview</h3>
             <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
               {/* Products Preview */}
-              {products.some(p => p.name || p.description) && (
+              {products.some(p => p.name || p.description || p.image) && (
                 <div className="mb-6">
                   <h4 className="mb-3 text-lg font-medium text-emerald-700">Products</h4>
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    {products.filter(p => p.name || p.description).map((product, index) => (
+                    {products.filter(p => p.name || p.description || p.image).map((product, index) => (
                       <div key={`preview-product-${index}`} className="flex flex-col rounded-lg bg-white p-4 shadow-md">
-                        {product.imageUrl && (
-                          <div className="mb-3 h-40 w-full overflow-hidden rounded-lg bg-gray-200">
-                            <Image 
+                        {product.image && (
+                          <div className="mb-3 flex h-40 w-full items-center justify-center overflow-hidden rounded-lg bg-gray-200">
+                            <Image
                               width={500}
-                              height={500}
-                              src={product.imageUrl} 
+                              height={500} 
+                              src={product.image} 
                               alt={product.name || "Product"} 
-                              className="size-full object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x200?text=Product+Image";
-                              }}
+                              className="max-h-full max-w-full object-contain"
                             />
                           </div>
                         )}
@@ -337,20 +436,6 @@ const Step13Welcome = ({
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {services.filter(s => s.name || s.description).map((service, index) => (
                       <div key={`preview-service-${index}`} className="flex flex-col rounded-lg bg-white p-4 shadow-md">
-                        {service.imageUrl && (
-                          <div className="mb-3 h-40 w-full overflow-hidden rounded-lg bg-gray-200">
-                            <Image
-                              width={500}
-                              height={500} 
-                              src={service.imageUrl} 
-                              alt={service.name || "Service"} 
-                              className="size-full object-cover"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/300x200?text=Service+Image";
-                              }}
-                            />
-                          </div>
-                        )}
                         <h5 className="mb-2 text-lg font-semibold text-gray-800">{service.name || "Untitled Service"}</h5>
                         {service.description && (
                           <p className="mb-2 text-sm text-gray-600">{service.description}</p>
@@ -387,6 +472,7 @@ const Step13Welcome = ({
             whileTap={{ scale: 0.95 }}
             onClick={onPrevious}
             className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
+            type="button"
           >
             Previous
           </motion.button>
@@ -395,6 +481,7 @@ const Step13Welcome = ({
             whileTap={{ scale: 0.95 }}
             onClick={handleNext}
             className="rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white hover:bg-teal-600"
+            type="button"
           >
             Next
           </motion.button>
