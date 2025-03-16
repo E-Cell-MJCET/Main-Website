@@ -8,15 +8,15 @@ import Navbar from "@/components/LandingPage/Navbar";
 import Footer from "@/components/LandingPage/Footer";
 
 const userData: UserType = {
-  roll_no: "1604-22-733-063",
+  roll_no: "1604-22-737-009",
   created_at: new Date(),
-  name: "Rukhaiya Begum",
-  email: "rukhaiyams@gmail.com",
+  name: "Syeda Maliha Ishaq",
+  email: "malihaaishaaq@gmail.com",
   phone_no: 9014934625,
   experience: [
     {
       id: "1",
-      jobTitle: "Editorial and Research Head",
+      jobTitle: "Chief Operating Officer",
       company: "E-Cell MJCET",
       startDate: "October 2024",
       endDate: "Present",
@@ -45,14 +45,14 @@ const userData: UserType = {
   about:
     "A resourceful and results-driven individual with a keen interest in leadership, innovation, and teamwork. Skilled in event coordination, communicating effectively, and delivering innovative solutions. An avid reader and adventure enthusiast, I draw inspiration from novels and real-world experiences.",
   social: {
-    github: "https://github.com/rukhaiya08",
+    github: "https://github.com/Mxliihxx",
     linkedin: "https://www.linkedin.com/in/rukhaiya-begum-246648340/",
     instagram: "https://www.instagram.com/rukhaiyaaa._/",
   },
-  portfolio: "Editorial & Research",
-  position: "Execom",
+  portfolio: "COO",
+  position: "GB",
   dob: new Date("2005-03-11"),
-  image: "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
+  image: "/assets/Team/GB/maliha.jpeg",
   theme: "dark",
   education: [
     {
@@ -91,9 +91,9 @@ const userData: UserType = {
     },
   ],
   projects: [],
-  branch: "CSI",
+  branch: "IT",
   year: 3,
-  slur: "rukhaiya",
+  slur: "maliha",
 };
 
 const RukhaiyaPage = () => {
