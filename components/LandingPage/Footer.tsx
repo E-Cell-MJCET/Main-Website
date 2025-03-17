@@ -15,6 +15,8 @@ import irfan from "@/public/assets/irfan.jpeg";
 
 import { AnimatedTooltip } from "../ui/animated-tooltip";
 
+import { TeamToolTip } from "./teamToolTip";
+
 const Footer = () => {
   const people = [
     {
@@ -58,21 +60,21 @@ const Footer = () => {
     {
       id: 1,
       name: "Faiz R&O",
-      Number: "tel:+919182571088",
+      Number: "+919182571088",
       designation: "R&O",
       image: faiz,
     },
     {
       id: 2,
       name: "Irfan CIO",
-      Number: "tel:+918919163391",
+      Number: "+918919163391",
       designation: "CIO",
       image: irfan,
     },
   ];
 
   return (
-    <footer className="flex w-full flex-col bg-[#685797] pt-10 text-white md:p-0">
+    <footer className=" flex w-full flex-col bg-[#685797] pt-10 text-white md:p-0">
       <div className="flex h-auto flex-col md:h-[60vh] md:flex-row">
         <div className="flex w-full items-center justify-center p-4 md:w-1/4 md:p-0">
           <Image src={ecell} className="h-auto w-40 md:w-60" alt="ecell" />
@@ -103,9 +105,14 @@ const Footer = () => {
                 Blogs
               </Link>
             </li>
-            <li>
-              <Link href="/aboutus" className="hover:underline">
+            <li className="hidden md:block">
+              <Link href="/aboutus" className="hidden hover:underline md:flex">
                 About us
+              </Link>
+            </li>
+            <li className="md:hidden">
+              <Link href="/membership" className="hover:underline ">
+                Membership
               </Link>
             </li>
             <li>
@@ -146,7 +153,7 @@ const Footer = () => {
             {contacts.map((ele, idx) => {
               return (
                 <Link
-                  href={ele.Number}
+                  href={`tel:${ele.Number}`}
                   key={idx}
                   className="flex items-center justify-center gap-1 rounded-md bg-[#8b76c6] p-1"
                 >
@@ -169,6 +176,9 @@ const Footer = () => {
       <div className="h-px w-full bg-white"></div>
       <div className="mx-5 flex h-auto flex-col items-center justify-between px-5 py-4 md:h-[10vh] md:flex-row md:py-0">
         <p className="text-sm md:text-base">© Copyright E-Cell MJCET.</p>
+        <span className="my-1 flex flex-col items-center justify-center font-silkscreen md:my-0 md:flex-row md:gap-5">
+          <span className="text-sm md:text-base">Developed By :</span> <TeamToolTip />
+        </span>
         <p className="text-sm md:text-base">All Rights Reserved.</p>
       </div>
     </footer>

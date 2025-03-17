@@ -2,7 +2,7 @@
 import React from "react";
 
 import Hero from "./Hero";
-import Dummy from "./Dummy";
+// import Dummy from "./Dummy";
 // import { Wobble } from './Wobble';
 import JoinUs from "./JoinUs";
 import Footer from "./Footer";
@@ -11,16 +11,15 @@ import { BentoGridDemo } from "./Bento";
 
 const LandingPage = () => {
   return (
-    <div className="max-w-screen overflow-hidden">
-      <Dummy />
+    <div className="">
+      {/* <Dummy /> */}
       <About />
       <BentoGridDemo />
       <Hero />
-      {/* <WoobleMobile/> */}
       <div className="joinUsBox h-fit bg-slate-500">
         <JoinUs />
       </div>
-      <Footer />
+      <Footer /> 
     </div>
   );
 };
