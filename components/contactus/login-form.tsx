@@ -5,14 +5,27 @@ import {
   useRef,
   useEffect,
   type MouseEvent as ReactMouseEvent,
-  ChangeEvent,
-  FormEvent,
 } from "react";
 import { Mail, MapPin, Instagram } from "lucide-react";
 import Confetti from "react-confetti";
 import { z } from "zod";
+import { createClient } from '@supabase/supabase-js';
+import { toast } from "sonner"; // Toast notifications
+import { useForm } from '@tanstack/react-form';
 
 import { cn } from "@/lib/utils";
+
+// Import TanStack Form hooks/components
+
+/* ------------------ Supabase Initialization ------------------ */
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("Supabase environment variables not configured!");
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /* ------------------ Squares Component ------------------ */
 interface SquaresProps {
@@ -225,7 +238,6 @@ const CardSpotlight = ({
           <CanvasRevealEffect
             animationSpeed={5}
             containerClassName="bg-transparent absolute inset-0 pointer-events-none"
-            dotSize={2}
           />
         )}
       </motion.div>
@@ -234,49 +246,78 @@ const CardSpotlight = ({
   );
 };
 
-/* ------------------ ContactForm Component (Using Zod Only) ------------------ */
+/* ------------------ ContactForm Component (Using TanStack Form) ------------------ */
 const ContactForm = () => {
   const [showConfetti, setShowConfetti] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
-  const [errors, setErrors] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const result = formSchema.safeParse(formData);
-    if (result.success) {
-      setErrors({ name: "", phone: "", email: "", message: "" });
-      setShowConfetti(true);
-      // Optionally clear the form:
-      setFormData({ name: "", phone: "", email: "", message: "" });
-      setTimeout(() => setShowConfetti(false), 5000);
-    } else {
-      const flattened = result.error.flatten().fieldErrors;
-      setErrors({
-        name: flattened.name ? flattened.name[0] : "",
-        phone: flattened.phone ? flattened.phone[0] : "",
-        email: flattened.email ? flattened.email[0] : "",
-        message: flattened.message ? flattened.message[0] : "",
-      });
-    }
-  };
+  const form = useForm({
+    defaultValues: {
+      name: "",
+      phone: "",
+      email: "",
+      message: "",
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        const { error } = await supabase.from("contact-form").insert([
+          {
+            name: value.name,
+            phone: value.phone,
+            email: value.email,
+            message: value.message,
+          },
+        ]);
+        if (error) {
+          toast.error("Submission failed", {
+            description: error.message,
+            action: {
+              label: "Retry",
+              onClick: () => form.handleSubmit(),
+            },
+          });
+        } else {
+          setShowConfetti(true);
+          toast.success("Message sent successfully!", {
+            description: "We'll get back to you soon",
+          });
+          form.reset();
+          setTimeout(() => setShowConfetti(false), 5000);
+        }
+      } catch {
+        toast.error("Unexpected error occurred", {
+          description: "Please try again later",
+        });
+      }
+    },
+    validators: {
+      onSubmitAsync: async ({ value }) => {
+        const result = formSchema.safeParse(value);
+        if (!result.success) {
+          const flattened = result.error.flatten().fieldErrors;
+          
+return {
+            fields: {
+              name: flattened.name ? flattened.name[0] : undefined,
+              phone: flattened.phone ? flattened.phone[0] : undefined,
+              email: flattened.email ? flattened.email[0] : undefined,
+              message: flattened.message ? flattened.message[0] : undefined,
+            },
+          };
+        }
+        
+return null;
+      },
+    },
+  });
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        form.handleSubmit();
+      }}
+      className="space-y-6"
+    >
       {showConfetti && (
         <Confetti
           width={window.innerWidth}
@@ -294,56 +335,98 @@ const ContactForm = () => {
           gravity={0.4}
         />
       )}
-      <div>
-        <label className="mb-1 block text-base font-medium text-neutral-200">Name</label>
-        <input
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="John Doe"
-        />
-        {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
-      </div>
-      <div>
-        <label className="mb-1 block text-base font-medium text-neutral-200">Phone</label>
-        <input
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          type="tel"
-          className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="XXXXXXXXXX"
-          pattern="[6-9]{1}[0-9]{9}"
-          maxLength={10}
-        />
-        {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
-        <p className="mt-1 text-sm text-neutral-500">10-digit number starting with 6-9</p>
-      </div>
-      <div>
-        <label className="mb-1 block text-base font-medium text-neutral-200">Email</label>
-        <input
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          type="email"
-          className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="username@example.com"
-        />
-        {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-      </div>
-      <div>
-        <label className="mb-1 block text-base font-medium text-neutral-200">Message</label>
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleInputChange}
-          rows={4}
-          className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          placeholder="Share your thoughts with us..."
-        />
-        {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
-      </div>
+      <form.Field name="name">
+        {(field) => (
+          <div>
+            <label className="mb-1 block text-base font-medium text-neutral-200">
+              Name
+            </label>
+            <input
+              name={field.name}
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              placeholder="Enter your full name"
+            />
+            {field.state.meta.errors?.length ? (
+              <p className="mt-1 text-sm text-red-500">
+                {field.state.meta.errors.join(", ")}
+              </p>
+            ) : null}
+          </div>
+        )}
+      </form.Field>
+      <form.Field name="phone">
+        {(field) => (
+          <div>
+            <label className="mb-1 block text-base font-medium text-neutral-200">
+              Phone
+            </label>
+            <input
+              name={field.name}
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              type="tel"
+              placeholder="eg. 81422 78334"
+              pattern="[6-9]{1}[0-9]{9}"
+              maxLength={10}
+              className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {field.state.meta.errors?.length ? (
+              <p className="mt-1 text-sm text-red-500">
+                {field.state.meta.errors.join(", ")}
+              </p>
+            ) : null}
+            <p className="mt-1 text-sm text-neutral-500">
+              10-digit number starting with 6-9
+            </p>
+          </div>
+        )}
+      </form.Field>
+      <form.Field name="email">
+        {(field) => (
+          <div>
+            <label className="mb-1 block text-base font-medium text-neutral-200">
+              Email
+            </label>
+            <input
+              name={field.name}
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              type="email"
+              placeholder="your.email@example.com"
+              className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {field.state.meta.errors?.length ? (
+              <p className="mt-1 text-sm text-red-500">
+                {field.state.meta.errors.join(", ")}
+              </p>
+            ) : null}
+          </div>
+        )}
+      </form.Field>
+      <form.Field name="message">
+        {(field) => (
+          <div>
+            <label className="mb-1 block text-base font-medium text-neutral-200">
+              Message
+            </label>
+            <textarea
+              name={field.name}
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              rows={4}
+              placeholder="Enter your message or inquiry"
+              className="block w-full rounded-md border border-neutral-800 bg-neutral-900/40 px-3 py-2 text-neutral-200 shadow-sm backdrop-blur-sm placeholder:text-neutral-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+            {field.state.meta.errors?.length ? (
+              <p className="mt-1 text-sm text-red-500">
+                {field.state.meta.errors.join(", ")}
+              </p>
+            ) : null}
+          </div>
+        )}
+      </form.Field>
       <button
         type="submit"
         className="w-full rounded-md bg-blue-600 px-5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -360,7 +443,7 @@ const ContactInfo = () => {
     <div className="space-y-6">
       <h2 className="text-xl font-bold text-neutral-200">Connect with E-Cell MJCET</h2>
       <p className="text-sm text-neutral-400">
-        Have an idea, a startup query, or just curious about entrepreneurship? Reach out to us—we're here to help!
+        Have an idea, a startup query, or just curious about entrepreneurship? Reach out to us—we&apos;re here to help!
       </p>
       <div className="space-y-4">
         <div className="flex items-center space-x-3 text-neutral-300">
