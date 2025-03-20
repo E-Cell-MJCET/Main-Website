@@ -38,6 +38,8 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "framer-motion": "^11.13.1",
     "gsap": "^3.12.5",
+    "jspdf": "^3.0.0",
+    "jspdf-autotable": "^5.0.2",
     "lenis": "^1.1.18",
     "lucide-react": "^0.469.0",
     "motion": "^11.13.1",

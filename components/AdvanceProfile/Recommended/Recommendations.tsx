@@ -1,58 +1,154 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
+import {motion} from "framer-motion"
+
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 
-// Update the component to accept props
-export function Recommendations({ testimonials }: { testimonials: Array<{ id: number; title: string; description: string; link: string }> }) {
+// Match Step9 data structure exactly
+type Recommendation = {
+  title: string;
+  description: string;
+  link: string;
+};
+
+// Updated props interface to match Step9 data structure
+interface RecommendationsProps {
+  recommendations: Recommendation[];
+}
+
+export function Recommendations({ recommendations = [] }: RecommendationsProps) {
+  // Convert data format to what HoverEffect component expects
+  const formattedRecommendations = recommendations.map((item, index) => ({
+    id: index, // Generate an id since Step9 data doesn't include it
+    title: item.title || "Anonymous", // Fallback for empty titles
+    description: item.description || "No description provided",
+    link: item.link || "#"
+  }));
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
   return (
-    <div className="mx-auto max-w-5xl px-8 pb-20 pt-[55rem] md:pt-[500px] lg:pt-[160px]">
-      <div className="z-10 flex flex-col gap-5 text-center">
-        <h1 className="text-4xl font-semibold text-[#76b900] md:text-5xl">
-          Recommendations
-        </h1>
-        <h2 className="text-xl font-medium text-[#858585]">
-          Real stories from real People. See how entrepreneurs like you transformed their businesses with our solution. 
-        </h2>
+    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 to-black pt-16">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-purple-600 opacity-5 blur-3xl"></div>
+        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
       </div>
-      <HoverEffect items={testimonials} />
+      <div className="container relative z-10 mx-auto max-w-6xl px-4 pb-20">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-12 text-center"
+        >
+          <h2 className="mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+            Recommendations
+          </h2>
+          {recommendations.length > 0 ? (
+            <p className="mx-auto max-w-2xl text-gray-400">
+              What others have to say about my work, skills, and collaborations.
+            </p>
+          ) : (
+            <p className="mx-auto max-w-2xl text-gray-400">
+              No recommendations have been added yet.
+            </p>
+          )}
+        </motion.div>
+        {/* Display recommendations using HoverEffect or show empty state */}
+        {recommendations.length === 0 ? (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400"
+          >
+            <p>No recommendations to display. Check back later!</p>
+          </motion.div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            <HoverEffect items={formattedRecommendations} />
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 }
 
-// Example usage where you pass JSON as a parameter
-export const projects = [
-  {
-    id: 1,
-    title: "Abid",
-    description: "Working with Adnan has been an absolute pleasure. Their ability to create stunning, functional web interfaces combined with their attention to detail has elevated our projects. The passion and professionalism He bring to every task make them an invaluable asset to any team.",
-    link: "/testimonial/abid"
-  },
-  {
-    id: 2,
-    title: "Aayan",
-    description: "Adnan is a brilliant developer who effortlessly blends creativity with functionality. He developed a full-stack solution for our company that not only exceeded expectations but also enhanced user experience. Their commitment to continuous learning and growth is evident in the quality of their work.",
-    link: "/testimonial/aayan"
-  },
-  {
-    id: 3,
-    title: "Afzal",
-    description: "I've had the privilege of working with Adnan on multiple projects. Their deep understanding of both front-end and back-end development has made them a standout developer. The level of detail and user-centric designs He produce are a testament to their expertise and passion for technology.",
-    link: "/testimonial/afzal"
-  },
-  {
-    id: 4,
-    title: "Safwan",
-    description: "What impresses me most about Adnan is their versatility. Whether it's building functional websites or inventing gadgets, their creativity and technical skills always shine through. He have an exceptional ability to turn complex ideas into practical solutions that deliver exceptional value.",
-    link: "/testimonial/safwan"
-  },
-  {
-    id: 5,
-    title: "Muneeb",
-    description: "I've worked closely with Adnan on several projects, and I can confidently say He are one of the most talented developers I've encountered. Their designs are not only visually stunning but also incredibly functional. He have a keen understanding of user experience, and their work always exceeds expectations.",
-    link: "/testimonial/muneeb"
-  },
-  {
-    id: 6,
-    title: "Neha",
-    description: "Adnan brings a unique combination of design, development, and problem-solving skills to the table. Their ability to handle both the technical and creative aspects of a project makes them an invaluable contributor. I'm continuously impressed by their work ethic and the innovation He bring to every project.",
-    link: "/testimonial/neha"
+// Alternative implementation without requiring HoverEffect
+// This can be used if the HoverEffect component isn't available
+export function RecommendationsAlternative({ recommendations = [] }: RecommendationsProps) {
+  if (!Array.isArray(recommendations)) {
+    console.error('Recommendations data is not an array:', recommendations);
+    
+return <div className="text-center text-red-600">Invalid recommendations data.</div>;
   }
-];
+  
+  return (
+    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 to-black py-16">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-purple-600 opacity-5 blur-3xl"></div>
+        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
+      </div>
+      <div className="container relative z-10 mx-auto max-w-6xl px-4">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+            Recommendations
+          </h2>
+          {recommendations.length > 0 ? (
+            <p className="mx-auto max-w-2xl text-gray-400">
+              What others have to say about my work, skills, and collaborations.
+            </p>
+          ) : (
+            <p className="mx-auto max-w-2xl text-gray-400">
+              No recommendations have been added yet.
+            </p>
+          )}
+        </div>
+        {recommendations.length === 0 ? (
+          <div className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400">
+            <p>No recommendations to display. Check back later!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {recommendations.map((recommendation, index) => (
+              <div 
+                key={index} 
+                className="group rounded-xl bg-gray-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:bg-gray-700/50"
+              >
+                <h3 className="mb-3 text-xl font-bold text-white">{recommendation.title || "Anonymous"}</h3>
+                <p className="mb-4 text-gray-300">
+                  `{recommendation.description || "No description provided"}`
+                </p>
+                {recommendation.link && (
+                  <a 
+                    href={recommendation.link} 
+                    className="inline-flex items-center text-sm font-medium text-purple-400 hover:text-purple-300"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View more
+                    <svg className="ml-1 size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

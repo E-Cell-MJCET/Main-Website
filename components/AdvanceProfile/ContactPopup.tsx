@@ -2,8 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion'; // Import framer-motion for animations
 
 interface ContactInfo {
-  email: string;
-  number: string;
+  email?: string;
+  phone?: string;
+  countryCode?: string;
+  countryDialCode?: string;
 }
 
 interface PopupProps {
@@ -14,8 +16,8 @@ interface PopupProps {
 
 const Popup: React.FC<PopupProps> = ({ isOpen, onClose,contact_info }) => {
   if (!isOpen) return null;
-  const { email, number } = contact_info;
-  const phoneURL = `tel:+91${number}`;
+  const { email, phone } = contact_info;
+  const phoneURL = `tel:+91${phone}`;
   const mailURL = `mailto:${email}`;
 
   return (
@@ -47,7 +49,7 @@ const Popup: React.FC<PopupProps> = ({ isOpen, onClose,contact_info }) => {
             <p className="font-medium text-gray-400">Phone:</p>
             <p className="text-blue-500">
               <a href={phoneURL} className="hover:underline">
-                {number}
+                {phone}
               </a>
             </p>
           </div>

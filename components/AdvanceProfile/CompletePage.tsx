@@ -5,10 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 
 import Header from '@/components/AdvanceProfile/Header';
 
-import AdvExperience from './Experience';
-// import AdvEducation from './Education';
 import Loading from './Loading';
-import Education from './Core/Education';
 import About from './Core/About';
 import Skills from './Core/Skills';
 import LicencesCertifications from './Recommended/Licences&Certifications';
@@ -18,6 +15,10 @@ import Featured from './Recommended/Featured';
 import HonorsAwards from './Additional/Honors&Awards';
 import TestScores from './Additional/Test&Scores';
 import VolunteerExperience from './Additional/VolunteerExperience';
+import HistorySection from './Education_Experience';
+import Products from './Core/Products';
+import Services from './Core/Services';
+import Causes from './Additional/Causes';
 // import Services from './Core/Services';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
@@ -72,39 +73,27 @@ export default function CompleteProfilePage({ params }: { params: { username: st
 
 return (
   <>
-    <div className="flex flex-col items-center bg-gradient-to-r from-black to-teal-900 p-6">
+    <div className="flex flex-col items-center overflow-hidden bg-gradient-to-r from-black to-teal-900 p-6">
       <br />
-      <Header
-        name={userData.Name}
-        Location={userData.Location}
-        member_Type={userData.Member_Type}
-        Personal_url={userData.Personal_url}
-        Tagline={userData.Tagline}
-        contact_info={userData.Contact_Info}
-        />
+      <Header userData={userData} />
     </div>
     <About aboutText={userData.About}/>
-    <div className='flex flex-col items-center'>
-      <AdvExperience experienceData={userData.Experience!} />
-    </div>
-    {/* <br />
-    <div className='flex flex-col items-center'>
-      <AdvEducation educationData={userData.Education!} />
-    </div> */}
-    {/* <br /> */}
-    <Education educationData={userData.Education}/>
-    {/* <p>{userData.Skills}</p> */}
+    <HistorySection educationData={userData.Education!} experienceData={userData.Experience!}/>
     <Skills skills={skillsData}/>
     {/* <Services
     services_info={userData.Services_Info}
     /> */}
-    <LicencesCertifications Licenses_info={userData.LicensesCertifications}/>
+    {/* <LicencesCertifications Licenses_info={{ licenses: userData.Licences, certifications: userData.Certifications }} /> */}
+    <LicencesCertifications licenses={userData.Licenses} certifications={userData.Certifications} />  
     <Projects projects={userData.Projects}/>
-    <Recommendations testimonials={userData.Testimonials.testimonials}/>
-    <Featured featuredItems={userData.Featured.featured}/>
-    <HonorsAwards HonorsAwards_info={userData.HonorsAwards}/>
-    <TestScores TestScores={userData.TestScores.TestScores}/>
-    <VolunteerExperience volunteerItems={userData.VolunteerExperience.volunteerContent}/>
+    <Recommendations recommendations={userData.Testimonials}/>
+    <Featured featuredItems={userData.Featured}/>
+    <HonorsAwards honors={userData.Honors} awards={userData.Awards}/>
+    <TestScores testScores={userData.TestScores}/>
+    <VolunteerExperience volunteerExperiences={userData.VolunteerExperience}/>
+    <Products products={userData.Products}/>
+    <Services services={userData.Services}/>
+    <Causes causes={userData.Causes}/>
   </>
 );
 }

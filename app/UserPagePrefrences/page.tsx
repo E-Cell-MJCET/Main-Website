@@ -187,56 +187,6 @@ function Page() {
     return userData;
   };
 
-  // Determine the appropriate Member_Type based on roles or industry
-  const determineMemberType = (userData: Record<string, any>): string => {
-    // Check for specific roles in the experiences that might indicate Executive or Governing Body
-    const experiences = userData.experiences || [];
-    
-    for (const exp of experiences) {
-      const title = (exp.title || "").toLowerCase();
-      const company = (exp.company || "").toLowerCase();
-      
-      // Check for executive roles
-      if (
-        title.includes("executive") || 
-        title.includes("director") || 
-        title.includes("chief") || 
-        title.includes("ceo") || 
-        title.includes("cto") || 
-        title.includes("cfo") || 
-        title.includes("president")
-      ) {
-        return "Executive";
-      }
-      
-      // Check for governing body roles
-      if (
-        title.includes("board") || 
-        title.includes("governor") || 
-        title.includes("trustee") || 
-        company.includes("board") || 
-        company.includes("governance")
-      ) {
-        return "Governing Body";
-      }
-    }
-    
-    // If we can't determine from experiences, use industry preference as a fallback
-    if (userData.industryPreference) {
-      const industry = userData.industryPreference.toLowerCase();
-      if (
-        industry.includes("executive") || 
-        industry.includes("leadership") || 
-        industry.includes("management")
-      ) {
-        return "Executive";
-      }
-    }
-    
-    // Default to Executive if can't determine
-    return "Executive";
-  };
-
   // Save all user data to Supabase Team table
   const saveUserData = async (userData: Record<string, any>) => {
     try {
@@ -264,20 +214,12 @@ function Page() {
       const products = Array.isArray(userData.products) ? userData.products : [];
       const services = Array.isArray(userData.services) ? userData.services : [];
 
-      // Determine technical portfolio information from skills or industry
-      const technicalPortfolio = userData.secondaryPreference || 
-                                userData.industryPreference || 
-                                "Technical"; // Default to "Technical" if no preference
-
-      // Determine the Member_Type
-      const memberType = determineMemberType(userData);
-
       // IMPORTANT: Create the exact data structure expected by your Supabase table
       // Map user data to the exact column names in the Team table
       const teamData = {
         Username: userData.username || "",
         Name: userData.fullName || "",
-        Member_Type: memberType, // Now using Executive or Governing Body
+        Member_Type: userData.industryPreference || "", // Now using Executive or Governing Body
         About: userData.about || "",
         Tagline: userData.tagline || "",
         Location: locationString,
@@ -288,7 +230,7 @@ function Page() {
         // Note: Projects_outdated is excluded as requested
         Awards: userData.honors_awards || [],
         Certifications: userData.certifications || [],
-        Portfolio: technicalPortfolio,
+        Portfolio: userData.secondaryPreference || "",
         Availability: "Available", // Default value
         Service_Info: userData.services || [],
         Licenses: licenses, // Changed from LicensesCertifications to Licenses
@@ -365,7 +307,7 @@ function Page() {
       // Redirect to profile page after a short delay
       setTimeout(() => {
         // Replace with your actual profile page URL
-        window.location.href = "/profile"; 
+        window.location.href = `/profile/${userDataObj.Username}`; 
       }, 5000);
     } catch (error) {
       // Enhanced error handling with more specific information
