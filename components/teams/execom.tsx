@@ -24,7 +24,7 @@ const categories: Category[] = [
   "Relations and Outreach",
   "Human Resource",
   "Events",
-  "EC",
+  "Entrepreneurship Coordinator",
   "Design",
   "Editorial and Research",
   "Media",
@@ -70,7 +70,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Saifuddin Syed",
     role: "Entrepreneurship Coordinator Head",
-    department: "EC",
+    department: "Entrepreneurship Coordinator",
     image: "/assets/Team/Execom/Entrepreneurship/Saif/Saif.jpg",
     gif: "/assets/Team/Execom/Entrepreneurship/Saif/Saifuddin.webp",
     link: "",
@@ -78,7 +78,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Saleha Baseer",
     role: "Entrepreneurship Coordinator Head",
-    department: "EC",
+    department: "Entrepreneurship Coordinator",
     image: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.jpg",
     gif: "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.webp",
     link: "",
@@ -86,7 +86,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Nooria Yousuf",
     role: "Entrepreneurship Coordinator Head",
-    department: "EC",
+    department: "Entrepreneurship Coordinator",
     image: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.jpeg",
     gif: "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.webp",
     link: "",
@@ -94,7 +94,7 @@ const teamMembers: TeamMember[] = [
   {
     name: "Mohammed Rayyan Ali",
     role: "Entrepreneurship Coordinator Head",
-    department: "EC",
+    department: "Entrepreneurship Coordinator",
     image: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.jpg",
     gif: "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.webp",
     link: "",
