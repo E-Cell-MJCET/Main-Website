@@ -7,17 +7,14 @@ import {
   type MouseEvent as ReactMouseEvent,
 } from "react";
 import { Mail, MapPin, Instagram } from "lucide-react";
-import Confetti from "react-confetti";
+import confetti from "canvas-confetti";
 import { z } from "zod";
 import { createClient } from '@supabase/supabase-js';
-import { toast } from "sonner"; // Toast notifications
+import { toast } from "sonner";
 import { useForm } from '@tanstack/react-form';
 
 import { cn } from "@/lib/utils";
 
-// Import TanStack Form hooks/components
-
-/* ------------------ Supabase Initialization ------------------ */
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -27,7 +24,6 @@ if (!supabaseUrl || !supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-/* ------------------ Squares Component ------------------ */
 interface SquaresProps {
   direction?: "right" | "left" | "up" | "down" | "diagonal";
   speed?: number;
@@ -161,23 +157,6 @@ function Squares({
   return <canvas ref={canvasRef} className={`block size-full border-none ${className}`} />;
 }
 
-/* ------------------ Zod Schema ------------------ */
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(2, "Name must be at least 2 characters")
-    .regex(/^[a-zA-Z ]+$/, "Name should only contain letters and spaces"),
-  phone: z
-    .string()
-    .refine((val) => /^[6-9]\d{9}$/.test(val.replace(/\D/g, "")), "Invalid phone number"),
-  email: z.string().email("Invalid email address"),
-  message: z
-    .string()
-    .min(10, "Message must be at least 10 characters")
-    .max(500, "Message cannot exceed 500 characters"),
-});
-
-/* ------------------ CanvasRevealEffect Component ------------------ */
 const CanvasRevealEffect = ({
   containerClassName = "",
 }: {
@@ -189,7 +168,6 @@ const CanvasRevealEffect = ({
   return <div className={cn("absolute inset-0 pointer-events-none", containerClassName)} />;
 };
 
-/* ------------------ CardSpotlight Component ------------------ */
 const CardSpotlight = ({
   children,
   radius = 400,
@@ -246,9 +224,51 @@ const CardSpotlight = ({
   );
 };
 
-/* ------------------ ContactForm Component (Using TanStack Form) ------------------ */
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .regex(/^[a-zA-Z ]+$/, "Name should only contain letters and spaces"),
+  phone: z
+    .string()
+    .refine((val) => /^[6-9]\d{9}$/.test(val.replace(/\D/g, "")), "Invalid phone number"),
+  email: z.string().email("Invalid email address"),
+  message: z
+    .string()
+    .min(10, "Message must be at least 10 characters")
+    .max(500, "Message cannot exceed 500 characters"),
+});
+
 const ContactForm = () => {
-  const [showConfetti, setShowConfetti] = useState(false);
+  const fireSideCannons = () => {
+    const end = Date.now() + 1.5 * 1000;
+    const colors = ["#a786ff", "#fd8bbc", "#eca184", "#f8deb1"];
+
+    const frame = () => {
+      if (Date.now() > end) return;
+
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 0, y: 0.5 },
+        colors: colors,
+      });
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        startVelocity: 60,
+        origin: { x: 1, y: 0.5 },
+        colors: colors,
+      });
+
+      requestAnimationFrame(frame);
+    };
+
+    frame();
+  };
 
   const form = useForm({
     defaultValues: {
@@ -276,12 +296,11 @@ const ContactForm = () => {
             },
           });
         } else {
-          setShowConfetti(true);
+          fireSideCannons();
           toast.success("Message sent successfully!", {
             description: "We'll get back to you soon",
           });
           form.reset();
-          setTimeout(() => setShowConfetti(false), 5000);
         }
       } catch {
         toast.error("Unexpected error occurred", {
@@ -318,23 +337,6 @@ return null;
       }}
       className="space-y-6"
     >
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          recycle={false}
-          numberOfPieces={200}
-          confettiSource={{
-            x: window.innerWidth / 2,
-            y: 0,
-            w: 1,
-            h: 1,
-          }}
-          initialVelocityX={15}
-          initialVelocityY={30}
-          gravity={0.4}
-        />
-      )}
       <form.Field name="name">
         {(field) => (
           <div>
@@ -437,7 +439,6 @@ return null;
   );
 };
 
-/* ------------------ ContactInfo Component ------------------ */
 const ContactInfo = () => {
   return (
     <div className="space-y-6">
