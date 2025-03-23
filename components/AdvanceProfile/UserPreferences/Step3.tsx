@@ -294,7 +294,7 @@ return;
   );
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-pink-50 to-red-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -429,7 +429,7 @@ return;
             className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
               coreSelections.length === 0 && recommendedSelections.length === 0 && additionalSelections.length === 0
                 ? "cursor-not-allowed bg-gray-300"
-                : "bg-red-500 hover:bg-red-600"
+                : "bg-blue-500 hover:bg-blue-600"
             }`}
             type="button"
           >

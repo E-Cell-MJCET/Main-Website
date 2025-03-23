@@ -375,7 +375,7 @@ const ProfileSummary = ({
   // };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-green-50 to-teal-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}

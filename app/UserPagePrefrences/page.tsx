@@ -246,7 +246,9 @@ function Page() {
         Products: products,
         Services: services,
         theme_feedback: userData.themeBackground || "",
-        ProfileImageHeader: userData.profileHeaderImage || ""  // New field for profile header image
+        ProfileImageHeader: userData.profileHeaderImage || "",  // New field for profile header image
+        Session_Info: userData.Session_Info
+
       };
 
       // For debugging - show exactly what we're sending to the database

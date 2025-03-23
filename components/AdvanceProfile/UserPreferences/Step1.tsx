@@ -28,7 +28,7 @@ const Step1Welcome = ({ onNext }: { onNext: () => void }) => {
   return (
     <motion.div
     //   className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-500 to-purple-600 p-6 text-white"
-    className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black p-6 text-[#39ff14]"
+    className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-gray-900 to-black p-6 text-white"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -50 }}
@@ -42,7 +42,7 @@ const Step1Welcome = ({ onNext }: { onNext: () => void }) => {
           animate={{ scale: 1 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
         >
-          Welcome! 🎉
+          Welcome! 
         </motion.h1>
         <motion.p
           className="mb-8 text-lg font-light md:text-xl"
@@ -51,6 +51,9 @@ const Step1Welcome = ({ onNext }: { onNext: () => void }) => {
           transition={{ duration: 1, delay: 0.4 }}
         >
           Let`s create a personalized Portfolio specially crafted for you !
+          <br />
+          <br />
+          Share your information with us, and we will craft a tailored portfolio designed to meet your unique goals and aspirations.
         </motion.p>
       </div>
       {/* Start Button */}

@@ -40,7 +40,7 @@ const ThemeInfoModal: React.FC<ThemeInfoModalProps> = ({ theme, onClose }) => {
         <div className="flex justify-end">
           <button
             onClick={onClose}
-            className="rounded-lg bg-orange-500 px-4 py-2 font-semibold text-white hover:bg-orange-600"
+            className="rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600"
           >
             Close
           </button>
@@ -99,7 +99,7 @@ const Step2Welcome = ({
   };
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-yellow-50 to-orange-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ const Step2Welcome = ({
                 key={level}
                 className={`flex cursor-pointer items-center space-x-3 rounded-lg border p-3 transition ${
                   selected_Theme === level
-                    ? "border-orange-500 bg-orange-100"
+                    ? "border-blue-500 bg-blue-100"
                     : "border-gray-300 bg-gray-100"
                 }`}
                 onClick={() => setSelected_Theme(level)}
@@ -131,12 +131,12 @@ const Step2Welcome = ({
                   value={level}
                   checked={selected_Theme === level}
                   onChange={() => setSelected_Theme(level)}
-                  className="form-radio size-5 text-orange-500"
+                  className="form-radio size-5 text-red-500"
                 />
                 <span className="font-medium text-gray-700">{level}</span>
                 <button
                   onClick={(e) => openThemeInfo(level, e)}
-                  className="ml-2 text-gray-500 hover:text-orange-500"
+                  className="ml-2 text-gray-500 hover:text-red-500"
                   aria-label={`Learn more about ${level}`}
                 >
                   <IoInformationCircleOutline size={20} />
@@ -159,7 +159,7 @@ const Step2Welcome = ({
             onChange={(e) => setBuildSuggest(e.target.value)}
             placeholder="Describe your preferred color combinations or themes."
             rows={4}
-            className="w-full rounded-lg border border-gray-300 p-3 focus:border-orange-500 focus:ring-orange-500"
+            className="w-full rounded-lg border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500"
           ></textarea>
         </div>
         {/* Navigation Buttons */}
@@ -180,7 +180,7 @@ const Step2Welcome = ({
             className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
               !selected_Theme
                 ? "cursor-not-allowed bg-gray-300"
-                : "bg-orange-500 hover:bg-orange-600"
+                : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
             Next

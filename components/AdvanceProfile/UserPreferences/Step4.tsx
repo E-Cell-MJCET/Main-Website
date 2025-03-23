@@ -352,7 +352,7 @@ const Step4Welcome = ({
   }, [dropdownRef]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 p-4">
+    <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -558,7 +558,7 @@ const Step4Welcome = ({
                   type="email"
                   value={contactInfo.email}
                   onChange={(e) => handleContactChange('email', e.target.value)}
-                  placeholder="Email address (The one you want to showcase with your visitors)"
+                  placeholder="john.doe@gmail.com"
                   className="w-full rounded-lg border p-2 transition focus:outline-none focus:ring-1 focus:ring-green-500"
                 />
               </div>

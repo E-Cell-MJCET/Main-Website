@@ -112,9 +112,9 @@ return [description]; // Not an array, just return as single item
   };
 
   return (
-    <div className="relative w-full overflow-hidden bg-gradient-to-b from-black to-gray-700 py-12">
+    <div className="relative w-full overflow-x-hidden bg-gradient-to-b from-black to-gray-700 py-12">
       {/* Particle Canvas Background */}
-      <ParticleCanvas />
+      {/* <ParticleCanvas /> */}
       {/* Section Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
