@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { LicencesCertificationsThemeStyles, licencesCertificationsThemeMap } from '../Themes/Licenses_Certification.theme';
+
 // Match Step8 data structure exactly
 type License = {
   title: string;
@@ -22,12 +24,16 @@ type Certification = {
 interface LicencesCertificationsProps {
   licenses: License[];
   certifications: Certification[];
+  theme?: string; // Added theme prop
 }
 
 const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({ 
   licenses = [], // Default to empty array if not provided
-  certifications = [] 
+  certifications = [],
+  theme = 'Default' // Default theme to 'Default'
 }) => {
+  const styles: LicencesCertificationsThemeStyles = licencesCertificationsThemeMap[theme]; // Get styles based on theme
+
   // State for active tab
   const [activeTab, setActiveTab] = useState<'licenses' | 'certifications'>(
     licenses.length > 0 ? 'licenses' : 'certifications'
@@ -75,11 +81,11 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
   };
   
   return (
-    <div className="relative bg-gradient-to-b from-gray-900 via-gray-800 to-black py-16">
+    <div className={styles.container}> {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-green-500 opacity-5 blur-3xl"></div>
-        <div className="absolute right-1/4 top-40 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
+        <div className={styles.backgroundGlow1}></div>
+        <div className={styles.backgroundGlow2}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         {/* Section Header */}
@@ -89,15 +95,13 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4 bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-            Credentials & Achievements
-          </h2>
+          <h2 className={styles.heading}>Credentials & Achievements</h2> {/* Apply theme styles */}
           {totalCount > 0 ? (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               Showcasing my formal qualifications, licenses, and professional certifications.
             </p>
           ) : (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               No credentials have been added yet.
             </p>
           )}
@@ -108,11 +112,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
             <div className="flex overflow-hidden rounded-lg bg-gray-800 p-1">
               <button
                 onClick={() => setActiveTab('licenses')}
-                className={`relative px-6 py-2 text-sm font-medium transition-all duration-300 md:text-base ${
-                  activeTab === 'licenses'
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-white'
-                }`}
+                className={`relative px-6 py-2 text-sm font-medium transition-all duration-300 md:text-base ${activeTab === 'licenses' ? styles.tabButton.active : styles.tabButton.inactive}`}
               >
                 Licenses ({licenseCount})
                 {activeTab === 'licenses' && (
@@ -126,11 +126,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
               </button>
               <button
                 onClick={() => setActiveTab('certifications')}
-                className={`relative px-6 py-2 text-sm font-medium transition-all duration-300 md:text-base ${
-                  activeTab === 'certifications'
-                    ? 'text-white'
-                    : 'text-gray-400 hover:text-white'
-                }`}
+                className={`relative px-6 py-2 text-sm font-medium transition-all duration-300 md:text-base ${activeTab === 'certifications' ? styles.tabButton.active : styles.tabButton.inactive}`}
               >
                 Certifications ({certificationCount})
                 {activeTab === 'certifications' && (
@@ -173,6 +169,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
                       onClick={() => openDetailModal(license)}
                       color="blue"
                       variants={itemVariants}
+                      styles={styles.credentialCard} // Pass styles for the card
                     />
                   ))}
                 </div>
@@ -205,6 +202,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
                       onClick={() => openDetailModal(certification)}
                       color="green"
                       variants={itemVariants}
+                      styles={styles.credentialCard} // Pass styles for the card
                     />
                   ))}
                 </div>
@@ -259,7 +257,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
                 </div>
                 {/* Content */}
                 <div className="flex-1 p-6 md:p-8">
-                  <h3 className="mb-4 text-2xl font-bold text-white">{selectedItem.title}</h3>
+                  <h3 className={styles.credentialCard.title}>{selectedItem.title}</h3>
                   <p className="whitespace-pre-line text-gray-300">{selectedItem.description}</p>
                 </div>
               </div>
@@ -278,14 +276,20 @@ interface CredentialCardProps {
   onClick: () => void;
   color: 'blue' | 'green';
   variants: any;
+  styles: {
+    background: string;
+    title: string;
+    description: string;
+    badge: string;
+  };
 }
 
-const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, onClick, color, variants }) => {
+const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, onClick, color, variants, styles }) => {
   return (
     <motion.div
       variants={variants}
       whileHover={{ y: -5, transition: { duration: 0.3 } }}
-      className="group cursor-pointer overflow-hidden rounded-xl bg-gray-800 shadow-lg transition-all duration-300 hover:shadow-xl"
+      className={`group cursor-pointer overflow-hidden rounded-xl ${styles.background} shadow-lg transition-all duration-300 hover:shadow-xl`}
       onClick={onClick}
     >
       {/* Image with overlay */}
@@ -301,25 +305,25 @@ const CredentialCard: React.FC<CredentialCardProps> = ({ item, index, onClick, c
             <div className={`absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70`}></div>
           </>
         ) : (
-          <div className={`bg- flex size-full items-center justify-center${color}-900 bg-opacity-20`}>
+          <div className={`bg- flex size-full items-center justify-center ${styles.badge}`}>
             <svg xmlns="http://www.w3.org/2000/svg" className="size-16 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
         )}
         {/* Badge */}
-        <div className={`bg- absolute right-3 top-3 rounded-full${color}-600 px-3 py-1 text-xs font-medium text-white`}>
+        <div className={`absolute right-3 top-3 rounded-full ${styles.badge} px-3 py-1 text-xs font-medium text-white`}>
           {color === 'blue' ? 'License' : 'Certification'}
         </div>
       </div>
       {/* Content */}
       <div className="p-5">
-        <h3 className="mb-2 text-lg font-semibold text-white group-hover:text-blue-400">{item.title}</h3>
-        <p className="line-clamp-2 text-sm text-gray-400">
+        <h3 className={styles.title}>{item.title}</h3>
+        <p className={styles.description}>
           {item.description}
         </p>
         {/* View details button */}
-        <div className={`text- mt-4 inline-flex items-center text-sm font-medium${color}-400`}>
+        <div className={`text- mt-4 inline-flex items-center text-sm font-medium ${styles.badge}`}>
           View details
           <svg xmlns="http://www.w3.org/2000/svg" className="ml-1 size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />

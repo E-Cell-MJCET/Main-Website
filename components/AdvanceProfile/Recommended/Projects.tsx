@@ -4,6 +4,8 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { projectsThemeMap, ProjectsThemeStyles } from '../Themes/Projects.Theme'; // Import the theme styles
+
 // Match Step7 data structure exactly
 type Project = {
   title: string;
@@ -14,15 +16,18 @@ type Project = {
 // Update props to match Step7 data structure directly
 interface ProjectsProps {
   projects: Project[]; // Direct array instead of nested object
+  theme?: string; // Added theme prop
 }
 
-const Projects: React.FC<ProjectsProps> = ({ projects = [] }) => {
+const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' }) => {
+  const styles: ProjectsThemeStyles = projectsThemeMap[theme] || projectsThemeMap["Default"]; // Get styles based on theme
+
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   if (!Array.isArray(projects)) {
     console.error('Projects data is not an array:', projects);
     
-return <div className="text-center text-red-600">Invalid projects data.</div>;
+    return <div className="text-center text-red-600">Invalid projects data.</div>;
   }
 
   const openProjectDetails = (project: Project) => {
@@ -54,11 +59,11 @@ return <div className="text-center text-red-600">Invalid projects data.</div>;
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-gray-900 to-gray-700 py-16">
+    <div className={styles.container}> {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-40 size-64 rounded-full bg-purple-600 opacity-10 blur-3xl"></div>
-        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-pink-500 opacity-10 blur-3xl"></div>
+        <div className={styles.backgroundGlow1}></div>
+        <div className={styles.backgroundGlow2}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-7xl px-4">
         <motion.div
@@ -67,15 +72,13 @@ return <div className="text-center text-red-600">Invalid projects data.</div>;
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4 bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-            Projects
-          </h2>
+          <h2 className={styles.heading}>Projects</h2> {/* Apply theme styles */}
           {projects.length > 0 ? (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               Explore my portfolio of projects that showcase my skills and passion.
             </p>
           ) : (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               No projects have been added yet.
             </p>
           )}
@@ -124,13 +127,9 @@ return <div className="text-center text-red-600">Invalid projects data.</div>;
                   )}
                 </div>
                 <div className="p-6">
-                  <h3 className="mb-2 text-xl font-bold text-white group-hover:text-purple-400 md:text-2xl">
-                    {project.title || "Untitled Project"}
-                  </h3>
-                  <p className="mb-4 line-clamp-2 text-gray-400">
-                    {project.description || "No description available"}
-                  </p>
-                  <div className="flex items-center text-sm font-semibold text-purple-400">
+                  <h3 className={styles.projectCard.title}>{project.title || "Untitled Project"}</h3>
+                  <p className={styles.projectCard.description}>{project.description || "No description available"}</p>
+                  <div className={`flex items-center text-sm font-semibold ${styles.projectCard.badge}`}>
                     View details
                     <svg className="ml-2 size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -184,7 +183,7 @@ return <div className="text-center text-red-600">Invalid projects data.</div>;
                 <div className="relative aspect-video w-full bg-gradient-to-r from-purple-900 to-gray-800">
                   <div className="flex size-full items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="size-24 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z" />
                     </svg>
                   </div>
                 </div>

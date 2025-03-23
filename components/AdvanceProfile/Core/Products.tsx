@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import { getProductThemeStyles } from '../Themes/Product.theme';
+
 // Match Step13 data structure exactly
 type Product = {
   name: string;
@@ -14,13 +16,20 @@ type Product = {
   productLink: string;
 };
 
-// Updated props interface to match Step13 data structure
+// Updated props interface to include theme
 interface ProductsProps {
   products: Product[];
+  theme?: string; // Optional theme parameter
 }
 
-const Products: React.FC<ProductsProps> = ({ products = [] }) => {
+const Products: React.FC<ProductsProps> = ({ 
+  products = [],
+  theme = "Default" // Default theme if none provided
+}) => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  
+  // Get theme styles
+  const styles = getProductThemeStyles(theme);
   
   // Animation variants
   const containerVariants = {
@@ -48,11 +57,11 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
   };
   
   return (
-    <div className="relative bg-gradient-to-b from-indigo-900 via-indigo-800 to-indigo-950 py-16">
+    <div className={`${styles.container} ${styles.backgroundGradient}`}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-blue-500 opacity-10 blur-3xl"></div>
-        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-purple-500 opacity-10 blur-3xl"></div>
+        <div className={`absolute left-1/4 top-20 size-64 rounded-full ${styles.decorativeElement1}`}></div>
+        <div className={`absolute right-1/4 top-60 size-80 rounded-full ${styles.decorativeElement2}`}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <motion.div
@@ -61,15 +70,15 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
+          <h2 className={`mb-4 ${styles.mainHeading} text-4xl font-bold md:text-5xl`}>
             My Products
           </h2>
           {products.length > 0 ? (
-            <p className="mx-auto max-w-2xl text-indigo-200">
+            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
               Explore our collection of premium products and solutions designed to meet your needs.
             </p>
           ) : (
-            <p className="mx-auto max-w-2xl text-indigo-200">
+            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
               No products have been added yet.
             </p>
           )}
@@ -78,7 +87,7 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex h-48 items-center justify-center rounded-lg bg-indigo-800/50 text-center text-indigo-200"
+            className={`flex h-48 items-center justify-center rounded-lg ${styles.emptyContainer} text-center ${styles.emptyText}`}
           >
             <p>No products to display yet. Check back soon!</p>
           </motion.div>
@@ -87,14 +96,14 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+            className={`grid ${styles.cardContainer}`}
           >
             {products.map((product, index) => (
               <motion.div
                 key={index}
                 variants={itemVariants}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className="group flex h-full flex-col overflow-hidden rounded-xl bg-gradient-to-br from-indigo-800/70 to-indigo-950/70 shadow-xl backdrop-blur-sm transition-all duration-300"
+                className={`group flex h-full flex-col overflow-hidden rounded-xl ${styles.card} shadow-xl backdrop-blur-sm transition-all duration-300`}
               >
                 {/* Product Image */}
                 <div className="relative h-52 overflow-hidden">
@@ -107,33 +116,33 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-indigo-900 to-transparent opacity-60"></div>
+                      <div className={`absolute inset-0 ${styles.cardImageOverlay} opacity-60`}></div>
                     </>
                   ) : (
-                    <div className="flex size-full items-center justify-center bg-gradient-to-r from-indigo-700 to-purple-800">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="size-16 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className={`flex size-full items-center justify-center ${styles.cardPlaceholderBg}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className={`size-16 ${styles.cardPlaceholderIcon}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                       </svg>
                     </div>
                   )}
                   {/* Price Tag */}
-                  <div className="absolute right-3 top-3 rounded-full bg-white px-3 py-1 text-sm font-bold text-indigo-900 shadow-lg">
+                  <div className={`absolute right-3 top-3 rounded-full ${styles.cardPriceTag} px-3 py-1 text-sm font-bold ${styles.cardPriceText} shadow-lg`}>
                     {product.price}
                   </div>
                 </div>
                 {/* Product Content */}
                 <div className="flex flex-1 flex-col p-6">
-                  <h3 className="mb-2 text-xl font-bold text-white group-hover:text-blue-300 md:text-2xl">
+                  <h3 className={`mb-2 text-xl font-bold ${styles.cardTitle} ${styles.cardTitleHover} md:text-2xl`}>
                     {product.name}
                   </h3>
-                  <p className="mb-4 line-clamp-2 flex-1 text-sm text-indigo-200">
+                  <p className={`mb-4 line-clamp-2 flex-1 text-sm ${styles.cardDescription}`}>
                     {product.description}
                   </p>
                   {/* Action Buttons */}
                   <div className="mt-auto flex flex-col gap-2 sm:flex-row">
                     <button
                       onClick={() => toggleProductDetail(product)}
-                      className="rounded-lg bg-indigo-600/20 px-4 py-2 text-sm font-medium text-indigo-300 transition-colors hover:bg-indigo-600/40"
+                      className={`rounded-lg ${styles.detailsButton} px-4 py-2 text-sm font-medium transition-colors ${styles.detailsButtonHover}`}
                     >
                       Details
                     </button>
@@ -141,7 +150,7 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
                       href={product.productLink || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-medium text-white transition-all hover:from-blue-700 hover:to-indigo-700"
+                      className={`flex items-center justify-center rounded-lg ${styles.purchaseButton} px-4 py-2 text-sm font-medium transition-all ${styles.purchaseButtonHover}`}
                     >
                       Purchase Now
                     </a>
@@ -159,20 +168,20 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 p-4 backdrop-blur-sm"
+            className={`fixed inset-0 z-50 flex items-center justify-center p-4 ${styles.modalOverlay}`}
             onClick={() => toggleProductDetail(null)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative max-h-[90vh] w-full max-w-4xl overflow-auto rounded-xl bg-gradient-to-b from-indigo-900 to-indigo-950 shadow-2xl"
+              className={`relative max-h-[90vh] w-full max-w-4xl overflow-auto rounded-xl ${styles.modalContainer} shadow-2xl`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
               <button 
                 onClick={() => toggleProductDetail(null)}
-                className="absolute right-4 top-4 z-10 rounded-full bg-indigo-700 bg-opacity-50 p-2 text-white hover:bg-opacity-70"
+                className={`absolute right-4 top-4 z-10 rounded-full ${styles.closeButton} p-2 ${styles.closeButtonHover}`}
                 aria-label="Close details"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,8 +200,8 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
                       sizes="(max-width: 1024px) 100vw, 50vw"
                     />
                   ) : (
-                    <div className="flex size-full items-center justify-center bg-gradient-to-r from-indigo-700 to-indigo-900">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="size-24 text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div className={`flex size-full items-center justify-center ${styles.modalPlaceholderBg}`}>
+                      <svg xmlns="http://www.w3.org/2000/svg" className={`size-24 ${styles.modalPlaceholderIcon}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                       </svg>
                     </div>
@@ -201,21 +210,21 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
                 {/* Product Details */}
                 <div className="flex flex-1 flex-col p-6 lg:p-8">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-2xl font-bold text-white md:text-3xl">
+                    <h3 className={`text-2xl font-bold ${styles.modalTitle} md:text-3xl`}>
                       {selectedProduct.name}
                     </h3>
-                    <span className="rounded-lg bg-white px-4 py-1 text-lg font-bold text-indigo-900">
+                    <span className={`rounded-lg ${styles.modalPrice} px-4 py-1 text-lg font-bold ${styles.modalPriceText}`}>
                       {selectedProduct.price}
                     </span>
                   </div>
                   <div className="mt-6">
-                    <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-indigo-300">Description</h4>
-                    <p className="mb-6 text-indigo-100">
+                    <h4 className={`mb-2 text-sm font-semibold uppercase tracking-wider ${styles.modalSectionTitle}`}>Description</h4>
+                    <p className={`mb-6 ${styles.modalDescription}`}>
                       {selectedProduct.description}
                     </p>
-                    <h4 className="mb-2 text-sm font-semibold uppercase tracking-wider text-indigo-300">Features</h4>
-                    <div className="mb-6 rounded-lg bg-indigo-950/50 p-4">
-                      <p className="whitespace-pre-line text-indigo-100">
+                    <h4 className={`mb-2 text-sm font-semibold uppercase tracking-wider ${styles.modalSectionTitle}`}>Features</h4>
+                    <div className={`mb-6 rounded-lg ${styles.modalFeaturesBox} p-4`}>
+                      <p className={`whitespace-pre-line ${styles.modalFeatures}`}>
                         {selectedProduct.features}
                       </p>
                     </div>
@@ -224,7 +233,7 @@ const Products: React.FC<ProductsProps> = ({ products = [] }) => {
                       href={selectedProduct.productLink || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-auto flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 font-bold text-white transition-all hover:from-blue-700 hover:to-indigo-700"
+                      className={`mt-auto flex w-full items-center justify-center rounded-lg ${styles.modalPurchaseButton} px-6 py-3 font-bold transition-all ${styles.modalPurchaseButtonHover}`}
                     >
                       Purchase for {selectedProduct.price}
                       <svg className="ml-2 size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

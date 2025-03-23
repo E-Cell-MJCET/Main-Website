@@ -1,33 +1,41 @@
 "use client";
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from "framer-motion";
 
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
+import { getAboutThemeStyles } from '../Themes/About.Theme';
+
 // Define the props interface
 interface AboutProps {
   aboutText: string;
+  theme?: string;
 }
 
-const About: React.FC<AboutProps> = ({ aboutText }) => {
-  // Create title words for the typewriter effect
+const About: React.FC<AboutProps> = ({ aboutText, theme = 'Default' }) => {
+  // Get theme-specific styles
+  const themeStyles = useMemo(() => {
+    return getAboutThemeStyles(theme);
+  }, [theme]);
+  
+  // Create title words for the typewriter effect with theme-specific styles
   const titleWords = [
     {
       text: "About",
-      className: "text-blue-500 text-2xl dark:text-blue-500 font-bold",
+      className: themeStyles.title.primary,
     },
     {
       text: "Me",
-      className: "text-2xl"
+      className: themeStyles.title.secondary
     }
   ];
   
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-gray-300 to-blue-50 py-5 dark:from-gray-900 dark:to-blue-900">
+    <div className={themeStyles.container}>
       {/* Background glow effects */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute -left-16 -top-16 size-64 rounded-full bg-blue-600 opacity-10 blur-3xl"></div>
-        <div className="absolute right-10 top-20 size-48 rounded-full bg-indigo-500 opacity-15 blur-3xl"></div>
+        <div className={themeStyles.backgroundGlow1}></div>
+        <div className={themeStyles.backgroundGlow2}></div>
       </div>
       <div className="container relative z-20 mx-auto flex flex-col items-center justify-center px-4 py-12">
         {/* Title with TypeWriter Effect */}
@@ -41,12 +49,12 @@ const About: React.FC<AboutProps> = ({ aboutText }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          <div className="relative rounded-xl bg-white/70 p-8 shadow-xl backdrop-blur-sm dark:bg-gray-800/70">
+          <div className={themeStyles.contentWrapper}>
             {/* Decorative Quote Mark */}
-            <div className="absolute -left-9 -top-4 font-serif text-6xl text-blue-400 opacity-20">❝</div>
-            <div className="absolute -bottom-8 -right-8 font-serif text-6xl text-blue-400 opacity-20">❞</div>
+            <div className={`${themeStyles.quoteMarks} -left-9 -top-4`}>❝</div>
+            <div className={`${themeStyles.quoteMarks} -bottom-8 -right-8`}>❞</div>
             {/* About Text with Line Height for Readability */}
-            <p className="relative z-10 text-lg leading-relaxed text-gray-700 dark:text-blue-50">
+            <p className={themeStyles.textContent}>
               {aboutText}
             </p>
           </div>

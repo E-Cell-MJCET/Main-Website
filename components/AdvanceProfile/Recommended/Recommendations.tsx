@@ -1,7 +1,9 @@
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
-import {motion} from "framer-motion"
+import { motion } from "framer-motion";
 
 import { HoverEffect } from "@/components/ui/card-hover-effect";
+
+import { RecommendationsThemeStyles,recommendationsThemeMap } from "../Themes/Recommendation.theme";
 
 // Match Step9 data structure exactly
 type Recommendation = {
@@ -13,9 +15,12 @@ type Recommendation = {
 // Updated props interface to match Step9 data structure
 interface RecommendationsProps {
   recommendations: Recommendation[];
+  theme?: string; // Added theme prop
 }
 
-export function Recommendations({ recommendations = [] }: RecommendationsProps) {
+export function Recommendations({ recommendations = [], theme = 'default' }: RecommendationsProps) {
+  const styles: RecommendationsThemeStyles = recommendationsThemeMap[theme] || recommendationsThemeMap["Default"]; // Get styles based on theme
+
   // Convert data format to what HoverEffect component expects
   const formattedRecommendations = recommendations.map((item, index) => ({
     id: index, // Generate an id since Step9 data doesn't include it
@@ -36,11 +41,11 @@ export function Recommendations({ recommendations = [] }: RecommendationsProps) 
   };
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 to-black pt-16">
+    <div className={styles.container}> {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-purple-600 opacity-5 blur-3xl"></div>
-        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
+        <div className={styles.backgroundGlow1}></div>
+        <div className={styles.backgroundGlow2}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-6xl px-4 pb-20">
         <motion.div
@@ -49,15 +54,13 @@ export function Recommendations({ recommendations = [] }: RecommendationsProps) 
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-            Recommendations
-          </h2>
+          <h2 className={styles.heading}>Recommendations</h2> {/* Apply theme styles */}
           {recommendations.length > 0 ? (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               What others have to say about my work, skills, and collaborations.
             </p>
           ) : (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               No recommendations have been added yet.
             </p>
           )}
@@ -87,31 +90,31 @@ export function Recommendations({ recommendations = [] }: RecommendationsProps) 
 
 // Alternative implementation without requiring HoverEffect
 // This can be used if the HoverEffect component isn't available
-export function RecommendationsAlternative({ recommendations = [] }: RecommendationsProps) {
+export function RecommendationsAlternative({ recommendations = [], theme = 'Default' }: RecommendationsProps) {
+  const styles: RecommendationsThemeStyles = recommendationsThemeMap[theme] || recommendationsThemeMap["Default"]; // Get styles based on theme
+
   if (!Array.isArray(recommendations)) {
     console.error('Recommendations data is not an array:', recommendations);
     
-return <div className="text-center text-red-600">Invalid recommendations data.</div>;
+    return <div className="text-center text-red-600">Invalid recommendations data.</div>;
   }
   
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-gray-900 to-black py-16">
+    <div className={styles.container}> {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-20 size-64 rounded-full bg-purple-600 opacity-5 blur-3xl"></div>
-        <div className="absolute right-1/4 top-60 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
+        <div className={styles.backgroundGlow1}></div>
+        <div className={styles.backgroundGlow2}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-6xl px-4">
         <div className="mb-12 text-center">
-          <h2 className="mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-            Recommendations
-          </h2>
+          <h2 className={styles.heading}>Recommendations</h2> {/* Apply theme styles */}
           {recommendations.length > 0 ? (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               What others have to say about my work, skills, and collaborations.
             </p>
           ) : (
-            <p className="mx-auto max-w-2xl text-gray-400">
+            <p className={styles.description}>
               No recommendations have been added yet.
             </p>
           )}
@@ -125,16 +128,16 @@ return <div className="text-center text-red-600">Invalid recommendations data.</
             {recommendations.map((recommendation, index) => (
               <div 
                 key={index} 
-                className="group rounded-xl bg-gray-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:bg-gray-700/50"
+                className={`group rounded-xl ${styles.recommendationCard.background} p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:bg-gray-700/50`}
               >
-                <h3 className="mb-3 text-xl font-bold text-white">{recommendation.title || "Anonymous"}</h3>
-                <p className="mb-4 text-gray-300">
-                  `{recommendation.description || "No description provided"}`
+                <h3 className={styles.recommendationCard.title}>{recommendation.title || "Anonymous"}</h3>
+                <p className={styles.recommendationCard.description}>
+                  {recommendation.description || "No description provided"}
                 </p>
                 {recommendation.link && (
                   <a 
                     href={recommendation.link} 
-                    className="inline-flex items-center text-sm font-medium text-purple-400 hover:text-purple-300"
+                    className={`inline-flex items-center text-sm font-medium ${styles.recommendationCard.badge}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

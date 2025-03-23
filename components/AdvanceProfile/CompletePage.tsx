@@ -17,9 +17,9 @@ import TestScores from './Additional/Test&Scores';
 import VolunteerExperience from './Additional/VolunteerExperience';
 import HistorySection from './Education_Experience';
 import Products from './Core/Products';
-import Services from './Core/Services';
-import Causes from './Additional/Causes';
 // import Services from './Core/Services';
+import Causes from './Additional/Causes';
+import Services from './Core/Services';
 
 // Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -73,27 +73,24 @@ export default function CompleteProfilePage({ params }: { params: { username: st
 
 return (
   <>
-    <div className="flex flex-col items-center overflow-hidden bg-gradient-to-r from-black to-teal-900 p-6">
-      <br />
-      <Header userData={userData} />
-    </div>
-    <About aboutText={userData.About}/>
+    <Header userData={userData} />
+    <About aboutText={userData.About} theme={userData.theme}/>
     <HistorySection educationData={userData.Education!} experienceData={userData.Experience!}/>
-    <Skills skills={skillsData}/>
+    <Skills skills={skillsData} theme={userData.theme}/>
     {/* <Services
     services_info={userData.Services_Info}
     /> */}
     {/* <LicencesCertifications Licenses_info={{ licenses: userData.Licences, certifications: userData.Certifications }} /> */}
-    <LicencesCertifications licenses={userData.Licenses} certifications={userData.Certifications} />  
-    <Projects projects={userData.Projects}/>
-    <Recommendations recommendations={userData.Testimonials}/>
-    <Featured featuredItems={userData.Featured}/>
-    <HonorsAwards honors={userData.Honors} awards={userData.Awards}/>
-    <TestScores testScores={userData.TestScores}/>
-    <VolunteerExperience volunteerExperiences={userData.VolunteerExperience}/>
-    <Products products={userData.Products}/>
-    <Services services={userData.Services}/>
-    <Causes causes={userData.Causes}/>
+    <LicencesCertifications licenses={userData.Licenses} certifications={userData.Certifications} theme={userData.theme} />  
+    <Projects projects={userData.Projects} theme={userData.theme}/>
+    <Recommendations recommendations={userData.Testimonials} theme={userData.theme}/>
+    <Featured featuredItems={userData.Featured} theme={userData.theme}/>
+    <HonorsAwards honors={userData.Honors} awards={userData.Awards} theme={userData.theme} />
+    <TestScores testScores={userData.TestScores} theme={userData.theme}/>
+    <VolunteerExperience volunteerExperiences={userData.VolunteerExperience} theme={userData.theme}/>
+    <Products products={userData.Products} theme={userData.theme }/>
+    <Services services={userData.Services} theme={userData.theme}/>
+    <Causes causes={userData.Causes} theme={userData.theme}/>
   </>
 );
 }

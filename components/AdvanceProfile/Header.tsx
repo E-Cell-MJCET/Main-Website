@@ -1,12 +1,14 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { FaInstagram, FaLinkedin, FaGlobe, FaBehance, FaUserTie, FaUsers, FaGithub, FaTwitter, FaFacebook, FaLaptopCode } from 'react-icons/fa';
 import Link from 'next/link';
 
-import ResumeDownload from './ResumeDownload'; // Import the ResumeDownload component
-import Popup from './ContactPopup'; // Import the Popup component
+import ResumeDownload from './ResumeDownload';
+import Popup from './ContactPopup';
+// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-imports
+import { getThemeStyles,ThemeStyles } from './Themes/Header.Theme';
 
 // Enhanced UserData interface to include all columns from the Team table
 interface UserData {
@@ -90,8 +92,8 @@ const formatContactInfo = (contactInfo: UserData['Contact_Info']) => {
 };
 
 const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false); // State to control popup visibility
-  const [isDownloading, setIsDownloading] = useState(false); // State for resume download
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   // Function to open the popup
   const openPopup = () => setIsPopupOpen(true);
@@ -102,7 +104,6 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
   // Function to handle resume download
   const handleDownload = () => {
     setIsDownloading(true);
-    // We'll pass the complete userData to ResumeDownload
   };
   
   // Function to handle download completion
@@ -157,18 +158,25 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
     mediaGallery: Array.isArray(userData.mediaGallery) ? userData.mediaGallery : [],
   };
 
+  // Get theme styles based on the selected theme
+  const themeStyles = useMemo(() => {
+    const theme = userData.theme || 'Default';
+    
+    return getThemeStyles(theme);
+  }, [userData.theme]);
+
   return (
-    <div className="flex min-h-screen w-full flex-col items-center justify-center overflow-x-hidden bg-gradient-to-r from-black to-teal-900 p-6 text-white md:flex-row md:items-center md:justify-between">
+    <div className={themeStyles.container}>
       {/* Left Content Section */}
       <div className="flex w-full flex-col items-start space-y-4 md:w-1/2">
-        <h1 className="text-3xl font-bold md:text-4xl">Hi! 👋<br /> I`m {userData.Name}</h1>
-        <p className="text-lg text-gray-300">{userData.Tagline}</p>
+        <h1 className={themeStyles.headingText}>Hi! 👋<br /> I`m {userData.Name}</h1>
+        <p className={themeStyles.taglineText}>{userData.Tagline}</p>
         <div className="flex items-center space-x-2">
-          <span className="text-sm font-medium text-gray-400">{userData.Location}</span>
+          <span className={themeStyles.locationText}>{userData.Location}</span>
         </div>
         {/* Member Type and Portfolio Badges - Now displayed in a flex row */}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="inline-flex items-center justify-center rounded-full border-2 border-gray-300 px-3 py-1 text-sm font-medium text-gray-300">
+          <span className={themeStyles.memberTypeBadge}>
             {userData.Member_Type === "Executive" ? (
               <>
                 <FaUserTie className="mr-1" /> Executive Member
@@ -185,7 +193,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
           </span>
           {/* Portfolio Badge */}
           {userData.Portfolio && (
-            <span className="inline-flex items-center justify-center rounded-full border-2 border-blue-400 bg-blue-900/20 px-3 py-1 text-sm font-medium text-blue-300">
+            <span className={themeStyles.portfolioBadge}>
               <FaLaptopCode className="mr-1" /> {userData.Portfolio}
             </span>
           )}
@@ -193,7 +201,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
         {/* Show Contact Info Button */}
         <button
           onClick={openPopup}
-          className="mt-4 rounded-md px-4 py-2 text-blue-500 hover:bg-black hover:text-white"
+          className={themeStyles.contactButton}
         >
           Show Contact Info
         </button>
@@ -201,7 +209,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
         <div className="mt-4 flex space-x-4">
           <button 
             onClick={handleDownload}
-            className="flex min-w-[150px] items-center justify-center rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            className={`${themeStyles.downloadButton} ${!isDownloading ? themeStyles.downloadButtonHover : ''}`}
             disabled={isDownloading}
           >
             {isDownloading ? (
@@ -219,37 +227,37 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
           <div className="flex space-x-4">
             {/* Dynamically render social links based on what's available */}
             {userData.SocialLinks?.instagram && (
-              <Link href={`https://instagram.com/${userData.SocialLinks.instagram}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={`https://instagram.com/${userData.SocialLinks.instagram}`} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaInstagram size={24} />
               </Link>
             )}
             {userData.SocialLinks?.linkedin && (
-              <Link href={`https://linkedin.com/in/${userData.SocialLinks.linkedin}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={`https://linkedin.com/in/${userData.SocialLinks.linkedin}`} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaLinkedin size={24} />
               </Link>
             )}
             {userData.SocialLinks?.github && (
-              <Link href={`https://github.com/${userData.SocialLinks.github}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={`https://github.com/${userData.SocialLinks.github}`} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaGithub size={24} />
               </Link>
             )}
             {userData.SocialLinks?.twitter && (
-              <Link href={`https://x.com/${userData.SocialLinks.twitter}`} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={`https://x.com/${userData.SocialLinks.twitter}`} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaTwitter size={24} />
               </Link>
             )}
             {userData.SocialLinks?.facebook && (
-              <Link href={userData.SocialLinks.facebook} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={userData.SocialLinks.facebook} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaFacebook size={24} />
               </Link>
             )}
             {userData.SocialLinks?.website && (
-              <Link href={userData.SocialLinks.website} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={userData.SocialLinks.website} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaGlobe size={24} />
               </Link>
             )}
             {userData.SocialLinks?.behance && (
-              <Link href={userData.SocialLinks.behance} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-500">
+              <Link href={userData.SocialLinks.behance} target="_blank" rel="noopener noreferrer" className={`${themeStyles.socialIcons} ${themeStyles.socialIconsHover}`}>
                 <FaBehance size={24} />
               </Link>
             )}
@@ -261,10 +269,10 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-        className="relative mt-8 w-full md:w-2/5"
+        className={`relative mt-8 w-full md:w-2/5 ${themeStyles.imageShadow}`}
         style={{ y }}
       >
-        <div className="realtive aspect-w-1 aspect-h-1/2 group w-full overflow-y-hidden">
+        <div className="group w-full overflow-y-hidden">
           {/* Animated Border */}
           <motion.div
             initial={{ scale: 0.95 }}
@@ -274,10 +282,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
               repeat: Infinity,
               repeatType: 'mirror'
             }}
-            className="absoulte to-tertiary/30 inset-0
-                rounded-3xl bg-gradient-to-r
-                from-primary/30 via-secondary/30
-                opacity-50"
+            className={themeStyles.imageCardBorder}
           />
           {/* Floating Animation */}
           <motion.div
@@ -287,35 +292,27 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
               repeat: Infinity,
               ease: "easeInOut"
             }}
-            className="realtive bg-surface aspect-square 
-              w-full overflow-hidden
-              rounded-3xl border border-white/10 
-              backdrop-blur-sm"
+            className={themeStyles.imageCardBackground}
           >
             <Image 
               src={profileImage}
               alt={`${userData.Name}'s profile`}
               fill
-              className="scale-10 object-cover transition-transform
-                duration-500 group-hover:scale-100" 
+              className="object-cover transition-transform duration-500 group-hover:scale-105" 
             />
-            <div
-              className="absoulte inset-0 bg-gradient-to-t
-                from-black/60 to-transparent"
-            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
                 delay: 0.6
               }}
-              className="absolute bottom-8 left-8"
+              className={themeStyles.locationOverlay}
             >
-              <div className="text-content backdrop-blur-1 text-2xl font-bold">
+              <div className="text-2xl font-bold">
                 Based in
                 <motion.span
-                  className="block bg-gradient-to-r
-                    from-primary to-secondary bg-clip-text text-transparent"
+                  className={themeStyles.gradientText}
                   animate={{ backgroundPosition: ['0% 50%', '100% 50%'] }}
                   transition={{
                     duration: 3,
@@ -338,7 +335,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
       {/* Resume Download Component - Only rendered when isDownloading is true */}
       {isDownloading && (
         <ResumeDownload 
-          userData={completeUserData}  // Pass the complete user data to ResumeDownload
+          userData={completeUserData}
           onComplete={handleDownloadComplete} 
         />
       )}

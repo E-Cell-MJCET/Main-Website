@@ -1,7 +1,9 @@
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
 import React, { useState } from 'react';
-import { motion,AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import { getSkillsThemeStyles } from '../Themes/Skills.Theme'; // Import the theme styles
 
 type SkillCategory = "Technical" | "Soft Skills" | "Languages" | "Tools" | "Other";
 type ProficiencyLevel = "Beginner" | "Intermediate" | "Advanced" | "Expert";
@@ -13,18 +15,14 @@ interface Skill {
   yearsOfExperience?: number;
 }
 
-interface Skill {
-  name: string;
-  category: SkillCategory;
-  proficiency: ProficiencyLevel;
-  yearsOfExperience?: number;
-}
-
 interface SkillsProps {
   skills: Skill[];
+  theme?: string; // Added theme prop
 }
 
-const Skills: React.FC<SkillsProps> = ({ skills }) => {
+const Skills: React.FC<SkillsProps> = ({ skills, theme = 'Default' }) => { // Default theme to 'Default'
+  const styles = getSkillsThemeStyles(theme); // Get styles based on theme
+
   // Group skills by category for better organization
   const skillsByCategory = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
     const category = skill.category || 'Other';
@@ -61,10 +59,10 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
   // Function to get proficiency color
   const getProficiencyColor = (proficiency: ProficiencyLevel): string => {
     switch (proficiency) {
-      case 'Beginner': return 'from-green-300 to-green-500';
-      case 'Intermediate': return 'from-blue-300 to-blue-600';
-      case 'Advanced': return 'from-purple-300 to-purple-600';
-      case 'Expert': return 'from-red-300 to-red-600';
+      case 'Beginner': return styles.proficiencyColors.beginner; // Use theme colors
+      case 'Intermediate': return styles.proficiencyColors.intermediate; // Use theme colors
+      case 'Advanced': return styles.proficiencyColors.advanced; // Use theme colors
+      case 'Expert': return styles.proficiencyColors.expert; // Use theme colors
       default: return 'from-gray-300 to-gray-500';
     }
   };
@@ -100,12 +98,12 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
     : skills;
 
   return (
-    <div className="relative overflow-hidden  bg-gradient-to-b from-gray-900 via-gray-800 to-black px-4 py-16">
+    <div className={`${styles.container}`}> {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -left-40 top-40 size-80 rounded-full bg-blue-500 opacity-5 blur-3xl"></div>
-        <div className="absolute right-20 top-60 size-60 rounded-full bg-purple-500 opacity-5 blur-3xl"></div>
-        <div className="absolute bottom-10 left-1/3 size-40 rounded-full bg-red-500 opacity-5 blur-2xl"></div>
+        <div className={`${styles.backgroundGlow1}`}></div>
+        <div className={`${styles.backgroundGlow2}`}></div>
+        <div className={`${styles.backgroundGlow3}`}></div>
       </div>
       <div className="container relative z-10 mx-auto max-w-6xl">
         <motion.div 
@@ -114,8 +112,8 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
           transition={{ duration: 0.6 }}
           className="mb-12 text-center"
         >
-          <h2 className="mb-4 text-4xl font-bold text-white md:text-5xl">Skills & Expertise</h2>
-          <p className="mx-auto max-w-2xl text-gray-400">
+          <h2 className={`${styles.heading}`}>Skills & Expertise</h2> {/* Apply theme styles */}
+          <p className={`${styles.description}`}>
             Showcasing my technical proficiency and expertise across various domains.
           </p>
         </motion.div>
@@ -133,8 +131,8 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
                 key={index}
                 className={`whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium transition duration-200 md:text-base ${
                   activeCategory === category
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    ? `${styles.categoryButtons.active}`
+                    : `${styles.categoryButtons.inactive}`
                 }`}
                 onClick={() => setActiveCategory(category)}
                 variants={itemVariants}
@@ -152,7 +150,7 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
               placeholder="Search skills..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full rounded-full bg-gray-800 px-4 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 md:w-auto"
+              className={`${styles.searchInput}`} // Apply theme styles
             />
             <div className="flex rounded-full bg-gray-800 p-1">
               <button
@@ -272,7 +270,7 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
                     placeholder="Search all skills..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full rounded-lg bg-gray-700 px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`${styles.searchInput}`} // Apply theme styles
                   />
                 </div>
                 {/* Categories in Modal */}
@@ -282,8 +280,8 @@ const Skills: React.FC<SkillsProps> = ({ skills }) => {
                       key={index}
                       className={`rounded-full px-4 py-2 text-sm font-medium ${
                         activeCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          ? `${styles.categoryButtons.active}`
+                          : `${styles.categoryButtons.inactive}`
                       }`}
                       onClick={() => setActiveCategory(category)}
                     >
