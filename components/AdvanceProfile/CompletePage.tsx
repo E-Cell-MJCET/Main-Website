@@ -72,7 +72,7 @@ export default function CompleteProfilePage({ params }: { params: { username: st
   const skillsData = userData.Skills || {};  // Ensure it's not undefined or null
 
 return (
-  <div className="overflow-x-hidden w-screen">
+  <div className="w-screen overflow-x-hidden">
     <Header userData={userData} />
     <About aboutText={userData.About} theme={userData.theme}/>
     <HistorySection educationData={userData.Education!} experienceData={userData.Experience!}/>
