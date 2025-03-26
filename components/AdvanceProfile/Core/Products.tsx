@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 'use client';
 import React, { useState } from 'react';
 import Image from 'next/image';
