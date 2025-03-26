@@ -51,18 +51,18 @@ export interface AboutThemeStyles {
       textContent: "relative z-10 text-lg leading-relaxed text-blue-100"
     },
     "Default": {
-      container: "relative overflow-hidden bg-gradient-to-br from-black to-teal-900 py-5",
-      backgroundGlow1: "absolute -left-16 -top-16 size-64 rounded-full bg-teal-500 opacity-10 blur-3xl",
-      backgroundGlow2: "absolute right-10 top-20 size-48 rounded-full bg-blue-600 opacity-15 blur-3xl",
+      container: "relative overflow-hidden bg-gradient-to-br from-black via-emerald-110 to-indigo-950 py-5",
+      backgroundGlow1: "absolute -left-16 -top-16 size-64 rounded-full bg-emerald-400 opacity-10 blur-3xl",
+      backgroundGlow2: "absolute right-10 top-20 size-48 rounded-full bg-indigo-600 opacity-15 blur-3xl",
       title: {
-        primary: "text-teal-400 text-2xl font-bold",
-        secondary: "text-gray-300 text-2xl"
+        primary: "text-emerald-300 text-2xl font-bold",
+        secondary: "text-gray-200 text-2xl"
       },
-      contentWrapper: "relative rounded-xl bg-black/50 p-8 shadow-xl backdrop-blur-md border border-teal-500/20",
-      quoteMarks: "absolute font-serif text-6xl text-blue-400 opacity-20",
-      textContent: "relative z-10 text-lg leading-relaxed text-gray-300"
+      contentWrapper: "relative rounded-xl bg-slate-900/60 p-8 shadow-xl backdrop-blur-md border border-emerald-500/20 transition-colors",
+      quoteMarks: "absolute font-serif text-6xl text-emerald-400 opacity-20",
+      textContent: "relative z-10 text-lg leading-relaxed text-gray-200"
     }
-  };
+      };
   
   // Helper function to get theme styles
   export const getAboutThemeStyles = (theme: string): AboutThemeStyles => {

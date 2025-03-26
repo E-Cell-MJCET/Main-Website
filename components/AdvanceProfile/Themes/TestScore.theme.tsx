@@ -84,23 +84,23 @@ export interface TestScoreThemeStyles {
     },
     "Default": {
       container: "relative py-16",
-      backgroundGradient: "bg-gradient-to-b from-blue-900 via-blue-800 to-blue-950",
-      decorativeElement1: "bg-blue-500 opacity-10 blur-3xl",
-      decorativeElement2: "bg-yellow-500 opacity-10 blur-3xl",
-      mainHeading: "bg-gradient-to-r from-blue-400 to-yellow-300 bg-clip-text text-transparent",
-      mainDescription: "text-blue-200",
-      emptyContainer: "bg-blue-800/50",
-      emptyText: "text-blue-200",
+      backgroundGradient: "bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-950",
+      decorativeElement1: "bg-indigo-500 opacity-10 blur-3xl",
+      decorativeElement2: "bg-amber-400 opacity-10 blur-3xl",
+      mainHeading: "bg-gradient-to-r from-indigo-400 to-amber-300 bg-clip-text text-transparent",
+      mainDescription: "text-slate-300",
+      emptyContainer: "bg-slate-800/50 backdrop-blur-sm border border-indigo-500/10",
+      emptyText: "text-slate-300",
       cardContainer: "grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3",
-      card: "bg-gradient-to-br from-blue-800/70 to-blue-950/70",
+      card: "bg-gradient-to-br from-slate-800/70 to-indigo-950/70 backdrop-blur-sm border border-indigo-500/10 transition-all duration-300",
       cardTitle: "text-white",
-      cardTitleHover: "group-hover:text-yellow-300",
-      cardIcon: "text-yellow-400",
-      scoreLabel: "text-yellow-300",
+      cardTitleHover: "group-hover:text-amber-300",
+      cardIcon: "text-amber-400",
+      scoreLabel: "text-amber-300",
       scoreValue: "text-white",
-      scoreValueBg: "bg-blue-500/20",
-      descriptionBox: "bg-blue-950/50",
-      descriptionText: "text-blue-100/80"
+      scoreValueBg: "bg-indigo-500/20",
+      descriptionBox: "bg-slate-950/50 border border-indigo-500/10",
+      descriptionText: "text-slate-300/90"
     }
   };
   
