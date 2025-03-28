@@ -5,6 +5,7 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@clerk/nextjs";
 
 import Step1Welcome from "@/components/AdvanceProfile/UserPreferences/Step1";
