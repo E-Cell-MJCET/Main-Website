@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import React from "react";
 import { FaCode, FaUsers, FaRegCalendarAlt, FaBusinessTime, FaPalette, FaPenNib, FaCamera, FaBullhorn, FaCog } from "react-icons/fa";
 

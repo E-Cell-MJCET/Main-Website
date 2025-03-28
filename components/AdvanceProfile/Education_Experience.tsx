@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from "framer-motion";
 
-import { ParticleCanvas } from "@/hooks/particle";
+// import { ParticleCanvas } from "@/hooks/particle";
 
 // Experience item structure from Step5
 interface ExperienceItem {
