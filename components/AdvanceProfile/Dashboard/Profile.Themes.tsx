@@ -6,7 +6,6 @@ import { IoInformationCircleOutline, IoCheckmarkCircle } from "react-icons/io5";
 import { createClient } from "@supabase/supabase-js";
 import { useUser } from "@clerk/nextjs";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import themeInfo from "../Themes/Info";
 
