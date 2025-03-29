@@ -14,7 +14,7 @@ on:
 
 jobs:
 
-build:
+  build:
     name: Build Next.js Application
     runs-on: ubuntu-latest
     env:
