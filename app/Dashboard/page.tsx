@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useUser, SignInButton, UserButton } from '@clerk/nextjs';
 import { 
   Menu, ChevronRight, ChevronLeft, Home, Users, Calendar, 
-  BarChart2, Settings, Moon, Sun, BookOpen, WandSparkles, UserPlus, AlertCircle
+   Settings, Moon, Sun, BookOpen, WandSparkles, UserPlus, AlertCircle
 } from 'lucide-react';
 
 import { supabase } from '@/utils/supabase';
@@ -14,7 +14,7 @@ import Profile_Themes from '@/components/AdvanceProfile/Dashboard/Profile.Themes
 import UserRegistration from '@/components/AdvanceProfile/Dashboard/User_Registration';
 import UserPagePrefrences_Dashboard from '@/components/AdvanceProfile/Dashboard/CompleteUserPagePrefrences';
 import Team from '@/components/AdvanceProfile/Dashboard/Team';
-import Additional from '@/components/AdvanceProfile/Dashboard/Additional';
+// import Additional from '@/components/AdvanceProfile/Dashboard/Additional';
 
 function Page() {
   const { user, isSignedIn, isLoaded } = useUser();
@@ -147,7 +147,7 @@ return;
     { id: 'team', label: 'Team', icon: <Users className="size-5" /> },
     { id: 'theme', label: 'Profile Themes', icon: <WandSparkles className="size-5" /> },
     { id: 'prefrences', label: 'User Page Prefrences', icon: <BookOpen className="size-5" /> },
-    { id: 'Aditional', label: 'Additional', icon: <BarChart2 className="size-5" /> },
+    // { id: 'Aditional', label: 'Additional', icon: <BarChart2 className="size-5" /> },
     { id: 'settings', label: 'Settings', icon: <Settings className="size-5" /> },
   ];
 
@@ -194,14 +194,6 @@ return;
         return (
           <UserPagePrefrences_Dashboard/>
         )
-      case 'Aditional':
-        return (
-          <Additional/>
-          // <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-          //   <h2 className="mb-4 text-xl font-bold">Startups</h2>
-          //   <p>View and manage startups in the incubation program.</p>
-          // </div>
-        );
       case 'team':
         return (
           <Team/>
