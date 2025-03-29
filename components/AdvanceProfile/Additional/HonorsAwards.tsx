@@ -1,8 +1,8 @@
-'use client';
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+"use client";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { getHonorsAwardsThemeStyles } from '../Themes/HonorsAwards.theme'; // Assuming the path is correct
+import { getHonorsAwardsThemeStyles } from "../Themes/HonorsAwardsTheme"; // Assuming the path is correct
 
 // Match Step10 data structure exactly
 type HonorAwardContent = {
@@ -16,16 +16,18 @@ type HonorAwardContent = {
 interface HonorsAwardsProps {
   honors: HonorAwardContent[];
   awards: HonorAwardContent[];
-  theme?: string; 
+  theme?: string;
 }
 
-const HonorsAwards: React.FC<HonorsAwardsProps> = ({ 
-  honors = [], 
+const HonorsAwards: React.FC<HonorsAwardsProps> = ({
+  honors = [],
   awards = [],
-  theme = 'Default', // Default theme
+  theme = "Default", // Default theme
 }) => {
-  const [selectedItem, setSelectedItem] = useState<HonorAwardContent | null>(null);
-  const [selectedType, setSelectedType] = useState<'honor' | 'award'>('honor');
+  const [selectedItem, setSelectedItem] = useState<HonorAwardContent | null>(
+    null
+  );
+  const [selectedType, setSelectedType] = useState<"honor" | "award">("honor");
 
   const styles = getHonorsAwardsThemeStyles(theme);
 
@@ -37,25 +39,16 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   // Handler for opening detail view
-  const openDetail = (item: HonorAwardContent, type: 'honor' | 'award') => {
+  const openDetail = (item: HonorAwardContent, type: "honor" | "award") => {
     setSelectedItem(item);
     setSelectedType(type);
   };
@@ -71,7 +64,9 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
   }
 
   return (
-    <div className={`relative ${styles.backgroundGradient} ${styles.container}`}>
+    <div
+      className={`relative ${styles.backgroundGradient} ${styles.container}`}
+    >
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div
@@ -88,12 +83,13 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className={`mb-4 text-4xl font-bold md:text-5xl ${styles.mainHeading}`}>
+          <h2
+            className={`mb-4 text-4xl font-bold md:text-5xl ${styles.mainHeading}`}
+          >
             Honors & Awards
           </h2>
           <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
-            Recognition and achievements that highlight my professional
-            journey.
+            Recognition and achievements that highlight my professional journey.
           </p>
         </motion.div>
         {/* Honors Section - Only render if has items */}
@@ -121,13 +117,13 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                   variants={itemVariants}
                   whileHover={{ y: -5, transition: { duration: 0.3 } }}
                   className={`group cursor-pointer overflow-hidden rounded-xl p-6 shadow-xl backdrop-blur-sm transition-all duration-300 ${styles.card}`}
-                  onClick={() => openDetail(honor, 'honor')}
+                  onClick={() => openDetail(honor, "honor")}
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold ${styles.cardDateBg} ${styles.cardDate}`}
                     >
-                      {honor.date || 'Date not specified'}
+                      {honor.date || "Date not specified"}
                     </span>
                     {/* Medal icon */}
                     <svg
@@ -164,10 +160,14 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                   >
                     {honor.title}
                   </h4>
-                  <p className={`mb-3 text-sm font-medium ${styles.cardIssuer}`}>
+                  <p
+                    className={`mb-3 text-sm font-medium ${styles.cardIssuer}`}
+                  >
                     {honor.issuer}
                   </p>
-                  <p className={`line-clamp-2 text-sm ${styles.cardDescription}`}>
+                  <p
+                    className={`line-clamp-2 text-sm ${styles.cardDescription}`}
+                  >
                     {honor.description}
                   </p>
                   <div
@@ -218,13 +218,13 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                   variants={itemVariants}
                   whileHover={{ y: -5, transition: { duration: 0.3 } }}
                   className={`group cursor-pointer overflow-hidden rounded-xl p-6 shadow-xl backdrop-blur-sm transition-all duration-300 ${styles.card}`}
-                  onClick={() => openDetail(award, 'award')}
+                  onClick={() => openDetail(award, "award")}
                 >
                   <div className="mb-1 flex items-center justify-between">
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold ${styles.cardDateBg} ${styles.cardDate}`}
                     >
-                      {award.date || 'Date not specified'}
+                      {award.date || "Date not specified"}
                     </span>
                     {/* Trophy icon for awards (different from honors) */}
                     <svg
@@ -271,10 +271,14 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                   >
                     {award.title}
                   </h4>
-                  <p className={`mb-3 text-sm font-medium ${styles.cardIssuer}`}>
+                  <p
+                    className={`mb-3 text-sm font-medium ${styles.cardIssuer}`}
+                  >
                     {award.issuer}
                   </p>
-                  <p className={`line-clamp-2 text-sm ${styles.cardDescription}`}>
+                  <p
+                    className={`line-clamp-2 text-sm ${styles.cardDescription}`}
+                  >
                     {award.description}
                   </p>
                   <div
@@ -322,7 +326,7 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
               {/* Close button */}
               <button
                 onClick={closeDetail}
-                className={`absolute right-4 top-4 z-10 rounded-full p-2 text-white ${styles.closeButton}`} 
+                className={`absolute right-4 top-4 z-10 rounded-full p-2 text-white ${styles.closeButton}`}
                 aria-label="Close details"
               >
                 <svg
@@ -345,15 +349,17 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                 <span
                   className={`rounded-full px-4 py-1 text-xs font-medium uppercase tracking-wider ${styles.modalBadge}`}
                 >
-                  {selectedType === 'honor' ? 'Honor' : 'Award'}
+                  {selectedType === "honor" ? "Honor" : "Award"}
                 </span>
               </div>
               {/* Icon - Different for Honor vs Award */}
               <div className="mb-6 flex justify-center">
-                <div className={`rounded-full p-4 ${styles.modalIconContainer}`}>
-                  {selectedType === 'honor' ? (
+                <div
+                  className={`rounded-full p-4 ${styles.modalIconContainer}`}
+                >
+                  {selectedType === "honor" ? (
                     <svg
-                      className="size-12 text-amber-400" 
+                      className="size-12 text-amber-400"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -362,7 +368,7 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                     </svg>
                   ) : (
                     <svg
-                      className="size-12 text-amber-400" 
+                      className="size-12 text-amber-400"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -373,7 +379,9 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                 </div>
               </div>
               {/* Item Details */}
-              <h3 className={`mb-2 text-center text-2xl font-bold md:text-3xl ${styles.modalTitle}`}>
+              <h3
+                className={`mb-2 text-center text-2xl font-bold md:text-3xl ${styles.modalTitle}`}
+              >
                 {selectedItem.title}
               </h3>
               <div className="mb-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
@@ -382,9 +390,7 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                 </span>
                 {selectedItem.date && (
                   <>
-                    <span className="hidden text-amber-500 md:inline">
-                      •
-                    </span>
+                    <span className="hidden text-amber-500 md:inline">•</span>
                     <span
                       className={`rounded-full px-3 py-1 text-sm font-medium ${styles.modalDate}`}
                     >
@@ -401,7 +407,7 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
                 </h4>
                 <p className={`${styles.modalDescriptionText}`}>
                   {selectedItem.description ||
-                    'No detailed description available.'}
+                    "No detailed description available."}
                 </p>
               </div>
             </motion.div>

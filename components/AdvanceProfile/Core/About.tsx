@@ -1,10 +1,10 @@
 "use client";
-import React, { useMemo } from 'react';
+import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
 
-import { getAboutThemeStyles } from '../Themes/About.Theme';
+import { getAboutThemeStyles } from "../Themes/AboutTheme";
 
 // Define the props interface
 interface AboutProps {
@@ -12,24 +12,18 @@ interface AboutProps {
   theme?: string;
 }
 
-const About: React.FC<AboutProps> = ({ aboutText, theme = 'Default' }) => {
+const About: React.FC<AboutProps> = ({ aboutText, theme = "Default" }) => {
   // Get theme-specific styles
   const themeStyles = useMemo(() => {
     return getAboutThemeStyles(theme);
   }, [theme]);
-  
+
   // Create title words for the typewriter effect with theme-specific styles
   const titleWords = [
-    {
-      text: "About",
-      className: themeStyles.title.primary,
-    },
-    {
-      text: "Me",
-      className: themeStyles.title.secondary
-    }
+    { text: "About", className: themeStyles.title.primary },
+    { text: "Me", className: themeStyles.title.secondary },
   ];
-  
+
   return (
     <div className={themeStyles.container}>
       {/* Background glow effects */}
@@ -43,7 +37,7 @@ const About: React.FC<AboutProps> = ({ aboutText, theme = 'Default' }) => {
           <TypewriterEffectSmooth words={titleWords} />
         </div>
         {/* About Text Content */}
-        <motion.div 
+        <motion.div
           className="mx-auto max-w-3xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -52,11 +46,11 @@ const About: React.FC<AboutProps> = ({ aboutText, theme = 'Default' }) => {
           <div className={themeStyles.contentWrapper}>
             {/* Decorative Quote Mark */}
             <div className={`${themeStyles.quoteMarks} -left-9 -top-4`}>❝</div>
-            <div className={`${themeStyles.quoteMarks} -bottom-8 -right-8`}>❞</div>
+            <div className={`${themeStyles.quoteMarks} -bottom-8 -right-8`}>
+              ❞
+            </div>
             {/* About Text with Line Height for Readability */}
-            <p className={themeStyles.textContent}>
-              {aboutText}
-            </p>
+            <p className={themeStyles.textContent}>{aboutText}</p>
           </div>
         </motion.div>
       </div>

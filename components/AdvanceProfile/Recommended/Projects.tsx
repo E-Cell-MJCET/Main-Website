@@ -1,10 +1,10 @@
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
-'use client';
-import Image from 'next/image';
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+"use client";
+import Image from "next/image";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { projectsThemeMap, ProjectsThemeStyles } from '../Themes/Projects.Theme'; // Import the theme styles
+import { projectsThemeMap, ProjectsThemeStyles } from "../Themes/ProjectsTheme"; // Import the theme styles
 
 // Match Step7 data structure exactly
 type Project = {
@@ -19,15 +19,21 @@ interface ProjectsProps {
   theme?: string; // Added theme prop
 }
 
-const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' }) => {
-  const styles: ProjectsThemeStyles = projectsThemeMap[theme] || projectsThemeMap["Default"]; // Get styles based on theme
+const Projects: React.FC<ProjectsProps> = ({
+  projects = [],
+  theme = "Default",
+}) => {
+  const styles: ProjectsThemeStyles =
+    projectsThemeMap[theme] || projectsThemeMap["Default"]; // Get styles based on theme
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  
+
   if (!Array.isArray(projects)) {
-    console.error('Projects data is not an array:', projects);
-    
-    return <div className="text-center text-red-600">Invalid projects data.</div>;
+    console.error("Projects data is not an array:", projects);
+
+    return (
+      <div className="text-center text-red-600">Invalid projects data.</div>
+    );
   }
 
   const openProjectDetails = (project: Project) => {
@@ -41,25 +47,18 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 }
-    }
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
   };
 
   return (
-    <div className={styles.container}> {/* Apply theme styles */}
+    <div className={styles.container}>
+      {" "}
+      {/* Apply theme styles */}
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className={styles.backgroundGlow1}></div>
@@ -72,10 +71,12 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
           transition={{ duration: 0.5 }}
           className="mb-12 text-center"
         >
-          <h2 className={styles.heading}>Projects</h2> {/* Apply theme styles */}
+          <h2 className={styles.heading}>Projects</h2>{" "}
+          {/* Apply theme styles */}
           {projects.length > 0 ? (
             <p className={styles.description}>
-              Explore my portfolio of projects that showcase my skills and passion.
+              Explore my portfolio of projects that showcase my skills and
+              passion.
             </p>
           ) : (
             <p className={styles.description}>
@@ -84,7 +85,7 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
           )}
         </motion.div>
         {projects.length === 0 ? (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400"
@@ -120,15 +121,30 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
                     </>
                   ) : (
                     <div className="flex size-full items-center justify-center bg-gradient-to-r from-purple-900 to-gray-800">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="size-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="size-16 text-gray-500"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z"
+                        />
                       </svg>
                     </div>
                   )}
                 </div>
                 <div className="p-6">
-                  <h3 className={styles.projectCard.title}>{project.title || "Untitled Project"}</h3>
-                  <p className={styles.projectCard.description}>{project.description || "No description available"}</p>
+                  <h3 className={styles.projectCard.title}>
+                    {project.title || "Untitled Project"}
+                  </h3>
+                  <p className={styles.projectCard.description}>
+                    {project.description || "No description available"}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -153,13 +169,24 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close button */}
-              <button 
+              <button
                 onClick={closeProjectDetails}
                 className="absolute right-4 top-4 z-10 rounded-full bg-gray-900 bg-opacity-70 p-2 text-white shadow-lg transition-all hover:bg-opacity-100"
                 aria-label="Close details"
               >
-                <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                <svg
+                  className="size-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
                 </svg>
               </button>
               {/* Project Image */}
@@ -176,8 +203,19 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
               ) : (
                 <div className="relative aspect-video w-full bg-gradient-to-r from-purple-900 to-gray-800">
                   <div className="flex size-full items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="size-24 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z" />
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="size-24 text-gray-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z"
+                      />
                     </svg>
                   </div>
                 </div>
@@ -189,7 +227,8 @@ const Projects: React.FC<ProjectsProps> = ({ projects = [], theme = 'Default' })
                 </h3>
                 <div className="prose prose-invert max-w-none">
                   <p className="whitespace-pre-line text-gray-300">
-                    {selectedProject.description || "No description available for this project."}
+                    {selectedProject.description ||
+                      "No description available for this project."}
                   </p>
                 </div>
               </div>

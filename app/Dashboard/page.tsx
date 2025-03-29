@@ -18,8 +18,8 @@ import {
 } from "lucide-react";
 
 import { supabase } from "@/utils/supabase";
-import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/Main.Dashboard";
-import Profile_Themes from "@/components/AdvanceProfile/Dashboard/Profile.Themes";
+import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/MainDashboard";
+import Profile_Themes from "@/components/AdvanceProfile/Dashboard/ProfileThemes";
 import UserRegistration from "@/components/AdvanceProfile/Dashboard/User_Registration";
 import UserPagePrefrences_Dashboard from "@/components/AdvanceProfile/Dashboard/CompleteUserPagePrefrences";
 import Team from "@/components/AdvanceProfile/Dashboard/Team";
