@@ -6,12 +6,12 @@ import { supabase } from "@/utils/supabase";
 
 // This function will generate metadata for the page
 export async function generateMetadata({
-  params 
-}: { 
-  params: { username: string }
+  params,
+}: {
+  params: { username: string };
 }): Promise<Metadata> {
   const username = params.username;
-  
+
   // Fetch user data
   let userData = null;
   try {
@@ -32,9 +32,11 @@ export async function generateMetadata({
   const name = userData?.Name || username || "Developer";
   const role = userData?.Role || "Team Member";
   const department = userData?.Department || "Editorial & Research";
-  const imageUrl = userData?.ImageUrl || "https://ecellmjcet.com/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg";
+  const imageUrl =
+    userData?.ImageUrl ||
+    "https://ecellmjcet.com/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg";
   const profileUrl = `https://www.ecellmjcet.com/profile/${username}`;
-  
+
   // Create dynamic meta content
   const pageTitle = `${name}'s Profile | ECell-MJCET`;
   const pageDescription = `Explore the profile of ${name}, ${role} at ${department} with a passion for leadership, collaboration, and innovation.`;
@@ -65,26 +67,21 @@ export async function generateMetadata({
         url: profileUrl,
         image: imageUrl,
         jobTitle: role,
-        worksFor: {
-          "@type": "Organization",
-          name: "E-Cell MJCET",
-        },
+        worksFor: { "@type": "Organization", name: "E-Cell MJCET" },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: role,
           email: userData?.Email || "contact@ecellmjcet.com",
         },
-      })
-    }
+      }),
+    },
   };
 }
 
-export default async function ProfilePageLayout({ 
-  children, 
-  params 
-}: { 
-  children: ReactNode, 
-  params: { username: string }
+export default function ProfilePageLayout({
+  children,
+}: {
+  children: ReactNode;
 }) {
-  return {children};
+  return <div>{children}</div>;
 }
