@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from "framer-motion";
 import { Trash2, DollarSign, Link2, Upload, X } from "lucide-react";
 import Image from 'next/image';
+import { useUser } from '@clerk/nextjs';
+
+import { supabase } from '@/utils/supabase';
 
 // Define types for the data structure
 type Product = {
@@ -36,6 +39,37 @@ const Step13Welcome = ({
   const [services, setServices] = useState<Service[]>([
     { name: "", description: "", specialties: "", pricing: "" }
   ]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Initiating fetch for: ", user?.id); // Debugging line
+        const { data, error } = await supabase
+          .from("Team") // Assuming the table name is 'Team'
+          .select("*")
+          .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+          .single(); // Expecting a single row
+
+        if (error) {
+          console.log("Error is :-> ", error);
+        } else {
+          setUserData(data);
+        }
+      } catch (err: any) {
+        console.log(err);
+        // setError(
+        //   `An error occurred while fetching profile data: ${err.message}`
+        // );
+      } finally {
+        // setLoading(false);
+      }
+    };
+  
+      fetchData();
+    }, [user?.id]);
 
   // References to file inputs for products
   const productFileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -154,7 +188,7 @@ const Step13Welcome = ({
   };
 
   // Handle next button click
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty product entries
     const validProducts = products.filter(
       product => product.name || product.description || product.features || 
@@ -175,6 +209,20 @@ const Step13Welcome = ({
     if (sessionId) {
       localStorage.setItem(`${sessionId}_products`, JSON.stringify(validProducts));
       localStorage.setItem(`${sessionId}_services`, JSON.stringify(validServices));
+    }
+
+    if (userData.Profile_Data_Created) {
+      // Save data in Supabase
+      const { error } = await supabase
+        .from("Team")
+        .update({ Products: validProducts, Services: validServices })
+        .eq("clerk_user_id", user?.id); // Assuming the table name is 'Team'
+        
+      if (error) {
+        console.log(error);
+      } else {
+        alert("Products and Services saved successfully!");
+      }
     }
     
     onNext();
@@ -483,7 +531,7 @@ const Step13Welcome = ({
             className="rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white hover:bg-teal-600"
             type="button"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

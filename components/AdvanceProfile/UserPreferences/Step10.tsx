@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
+import { useUser } from '@clerk/nextjs';
+
+import { supabase } from '@/utils/supabase';
 
 // Define the type for honors and awards
 type HonorAwardContent = {
@@ -22,6 +25,37 @@ const Step10Welcome = ({
   const [honorsAwards, setHonorsAwards] = useState<HonorAwardContent[]>([
     { title: "", issuer: "", date: "", description: "" }
   ]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);  
+
+    useEffect(() => {
+          const fetchData = async () => {
+            try {
+              console.log("Initiating fetch for: ", user?.id); // Debugging line
+              const { data, error } = await supabase
+                .from("Team") // Assuming the table name is 'Team'
+                .select("*")
+                .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+                .single(); // Expecting a single row
+      
+              if (error) {
+                console.log("Error is :-> ", error);
+              } else {
+                setUserData(data);
+              }
+            } catch (err: any) {
+              console.log(err);
+              // setError(
+              //   `An error occurred while fetching profile data: ${err.message}`
+              // );
+            } finally {
+              // setLoading(false);
+            }
+          };
+        
+            fetchData();
+          }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -53,7 +87,7 @@ const Step10Welcome = ({
     setHonorsAwards(honorsAwards.filter((_, i) => i !== index));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty entries
     const validHonorsAwards = honorsAwards.filter(
       honor => honor.title || honor.issuer || honor.date || honor.description
@@ -66,7 +100,19 @@ const Step10Welcome = ({
     if (sessionId) {
       localStorage.setItem(`${sessionId}_honors_awards`, JSON.stringify(validHonorsAwards));
     }
-    
+
+    if (userData.Profile_Data_Created){
+      // store data in supabase
+      const { error } = await supabase
+        .from("Team")
+        .update({ Honors: validHonorsAwards })
+        .eq("clerk_user_id", user?.id); // Assuming the table name is 'Team'
+        alert("Honors and Awards saved successfully!");
+      if (error){
+        console.log(error);
+      }
+    }
+
     onNext();
   };
 
@@ -187,7 +233,7 @@ const Step10Welcome = ({
             onClick={handleNext}
             className="rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white hover:bg-teal-600"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

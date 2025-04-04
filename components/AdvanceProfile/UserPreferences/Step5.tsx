@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Calendar } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+
+import { supabase } from "@/utils/supabase";
 
 const Step5Welcome = ({
   onNext,
@@ -17,10 +20,40 @@ const Step5Welcome = ({
   const [education, setEducation] = useState([
     { startDate: "", endDate: "", school: "", degree: "", description: "" },
   ]);
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
 
   // Toggle for "Present" as end date
   const [currentlyWorkingIndices, setCurrentlyWorkingIndices] = useState<number[]>([]);
   const [currentlyStudyingIndices, setCurrentlyStudyingIndices] = useState<number[]>([]);
+
+  useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log("Initiating fetch for: ", user?.id); // Debugging line
+          const { data, error } = await supabase
+            .from("Team") // Assuming the table name is 'Team'
+            .select("*")
+            .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+            .single(); // Expecting a single row
+  
+          if (error) {
+            console.log("Error is :-> ", error);
+          } else {
+            setUserData(data);
+          }
+        } catch (err: any) {
+          console.log(err);
+          // setError(
+          //   `An error occurred while fetching profile data: ${err.message}`
+          // );
+        } finally {
+          // setLoading(false);
+        }
+      };
+    
+        fetchData();
+      }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -147,7 +180,7 @@ const Step5Welcome = ({
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty entries
     const filteredExperiences = experiences.filter(
       exp => exp.company || exp.jobTitle || exp.startDate || exp.description
@@ -170,6 +203,20 @@ const Step5Welcome = ({
       // Save education data
       localStorage.setItem(`${sessionId}_education`, JSON.stringify(filteredEducation));
       localStorage.setItem(`${sessionId}_studying_indices`, JSON.stringify(currentlyStudyingIndices));
+    }
+
+    if (userData.Profile_Data_Created){
+      // store data to supabase
+      const {error} = await supabase
+      .from("Team")
+      .update({Experience: filteredExperiences, Education: filteredEducation})
+      .eq("clerk_user_id", user?.id);
+      if (error) {
+        console.error("Error updating data:", error);
+      } else {
+        console.log("Data updated successfully!");
+        alert("Data updated successfully!");
+      }
     }
     
     onNext();
@@ -404,7 +451,7 @@ const Step5Welcome = ({
             onClick={handleNext}
             className="rounded-lg bg-indigo-500 px-6 py-3 font-semibold text-white transition hover:bg-indigo-600"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

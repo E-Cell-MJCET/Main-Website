@@ -36,7 +36,7 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
   theme = "Default", // Default theme to 'Default'
 }) => {
   const styles: LicencesCertificationsThemeStyles =
-    licencesCertificationsThemeMap[theme]; // Get styles based on theme
+    licencesCertificationsThemeMap[theme || "Default"]; // Get styles based on theme
 
   // State for active tab
   const [activeTab, setActiveTab] = useState<"licenses" | "certifications">(

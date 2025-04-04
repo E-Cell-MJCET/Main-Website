@@ -2,6 +2,9 @@
 import React, { useState,useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Trash2 } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+
+import { supabase } from "@/utils/supabase";
 
 // Define types for skill data
 type SkillCategory = "Technical" | "Soft Skills" | "Languages" | "Tools" | "Other";
@@ -32,6 +35,37 @@ const Step6Welcome = ({
     category: "Technical",
     proficiency: "Intermediate"
   });
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
+
+  useEffect(() => {
+        const fetchData = async () => {
+          try {
+            console.log("Initiating fetch for: ", user?.id); // Debugging line
+            const { data, error } = await supabase
+              .from("Team") // Assuming the table name is 'Team'
+              .select("*")
+              .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+              .single(); // Expecting a single row
+    
+            if (error) {
+              console.log("Error is :-> ", error);
+            } else {
+              setUserData(data);
+            }
+          } catch (err: any) {
+            console.log(err);
+            // setError(
+            //   `An error occurred while fetching profile data: ${err.message}`
+            // );
+          } finally {
+            // setLoading(false);
+          }
+        };
+      
+          fetchData();
+        }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -73,7 +107,7 @@ const Step6Welcome = ({
     setSkills(skills.filter((_, i) => i !== index));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out empty skills
     const validSkills = skills.filter(skill => skill.name.trim() !== "");
     console.log("Skills:", validSkills);
@@ -83,6 +117,18 @@ const Step6Welcome = ({
     if (sessionId) {
       localStorage.setItem(`${sessionId}_skills`, JSON.stringify(validSkills));
     }
+
+    if (userData.Profile_Data_Created){
+      // Store Data in supabase
+      const {error} = await supabase
+        .from("Team")
+        .update({Skills: validSkills})
+        .eq("clerk_user_id", user?.id);
+        alert("Skills updated successfully!");
+      if (error){
+        console.log("error is :-> ", error);
+      }
+      }
 
     onNext();
   };
@@ -276,7 +322,7 @@ const Step6Welcome = ({
                 : "bg-indigo-600 hover:bg-indigo-700"
             }`}
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -11,6 +12,9 @@ import { IoGlobeOutline, IoLocationOutline, IoSearch, IoClose } from "react-icon
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi";
 import { MdHelpOutline } from "react-icons/md";
 import {ReactCountryFlag} from 'react-country-flag';
+import { useUser } from "@clerk/nextjs";
+
+import { supabase } from "@/utils/supabase";
 
 // Define types for social media
 type SocialMediaPlatform = {
@@ -110,6 +114,40 @@ const Step4Welcome = ({
   const [about, setAbout] = useState("");
   const [industryPreference, setIndustryPreference] = useState("");
   const [secondaryPreference, setSecondaryPreference] = useState("");
+  const [userData, setUserData] = useState<any | null>(null);
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [edit] = useState(false);
+  
+  useEffect(() => {
+      const fetchData = async () => {
+        try {
+          console.log("Initiating fetch for: ", user?.id); // Debugging line
+          const { data, error } = await supabase
+            .from("Team") // Assuming the table name is 'Team'
+            .select("*")
+            .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+            .single(); // Expecting a single row
+  
+          if (error) {
+            console.log("Error is :-> ", error);
+            setError("Error fetching profile data");
+          } else {
+            setUserData(data);
+          }
+        } catch (err: any) {
+          console.log(err);
+          setError(
+            `An error occurred while fetching profile data: ${err.message}`
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchData();
+    }, [user?.id]);
   
   // Country dropdown state
   const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
@@ -182,8 +220,9 @@ const Step4Welcome = ({
       if (savedIndustryPreference) setIndustryPreference(savedIndustryPreference);
       if (savedSecondaryPreference) setSecondaryPreference(savedSecondaryPreference);
       if (savedSocialLinks) setSocialLinks(JSON.parse(savedSocialLinks));
-      if (savedContactInfo) setContactInfo(JSON.parse(savedContactInfo));
-      if (savedLocationInfo) setLocationInfo(JSON.parse(savedLocationInfo));
+      if (savedContactInfo) {console.log("Saved  Info ", savedContactInfo); setContactInfo(JSON.parse(savedContactInfo));}
+      // if (savedLocationInfo) setLocationInfo(JSON.parse(savedLocationInfo));
+      if (savedLocationInfo) {console.log("Saved Location  Info ", savedLocationInfo); setLocationInfo(JSON.parse(savedLocationInfo));}
     }
   }, []);
 
@@ -271,7 +310,7 @@ const Step4Welcome = ({
     }));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     console.log("Full Name:", fullName);
     console.log("Tagline:", tagline);
     console.log("Username:", username);
@@ -300,7 +339,27 @@ const Step4Welcome = ({
       localStorage.setItem(`${sessionId}_contactInfo`, JSON.stringify(contactInfo));
       
       // Save location info as JSON
+      // setLocationInfo(JSON.parse(savedLocationInfo))
       localStorage.setItem(`${sessionId}_locationInfo`, JSON.stringify(locationInfo));
+    }
+    console.log(userData.Profile_Data_Created," state")
+    if (userData.Profile_Data_Created){
+      // Store the entire localstorage data to the database
+      const { error } = await supabase
+        .from("Team")
+        .update({
+          Name: fullName,
+          Tagline: tagline,
+          Username: username,
+          About: about,
+          Member_Type: industryPreference,
+          Portfolio: secondaryPreference,
+          SocialLinks: socialLinks,
+          Contact_Info: contactInfo,
+          Location: locationInfo
+        })
+        .eq("clerk_user_id", user?.id);
+        console.log(error)
     }
 
     onNext();
@@ -728,7 +787,7 @@ const Step4Welcome = ({
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

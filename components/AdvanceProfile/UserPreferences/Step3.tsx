@@ -1,9 +1,17 @@
+/* eslint-disable no-unused-vars */
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MdInfoOutline, MdFileUpload, MdEdit } from "react-icons/md";
 import { IoMdCloseCircle } from "react-icons/io";
 import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
+import { useUser } from "@clerk/nextjs";
+
+// Initialize Supabase client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Define a type for all possible section names
 type SectionName = 
@@ -31,23 +39,32 @@ const sectionToStepMap: Record<SectionName, number> = {
 const Step3Welcome = ({
   onNext,
   onPrevious,
+  profileCreated = false,
+  userData = null,
+  onSaveComplete
 }: {
   onNext: () => void;
   onPrevious: () => void;
+  profileCreated?: boolean;
+  userData?: any;
+  onSaveComplete?: () => void;
 }) => {
   // State for selected sections in each category
-  const [coreSelections, setCoreSelections] = useState<SectionName[]>([]);
-  const [recommendedSelections, setRecommendedSelections] = useState<SectionName[]>([]);
+  const [coreSelections, setCoreSelections] = useState<SectionName[]>(["About", "Education", "Skills"]);
+  const [recommendedSelections, setRecommendedSelections] = useState<SectionName[]>(["Projects", "Recommendations"]);
   const [additionalSelections, setAdditionalSelections] = useState<SectionName[]>([]);
   
-  // State for interactive tooltips
-  const [activeTooltip, setActiveTooltip] = useState<SectionName | null>(null);
-  
-  // New state for profile image
+  // State for profile image
   const [profileImage, setProfileImage] = useState<File | null>(null);
   const [profileImageBase64, setProfileImageBase64] = useState<string | null>(null);
   const [showImageTooltip, setShowImageTooltip] = useState(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // State for saving data
+  const [isSaving, setIsSaving] = useState(false);
+  const { user } = useUser();
+  const [dataLoaded, setDataLoaded] = useState(false);
+  const [isProfileCreated, setIsProfileCreated] = useState<boolean>(profileCreated);
 
   // Convert file to base64
   const convertToBase64 = (file: File): Promise<string> => {
@@ -69,26 +86,93 @@ const Step3Welcome = ({
     return () => clearTimeout(timer);
   }, []);
 
-  // Load saved data from localStorage on component mount
+  // Effect to check if profile data is created in Supabase
   useEffect(() => {
-    const sessionId = localStorage.getItem("personalized_session_id");
-    if (sessionId) {
-      // Load section selections
-      const savedCoreSelections = localStorage.getItem(`${sessionId}_core_sections`);
-      const savedRecommendedSelections = localStorage.getItem(`${sessionId}_recommended_sections`);
-      const savedAdditionalSelections = localStorage.getItem(`${sessionId}_additional_sections`);
+    const checkProfileCreated = async () => {
+      if (!user) return;
       
-      if (savedCoreSelections) setCoreSelections(JSON.parse(savedCoreSelections));
-      if (savedRecommendedSelections) setRecommendedSelections(JSON.parse(savedRecommendedSelections));
-      if (savedAdditionalSelections) setAdditionalSelections(JSON.parse(savedAdditionalSelections));
-      
-      // Load profile header image
-      const savedProfileImage = localStorage.getItem(`${sessionId}_profile_header_image`);
-      if (savedProfileImage) {
-        setProfileImageBase64(savedProfileImage);
+      try {
+        const { data, error } = await supabase
+          .from("Team")
+          .select("Profile_Data_Created")
+          .eq("clerk_user_id", user.id)
+          .single();
+          
+        if (data && !error) {
+          setIsProfileCreated(!!data.Profile_Data_Created);
+        }
+      } catch (error) {
+        console.error("Error checking profile status:", error);
       }
-    }
-  }, []);
+    };
+    
+    checkProfileCreated();
+  }, [user]);
+
+  // Load data from userData or localStorage
+  useEffect(() => {
+    const loadData = async () => {
+      if (dataLoaded) return;
+
+      // First try to load from userData (for edit mode)
+      if (userData) {
+        // if (userData.CoreSections) setCoreSelections(userData.CoreSections);
+        // if (userData.RecommendedSections) setRecommendedSelections(userData.RecommendedSections);
+        // if (userData.AdditionalSections) setAdditionalSelections(userData.AdditionalSelections);
+        if (userData.ProfileImageHeader) setProfileImageBase64(userData.ProfileImageHeader);
+        
+        setDataLoaded(true);
+        
+return;
+      }
+
+      // If no userData, try to load from localStorage
+      const sessionId = localStorage.getItem("personalized_session_id");
+      if (sessionId) {
+        // Load section selections
+        // const savedCoreSelections = localStorage.getItem(`${sessionId}_core_sections`);
+        // const savedRecommendedSelections = localStorage.getItem(`${sessionId}_recommended_sections`);
+        // const savedAdditionalSelections = localStorage.getItem(`${sessionId}_additional_sections`);
+        
+        // if (savedCoreSelections) setCoreSelections(JSON.parse(savedCoreSelections));
+        // if (savedRecommendedSelections) setRecommendedSelections(JSON.parse(savedRecommendedSelections));
+        // if (savedAdditionalSelections) setAdditionalSelections(JSON.parse(savedAdditionalSelections));
+        
+        // Load profile header image
+        const savedProfileImage = localStorage.getItem(`${sessionId}_profile_header_image`);
+        if (savedProfileImage) {
+          setProfileImageBase64(savedProfileImage);
+        }
+
+        setDataLoaded(true);
+      }
+
+      // If profileCreated is true but we have no data, fetch from Supabase
+      if (profileCreated && user && !dataLoaded) {
+        try {
+          const { data, error } = await supabase
+            .from("Team")
+            .select("ProfileImageHeader, Profile_Data_Created")
+            .eq("clerk_user_id", user.id)
+            .single();
+
+          if (data && !error) {
+            // if (data.CoreSections) setCoreSelections(data.CoreSections);
+            // if (data.RecommendedSections) setRecommendedSelections(data.RecommendedSections);
+            // if (data.AdditionalSections) setAdditionalSelections(data.AdditionalSelections);
+            if (data.ProfileImageHeader) setProfileImageBase64(data.ProfileImageHeader);
+            if (data.Profile_Data_Created !== undefined) setIsProfileCreated(!!data.Profile_Data_Created);
+            
+            setDataLoaded(true);
+          }
+        } catch (error) {
+          console.error("Error fetching data from Supabase:", error);
+        }
+      }
+    };
+
+    loadData();
+  }, [userData, profileCreated, user, dataLoaded]);
 
   // Handle image file selection
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -162,28 +246,80 @@ return;
     "Volunteer Experience": "Your history of volunteer work and community service."
   };
 
-  // Handle selection changes
-  const handleSelectionChange = (category: 'core' | 'recommended' | 'additional', section: SectionName) => {
-    switch (category) {
-      case 'core':
-        setCoreSelections(prev => 
-          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
-        );
-        break;
-      case 'recommended':
-        setRecommendedSelections(prev => 
-          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
-        );
-        break;
-      case 'additional':
-        setAdditionalSelections(prev => 
-          prev.includes(section) ? prev.filter(item => item !== section) : [...prev, section]
-        );
-        break;
+  // Save to Supabase (for edit mode)
+  const saveToSupabase = async () => {
+    if (!user) {
+      alert("You must be logged in to save your profile");
+      
+return;
+    }
+
+    setIsSaving(true);
+
+    try {
+      // Prepare data for Supabase update - only include Step3 form fields
+      const updateData: any = {
+        ProfileImageHeader: profileImageBase64 || null,
+        // CoreSections: coreSelections,
+        // RecommendedSections: recommendedSelections,
+        // AdditionalSections: additionalSelections,
+        // Set Profile_Data_Created to true if this is the first time saving
+        Profile_Data_Created: true
+      };
+
+      // Get the session ID for localStorage
+      const sessionId = localStorage.getItem("personalized_session_id");
+      
+      // Update the Team table with only the Step3 fields
+      const { data, error } = await supabase
+        .from("Team")
+        .update(updateData)
+        .eq("clerk_user_id", user.id);
+
+      if (error) {
+        console.error("Error updating profile:", error);
+        alert("Failed to save profile. Please try again.");
+      } else {
+        console.log("Profile updated successfully:", data);
+        alert("Portfolio sections updated successfully!");
+        
+        // Save to localStorage as well to keep it in sync
+        if (sessionId) {
+          localStorage.setItem(`${sessionId}_core_sections`, JSON.stringify(coreSelections));
+          localStorage.setItem(`${sessionId}_recommended_sections`, JSON.stringify(recommendedSelections));
+          localStorage.setItem(`${sessionId}_additional_sections`, JSON.stringify(additionalSelections));
+          
+          if (profileImageBase64) {
+            localStorage.setItem(`${sessionId}_profile_header_image`, profileImageBase64);
+          } else {
+            localStorage.removeItem(`${sessionId}_profile_header_image`);
+          }
+        }
+
+        // Call the onSaveComplete callback if provided (for EditUserProfile.tsx)
+        if (onSaveComplete) {
+          onSaveComplete();
+        } else {
+          onNext();
+        }
+      }
+    } catch (error) {
+      console.error("Error in saveToSupabase:", error);
+      alert("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
   };
 
+  // Handle next button click (for creation mode)
   const handleNext = () => {
+    // If profile is already created, use saveToSupabase instead
+    if (isProfileCreated) {
+      saveToSupabase();
+      
+return;
+    }
+    
     console.log("Profile Image:", profileImage ? "Selected" : "None");
     console.log("Core Selections:", coreSelections);
     console.log("Recommended Selections:", recommendedSelections);
@@ -216,21 +352,11 @@ return;
     onNext();
   };
 
-  const toggleTooltip = (section: SectionName) => {
-    if (activeTooltip === section) {
-      setActiveTooltip(null);
-    } else {
-      setActiveTooltip(section);
-    }
-  };
-
-  // Function to render section options
-  const renderSectionOptions = (
+  // Function to render section information (not clickable)
+  const renderSectionInfo = (
     category: 'core' | 'recommended' | 'additional', 
-    selections: SectionName[], 
     title: string,
-    bgColor: string,
-    borderColor: string
+    bgColor: string
   ) => (
     <div className="mb-8">
       <h3 className="mb-3 text-xl font-semibold text-gray-800">
@@ -238,55 +364,11 @@ return;
       </h3>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {portfolioSections[category].map((section) => (
-          <div key={section} className="relative">
-            <label
-              className={`flex cursor-pointer items-center justify-between rounded-lg border p-4 transition ${
-                selections.includes(section)
-                  ? `border-${borderColor} bg-${bgColor}`
-                  : "border-gray-300 bg-gray-100"
-              }`}
-            >
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={selections.includes(section)}
-                  onChange={() => handleSelectionChange(category, section)}
-                  className={`form-checkbox text- size-5${borderColor}`}
-                />
-                <span className="ml-3 font-medium text-gray-700">{section}</span>
-              </div>
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggleTooltip(section);
-                }}
-                className="text-gray-500 hover:text-gray-700"
-                aria-label={`Learn about ${section}`}
-              >
-                <MdInfoOutline size={20} />
-              </button>
-            </label>
-            {/* Tooltip */}
-            {activeTooltip === section && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="absolute right-0 top-full z-10 mt-2 w-full rounded-lg border border-gray-300 bg-white p-4 shadow-lg"
-              >
-                <p className="text-sm text-gray-700">
-                  {sectionDescriptions[section]}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setActiveTooltip(null)}
-                  className={`text- mt-2 text-sm${borderColor} hover:underline`}
-                >
-                  Close
-                </button>
-              </motion.div>
-            )}
+          <div key={section} className={`bg- rounded-lg${bgColor} p-4 shadow`}>
+            <h4 className="mb-2 font-semibold text-gray-800">{section}</h4>
+            <p className="text-sm text-gray-700">
+              {sectionDescriptions[section]}
+            </p>
           </div>
         ))}
       </div>
@@ -302,7 +384,7 @@ return;
         className="w-full max-w-3xl rounded-lg bg-white p-6 shadow-lg sm:p-10"
       >
         <h2 className="mb-6 text-center text-2xl font-bold text-gray-800 sm:text-3xl">
-          Customize Your Portfolio 📋
+          {isProfileCreated || profileCreated ? "Portfolio Sections" : "Portfolio Sections Overview 📋"}
         </h2>
         {/* Profile Image Upload Section */}
         <div className="relative mb-10">
@@ -402,39 +484,69 @@ return;
           </div>
         </div>
         <p className="mb-6 text-center text-gray-600">
-          Choose which sections you`d like to include in your portfolio. You can select multiple options in each category.
+          Your portfolio is organized into the following sections. Each section helps showcase different aspects of your professional profile.
         </p>
-        {/* Core Sections */}
-        {renderSectionOptions('core', coreSelections, "Core Sections", "blue-100", "blue-500")}
-        {/* Recommended Sections */}
-        {renderSectionOptions('recommended', recommendedSelections, "Recommended Sections", "green-100", "green-500")}
-        {/* Additional Sections */}
-        {renderSectionOptions('additional', additionalSelections, "Additional Sections", "purple-100", "purple-500")}
-        {/* Navigation Buttons */}
+        {/* Section Information (not clickable) */}
+        {renderSectionInfo('core', "Core Sections", "blue-100")}
+        {renderSectionInfo('recommended', "Recommended Sections", "green-100")}
+        {renderSectionInfo('additional', "Additional Sections", "purple-100")}
+        {/* Navigation Buttons - Conditional rendering based on profileCreated */}
         <div className="flex justify-between">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={onPrevious}
-            className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
-            type="button"
-          >
-            Previous
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleNext}
-            disabled={coreSelections.length === 0 && recommendedSelections.length === 0 && additionalSelections.length === 0}
-            className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
-              coreSelections.length === 0 && recommendedSelections.length === 0 && additionalSelections.length === 0
-                ? "cursor-not-allowed bg-gray-300"
-                : "bg-blue-500 hover:bg-blue-600"
-            }`}
-            type="button"
-          >
-            Next
-          </motion.button>
+          {!profileCreated && !isProfileCreated ? (
+            // Show Previous/Next buttons when creating a new profile
+            <>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onPrevious}
+                className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
+                type="button"
+              >
+                Previous
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleNext}
+                className="rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white transition hover:bg-blue-600"
+                type="button"
+              >
+                Next
+              </motion.button>
+            </>
+          ) : (
+            // Show Cancel/Save buttons when editing an existing profile
+            <>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onPrevious}
+                className="rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-800 transition hover:bg-gray-400"
+                type="button"
+              >
+                Cancel
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={saveToSupabase}
+                disabled={isSaving}
+                className={`rounded-lg px-6 py-3 font-semibold text-white transition ${
+                  isSaving ? "cursor-not-allowed bg-gray-300" : "bg-green-500 hover:bg-green-600"
+                }`}
+                type="button"
+              >
+                {isSaving ? (
+                  <div className="flex items-center">
+                    <div className="mr-2 size-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                    <span>Saving...</span>
+                  </div>
+                ) : (
+                  "Save Changes"
+                )}
+              </motion.button>
+            </>
+          )}
         </div>
       </motion.div>
     </div>

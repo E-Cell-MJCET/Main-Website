@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Trash2, Upload, X, Plus } from "lucide-react";
 import Image from "next/image";
+import { useUser } from "@clerk/nextjs";
+
+import { supabase } from "@/utils/supabase";
 
 // Define types for licenses and certifications
 type License = {
@@ -27,6 +30,37 @@ const Step8Welcome = ({
   // Initialize with one empty license and certification
   const [licenses, setLicenses] = useState<License[]>([{ title: "", description: "", image: "" }]);
   const [certifications, setCertifications] = useState<Certification[]>([{ title: "", description: "", image: "" }]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Initiating fetch for: ", user?.id); // Debugging line
+        const { data, error } = await supabase
+          .from("Team") // Assuming the table name is 'Team'
+          .select("*")
+          .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+          .single(); // Expecting a single row
+
+        if (error) {
+          console.log("Error is :-> ", error);
+        } else {
+          setUserData(data);
+        }
+      } catch (err: any) {
+        console.log(err);
+        // setError(
+        //   `An error occurred while fetching profile data: ${err.message}`
+        // );
+      } finally {
+        // setLoading(false);
+      }
+    };
+  
+      fetchData();
+    }, [user?.id]);
   
   // References to file inputs for licenses and certifications
   const licenseFileInputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -188,7 +222,7 @@ return;
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty entries
     const validLicenses = licenses.filter(
       license => license.title || license.description || license.image
@@ -208,6 +242,21 @@ return;
       localStorage.setItem(`${sessionId}_certifications`, JSON.stringify(validCertifications));
     }
     
+    if (userData.Profile_Data_Created){
+      // store data in supabase
+      const { error } = await supabase
+        .from("Team")
+        .update({
+          Licenses: validLicenses,
+          Certifications: validCertifications,
+        })
+        .eq("clerk_user_id", user?.id); // Assuming the table name is 'Team'
+        alert("Licenses and Certifications updated successfully!");
+        if (error){
+          console.log(error);
+        }
+    }
+
     onNext();
   };
 
@@ -493,7 +542,7 @@ return;
             className="rounded-lg bg-teal-500 px-6 py-3 font-semibold text-white hover:bg-teal-600"
             type="button"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

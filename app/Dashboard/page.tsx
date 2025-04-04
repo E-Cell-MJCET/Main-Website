@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
@@ -11,11 +12,13 @@ import {
   Settings,
   Moon,
   Sun,
-  BookOpen,
   WandSparkles,
   UserPlus,
   AlertCircle,
+  HomeIcon,
+  User,
 } from "lucide-react";
+import Link from "next/link";
 
 import { supabase } from "@/utils/supabase";
 import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/MainDashboard";
@@ -23,14 +26,20 @@ import Profile_Themes from "@/components/AdvanceProfile/Dashboard/ProfileThemes"
 import UserRegistration from "@/components/AdvanceProfile/Dashboard/User_Registration";
 import UserPagePrefrences_Dashboard from "@/components/AdvanceProfile/Dashboard/CompleteUserPagePrefrences";
 import Team from "@/components/AdvanceProfile/Dashboard/Team";
+// import HeaderDashboard from "@/components/AdvanceProfile/Dashboard/HeaderDashboard";
+import ProfileDashboard from "@/components/AdvanceProfile/Dashboard/ProfileDashboard";
+import EditUserProfile from "@/components/AdvanceProfile/Dashboard/EditUserProfile";
+import Events from "@/components/AdvanceProfile/Dashboard/Events";
 // import Additional from '@/components/AdvanceProfile/Dashboard/Additional';
 
 const DashboardPage = () => {
   const { user, isSignedIn, isLoaded } = useUser();
+  const [userData,setUserData] = useState<any | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [darkMode, setDarkMode] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [userProfileStat, setUserProfileStat] = useState(false);
   const [showRegistration, setShowRegistration] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState<{
     success: boolean;
@@ -44,6 +53,39 @@ const DashboardPage = () => {
   const [validationMessage, setValidationMessage] = useState(
     "Initializing dashboard..."
   );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Initiating fetch for: ", user?.id); // Debugging line
+        const { data, error } = await supabase
+          .from("Team") // Assuming the table name is 'Team'
+          .select("*")
+          .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+          .single(); // Expecting a single row
+
+        if (error) {
+          console.log("Error is :-> ", error);
+        } else {
+          setUserData(data);
+          if (userData.Profile_Data_Created) {
+            setUserProfileStat(true);
+            console.log(userProfileStat,"Profile stat")
+          }
+          else {console.log(userData.Profile_Data_Created);}
+        }
+      } catch (err: any) {
+        console.log(err);
+        // setError(
+        //   `An error occurred while fetching profile data: ${err.message}`
+        // );
+      } finally {
+        // setLoading(false);
+      }
+    };
+  
+      fetchData();
+    }, [user?.id]);
 
   // Check if mobile on mount and when window resizes
   useEffect(() => {
@@ -154,6 +196,7 @@ const DashboardPage = () => {
   // Sidebar navigation items
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: <Home className="size-5" /> },
+    { id: "profile", label: "My Profile", icon: <User className="size-5" /> },
     { id: "events", label: "Events", icon: <Calendar className="size-5" /> },
     { id: "team", label: "Team", icon: <Users className="size-5" /> },
     {
@@ -161,12 +204,16 @@ const DashboardPage = () => {
       label: "Profile Themes",
       icon: <WandSparkles className="size-5" />,
     },
-    {
-      id: "prefrences",
-      label: "User Page Prefrences",
-      icon: <BookOpen className="size-5" />,
-    },
-    // { id: 'Aditional', label: 'Additional', icon: <BarChart2 className="size-5" /> },
+    // { id: "header", label: "Header", icon: <Calendar className="size-5" /> },
+    // {
+    //   id: "prefrences",
+    //   label: "User Page Prefrences",
+    //   icon: <BookOpen className="size-5" />,
+    // },
+    // { id: 'edits', label: 'Editing profile', icon: <User className="size-5" /> },
+    { id: 'forms', 
+      label: userProfileStat ? "Edit Profile" : "Create Profile", 
+      icon: <User className="size-5" /> },
     {
       id: "settings",
       label: "Settings",
@@ -206,17 +253,26 @@ const DashboardPage = () => {
         return <Main_Dashboard />;
       case "events":
         return (
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-bold">Upcoming Events</h2>
-            <p>Manage and view all E-Cell events here.</p>
-          </div>
+          <Events/>
+          // <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+          //   <h2 className="mb-4 text-xl font-bold">Upcoming Events</h2>
+          //   <p>Manage and view all E-Cell events here.</p>
+          // </div>
         );
-      case "prefrences":
-        return <UserPagePrefrences_Dashboard />;
+      // case "prefrences":
+      //   return <UserPagePrefrences_Dashboard />;
+      case "profile":
+        return <ProfileDashboard/>;
+      // case "header":
+      //   return <HeaderDashboard/>;
       case "team":
         return <Team />;
+      // case 'edits':
+      //   return <EditUserProfile/>
       case "theme":
         return <Profile_Themes />;
+      case "forms":
+        return userData.Profile_Data_Created ? (<EditUserProfile/>) : (<UserPagePrefrences_Dashboard/>)
       case "analytics":
         return (
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
@@ -317,11 +373,14 @@ const DashboardPage = () => {
           </button>
           <div className="flex items-center">
             <span className="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-              E-Cell
+              Welcome to E-Cell Dashboard
             </span>
           </div>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-5">
+          <Link href="/" className="hidden text-gray-500 dark:text-gray-400 md:block">
+            <HomeIcon className="hidden size-6 text-gray-500 dark:text-gray-400 md:block" />
+          </Link>
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700"

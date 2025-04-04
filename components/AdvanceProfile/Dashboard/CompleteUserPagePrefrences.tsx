@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable tailwindcss/enforces-shorthand */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
@@ -30,46 +29,49 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 // Create a single instance of the Supabase client
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
+// Updated STEP_INFO with all steps
+const STEP_INFO: Record<number, { title: string; description: string }> = {
+  1: { title: "Welcome", description: "Get started with your profile" },
+  3: { title: "Sections", description: "Choose profile sections" },
+  4: { title: "Basic Info", description: "Name, tagline & about" },
+  5: { title: "Experience", description: "Work experience" },
+  6: { title: "Skills", description: "Professional skills" },
+  7: { title: "Projects", description: "Portfolio projects" },
+  8: { title: "Certifications", description: "Certifications & licenses" },
+  9: { title: "Recommendation", description: "Input your recommendations" },
+  10: { title: "Honors", description: "Honors & Awards" },
+  11: { title: "Featured", description: "Showcase your best work" },
+  12: { title: "Causes", description: "What's the causes you have made " },
+  13: { title: "Products & Services", description: "Add your Services or Products" },
+  14: { title: "Test & Scores", description: "Add Test Scores" },
+  15: { title: "Vounteer Experience", description: "Your Voulunteer experience" },
+  16: { title: "Complete", description: "Finalize your profile" }
+};
+
+// Define the fixed step sequence with all steps
+const ALL_STEPS = [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
 function UserPagePrefrences_Dashboard() {
   const { user, isLoaded: isClerkLoaded } = useUser();
   const [currentStep, setCurrentStep] = useState(1);
-  const [customStepSequence, setCustomStepSequence] = useState<number[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<boolean | null>(null);
   const [debugInfo, setDebugInfo] = useState<string>("");
   const [clerkUserId, setClerkUserId] = useState<string | null>(null);
   const [existingUserData, setExistingUserData] = useState<any>(null);
+  const [showStepper, setShowStepper] = useState(false);
 
-  // Base steps that are always included
-  const FIXED_STEPS = [1, 3, 16];
-  const DEFAULT_MAX_STEP = 16;
-  
-  // Function to load step sequence from localStorage
-  const loadStepSequence = () => {
-    const sessionId = localStorage.getItem("personalized_session_id");
-    if (sessionId) {
-      const savedStepSequence = localStorage.getItem(`${sessionId}_step_sequence`);
-      if (savedStepSequence) {
-        // Create a complete sequence with fixed steps
-        const parsedSequence = JSON.parse(savedStepSequence);
-        const completeSequence = [
-          FIXED_STEPS[0], // Step 1
-          FIXED_STEPS[1], // Step 3
-          ...parsedSequence,           // User-selected steps
-          FIXED_STEPS[2]               // Final step (16)
-        ];
-        setCustomStepSequence(completeSequence);
-        
-        return completeSequence; // Return the sequence for immediate use
-      }
+  const handleStepClick = (stepNumber: number) => {
+    // Don't allow jumping to step 16 (final step) directly
+    if (stepNumber === 16) {
+      toast.info("Please complete all previous steps first");
+      
+      return;
     }
     
-    // If no custom sequence, create a default one with just the fixed steps
-    const defaultSequence = [FIXED_STEPS[0], FIXED_STEPS[1], FIXED_STEPS[2]];
-    setCustomStepSequence(defaultSequence);
-    
-    return defaultSequence; // Return default sequence if no custom sequence found
+    setCurrentStep(stepNumber);
+    setShowStepper(false); // Hide stepper after selection
   };
 
   // Load user's Clerk ID and check if they exist in the Team table
@@ -107,8 +109,6 @@ function UserPagePrefrences_Dashboard() {
           }
         }
         
-        // Load step sequence after checking user data
-        loadStepSequence();
         setIsLoading(false);
       } catch (error) {
         console.error("Error in fetchUserData:", error);
@@ -119,74 +119,22 @@ function UserPagePrefrences_Dashboard() {
     fetchUserData();
   }, [isClerkLoaded, user]);
 
-  // Load user's selected sections and create a step sequence on component mount
-  useEffect(() => {
-    if (!isLoading) {
-      loadStepSequence();
-    }
-  }, [isLoading]);
-
-  // Convert from UI step index to actual step number
-  const getStepNumber = (stepIndex: number): number => {
-    if (customStepSequence.length > 0) {
-      return stepIndex < customStepSequence.length ? customStepSequence[stepIndex] : DEFAULT_MAX_STEP;
-    } else {
-      return stepIndex + 1; // Default behavior if no custom sequence
-    }
-  };
-  
-  // Convert from actual step number to UI step index
-  const getStepIndex = (stepNumber: number): number => {
-    if (customStepSequence.length > 0) {
-      const index = customStepSequence.indexOf(stepNumber);
-      
-      return index >= 0 ? index : customStepSequence.length - 1;
-    } else {
-      return stepNumber - 1; // Default behavior if no custom sequence
-    }
-  };
-   
-  // Special handler for Step3 completion
-  const handleStep3Next = () => {
-    // Reload the step sequence from localStorage
-    const updatedSequence = loadStepSequence();
-    
-    // If we have a valid sequence, use it to determine the next step
-    if (updatedSequence && updatedSequence.length > 2) {
-      // Set to the first custom step after the fixed initial steps (1,3)
-      setCurrentStep(updatedSequence.length > 2 ? updatedSequence[2] : FIXED_STEPS[2]);
-    } else {
-      // Fall back to default behavior
-      setCurrentStep(16);
-    }
-  };
-  
   const handleNext = () => {
-    // If we're on step 3, use the special handler
+    // Special case for Step 3 (section selection)
+    // Now we just move to the next step in the sequence
     if (currentStep === 3) {
-      handleStep3Next();
+      setCurrentStep(4);
       
       return;
     }
 
-    setCurrentStep((prev) => {
-      const currentIndex = getStepIndex(prev);
-      const nextIndex = currentIndex + 1;
-      
-      // Check if we're at the end of our sequence
-      if (customStepSequence.length > 0) {
-        if (nextIndex >= customStepSequence.length) {
-          return FIXED_STEPS[2]; // Always go to step 16 as the final step
-        }
-        
-        return customStepSequence[nextIndex];
-      } else {
-        // Default behavior if no custom sequence
-        const nextStep = prev + 1;
-        
-        return nextStep > DEFAULT_MAX_STEP ? DEFAULT_MAX_STEP : nextStep;
-      }
-    });
+    // Find current step index in ALL_STEPS array
+    const currentIndex = ALL_STEPS.indexOf(currentStep);
+    
+    // Move to next step if not at the end
+    if (currentIndex < ALL_STEPS.length - 1) {
+      setCurrentStep(ALL_STEPS[currentIndex + 1]);
+    }
   };
 
   // Collect all data from localStorage
@@ -389,7 +337,7 @@ function UserPagePrefrences_Dashboard() {
       // Check if user is logged in with Clerk
       if (!clerkUserId) {
         toast.error("You must be logged in to save your profile");
-       
+        
         return;
       }
       
@@ -411,6 +359,7 @@ function UserPagePrefrences_Dashboard() {
       
       // Success!
       setSaveSuccess(true);
+      await supabase.from("Team").update({Profile_Data_Created:true}).eq("clerk_user_id", clerkUserId);
       toast.success("Profile data saved successfully!", {
         autoClose: 5000,
       });
@@ -439,12 +388,18 @@ function UserPagePrefrences_Dashboard() {
   };
 
   const handlePrevious = () => {
-    setCurrentStep((prev) => {
-      const currentIndex = getStepIndex(prev);
-      const prevIndex = currentIndex - 1;
-      
-      return getStepNumber(Math.max(prevIndex, 0));
-    }); // Ensure we don't go below step 1
+    // Find current step index in ALL_STEPS array
+    const currentIndex = ALL_STEPS.indexOf(currentStep);
+    
+    // Move to previous step if not at the beginning
+    if (currentIndex > 0) {
+      setCurrentStep(ALL_STEPS[currentIndex - 1]);
+    }
+  };
+
+  // Get loading message
+  const getLoadingMessage = () => {
+    return "Saving your profile data to the database...";
   };
 
   // Helper function to render the current step component
@@ -462,7 +417,7 @@ function UserPagePrefrences_Dashboard() {
       case 1:
         return <Step1Welcome onNext={handleNext} />;
       case 3:
-        return <Step3Welcome onNext={handleNext} onPrevious={handlePrevious} />;
+        return <Step3Welcome onNext={handleNext} onPrevious={handlePrevious} userData={null} />;
       case 4:
         return <Step4Welcome onNext={handleNext} onPrevious={handlePrevious} />;
       case 5:
@@ -495,14 +450,81 @@ function UserPagePrefrences_Dashboard() {
     }
   };
 
-  // Get loading message
-  const getLoadingMessage = () => {
-    return "Saving your profile data to the database...";
+  // Toggle stepper visibility
+  const toggleStepper = () => {
+    setShowStepper(prev => !prev);
   };
 
   return (
-    <div>
-      {renderStepComponent()}
+    <div className="relative">
+      {/* Main content */}
+      <div className="relative">
+        {renderStepComponent()}
+      </div>
+      {/* Stepper navigation */}
+      <div className={`fixed left-0 top-0 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ${showStepper ? 'translate-x-0' : '-translate-x-full'}`}
+           style={{ zIndex: 1000 }}>
+        <div className="flex h-full flex-col">
+          <div className="flex items-center justify-between border-b border-gray-200 p-4">
+            <h2 className="text-xl font-bold text-gray-800">Navigation</h2>
+            <button 
+              onClick={toggleStepper}
+              className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
+              aria-label="Close navigation"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 overflow-y-auto p-4">
+            {ALL_STEPS.map((step, index) => (
+              <div 
+                key={index}
+                onClick={() => handleStepClick(step)}
+                className={`mb-3 cursor-pointer rounded-lg p-3 transition-colors ${
+                  currentStep === step 
+                    ? 'bg-teal-100 text-teal-800' 
+                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <div className="flex items-center">
+                  <div className={`mr-3 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+                    currentStep === step 
+                      ? 'bg-teal-500 text-white' 
+                      : 'bg-gray-300 text-gray-700'
+                  }`}>
+                    {index + 1}
+                  </div>
+                  <div>
+                    <p className="font-medium">{STEP_INFO[step]?.title || `Step ${step}`}</p>
+                    <p className="text-sm text-gray-500">{STEP_INFO[step]?.description || "Complete this section"}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* Toggle button for stepper */}
+      <button
+        onClick={toggleStepper}
+        className="fixed bottom-4 left-4 rounded-full bg-teal-500 p-3 text-white shadow-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300"
+        style={{ zIndex: 999 }}
+        aria-label="Toggle navigation"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      {/* Overlay to close stepper when clicked outside */}
+      {showStepper && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-20"
+          style={{ zIndex: 990 }}
+          onClick={() => setShowStepper(false)}
+        />
+      )}
       <ToastContainer 
         position="top-center" 
         autoClose={5000}

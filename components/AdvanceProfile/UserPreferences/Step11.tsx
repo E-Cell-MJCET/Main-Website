@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
+import { useUser } from '@clerk/nextjs';
+
+import { supabase } from '@/utils/supabase';
 
 // Define the type for featured content
 type FeaturedContent = {
@@ -20,6 +23,37 @@ const Step11Welcome = ({
   const [featuredItems, setFeaturedItems] = useState<FeaturedContent[]>([
     { title: "", description: "" }
   ]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any |null>(null);
+
+    useEffect(() => {
+          const fetchData = async () => {
+            try {
+              console.log("Initiating fetch for: ", user?.id); // Debugging line
+              const { data, error } = await supabase
+                .from("Team") // Assuming the table name is 'Team'
+                .select("*")
+                .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+                .single(); // Expecting a single row
+      
+              if (error) {
+                console.log("Error is :-> ", error);
+              } else {
+                setUserData(data);
+              }
+            } catch (err: any) {
+              console.log(err);
+              // setError(
+              //   `An error occurred while fetching profile data: ${err.message}`
+              // );
+            } finally {
+              // setLoading(false);
+            }
+          };
+        
+            fetchData();
+          }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -51,7 +85,7 @@ const Step11Welcome = ({
     setFeaturedItems(featuredItems.filter((_, i) => i !== index));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty featured items
     const validFeaturedItems = featuredItems.filter(
       item => item.title || item.description
@@ -63,6 +97,18 @@ const Step11Welcome = ({
     const sessionId = localStorage.getItem("personalized_session_id");
     if (sessionId) {
       localStorage.setItem(`${sessionId}_featured_items`, JSON.stringify(validFeaturedItems));
+    }
+    
+    if (userData.Profile_Data_Created){
+      // save data in supabase
+      const { error } = await supabase
+        .from("Team")
+        .update({Featured: validFeaturedItems})
+        .eq("clerk_user_id", user?.id);
+        alert("Featured items saved successfully!");
+      if (error){
+        console.log(error);
+      }
     }
     
     onNext();
@@ -168,7 +214,7 @@ const Step11Welcome = ({
             onClick={handleNext}
             className="rounded-lg bg-purple-500 px-6 py-3 font-semibold text-white hover:bg-purple-600"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

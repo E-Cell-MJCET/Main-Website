@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
+import { useUser } from '@clerk/nextjs';
+
+import { supabase } from '@/utils/supabase';
 
 // Define the type for volunteer experience
 type VolunteerContent = {
@@ -20,6 +23,37 @@ const Step15Welcome = ({
   const [volunteerItems, setVolunteerItems] = useState<VolunteerContent[]>([
     { title: "", description: "" }
   ]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log("Initiating fetch for: ", user?.id); // Debugging line
+        const { data, error } = await supabase
+          .from("Team") // Assuming the table name is 'Team'
+          .select("*")
+          .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+          .single(); // Expecting a single row
+
+        if (error) {
+          console.log("Error is :-> ", error);
+        } else {
+          setUserData(data);
+        }
+      } catch (err: any) {
+        console.log(err);
+        // setError(
+        //   `An error occurred while fetching profile data: ${err.message}`
+        // );
+      } finally {
+        // setLoading(false);
+      }
+    };
+  
+      fetchData();
+    }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -64,6 +98,29 @@ const Step15Welcome = ({
     if (sessionId) {
       localStorage.setItem(`${sessionId}_volunteer_experiences`, JSON.stringify(validVolunteerItems));
     }
+
+    if (userData.Profile_Data_Created){
+      // save data to supabase
+      const saveVolunteerExperience = async () => {
+        try {
+          const { error } = await supabase
+            .from("Team")
+            .update({ VolunteerExperience: validVolunteerItems })
+            .eq("clerk_user_id", user?.id); // Assuming the table name is 'Team'
+
+          if (error) {
+            console.log("Error saving volunteer experience: ", error);
+          } else {
+            console.log("Volunteer experience saved successfully!");
+            alert("Volunteer experience saved successfully!");
+          }
+        } catch (err: any) {
+          console.log(err);
+        }
+      };
+      saveVolunteerExperience();
+    }
+
     onNext();
   };
 
@@ -165,7 +222,7 @@ const Step15Welcome = ({
             onClick={handleNext}
             className="rounded-lg bg-pink-500 px-6 py-3 font-semibold text-white hover:bg-pink-600"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>

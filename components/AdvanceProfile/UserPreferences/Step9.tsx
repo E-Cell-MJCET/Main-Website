@@ -2,6 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react"; // Importing a delete icon
+import { useUser } from "@clerk/nextjs";
+
+import { supabase } from "@/utils/supabase";
 
 // Define types for the recommendation data structure
 type Recommendation = {
@@ -20,6 +23,37 @@ const Step9Welcome = ({
   const [recommendations, setRecommendations] = useState<Recommendation[]>([
     { title: "", description: "", link: "" }
   ]);
+
+  const {user} = useUser();
+  const [userData, setUserData] = useState<any | null>(null);
+
+    useEffect(() => {
+          const fetchData = async () => {
+            try {
+              console.log("Initiating fetch for: ", user?.id); // Debugging line
+              const { data, error } = await supabase
+                .from("Team") // Assuming the table name is 'Team'
+                .select("*")
+                .eq("clerk_user_id", user?.id) // Querying by username in the 'Name' column
+                .single(); // Expecting a single row
+      
+              if (error) {
+                console.log("Error is :-> ", error);
+              } else {
+                setUserData(data);
+              }
+            } catch (err: any) {
+              console.log(err);
+              // setError(
+              //   `An error occurred while fetching profile data: ${err.message}`
+              // );
+            } finally {
+              // setLoading(false);
+            }
+          };
+        
+            fetchData();
+          }, [user?.id]);
 
   // Load saved data from localStorage on component mount
   useEffect(() => {
@@ -48,7 +82,7 @@ const Step9Welcome = ({
     setRecommendations(recommendations.filter((_, i) => i !== index));
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Filter out completely empty recommendation entries
     const validRecommendations = recommendations.filter(
       rec => rec.title || rec.description || rec.link
@@ -60,6 +94,18 @@ const Step9Welcome = ({
     const sessionId = localStorage.getItem("personalized_session_id");
     if (sessionId) {
       localStorage.setItem(`${sessionId}_recommendations`, JSON.stringify(validRecommendations));
+    }
+
+    if (userData.Profile_Data_Created){
+      // save data in Supabase
+      const { error } = await supabase
+        .from("Team")
+        .update({ Testimonials: validRecommendations })
+        .eq("clerk_user_id", user?.id); // Assuming the table name is 'Team'
+        alert("Recommendations saved successfully!");
+      if (error){
+        console.log(error);
+      }
     }
     
     onNext();
@@ -135,7 +181,7 @@ const Step9Welcome = ({
             onClick={handleNext}
             className="rounded-lg bg-blue-500 px-6 py-3 font-semibold text-white hover:bg-blue-600"
           >
-            Next
+            {userData?.Profile_Data_Created ? "Save" : "Next"}
           </motion.button>
         </div>
       </motion.div>
