@@ -4,31 +4,26 @@ import type { ReactNode } from "react";
 
 import { supabase } from "@/utils/supabase";
 
+interface UserData {
+  Name: string;
+  Username: string;
+  Role: string;
+  Department: string;
+  ImageUrl: string;
+  Email: string;
+}
+
 // This function will generate metadata for the page
-export async function generateMetadata({
+export function generateMetadata({
   params,
+  userData,
 }: {
   params: { username: string };
-}): Promise<Metadata> {
+  userData: UserData | null;
+}): Metadata {
   const username = params.username;
 
-  // Fetch user data
-  let userData = null;
-  try {
-    const { data, error } = await supabase
-      .from("Team")
-      .select("*")
-      .eq("Username", username)
-      .single();
-
-    if (!error) {
-      userData = data;
-    }
-  } catch (err) {
-    console.error("Error fetching user data:", err);
-  }
-
-  // Generate dynamic metadata based on fetched user data
+  // Fallback values in case userData is null
   const name = userData?.Name || username || "Developer";
   const role = userData?.Role || "Team Member";
   const department = userData?.Department || "Editorial & Research";
@@ -67,7 +62,10 @@ export async function generateMetadata({
         url: profileUrl,
         image: imageUrl,
         jobTitle: role,
-        worksFor: { "@type": "Organization", name: "E-Cell MJCET" },
+        worksFor: {
+          "@type": "Organization",
+          name: "E-Cell MJCET",
+        },
         contactPoint: {
           "@type": "ContactPoint",
           contactType: role,
@@ -78,10 +76,33 @@ export async function generateMetadata({
   };
 }
 
+// Function to fetch user data
+export const fetchUserData = async (username: string): Promise<UserData | null> => {
+  try {
+    const { data, error } = await supabase
+      .from("Team")
+      .select("*")
+      .eq("Username", username)
+      .single();
+
+    if (error) {
+      console.error("Error fetching user data:", error);
+      
+      return null;
+    }
+
+    return data;
+  } catch (err) {
+    console.error("Error fetching user data:", err);
+    
+    return null;
+  }
+};
+
 export default function ProfilePageLayout({
   children,
 }: {
   children: ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <>{children}</>;
 }
