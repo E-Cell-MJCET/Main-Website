@@ -104,5 +104,5 @@ export default function ProfilePageLayout({
 }: {
   children: ReactNode;
 }) {
-  return <>{children}</>;
+  return ({children});
 }
