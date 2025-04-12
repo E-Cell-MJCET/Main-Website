@@ -9,6 +9,7 @@ import {
   Nanum_Pen_Script,
 } from "next/font/google";
 // import localFont from "next/font/local";
+import localFont from "next/font/local";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -30,22 +31,6 @@ const pixelify = Pixelify_Sans({
   weight: ["400", "500"], // Adjust the weights you need
   variable: "--font-pixelify", // Custom CSS variable
 });
-// const geistSans = localFont({
-//   src: "./fonts/GeistVF.woff",
-//   variable: "--font-geist-sans",
-//   weight: "100 900",
-// });
-// const geistMono = localFont({
-//   src: "./fonts/GeistMonoVF.woff",
-//   variable: "--font-geist-mono",
-//   weight: "100 900",
-// });
-
-// const montserrat = Montserrat({
-//   subsets: ["latin"],
-//   weight: ["400"],
-//   variable: "--font-montserrat",
-// });
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -75,6 +60,11 @@ const nanum_pen_script = Nanum_Pen_Script({
   variable: "--font-nanum-pen-script",
 });
 
+const getBlockFont = localFont({
+  src: "../app/fonts/block.woff2",
+  variable: "--font-block",
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -83,7 +73,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
+        className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
       >
         {children}
         <Toaster />

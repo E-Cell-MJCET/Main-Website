@@ -65,6 +65,7 @@ export default {
         doto: ["var(--font-doto)", "sans-serif"],
         inter: ["var(--font-inter)", "serif"],
         silkscreen: ["Silkscreen", "cursive"],
+        block: ["var(--font-block)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
