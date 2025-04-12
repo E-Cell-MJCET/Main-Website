@@ -16,15 +16,5 @@
   "[handlebars]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
-  "tailwindCSS.lint.cssConflict": "ignore",
-  "typescript.preferences.autoImportSpecifierExcludeRegexes": [
-    "^react-native-web",
-    "react-native-reanimated/lib/typescript/Animated",
-    "react-native-reanimated/src/Animated"
-  ],
-  "javascript.preferences.autoImportSpecifierExcludeRegexes": [
-    "^react-native-web",
-    "react-native-reanimated/lib/typescript/Animated",
-    "react-native-reanimated/src/Animated"
-  ]
+  "tailwindCSS.lint.cssConflict": "ignore"
 }
