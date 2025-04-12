@@ -1,0 +1,30 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "never"
+  },
+  "files.eol": "\n",
+  "eslint.workingDirectories": [
+    { "pattern": "apps/*/" },
+    { "pattern": "packages/*/" }
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "[handlebars]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "tailwindCSS.lint.cssConflict": "ignore",
+  "typescript.preferences.autoImportSpecifierExcludeRegexes": [
+    "^react-native-web",
+    "react-native-reanimated/lib/typescript/Animated",
+    "react-native-reanimated/src/Animated"
+  ],
+  "javascript.preferences.autoImportSpecifierExcludeRegexes": [
+    "^react-native-web",
+    "react-native-reanimated/lib/typescript/Animated",
+    "react-native-reanimated/src/Animated"
+  ]
+}
