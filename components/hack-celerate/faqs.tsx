@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+
 import {
   Accordion,
   AccordionContent,
@@ -42,38 +43,37 @@ const faqs = [
   },
 ];
 
-export default function faqSection() {
+export default function FaqSection() {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });
 
   return (
-    <section id="faq" className="py-12 sm:py-24 bg-black px-4 sm:px-6">
-      <div className="container max-w-7xl mx-auto">
+    <section id="faq" className="bg-black px-4 py-12 sm:px-6 sm:py-24">
+      <div className="container mx-auto max-w-7xl">
         <motion.div
           ref={ref}
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-16"
+          className="mb-8 text-center sm:mb-16"
         >
           <h2
-            className="text-2xl sm:text-3xl md:text-5xl font-block mb-4 sm:mb-6"
+            className="mb-4 font-block text-2xl sm:mb-6 sm:text-3xl md:text-5xl"
             style={{ color: "#7BF1A7" }}
           >
             Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="text-base sm:text-xl text-muted-foreground font-block max-w-3xl mx-auto px-4">
-            Got questions? We've got answers!
+          <p className="mx-auto max-w-3xl px-4 font-block text-base text-muted-foreground sm:text-xl">
+            Got questions? We&apos;ve got answers!
           </p>
         </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-3xl mx-auto px-4"
+          className="mx-auto max-w-3xl px-4"
         >
           <Accordion
             type="single"
@@ -84,15 +84,15 @@ export default function faqSection() {
               <AccordionItem
                 key={faq.id}
                 value={faq.id}
-                className="bg-[#3B6593] rounded-lg border border-[#3B6593] px-4 sm:px-6"
+                className="rounded-lg border border-[#3B6593] bg-[#3B6593] px-4 sm:px-6"
               >
                 <AccordionTrigger
-                  className="text-base sm:text-lg font-semibold py-3 sm:py-4 transition-colors"
+                  className="py-3 text-base font-semibold transition-colors sm:py-4 sm:text-lg"
                   style={{ color: "#7BF1A7" }}
                 >
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-sm sm:text-base text-[#7BF1A7] pb-3 sm:pb-4">
+                <AccordionContent className="pb-3 text-sm text-[#7BF1A7] sm:pb-4 sm:text-base">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
