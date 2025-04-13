@@ -1,7 +1,19 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+  --animate-grid: grid 15s linear infinite;
+}
 
+@keyframes grid {
+  0% {
+    transform: translateY(-50%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -137,5 +149,20 @@
     background: #1f2937;
     border-radius: 0.7rem;
     overflow: hidden;
+  }
+}
+
+@media (min-width: 769px) {
+  body {
+    cursor: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+  #custom-cursor {
+    display: none;
   }
 }
