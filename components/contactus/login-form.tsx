@@ -9,9 +9,9 @@ import {
 import { Mail, MapPin, Instagram } from "lucide-react";
 import confetti from "canvas-confetti";
 import { z } from "zod";
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 import { toast } from "sonner";
-import { useForm } from '@tanstack/react-form';
+import { useForm } from "@tanstack/react-form";
 
 import { cn } from "@/lib/utils";
 
@@ -46,7 +46,10 @@ function Squares({
   const numSquaresX = useRef<number>();
   const numSquaresY = useRef<number>();
   const gridOffset = useRef({ x: 0, y: 0 });
-  const [hoveredSquare, setHoveredSquare] = useState<{ x: number; y: number } | null>(null);
+  const [hoveredSquare, setHoveredSquare] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -107,20 +110,26 @@ function Squares({
       const effectiveSpeed = Math.max(speed, 0.1);
       switch (direction) {
         case "right":
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x =
+            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
           break;
         case "left":
-          gridOffset.current.x = (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x =
+            (gridOffset.current.x + effectiveSpeed + squareSize) % squareSize;
           break;
         case "up":
-          gridOffset.current.y = (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y =
+            (gridOffset.current.y + effectiveSpeed + squareSize) % squareSize;
           break;
         case "down":
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y =
+            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
         case "diagonal":
-          gridOffset.current.x = (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
-          gridOffset.current.y = (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.x =
+            (gridOffset.current.x - effectiveSpeed + squareSize) % squareSize;
+          gridOffset.current.y =
+            (gridOffset.current.y - effectiveSpeed + squareSize) % squareSize;
           break;
       }
       drawGrid();
@@ -133,8 +142,12 @@ function Squares({
       const mouseY = event.clientY - rect.top;
       const startX = Math.floor(gridOffset.current.x / squareSize) * squareSize;
       const startY = Math.floor(gridOffset.current.y / squareSize) * squareSize;
-      const hoveredSquareX = Math.floor((mouseX + gridOffset.current.x - startX) / squareSize);
-      const hoveredSquareY = Math.floor((mouseY + gridOffset.current.y - startY) / squareSize);
+      const hoveredSquareX = Math.floor(
+        (mouseX + gridOffset.current.x - startX) / squareSize
+      );
+      const hoveredSquareY = Math.floor(
+        (mouseY + gridOffset.current.y - startY) / squareSize
+      );
       setHoveredSquare({ x: hoveredSquareX, y: hoveredSquareY });
     };
 
@@ -152,9 +165,21 @@ function Squares({
       canvas.removeEventListener("mouseleave", handleMouseLeave);
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize]);
+  }, [
+    direction,
+    speed,
+    borderColor,
+    hoverFillColor,
+    hoveredSquare,
+    squareSize,
+  ]);
 
-  return <canvas ref={canvasRef} className={`block size-full border-none ${className}`} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className={`block size-full border-none ${className}`}
+    />
+  );
 }
 
 const CanvasRevealEffect = ({
@@ -165,7 +190,11 @@ const CanvasRevealEffect = ({
   colors?: number[][];
   dotSize?: number;
 }) => {
-  return <div className={cn("absolute inset-0 pointer-events-none", containerClassName)} />;
+  return (
+    <div
+      className={cn("absolute inset-0 pointer-events-none", containerClassName)}
+    />
+  );
 };
 
 const CardSpotlight = ({
@@ -182,7 +211,11 @@ const CardSpotlight = ({
   const mouseY = useMotionValue(0);
   const [isHovering, setIsHovering] = useState(false);
 
-  function handleMouseMove({ currentTarget, clientX, clientY }: ReactMouseEvent<HTMLDivElement>) {
+  function handleMouseMove({
+    currentTarget,
+    clientX,
+    clientY,
+  }: ReactMouseEvent<HTMLDivElement>) {
     const { left, top } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
@@ -202,7 +235,8 @@ const CardSpotlight = ({
       <motion.div
         className="pointer-events-none absolute -inset-px z-0 rounded-xl opacity-0 transition duration-300 group-hover/spotlight:opacity-100"
         style={{
-          background: "linear-gradient(to right, rgb(59 130 246 / 0.2), rgb(139 92 246 / 0.2))",
+          background:
+            "linear-gradient(to right, rgb(59 130 246 / 0.2), rgb(139 92 246 / 0.2))",
           maskImage: useMotionTemplate`
             radial-gradient(
               ${radius}px circle at ${mouseX}px ${mouseY}px,
@@ -231,7 +265,10 @@ const formSchema = z.object({
     .regex(/^[a-zA-Z ]+$/, "Name should only contain letters and spaces"),
   phone: z
     .string()
-    .refine((val) => /^[6-9]\d{9}$/.test(val.replace(/\D/g, "")), "Invalid phone number"),
+    .refine(
+      (val) => /^[6-9]\d{9}$/.test(val.replace(/\D/g, "")),
+      "Invalid phone number"
+    ),
   email: z.string().email("Invalid email address"),
   message: z
     .string()
@@ -313,8 +350,8 @@ const ContactForm = () => {
         const result = formSchema.safeParse(value);
         if (!result.success) {
           const flattened = result.error.flatten().fieldErrors;
-          
-return {
+
+          return {
             fields: {
               name: flattened.name ? flattened.name[0] : undefined,
               phone: flattened.phone ? flattened.phone[0] : undefined,
@@ -323,8 +360,8 @@ return {
             },
           };
         }
-        
-return null;
+
+        return null;
       },
     },
   });
@@ -442,9 +479,12 @@ return null;
 const ContactInfo = () => {
   return (
     <div className="space-y-6">
-      <h2 className="text-xl font-bold text-neutral-200">Connect with E-Cell MJCET</h2>
+      <h2 className="text-xl font-bold text-neutral-200">
+        Connect with E-Cell MJCET
+      </h2>
       <p className="text-sm text-neutral-400">
-        Have an idea, a startup query, or just curious about entrepreneurship? Reach out to us—we&apos;re here to help!
+        Have an idea, a startup query, or just curious about entrepreneurship?
+        Reach out to us—we&apos;re here to help!
       </p>
       <div className="space-y-4">
         <div className="flex items-center space-x-3 text-neutral-300">
