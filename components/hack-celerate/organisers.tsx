@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
+
 import { cn } from "@/lib/utils"; // Utility for classNames. Adjust if necessary.
 
 // Modified InfiniteMovingCards component that supports images:
@@ -80,20 +82,20 @@ const InfiniteMovingCards = ({
         {items.map((item, idx) => (
           <li
             key={idx}
-            className="w-[280px] sm:w-[350px] max-w-full relative flex-shrink-0 rounded-2xl overflow-hidden"
+            className="relative w-[280px] max-w-full shrink-0 overflow-hidden rounded-2xl sm:w-[350px]"
           >
-            <div className="relative h-full w-full">
-              <img
+            <div className="relative size-full">
+              <Image
                 src={item.image}
                 alt={item.name}
-                className="w-full h-[200px] sm:h-[300px] object-cover"
+                className="h-[200px] w-full object-cover sm:h-[300px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute bottom-0 left-0 p-4 sm:p-6">
-                <h3 className="text-base sm:text-lg font-bold text-[#7BF1A7]">
+                <h3 className="text-base font-bold text-[#7BF1A7] sm:text-lg">
                   {item.name}
                 </h3>
-                <p className="text-xs sm:text-sm text-white">{item.title}</p>
+                <p className="text-xs text-white sm:text-sm">{item.title}</p>
               </div>
             </div>
           </li>
@@ -185,17 +187,16 @@ const Organisers = () => {
   return (
     <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8 sm:py-16">
-        <div className="text-center mb-8 sm:mb-16">
-          <h1 className="text-4xl sm:text-6xl mb-4 font-block text-[#7BF1A7]">
+        <div className="mb-8 text-center sm:mb-16">
+          <h1 className="mb-4 font-block text-4xl text-[#7BF1A7] sm:text-6xl">
             Welcome to Our Platform
           </h1>
-          <p className="text-base sm:text-lg text-[#7BF1A7] max-w-3xl mx-auto px-4">
+          <p className="mx-auto max-w-3xl px-4 text-base text-[#7BF1A7] sm:text-lg">
             Meet the incredible team behind this event, working tirelessly to
             make everything possible
           </p>
-          <div className="w-16 sm:w-24 h-1.5 bg-[#7BF1A7] rounded-full mx-auto mt-4 sm:mt-8"></div>
+          <div className="mx-auto mt-4 h-1.5 w-16 rounded-full bg-[#7BF1A7] sm:mt-8 sm:w-24"></div>
         </div>
-
         {/* First set - Organizers (left direction) */}
         <div className="mb-4">
           <InfiniteMovingCards
@@ -205,7 +206,6 @@ const Organisers = () => {
             className="py-4"
           />
         </div>
-
         {/* Second set - More Organizers (right direction) */}
         <div className="mb-16">
           <InfiniteMovingCards
