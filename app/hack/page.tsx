@@ -1,18 +1,19 @@
-import Dummy from '@/components/hack-celerate/Dummy';
-import Hero from '@/components/hack-celerate/Hero'
-import Navbar from '@/components/hack-celerate/NavBar'
-import Cursor from '@/components/ui/default-cursor';
-import React from 'react'
+import React from "react";
+
+import Dummy from "@/components/hack-celerate/Dummy";
+import Hero from "@/components/hack-celerate/Hero";
+import Navbar from "@/components/hack-celerate/NavBar";
+import Cursor from "@/components/ui/cursor";
 
 const page = () => {
   return (
-    <div className="overflow-clip bg-[#121212] relative ">
-      <Cursor/>
+    <div className="text-clip bg-[#121212] ">
+      <Cursor />
       <Navbar />
       <Hero />
-      <Dummy/>
+      <Dummy />
     </div>
   );
-}
+};
 
-export default page
+export default page;

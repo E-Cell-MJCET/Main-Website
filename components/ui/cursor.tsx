@@ -1,124 +1,62 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import {
-  motion,
-  SpringOptions,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-  Transition,
-  Variant,
-} from "framer-motion";
 
-import { cn } from "@/lib/utils";
+import { useEffect } from "react";
+import { motion, useSpring } from "framer-motion";
 
-type CursorProps = {
-  children: React.ReactNode;
-  className?: string;
-  springConfig?: SpringOptions;
-  attachToParent?: boolean;
-  transition?: Transition;
-  variants?: {
-    initial: Variant;
-    animate: Variant;
-    exit: Variant;
-  };
-  onPositionChange?: (x: number, y: number) => void;
-};
-
-export function Cursor({
-  children,
-  className,
-  springConfig,
-  attachToParent,
-  variants,
-  transition,
-  onPositionChange,
-}: CursorProps) {
-  const cursorX = useMotionValue(
-    typeof window !== "undefined" ? window.innerWidth / 2 : 0
-  );
-  const cursorY = useMotionValue(
-    typeof window !== "undefined" ? window.innerHeight / 2 : 0
-  );
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(!attachToParent);
+export default function Cursor() {
+  const springConfig = { damping: 20, stiffness: 200, mass: 1 };
+  const cursorX = useSpring(0, springConfig);
+  const cursorY = useSpring(0, springConfig);
+  const scale = useSpring(1, springConfig);
 
   useEffect(() => {
-    if (!attachToParent) {
-      document.body.style.cursor = "none";
-    } else {
-      document.body.style.cursor = "auto";
-    }
-
-    const updatePosition = (e: MouseEvent) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-      onPositionChange?.(e.clientX, e.clientY);
+    const moveCursor = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      cursorX.set(clientX);
+      cursorY.set(clientY);
     };
 
-    document.addEventListener("mousemove", updatePosition);
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "P" ||
+        target.tagName === "H1" ||
+        target.tagName === "H2" ||
+        target.tagName === "H3" ||
+        target.tagName === "A" ||
+        // target.tagName === "SPAN" ||
+        target.tagName === "BUTTON"
+      ) {
+        scale.set(3);
+      } else if (target.tagName === "H6") {
+        scale.set(7);
+      } else if (target.id === "LOGO") {
+        scale.set(4);
+      } else {
+        scale.set(1);
+      }
+    };
+
+    window.addEventListener("mousemove", moveCursor);
+    document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
-      document.removeEventListener("mousemove", updatePosition);
+      window.removeEventListener("mousemove", moveCursor);
+      document.removeEventListener("mouseover", handleMouseOver);
     };
-  }, [attachToParent, cursorX, cursorY, onPositionChange]);
-
-  const cursorXSpring = useSpring(cursorX, springConfig || { duration: 0 });
-  const cursorYSpring = useSpring(cursorY, springConfig || { duration: 0 });
-
-  useEffect(() => {
-    const handleVisibilityChange = (visible: boolean) => {
-      setIsVisible(visible);
-    };
-
-    if (attachToParent && cursorRef.current) {
-      const parent = cursorRef.current.parentElement;
-      if (parent) {
-        const handleMouseEnter = () => {
-          parent.style.cursor = "none";
-          handleVisibilityChange(true);
-        };
-        const handleMouseLeave = () => {
-          parent.style.cursor = "auto";
-          handleVisibilityChange(false);
-        };
-
-        parent.addEventListener("mouseenter", handleMouseEnter);
-        parent.addEventListener("mouseleave", handleMouseLeave);
-
-        return () => {
-          parent.removeEventListener("mouseenter", handleMouseEnter);
-          parent.removeEventListener("mouseleave", handleMouseLeave);
-        };
-      }
-    }
-  }, [attachToParent]);
+  }, [cursorX, cursorY, scale]);
 
   return (
     <motion.div
-      ref={cursorRef}
-      className={cn("pointer-events-none fixed left-0 top-0 z-50", className)}
+      id="custom-cursor"
+      className="pointer-events-none fixed z-[9999] size-4 rounded-full bg-white mix-blend-difference"
       style={{
-        x: cursorXSpring,
-        y: cursorYSpring,
+        left: cursorX,
+        top: cursorY,
         translateX: "-50%",
         translateY: "-50%",
+        scale,
       }}
-    >
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            variants={variants}
-            transition={transition}
-          >
-            {children}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+    />
   );
 }

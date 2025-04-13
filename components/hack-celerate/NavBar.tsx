@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Menu, X } from "lucide-react";
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import sidelogo from "@/public/assets/Logo/hack-celerate.png";
 import name from "@/public/assets/Logo/name-big-white.png";
@@ -86,6 +85,7 @@ export default function Navbar() {
         },
       });
     });
+
     return () => ctx.revert();
   }, [showThirdImage]);
 
@@ -105,62 +105,63 @@ export default function Navbar() {
     };
 
     window.addEventListener("scroll", handleScroll);
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className="container min-w-screen top-0 bg-[#121212] z-50 px-4 py-4 sticky">
+    <header className="min-w-screen container sticky top-0 z-50 bg-[#121212] p-4">
       <div className="flex items-center justify-between">
         {/* Logos */}
-        <div className="flex items-center justify-center space-x-4 z-20 relative w-40 h-12">
-          <div ref={logoRef} className="absolute top-0 left-0 w-12 h-12">
+        <div className="relative z-20 flex h-12 w-40 items-center justify-center space-x-4">
+          <main ref={logoRef} className="absolute left-0 top-0 size-12">
             <Image
+              id="LOGO"
               src={sidelogo}
               alt="Hack-celerate Logo"
               width={48}
               height={48}
-              className="rounded-full shadow-2xl shadow-white hover:rotate-[360deg] hover:scale-150 transition-transform duration-500"
+              className="rounded-full shadow-2xl shadow-white transition-transform duration-500 hover:rotate-[360deg] hover:scale-150"
             />
-          </div>
-          <div ref={nameRef} className="absolute top-1 left-10 w-24 h-12">
+          </main>
+          <div ref={nameRef} className="absolute left-10 top-1 h-12 w-24">
             <Image src={name} alt="Secondary Logo" width={42} height={42} />
           </div>
           <div
             ref={thirdImageRef}
-            className={`absolute top-0 -left-6 w-56 h-12 flex justify-center items-center ${
-              showThirdImage ? "block" : "opacity-0 hidden invisible"
+            className={`absolute -left-6 top-0 flex h-12 w-56 items-center justify-center ${
+              showThirdImage ? "block" : "invisible hidden opacity-0"
             }`}
           >
             <Image src={thirdImage} alt="Third Logo" width={200} />
           </div>
         </div>
-
         {/* Hamburger */}
         <button
-          className="md:hidden z-20 focus:outline-none"
+          className="z-20 focus:outline-none md:hidden"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
           {isMenuOpen ? (
-            <X className="h-6 w-6 text-white" />
+            <X className="size-6 text-white" />
           ) : (
-            <Menu className="h-6 w-6 text-white" />
+            <Menu className="size-6 text-white" />
           )}
         </button>
-
         {/* Desktop Nav */}
         <nav className="hidden md:flex">
           <ul className="flex space-x-6">
             {sections.map((item) => {
               const id = item.replace(/\s+/g, "");
               const isActive = activeSection === item;
+
               return (
                 <li key={item}>
                   <a
                     href={`#${id}`}
-                    className={`text-sm lg:text-base transition-all duration-300 ${
+                    className={`text-sm transition-all duration-300 lg:text-base ${
                       isActive
-                        ? "text-[#3A6695] font-bold underline underline-offset-4 scale-105"
+                        ? "scale-105 font-bold text-[#3A6695] underline underline-offset-4"
                         : "text-white hover:text-gray-300"
                     }`}
                   >
@@ -172,22 +173,22 @@ export default function Navbar() {
           </ul>
         </nav>
       </div>
-
       {/* Mobile Nav */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-90 z-10 transform transition-transform duration-300 ease-in-out ${
+        className={`fixed inset-0 z-10 bg-black/90 transition-transform duration-300 ease-in-out${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         } md:hidden`}
       >
-        <nav className="h-full flex flex-col items-center justify-center">
+        <nav className="flex h-full flex-col items-center justify-center">
           <ul className="flex flex-col items-center space-y-6">
             {sections.map((item) => {
               const id = item.replace(/\s+/g, "");
+
               return (
                 <li key={item}>
                   <a
                     href={`#${id}`}
-                    className="text-white hover:text-gray-300 font-medium text-xl"
+                    className="text-xl font-medium text-white hover:text-gray-300"
                     onClick={toggleMenu}
                   >
                     {item}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+
 import { RetroGrid } from "../ui/retro-grid";
-import Cursor from "../ui/default-cursor";
 
 export default function Hero() {
   const [days, setDays] = useState("00");
@@ -40,42 +40,41 @@ export default function Hero() {
   }, [calculateTimeLeft]);
 
   return (
-    <section className="container bg-[#121212] w-screen mx-auto px-4 py-8 md:py-12 lg:py-16 flex flex-col relative items-center min-h-screen justify-center">
+    <section className="container relative mx-auto flex min-h-screen w-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16">
       {/* Hack-celerate Logo */}
       <RetroGrid />
-      <div className="mb-12 md:mb-16 text-center">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter leading-none">
+      <div className="mb-12 text-center md:mb-16">
+        <h6 className="text-5xl font-extrabold leading-none tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
           <div className="inline-flex space-x-1">
             {"HACK".split("").map((char, i) => (
-              <span
+              <h6
                 key={i}
-                className="text-[#7BF1A7] font-silkscreen cursor-pointer transition-all duration-300 hover:-rotate-3 hover:scale-105 hover:text-[#A0F0FF]"
+                className="cursor-pointer font-silkscreen text-[#7BF1A7] transition-all duration-300 hover:-rotate-3 hover:scale-105 hover:text-[#A0F0FF]"
                 style={{
                   textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
                   display: "inline-block",
                 }}
               >
                 {char}
-              </span>
+              </h6>
             ))}
             {"-CELERATE".split("").map((char, i) => (
-              <span
+              <h6
                 key={`c-${i}`}
-                className="text-white font-silkscreen cursor-pointer transition-all duration-300 hover:rotate-3 hover:scale-105 hover:text-[#E0F7FF]"
+                className="cursor-pointer font-silkscreen text-white transition-all duration-300 hover:rotate-3 hover:scale-105 hover:text-[#E0F7FF]"
                 style={{
                   textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
                   display: "inline-block",
                 }}
               >
                 {char}
-              </span>
+              </h6>
             ))}
           </div>
-        </h1>
+        </h6>
       </div>
-
       {/* Countdown Section */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
         {[
           { label: "DAYS", value: days },
           { label: "HOURS", value: hours },
@@ -84,12 +83,12 @@ export default function Hero() {
         ].map((item, i) => (
           <div
             key={i}
-            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center"
+            className="rounded-xl bg-white/10 p-3 text-center backdrop-blur-sm"
           >
-            <div className="text-xl sm:text-2xl font-medium text-white">
+            <div className="text-xl font-medium text-white sm:text-2xl">
               {item.value}
             </div>
-            <div className="text-xs text-gray-400 tracking-wide mt-1">
+            <div className="mt-1 text-xs tracking-wide text-gray-400">
               {item.label}
             </div>
           </div>
