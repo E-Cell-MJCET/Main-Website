@@ -84,7 +84,19 @@
     --chart-5: 340 75% 55%;
   }
 }
+@theme inline {
+  --animate-scroll: scroll var(--animation-duration, 40s)
+    var(--animation-direction, forwards) linear infinite;
 
+  @keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-50% - 1rem));
+    }
+  }
+}
 @layer base {
   * {
     @apply border-border;
@@ -170,5 +182,10 @@
     background: #1f2937;
     border-radius: 0.7rem;
     overflow: hidden;
+  }
+
+  .animate-scroll {
+    animation: scroll var(--animation-duration, 40s)
+      var(--animation-direction, forwards) linear infinite;
   }
 }

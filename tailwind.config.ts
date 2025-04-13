@@ -12,6 +12,14 @@ export default {
     extend: {
       animation: {
         grid: "grid 15s linear infinite",
+        scroll: "scroll var(--animation-duration) linear infinite",
+      },
+      keyframes: {
+        scroll: {
+          to: {
+            transform: "translateX(calc(-50%))",
+          },
+        },
       },
       grid: {
         "0%": { transform: "translateY(-50%)" },
