@@ -88,6 +88,8 @@ const InfiniteMovingCards = ({
               <Image
                 src={item.image}
                 alt={item.name}
+                width={350}
+                height={200}
                 className="h-[200px] w-full object-cover sm:h-[300px]"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
