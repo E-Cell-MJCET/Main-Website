@@ -6,11 +6,20 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{html,js,css}"
   ],
   theme: {
     extend: {
       animation: {
         grid: "grid 15s linear infinite",
+        scroll: "scroll var(--animation-duration) linear infinite",
+      },
+      keyframes: {
+        scroll: {
+          to: {
+            transform: "translateX(calc(-50%))",
+          },
+        },
       },
       grid: {
         "0%": { transform: "translateY(-50%)" },
@@ -65,6 +74,7 @@ export default {
         doto: ["var(--font-doto)", "sans-serif"],
         inter: ["var(--font-inter)", "serif"],
         silkscreen: ["Silkscreen", "cursive"],
+        block: ["var(--font-block)", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
