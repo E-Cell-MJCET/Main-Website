@@ -77,7 +77,7 @@ export default function Hero() {
           </div>
         </h6>
       </div>
-      <div className="mb-5 font-block text-4xl text-white">
+      <div className="mb-5 text-center font-block text-4xl text-white">
         Registrations Opens in
       </div>
       {/* Countdown Section */}

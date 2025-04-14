@@ -163,10 +163,11 @@ function TimelineCard({
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: cardRef.current,
-          start: "top bottom-=100",
+          start: "top-=100 bottom-=100",
           end: "bottom center+=100",
           toggleActions: "play none none none",
           scrub: 1,
+          // markers: true,
         },
       });
 
@@ -318,9 +319,10 @@ function TimeLine1() {
           ease: "power2.inOut",
           scrollTrigger: {
             trigger: timelineRef.current,
-            start: "top center",
-            end: "bottom bottom-=200",
+            start: "top bottom",
+            end: "bottom center+=100",
             scrub: true,
+            // markers: true,
           },
         });
 
@@ -339,7 +341,7 @@ function TimeLine1() {
         y: (i: any, el: any) => -(el.offsetHeight * 0.1),
         scrollTrigger: {
           trigger: timelineRef.current,
-          start: "top top",
+          start: "top center",
           end: "bottom top",
           scrub: true,
         },
@@ -399,7 +401,10 @@ function TimeLine1() {
   ] as const;
 
   return (
-    <div className="min-h-screen overflow-hidden bg-black px-4 py-12 md:px-8">
+    <div
+      className="min-h-screen overflow-hidden bg-black px-4 py-12 md:px-8"
+      id="Timeline"
+    >
       {/* Add some floating particles in the background for sci-fi effect */}
       {/* <div className="pointer-events-none fixed inset-0">
         {[...Array(20)].map((_, i) => (
