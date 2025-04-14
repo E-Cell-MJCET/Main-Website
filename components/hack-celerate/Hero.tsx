@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { Instagram } from "lucide-react";
 
 import { RetroGrid } from "../ui/retro-grid";
 
@@ -100,6 +101,20 @@ export default function Hero() {
             </div>
           </div>
         ))}
+      </div>
+      {/* Follow us section */}
+      <div className="mt-10 flex flex-col items-center space-y-3">
+        <p className="font-silkscreen text-sm text-white tracking-wide">
+          For latest updates follow @ecellmjcet
+        </p>
+        <a
+          href="https://www.instagram.com/ecellmjcet"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:scale-110 transition-transform duration-200 text-white"
+        >
+          <Instagram className="h-8 w-8" />
+        </a>
       </div>
     </section>
   );
