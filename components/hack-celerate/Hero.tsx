@@ -105,7 +105,7 @@ export default function Hero() {
       {/* Follow us section */}
       <div className="mt-10 flex flex-col items-center space-y-3">
         <p className="font-silkscreen text-sm text-white tracking-wide">
-          For latest updates follow @ecellmjcet
+          For latest updates follow
         </p>
         <a
           href="https://www.instagram.com/ecellmjcet"
@@ -115,6 +115,7 @@ export default function Hero() {
         >
           <Instagram className="h-8 w-8" />
         </a>
+        @ecellmjcet
       </div>
     </section>
   );
