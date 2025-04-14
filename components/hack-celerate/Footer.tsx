@@ -78,33 +78,33 @@ const Footer = () => {
           <h4 className="mb-4 font-semibold text-white">Quick Links</h4>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="#" className="hover:underline">
+              <Link href="#Home" className="hover:underline">
                 Home
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:underline">
+              <Link href="#About" className="hover:underline">
                 About
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:underline">
+              <Link href="#Timeline" className="hover:underline">
                 Timeline
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:underline">
-                Prizes
+              <Link href="#FAQ" className="hover:underline">
+                FAQ
               </Link>
             </li>
             <li>
-              <Link href="#" className="hover:underline">
-                Sponsors
+              <Link href="#Contact" className="hover:underline">
+                Contact
               </Link>
             </li>
           </ul>
         </div>
-        <div>
+        {/* <div>
           <h4 className="mb-4 font-semibold text-white">Resources</h4>
           <ul className="space-y-2 text-sm">
             <li>
@@ -149,7 +149,7 @@ const Footer = () => {
               Subscribe
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className="mt-12 text-center text-xs text-gray-500">
         Designed with ❤️ by the{" "}

@@ -75,7 +75,7 @@ function SponsorUs() {
             Get in Touch
           </h2>
           <p className="px-4 text-sm text-gray-300 sm:text-base">
-            Have questions about HACK-CELERATE? We&apos;re here to help!
+            Have questions about Hackcelerate? We&apos;re here to help!
           </p>
         </div>
         <div className="mx-auto grid max-w-6xl gap-4 sm:gap-8 md:grid-cols-12">
@@ -145,8 +145,8 @@ function SponsorUs() {
                 Questions? Drop us a line
               </p>
               <a
-                href="mailto:sponsors@example.com"
-                className="text-[#7BF1A7] hover:text-[#65D18F]"
+                href="mailto:ecellmjcet@mjcollege.ac.in"
+                className="text-[#7BF1A7] underline hover:text-[#65D18F]"
               >
                 ecellmjcet@mjcollege.ac.in
               </a>
@@ -159,11 +159,14 @@ function SponsorUs() {
                 </h3>
               </div>
               <p className="text-sm text-gray-400 sm:text-base">Visit Us</p>
-              <p className="text-[#7BF1A7]">
+              <a
+                href="https://maps.app.goo.gl/aT9CNMaYMYFF1Y9SA"
+                className="text-[#7BF1A7] underline"
+              >
                 Muffakam Jah College of Engineering and Technology, Mount
                 Pleasant, 8-2-249 to 267, Road No. 3, Banjara Hills, Hyderabad -
                 500 034, Telangana State, India
-              </p>
+              </a>
             </div>
             <div className="rounded-2xl bg-gray-900 p-4 sm:p-8">
               <div className="mb-3 flex items-center gap-4 sm:mb-4">
@@ -177,7 +180,7 @@ function SponsorUs() {
               </p>
               <a
                 href="tel:+91955130124"
-                className="text-[#7BF1A7] hover:text-[#65D18F]"
+                className="text-[#7BF1A7] underline hover:text-[#65D18F]"
               >
                 +91 955130124
               </a>
@@ -187,7 +190,7 @@ function SponsorUs() {
               </p>
               <a
                 href="tel:+919491951924"
-                className="text-[#7BF1A7] hover:text-[#65D18F]"
+                className="text-[#7BF1A7] underline hover:text-[#65D18F]"
               >
                 +91 9491951924
               </a>

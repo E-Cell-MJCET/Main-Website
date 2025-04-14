@@ -13,7 +13,7 @@ import {
 const faqs = [
   {
     id: "what-is-hack",
-    question: "What is HACK-CELERATE?",
+    question: "What is Hackcelerate?",
     answer:
       "It is not just a hackathon—it is an epic fusion of creativity, caffeine, and code! Think of it as a 48-hour sprint where brilliant minds come together to solve real problems, build cool stuff, and maybe win some brag-worthy prizes. Whether you're a coding ninja, a design wizard, or just someone with crazy ideas—everyone is welcome!",
   },
@@ -53,12 +53,12 @@ const faqs = [
     answer:
       "Absolutely! Hackathons are not just for coders. Anyone with ideas, design thinking, storytelling, or problem-solving skills is welcome.",
   },
-  {
-    id: "no-team",
-    question: "What if I don't have a team?",
-    answer:
-      "No worries! We have got a team formation session before the hackathon kicks off. So, you will find your crew and maybe your next best friends.",
-  },
+  // {
+  //   id: "no-team",
+  //   question: "What if I don't have a team?",
+  //   answer:
+  //     "No worries! We have got a team formation session before the hackathon kicks off. So, you will find your crew and maybe your next best friends.",
+  // },
   {
     id: "solo-participation",
     question: "Can I participate solo?",
@@ -78,12 +78,12 @@ const faqs = [
     answer:
       "Yes! The online round is open to everyone, regardless of where you're from.",
   },
-  {
-    id: "registration-fee",
-    question: "Is there a registration fee?",
-    answer:
-      "No, HACK-CELERATE is completely free! Just register and you are in. There are no registration fees or hidden charges.",
-  },
+  // {
+  //   id: "registration-fee",
+  //   question: "Is there a registration fee?",
+  //   answer:
+  //     "No, HACK-CELERATE is completely free! Just register and you are in. There are no registration fees or hidden charges.",
+  // },
   {
     id: "registration-deadline",
     question: "What is the deadline for registration?",

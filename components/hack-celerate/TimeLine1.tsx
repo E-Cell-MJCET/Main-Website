@@ -361,7 +361,7 @@ function TimeLine1() {
     {
       date: "17th April",
       title: "Registrations Open",
-      description: "Start submitting your applications",
+      description: "Start submitting your applications and abstracts",
       color: "purple",
       icon: "register-open",
       dayNumber: "2",

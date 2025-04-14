@@ -9,7 +9,7 @@ const About = () => {
       {" "}
       <div className="max-w-screen bg-black px-6 py-16 md:px-12">
         <h2 className="mb-10 text-center font-block text-4xl font-bold text-[#7BF1A7]">
-          About Hack<span className="text-[#ebebeb]">-Celerate</span>
+          About Hack<span className="text-[#ebebeb]">celerate</span>
         </h2>
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           {/* Left Paragraph Section */}
@@ -24,13 +24,13 @@ const About = () => {
               important than ever. That’s where we come in.
             </p>
             <p className="text-lg text-gray-300">
-              Hackcelerate is E-Cell MJCET’s flagship entrepreneurial
-              hackathon—a high-energy, fast-paced event where creativity meets
-              execution. It’s more than just coding or brainstorming; it’s about
-              turning raw ideas into scalable, real-world solutions. Whether
-              you’re a coder, designer, marketer, or a visionary with a spark,
-              Hackcelerate gives you the platform to ideate, innovate, and
-              accelerate your way into the world of entrepreneurship.
+              Hackcelerate is a high-energy hackathon by E-Cell MJCET, where
+              innovation meets execution. It&apos;s a space for developers,
+              designers, and problem-solvers to create solutions that can make a
+              difference. Participants can build with the potential to launch
+              real solutions, potentially earning, scaling, and sustaining. The
+              event also offers opportunities to explore how projects can evolve
+              into revenue-generating products or businesses.
             </p>
           </div>
           {/* Stat Boxes Section */}
