@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Instagram } from "lucide-react";
+import { FaInstagram } from "react-icons/fa";
 
 import { RetroGrid } from "../ui/retro-grid";
 
@@ -103,19 +103,21 @@ export default function Hero() {
         ))}
       </div>
       {/* Follow us section */}
-      <div className="mt-10 flex flex-col items-center space-y-3">
-        <p className="font-silkscreen text-sm text-white tracking-wide">
+      <div className="mt-20 flex flex-col items-center space-y-3">
+        <p className="text-center font-silkscreen text-xl tracking-wide text-white">
           For latest updates follow
         </p>
         <a
           href="https://www.instagram.com/ecellmjcet"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:scale-110 transition-transform duration-200 text-white"
+          className="text-white transition-transform duration-200 hover:scale-110"
         >
-          <Instagram className="h-8 w-8" />
+          <div className="flex flex-row items-center justify-center space-x-2">
+            <FaInstagram className="size-8 text-[#7BF1A7]" />
+            <p className="font-block text-xl">@ecellmjcet</p>
+          </div>
         </a>
-        @ecellmjcet
       </div>
     </section>
   );

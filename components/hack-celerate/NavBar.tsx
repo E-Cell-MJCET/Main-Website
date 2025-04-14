@@ -31,7 +31,7 @@ export default function Navbar() {
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => {
-          if (self.progress > 0.2 && !showThirdImage) {
+          if (self.progress > 0.25 && !showThirdImage) {
             setShowThirdImage(true);
             gsap.to(logoRef.current, {
               x: -100,

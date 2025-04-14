@@ -5,7 +5,7 @@ import { RiTeamFill } from "react-icons/ri";
 
 const About = () => {
   return (
-    <div className="mx-auto max-w-7xl">
+    <div className="mx-auto w-full">
       {" "}
       <div className="max-w-screen bg-black px-6 py-16 md:px-12">
         <h2 className="mb-10 text-center font-block text-4xl font-bold text-[#7BF1A7]">
