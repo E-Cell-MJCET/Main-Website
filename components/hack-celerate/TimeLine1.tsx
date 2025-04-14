@@ -44,24 +44,24 @@ function TimelineCard({
   // Color configurations
   const configs = {
     cyan: {
-      dotBg: "bg-cyan-500",
+      dotBg: "bg-[#7BF1A7]",
       dotShadow: "shadow-cyan-500/50",
-      borderColor: "border-cyan-500",
-      shadowColor: "shadow-cyan-500/30",
-      textColor: "text-cyan-300",
-      dateBg: "bg-cyan-900/60",
-      glowColor: "bg-cyan-500",
-      dayBg: "bg-cyan-500",
+      borderColor: "border-[#ececec]/30",
+      shadowColor: "shadow-[#ececec]/30",
+      textColor: "text-[#ececec]",
+      dateBg: "bg-[#7BF1A7]/60",
+      glowColor: "bg-[#ececec]",
+      dayBg: "bg-[#7BF1A7]",
     },
     purple: {
-      dotBg: "bg-purple-500",
-      dotShadow: "shadow-purple-500/50",
-      borderColor: "border-purple-500",
-      shadowColor: "shadow-purple-500/30",
-      textColor: "text-purple-300",
-      dateBg: "bg-purple-900/60",
-      glowColor: "bg-purple-500",
-      dayBg: "bg-purple-500",
+      dotBg: "bg-[#7BF1A7]",
+      dotShadow: "shadow-cyan-500/50",
+      borderColor: "border-[#ececec]/30",
+      shadowColor: "shadow-[#ececec]/30",
+      textColor: "text-[#ececec]",
+      dateBg: "bg-[#7BF1A7]/60",
+      glowColor: "bg-[#ececec]",
+      dayBg: "bg-[#7BF1A7]",
     },
   };
 
@@ -71,19 +71,19 @@ function TimelineCard({
   const IconComponent = () => {
     switch (icon) {
       case "announcement":
-        return <FaRegLightbulb className="text-yellow-300" />;
+        return <FaRegLightbulb className="text-[#7BF1A7]" />;
       case "register-open":
-        return <FaUserPlus className="text-green-300" />;
+        return <FaUserPlus className="text-[#7BF1A7]" />;
       case "register-close":
-        return <FaUserTimes className="text-red-300" />;
+        return <FaUserTimes className="text-[#7BF1A7]" />;
       case "quiz":
-        return <FaClipboardCheck className="text-blue-300" />;
+        return <FaClipboardCheck className="text-[#7BF1A7]" />;
       case "hackathon":
-        return <FaLaptopCode className="text-indigo-300" />;
+        return <FaLaptopCode className="text-[#7BF1A7]" />;
       case "final":
-        return <FaTrophy className="text-amber-300" />;
+        return <FaTrophy className="text-[#7BF1A7]" />;
       default:
-        return <FaCalendarAlt className="text-gray-300" />;
+        return <FaCalendarAlt className="text-[#7BF1A7]" />;
     }
   };
 
@@ -156,7 +156,7 @@ function TimelineCard({
       // Content elements fade in separately for staggered effect
       gsap.set(contentRef.current.children, {
         opacity: 0,
-        y: 20,
+        y: 10,
       });
 
       // Create cinematic entrance animation
@@ -246,9 +246,9 @@ function TimelineCard({
         style={{ willChange: "transform" }}
       >
         {/* Card top glowing line */}
-        <div
+        {/* <div
           className={`h-1 w-1/2 ${currentConfig.glowColor} absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full blur-sm`}
-        ></div>
+        ></div> */}
         <div ref={contentRef}>
           {/* Header with icon */}
           <div className="mb-3 flex items-center gap-3">
@@ -354,7 +354,7 @@ function TimeLine1() {
       description: "Hackcelerate officially announced",
       color: "cyan",
       icon: "announcement",
-      dayNumber: "14",
+      dayNumber: "1",
     },
     {
       date: "17th April",
@@ -362,7 +362,7 @@ function TimeLine1() {
       description: "Start submitting your applications",
       color: "purple",
       icon: "register-open",
-      dayNumber: "17",
+      dayNumber: "2",
     },
     {
       date: "11th May",
@@ -370,7 +370,7 @@ function TimeLine1() {
       description: "Last day to register your team",
       color: "cyan",
       icon: "register-close",
-      dayNumber: "11",
+      dayNumber: "3",
     },
     {
       date: "14th May",
@@ -378,7 +378,7 @@ function TimeLine1() {
       description: "Test your technical knowledge",
       color: "purple",
       icon: "quiz",
-      dayNumber: "14",
+      dayNumber: "4",
     },
     {
       date: "17th & 18th May",
@@ -386,7 +386,7 @@ function TimeLine1() {
       description: "Build your project in 24 hours",
       color: "cyan",
       icon: "hackathon",
-      dayNumber: "17",
+      dayNumber: "5",
     },
     {
       date: "24th/31st May",
@@ -394,14 +394,14 @@ function TimeLine1() {
       description: "Present your projects to the judges",
       color: "purple",
       icon: "final",
-      dayNumber: "24",
+      dayNumber: "6",
     },
   ] as const;
 
   return (
     <div className="min-h-screen overflow-hidden bg-black px-4 py-12 md:px-8">
       {/* Add some floating particles in the background for sci-fi effect */}
-      <div className="pointer-events-none fixed inset-0">
+      {/* <div className="pointer-events-none fixed inset-0">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
@@ -414,17 +414,17 @@ function TimeLine1() {
             }}
           />
         ))}
-      </div>
+      </div> */}
       {/* Heading with glowing effect */}
       <div
         ref={headingRef}
         className="perspective-1000 relative mx-auto mb-16 w-fit"
       >
-        <h1 className="mb-2 text-center text-4xl font-bold text-white md:text-5xl">
-          Hackcelerate Timeline
+        <h1 className="mb-2 text-center font-block text-4xl font-bold text-[#7BF1A7] md:text-5xl">
+          Hack<span className="text-[#ececec]">celerate</span> Timeline
         </h1>
-        <div className="mx-auto h-1 w-1/2 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500"></div>
-        <div className="absolute -inset-1 -z-10 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 blur-xl"></div>
+        {/* <div className="mx-auto h-1 w-1/2 rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-cyan-500"></div> */}
+        {/* <div className="absolute -inset-1 -z-10 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 blur-xl"></div> */}
       </div>
       {/* Timeline container */}
       <div
@@ -434,7 +434,7 @@ function TimeLine1() {
         {/* Center line with gradient */}
         <div
           ref={centerLineRef}
-          className="absolute inset-y-0 left-0 z-10 w-1 bg-gradient-to-b from-cyan-500 via-purple-500 to-cyan-500 md:left-1/2 md:translate-x-2/4"
+          className="absolute inset-y-0 left-0 z-10 w-1 bg-gradient-to-b from-[#ececec]  to-[#7BF1A7] md:left-1/2 md:translate-x-2/4"
         ></div>
         {/* Timeline items */}
         <div className="relative z-10">

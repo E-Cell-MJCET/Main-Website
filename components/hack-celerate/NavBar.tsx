@@ -11,19 +11,7 @@ import thirdImage from "@/public/assets/Logo/hack-celerate__2.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const sections = [
-  "Home",
-  "Dummy",
-  "Timeline",
-  "Run Of Show",
-  "Judges",
-  "Prizes",
-  "Sponsors",
-  "Organizers",
-  "FAQ",
-  "Contact",
-  "Team",
-];
+const sections = ["Home", "About", "Timeline", "FAQ", "Contact"];
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,7 +31,7 @@ export default function Navbar() {
         start: "top top",
         end: "bottom bottom",
         onUpdate: (self) => {
-          if (self.progress > 0.7 && !showThirdImage) {
+          if (self.progress > 0.2 && !showThirdImage) {
             setShowThirdImage(true);
             gsap.to(logoRef.current, {
               x: -100,
@@ -67,7 +55,7 @@ export default function Navbar() {
                 ease: "power2.out",
               }
             );
-          } else if (self.progress <= 0.7 && showThirdImage) {
+          } else if (self.progress <= 0.2 && showThirdImage) {
             setShowThirdImage(false);
             gsap.to(thirdImageRef.current, {
               x: -100,
@@ -110,7 +98,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <header className="min-w-screen container sticky top-0 z-50 bg-[#121212] p-4">
+    <header className="sticky top-0 z-50 bg-[#121212] p-4">
       <div className="flex items-center justify-between">
         {/* Logos */}
         <div className="relative z-20 flex h-12 w-40 items-center justify-center space-x-4">
@@ -150,7 +138,7 @@ export default function Navbar() {
         </button>
         {/* Desktop Nav */}
         <nav className="hidden md:flex">
-          <ul className="flex space-x-6">
+          <ul className="flex space-x-10 px-5">
             {sections.map((item) => {
               const id = item.replace(/\s+/g, "");
               const isActive = activeSection === item;
@@ -164,6 +152,12 @@ export default function Navbar() {
                         ? "scale-105 font-bold text-[#3A6695] underline underline-offset-4"
                         : "text-white hover:text-gray-300"
                     }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document
+                        .getElementById(id)
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }}
                   >
                     {item}
                   </a>
@@ -176,7 +170,7 @@ export default function Navbar() {
       {/* Mobile Nav */}
       <div
         className={`fixed inset-0 z-10 bg-black/90 transition-transform duration-300 ease-in-out${
-          isMenuOpen ? "translate-x-0" : "translate-x-full"
+          isMenuOpen ? " translate-x-0" : "hidden translate-x-full"
         } md:hidden`}
       >
         <nav className="flex h-full flex-col items-center justify-center">
@@ -189,7 +183,13 @@ export default function Navbar() {
                   <a
                     href={`#${id}`}
                     className="text-xl font-medium text-white hover:text-gray-300"
-                    onClick={toggleMenu}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document
+                        .getElementById(id)
+                        ?.scrollIntoView({ behavior: "smooth" });
+                      toggleMenu();
+                    }}
                   >
                     {item}
                   </a>

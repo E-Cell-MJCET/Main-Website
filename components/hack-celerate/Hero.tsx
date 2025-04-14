@@ -40,38 +40,45 @@ export default function Hero() {
   }, [calculateTimeLeft]);
 
   return (
-    <section className="container relative mx-auto flex min-h-screen w-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16">
+    <section className="relative flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16">
       {/* Hack-celerate Logo */}
       <RetroGrid />
       <div className="mb-12 text-center md:mb-16">
         <h6 className="text-5xl font-extrabold leading-none tracking-tighter sm:text-6xl md:text-7xl lg:text-8xl">
-          <div className="inline-flex space-x-1">
-            {"HACK".split("").map((char, i) => (
-              <h6
-                key={i}
-                className="cursor-pointer font-silkscreen text-[#7BF1A7] transition-all duration-300 hover:-rotate-3 hover:scale-105 hover:text-[#A0F0FF]"
-                style={{
-                  textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
-                  display: "inline-block",
-                }}
-              >
-                {char}
-              </h6>
-            ))}
-            {"-CELERATE".split("").map((char, i) => (
-              <h6
-                key={`c-${i}`}
-                className="cursor-pointer font-silkscreen text-white transition-all duration-300 hover:rotate-3 hover:scale-105 hover:text-[#E0F7FF]"
-                style={{
-                  textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
-                  display: "inline-block",
-                }}
-              >
-                {char}
-              </h6>
-            ))}
+          <div className="flex flex-col space-x-1 md:flex-row">
+            <div>
+              {"HACK".split("").map((char, i) => (
+                <h6
+                  key={i}
+                  className="cursor-pointer font-silkscreen text-[#7BF1A7] transition-all duration-300 hover:-rotate-3 hover:scale-105 hover:text-[#A0F0FF]"
+                  style={{
+                    textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
+                    display: "inline-block",
+                  }}
+                >
+                  {char}
+                </h6>
+              ))}
+            </div>
+            <div>
+              {"-CELERATE".split("").map((char, i) => (
+                <h6
+                  key={`c-${i}`}
+                  className="cursor-pointer font-silkscreen text-white transition-all duration-300 hover:rotate-3 hover:scale-105 hover:text-[#E0F7FF]"
+                  style={{
+                    textShadow: "-4px -4px 0 #3A6695, -8px -8px 0 #3A6695",
+                    display: "inline-block",
+                  }}
+                >
+                  {char}
+                </h6>
+              ))}
+            </div>
           </div>
         </h6>
+      </div>
+      <div className="mb-5 font-block text-4xl text-white">
+        Registrations Opens in
       </div>
       {/* Countdown Section */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">

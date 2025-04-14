@@ -2,22 +2,33 @@ import About from "@/components/hack-celerate/About";
 import FaqSection from "@/components/hack-celerate/faqs";
 import Hero from "@/components/hack-celerate/Hero";
 import Navbar from "@/components/hack-celerate/NavBar";
-import Organisers from "@/components/hack-celerate/organisers";
 import SponsorUs from "@/components/hack-celerate/sponsor-contact-us";
 import TimeLine1 from "@/components/hack-celerate/TimeLine1";
 import Cursor from "@/components/ui/cursor";
+import Footer from "@/components/hack-celerate/Footer";
 
 export default function HackceleratePage() {
   return (
-    <div>
+    <div className="bg-[#121212] ">
       <Cursor />
       <Navbar />
-      <Hero />
-      <About />
-      <TimeLine1 />
-      <Organisers />
-      <SponsorUs />
-      <FaqSection />
+      <div id="Home">
+        <Hero />
+      </div>
+      <div id="About">
+        <About />
+      </div>
+      <div id="Timeline">
+        <TimeLine1 />
+      </div>
+      <div id="FAQ">
+        <FaqSection />
+      </div>
+      {/* <Organisers /> */}
+      <div id="Contact">
+        <SponsorUs />
+      </div>
+      <Footer />
     </div>
   );
 }

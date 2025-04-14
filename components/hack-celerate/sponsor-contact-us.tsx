@@ -10,9 +10,9 @@ function SponsorUs() {
   const contactRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const scrollToContact = () => {
-    contactRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  // const scrollToContact = () => {
+  //   contactRef.current?.scrollIntoView({ behavior: "smooth" });
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +49,7 @@ function SponsorUs() {
         position="top-center"
         toastOptions={{ style: { background: "#111", color: "#7BF1A7" } }}
       />
-      <section className="container mx-auto px-4 py-12 text-center sm:py-20">
+      {/* <section className="container mx-auto px-4 py-12 text-center sm:py-20">
         <div className="mx-auto max-w-3xl px-4">
           <h1 className="mb-4 font-block text-3xl text-[#7BF1A7] sm:mb-6 sm:text-5xl">
             Interested in Sponsoring?
@@ -65,7 +65,7 @@ function SponsorUs() {
             Become a Sponsor
           </button>
         </div>
-      </section>
+      </section> */}
       <section
         ref={contactRef}
         className="container mx-auto px-4 py-12 sm:py-20"
@@ -160,8 +160,9 @@ function SponsorUs() {
               </div>
               <p className="text-sm text-gray-400 sm:text-base">Visit Us</p>
               <p className="text-[#7BF1A7]">
-                Mount Pleasant, 8-2-249 to 267, Road No. 3, Banjara Hills,
-                Hyderabad - 500 034, Telangana State, India
+                Muffakam Jah College of Engineering and Technology, Mount
+                Pleasant, 8-2-249 to 267, Road No. 3, Banjara Hills, Hyderabad -
+                500 034, Telangana State, India
               </p>
             </div>
             <div className="rounded-2xl bg-gray-900 p-4 sm:p-8">
@@ -180,6 +181,7 @@ function SponsorUs() {
               >
                 +91 955130124
               </a>
+              <br /> <br />{" "}
               <p className="text-sm text-gray-400 sm:text-base">
                 Abid Nafi, Chief Technology Officer
               </p>

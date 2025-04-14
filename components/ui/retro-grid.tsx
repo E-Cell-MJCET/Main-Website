@@ -52,7 +52,7 @@ export function RetroGrid({
   return (
     <div
       className={cn(
-        "pointer-events-none absolute w-screen h-full overflow-hidden [perspective:200px]",
+        "pointer-events-none absolute w-full h-full overflow-hidden [perspective:200px]",
         `opacity-[var(--opacity)]`,
         className
       )}

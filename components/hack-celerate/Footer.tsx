@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import { animate } from "animejs";
 import Link from "next/link";
-import { FaTwitter, FaGithub, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -12,30 +12,32 @@ const Footer = () => {
     const container = textRef.current;
 
     if (container) {
-      // Clear any existing content
       container.innerHTML = "";
 
-      // Split the text into individual characters and wrap each in a span
-      text.split("").forEach((char) => {
+      text.split("").forEach((char, index) => {
         const span = document.createElement("span");
         span.textContent = char;
         span.classList.add("inline-block");
+        // Set color based on character position
+        if (index < 4) {
+          span.style.color = "#7BF1A7"; // Hack
+        } else {
+          span.style.color = "#ECECEC"; // -Celerate
+        }
         container.appendChild(span);
       });
 
       // Animate each span using Anime.js
       animate("span", {
-        // Property keyframes
         y: [
           { to: "-2.75rem", ease: "outExpo", duration: 600 },
           { to: 0, ease: "outBounce", duration: 800, delay: 100 },
         ],
-        // Property specific parameters
         rotate: {
           from: "-1turn",
           delay: 0,
         },
-        delay: (_: any, i: any) => i * 50, // Function based value
+        delay: (_: any, i: any) => i * 50,
         ease: "inOutCirc",
         loopDelay: 1000,
         loop: true,
@@ -49,44 +51,29 @@ const Footer = () => {
         <div className="flex flex-col">
           <div
             ref={textRef}
-            className="text-2xl font-bold sm:text-3xl md:text-4xl"
+            className="font-block text-2xl font-bold sm:text-3xl md:text-4xl"
           >
             {/* Animation content will be inserted here by useEffect */}
           </div>
-          {/* Short description paragraph */}
           <p className="mb-3 mt-4 text-sm">
             Accelerating innovation through collaborative hacking and creative
             problem-solving.
           </p>
-          {/* Social Icons using react-icons */}
           <div className="mt-1 flex space-x-4">
             <Link
-              href="#"
-              className="text-gray-300 transition-colors hover:text-white"
-            >
-              <FaTwitter size={20} />
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-300 transition-colors hover:text-white"
-            >
-              <FaGithub size={20} />
-            </Link>
-            <Link
-              href="#"
+              href="https://www.linkedin.com/company/e-cell-mjcet/"
               className="text-gray-300 transition-colors hover:text-white"
             >
               <FaLinkedinIn size={20} />
             </Link>
             <Link
-              href="#"
+              href="https://www.instagram.com/ecellmjcet/"
               className="text-gray-300 transition-colors hover:text-white"
             >
               <FaInstagram size={20} />
             </Link>
           </div>
         </div>
-        {/* Quick Links */}
         <div>
           <h4 className="mb-4 font-semibold text-white">Quick Links</h4>
           <ul className="space-y-2 text-sm">
@@ -117,7 +104,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        {/* Resources */}
         <div>
           <h4 className="mb-4 font-semibold text-white">Resources</h4>
           <ul className="space-y-2 text-sm">
@@ -148,7 +134,6 @@ const Footer = () => {
             </li>
           </ul>
         </div>
-        {/* Subscribe */}
         <div>
           <h4 className="mb-4 font-semibold text-white">Stay Updated</h4>
           <p className="mb-4 text-sm">
