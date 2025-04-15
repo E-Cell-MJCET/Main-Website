@@ -229,25 +229,31 @@ return;
   };
 
   // Handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    
-    // Handle nested properties
-    if (name.includes('.')) {
-      const [parent, child] = name.split('.');
-      setUserData(prev => ({
-        ...prev,
-        [parent]: {
-          ...prev[parent as keyof UserData],
-          [child]: value
-        }
-      }));
-    } else {
-      setUserData(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+  
+    setUserData((prev) => {
+      if (name.includes('.')) {
+        const [parent, child] = name.split('.') as [keyof UserData, string];
+  
+        const parentValue = prev[parent];
+  
+        return {
+          ...prev,
+          [parent]: {
+            ...(typeof parentValue === 'object' && parentValue !== null ? parentValue : {}),
+            [child]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      }
+    });
   };
 
   // Save user data to Supabase and localStorage
