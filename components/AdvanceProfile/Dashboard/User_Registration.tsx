@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 "use client";
@@ -5,6 +6,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
 import { supabase } from "@/utils/supabase";
 
@@ -14,29 +16,124 @@ interface UserRegistrationProps {
   onClose: () => void;
 }
 
-// Function to generate a random username
-const generateRandomUsername = () => {
-  const adjectives = ['Happy', 'Clever', 'Brave', 'Bright', 'Swift', 'Calm', 'Bold', 'Smart'];
-  const nouns = ['Eagle', 'Tiger', 'Dolphin', 'Falcon', 'Wolf', 'Lion', 'Hawk', 'Fox'];
-  const randomNumber = Math.floor(Math.random() * 1000);
+// Function to generate a unique random username
+const generateUniqueUsername = (() => {
+  // Closure to store previously generated usernames
+  const usedUsernames = new Set();
   
-  const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  // More variety in word choices
+  const adjectives = ['Happy', 'Clever', 'Brave', 'Bright', 'Swift', 'Calm', 'Bold', 'Smart', 
+                      'Witty', 'Nimble', 'Agile', 'Mighty', 'Noble', 'Keen', 'Vivid', 'Jovial'];
+  const nouns = ['Eagle', 'Tiger', 'Dolphin', 'Falcon', 'Wolf', 'Lion', 'Hawk', 'Fox',
+                'Raven', 'Panda', 'Lynx', 'Bear', 'Shark', 'Owl', 'Cobra', 'Dragon'];
   
-  return `${randomAdjective}${randomNoun}${randomNumber}`;
-};
+  return () => {
+    let username;
+    let attempts = 0;
+    
+    do {
+      // Get current timestamp in milliseconds
+      const timestamp = Date.now().toString().slice(-5);
+      
+      const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+      const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+      
+      // Add more entropy with both timestamp and random number
+      const randomNumber = Math.floor(Math.random() * 10000);
+      
+      username = `${randomAdjective}${randomNoun}${randomNumber}${timestamp}`;
+      attempts++;
+      
+      // Safety valve to prevent infinite loops (extremely unlikely)
+      if (attempts > 100) {
+        username += `_${Math.random().toString(36).substring(2, 8)}`;
+        break;
+      }
+    } while (usedUsernames.has(username));
+    
+    // Store this username to prevent future duplicates
+    usedUsernames.add(username);
+    
+    return username;
+  };
+})();
 
 export default function UserRegistration({ onComplete, isOpen, onClose }: UserRegistrationProps) {
   const { user, isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStep, setProcessingStep] = useState("");
   const [progress, setProgress] = useState(0);
+  const [isPermittedMember, setIsPermittedMember] = useState(false);
+  const [showPermissionError, setShowPermissionError] = useState(false);
 
   useEffect(() => {
     if (isOpen && isLoaded && isSignedIn && user) {
-      handleRegistration();
+      checkPermittedMember();
     }
   }, [isOpen, isLoaded, isSignedIn, user]);
+
+  // Check if user's email is in PermittedMembers table
+  const checkPermittedMember = async () => {
+    if (!user) return;
+    
+    try {
+      setIsProcessing(true);
+      setProcessingStep("Checking membership status...");
+      setProgress(10);
+      
+      // Get user's primary email
+      const userEmail = user.primaryEmailAddress?.emailAddress;
+      
+      if (!userEmail) {
+        throw new Error("Could not verify email address");
+      }
+      
+      setProcessingStep("Verifying membership...");
+      setProgress(30);
+      
+      // Fetch all emails from PermittedMembers table
+      const { data, error } = await supabase
+        .from("PermittedMembers")
+        .select("email");
+        
+      if (error) {
+        throw error;
+      }
+      
+      // Extract all emails into an array
+      const permittedEmails = data.map(item => item.email);
+      
+      // Check if user's email exists in the permitted emails list
+      const isEmailPermitted = permittedEmails.includes(userEmail);
+      
+      // If user is permitted, proceed with registration
+      if (isEmailPermitted) {
+        setIsPermittedMember(true);
+        setProcessingStep("Membership verified, proceeding with registration...");
+        setProgress(40);
+        handleRegistration();
+      } else {
+        setIsPermittedMember(false);
+        setProcessingStep("Membership verification failed");
+        setProgress(100);
+        setShowPermissionError(true);
+        
+        setTimeout(() => {
+          setIsProcessing(false);
+        }, 1000);
+      }
+    } catch (error) {
+      console.error("Error checking permitted member status:", error);
+      setProcessingStep("Membership verification failed");
+      setProgress(100);
+      setShowPermissionError(true);
+      
+      setTimeout(() => {
+        setIsProcessing(false);
+      }, 1000);
+    }
+  };
 
   // Progress bar animation
   useEffect(() => {
@@ -61,16 +158,15 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
     if (!user) return;
     
     try {
-      setIsProcessing(true);
       setProcessingStep("Initializing registration...");
-      setProgress(10);
+      setProgress(40);
 
       // Generate a session ID
       const sessionId = uuidv4();
       const currentTime = new Date().toISOString();
       
       setProcessingStep("Checking existing records...");
-      setProgress(30);
+      setProgress(60);
 
       // Check if user already exists in Team table
       const { data: existingUser, error: fetchError } = await supabase
@@ -83,7 +179,7 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
         throw fetchError;
       }
 
-      setProgress(60);
+      setProgress(70);
       
       if (existingUser) {
         setProcessingStep("Verifying user identity...");
@@ -123,7 +219,7 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
         setProcessingStep("Creating new user profile...");
         
         // Generate random username
-        const randomUsername = generateRandomUsername();
+        const randomUsername = generateUniqueUsername();
         
         // Create session_Info JSON
         const sessionInfo = {
@@ -171,13 +267,19 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
     }
   };
 
+  // Handle redirect to membership page
+  const handleMembershipRedirect = () => {
+    onClose();
+    router.push('/membership');
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
         <h2 className="mb-4 text-xl font-semibold text-gray-800">
-          {isProcessing ? "Processing" : "User Registration"}
+          {isProcessing ? "Processing" : showPermissionError ? "Membership Required" : "User Registration"}
         </h2>
         {isProcessing ? (
           <div className="space-y-4">
@@ -198,6 +300,27 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
               </div>
             </div>
           </div>
+        ) : showPermissionError ? (
+          <div className="space-y-4">
+            <p className="text-gray-600">
+              You need to be an E-Cell member to register for the dashboard.
+              Join our community to get full access.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={onClose}
+                className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleMembershipRedirect}
+                className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
+              >
+                Become a Member
+              </button>
+            </div>
+          </div>
         ) : (
           <div className="space-y-4">
             <p className="text-gray-600">
@@ -211,7 +334,7 @@ export default function UserRegistration({ onComplete, isOpen, onClose }: UserRe
                 Cancel
               </button>
               <button
-                onClick={handleRegistration}
+                onClick={checkPermittedMember}
                 className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
                 disabled={!isSignedIn}
               >

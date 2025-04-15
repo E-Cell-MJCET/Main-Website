@@ -16,7 +16,7 @@ export default function Home() {
 
   return (
     <div className="">
-      <Navbar />
+      <Navbar/>
       <div
         className={`fixed z-50 h-screen w-full ${
           loading ? "block" : "hidden"

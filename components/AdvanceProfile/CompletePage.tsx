@@ -17,11 +17,10 @@ import TestScores from "./Additional/TestScores";
 import VolunteerExperience from "./Additional/VolunteerExperience";
 import HistorySection from "./Education_Experience";
 import Products from "./Core/Products";
-// import Services from './Core/Services';
 import Causes from "./Additional/Causes";
 import Services from "./Core/Services";
 
-// Initialize Supabase client (make sure to replace with your actual Supabase URL and anon key)
+// Initialize Supabase client (replace with your actual Supabase URL and anon key)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -32,32 +31,30 @@ export default function CompleteProfilePage({
   params: { username: string };
 }) {
   const { username } = params;
-  console.log("username from params:", username); // Debugging Line, successfully fetched the username
+  console.log("username from params:", username); // Debugging Line
 
-  // State to hold the fetched data
   const [userData, setUserData] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch user data from Supabase based on the username
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("Initiating fetch for: ", username); // Debugging line
+        console.log("Initiating fetch for:", username);
         const { data, error } = await supabase
-          .from("Team") // Assuming the table name is 'Team'
+          .from("Team")
           .select("*")
-          .eq("Username", username) // Querying by username in the 'Name' column
-          .single(); // Expecting a single row
+          .eq("Username", username)
+          .single();
 
         if (error) {
-          console.log("Error is :-> ", error);
+          console.error("Error fetching data:", error);
           setError("Error fetching profile data");
         } else {
           setUserData(data);
         }
       } catch (err: any) {
-        console.log(err);
+        console.error(err);
         setError(
           `An error occurred while fetching profile data: ${err.message}`
         );
@@ -71,49 +68,69 @@ export default function CompleteProfilePage({
 
   if (loading) return <Loading />;
   if (error) return <div>{error}</div>;
-
   if (!userData) return <div>No user found</div>;
-  console.log(userData);
 
-  const skillsData = userData.Skills || {}; // Ensure it's not undefined or null
+  const skillsData = userData.Skills || {};
 
   return (
     <div className="w-screen overflow-x-hidden">
       <Header userData={userData} />
-      <About aboutText={userData.About} theme={userData.theme} />
-      <HistorySection
-        educationData={userData.Education!}
-        experienceData={userData.Experience!}
-      />
-      <Skills skills={skillsData} theme={userData.theme} />
-      {/* <Services
-    services_info={userData.Services_Info}
-    /> */}
-      {/* <LicencesCertifications Licenses_info={{ licenses: userData.Licences, certifications: userData.Certifications }} /> */}
-      <LicencesCertifications
-        licenses={userData.Licenses}
-        certifications={userData.Certifications}
-        theme={userData.theme}
-      />
-      <Projects projects={userData.Projects} theme={userData.theme} />
-      <Recommendations
-        recommendations={userData.Testimonials}
-        theme={userData.theme}
-      />
-      <Featured featuredItems={userData.Featured} theme={userData.theme} />
-      <HonorsAwards
-        honors={userData.Honors}
-        awards={userData.Awards}
-        theme={userData.theme}
-      />
-      <TestScores testScores={userData.TestScores} theme={userData.theme} />
-      <VolunteerExperience
-        volunteerExperiences={userData.VolunteerExperience}
-        theme={userData.theme}
-      />
-      <Products products={userData.Products} theme={userData.theme} />
-      <Services services={userData.Services} theme={userData.theme} />
-      <Causes causes={userData.Causes} theme={userData.theme} />
+      {userData.About && (
+        <About aboutText={userData.About} theme={userData.theme} />
+      )}
+      {(userData.Education?.length || userData.Experience?.length) > 0 && (
+        <HistorySection
+          educationData={userData.Education}
+          experienceData={userData.Experience}
+        />
+      )}
+      {skillsData && Object.keys(skillsData).length > 0 && (
+        <Skills skills={skillsData} theme={userData.theme} />
+      )}
+      {(userData.Licenses?.length || userData.Certifications?.length) > 0 && (
+        <LicencesCertifications
+          licenses={userData.Licenses}
+          certifications={userData.Certifications}
+          theme={userData.theme}
+        />
+      )}
+      {userData.Projects?.length > 0 && (
+        <Projects projects={userData.Projects} theme={userData.theme} />
+      )}
+      {userData.Testimonials?.length > 0 && (
+        <Recommendations
+          recommendations={userData.Testimonials}
+          theme={userData.theme}
+        />
+      )}
+      {userData.Featured?.length > 0 && (
+        <Featured featuredItems={userData.Featured} theme={userData.theme} />
+      )}
+      {(userData.Honors?.length || userData.Awards?.length) > 0 && (
+        <HonorsAwards
+          honors={userData.Honors}
+          awards={userData.Awards}
+          theme={userData.theme}
+        />
+      )}
+      {userData.TestScores?.length > 0 && (
+        <TestScores testScores={userData.TestScores} theme={userData.theme} />
+      )}
+      {userData.VolunteerExperience?.length > 0 && (
+        <VolunteerExperience
+          volunteerExperiences={userData.VolunteerExperience}
+          theme={userData.theme}
+        />
+      )}
+      {userData.Products?.length > 0 && (
+        <Products products={userData.Products} theme={userData.theme} />
+      )}
+      {userData.Services?.length > 0 && (
+        <Services services={userData.Services} theme={userData.theme} />
+      )}
+      {userData.Causes?.length > 0 && (
+        <Causes causes={userData.Causes} theme={userData.theme} />
+      )}
     </div>
   );
 }

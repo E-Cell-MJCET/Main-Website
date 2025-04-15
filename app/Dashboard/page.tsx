@@ -1,6 +1,8 @@
+/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
+import { useRouter } from "next/navigation";
 import { useUser, SignInButton, UserButton } from "@clerk/nextjs";
 import {
   Menu,
@@ -30,10 +32,12 @@ import Team from "@/components/AdvanceProfile/Dashboard/Team";
 import ProfileDashboard from "@/components/AdvanceProfile/Dashboard/ProfileDashboard";
 import EditUserProfile from "@/components/AdvanceProfile/Dashboard/EditUserProfile";
 import Events from "@/components/AdvanceProfile/Dashboard/Events";
+import EmailEntry from "@/components/AdvanceProfile/EmailEntry";
 // import Additional from '@/components/AdvanceProfile/Dashboard/Additional';
 
 const DashboardPage = () => {
   const { user, isSignedIn, isLoaded } = useUser();
+  const router = useRouter();
   const [userData,setUserData] = useState<any | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -53,6 +57,10 @@ const DashboardPage = () => {
   const [validationMessage, setValidationMessage] = useState(
     "Initializing dashboard..."
   );
+
+  // New state for permitted member check
+  const [isPermittedMember, setIsPermittedMember] = useState(false);
+  const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -116,6 +124,54 @@ const DashboardPage = () => {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  // New effect to check if user's email is in PermittedMembers table
+  useEffect(() => {
+    const checkPermittedMember = async () => {
+      if (!isLoaded || !isSignedIn || !user) return;
+      
+      try {
+        setIsValidating(true);
+        setValidationMessage("Checking membership status...");
+        
+        // Get user's primary email
+        const userEmail = user.primaryEmailAddress?.emailAddress;
+        
+        if (!userEmail) {
+          setIsPermittedMember(false);
+          setValidationMessage("Could not verify email address");
+          
+          return;
+        }
+        
+        // Check if email exists in PermittedMembers table
+        const { data, error } = await supabase
+          .from("PermittedMembers")
+          .select("*")
+          .eq("email", userEmail)
+          .single();
+          
+        if (error && error.code !== "PGRST116") {
+          console.error("Error checking permitted members:", error);
+        }
+        
+        // Set permission status based on query result
+        setIsPermittedMember(!!data);
+        
+        // If not permitted, show modal after validation completes
+        if (!data) {
+          setTimeout(() => {
+            setShowPermissionModal(true);
+          }, 1000);
+        }
+      } catch (error) {
+        console.error("Error checking permitted member status:", error);
+        setIsPermittedMember(false);
+      }
+    };
+    
+    checkPermittedMember();
+  }, [isLoaded, isSignedIn, user]);
 
   // Check if user is registered in Team table
   useEffect(() => {
@@ -226,13 +282,19 @@ const DashboardPage = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
-  // Handle tab click with registration check
+  // Handle tab click with registration and permission check
   const handleTabClick = (tabId: any) => {
     // Always allow settings tab
-    if (tabId === "settings" || isRegistered) {
+    if (tabId === "settings") {
       setActiveTab(tabId);
       if (isMobile) setSidebarOpen(false);
-    } else if (isSignedIn && !isRegistered) {
+    } 
+    // Check if user is a permitted member
+    else if (!isPermittedMember) {
+      setShowPermissionModal(true);
+    }
+    // Check if user is registered
+    else if (isSignedIn && !isRegistered) {
       // Show registration prompt if trying to access restricted tabs
       setRegistrationStatus({
         success: false,
@@ -244,6 +306,16 @@ const DashboardPage = () => {
         setRegistrationStatus((prev) => ({ ...prev, show: false }));
       }, 5000);
     }
+    // User is both permitted and registered
+    else if (isPermittedMember && isRegistered) {
+      setActiveTab(tabId);
+      if (isMobile) setSidebarOpen(false);
+    }
+  };
+
+  // Handle redirect to membership page
+  const handleMembershipRedirect = () => {
+    router.push('/membership');
   };
 
   // Render content based on active tab
@@ -280,59 +352,73 @@ const DashboardPage = () => {
             <p>View performance metrics and analytics.</p>
           </div>
         );
-      case "settings":
-        return (
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-bold">Settings</h2>
-            <p className="mb-6">
-              Configure dashboard settings and preferences.
-            </p>
-            {isSignedIn && !isRegistered && (
-              <div className="mb-6 rounded-md bg-amber-50 p-4 dark:bg-amber-900/20">
-                <div className="flex">
-                  <div className="shrink-0">
-                    <AlertCircle className="size-5 text-amber-600 dark:text-amber-500" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-red-800 dark:text-amber-400">
-                      Registration Required
-                    </h3>
-                    <div className="mt-2 text-sm text-red-700 dark:text-red-300">
-                      <p>
-                        Your account needs to be registered to access all
-                        dashboard features.
-                      </p>
+        case "settings":
+          return (
+            <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 text-xl font-bold">Settings</h2>
+              <p className="mb-6">
+                Configure dashboard settings and preferences.
+              </p>
+              {isSignedIn && !isRegistered && (
+                <div className="mb-6 rounded-md bg-amber-50 p-4 dark:bg-amber-900/20">
+                  <div className="flex">
+                    <div className="shrink-0">
+                      <AlertCircle className="size-5 text-amber-600 dark:text-amber-500" />
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-red-800 dark:text-amber-400">
+                        Registration Required
+                      </h3>
+                      <div className="mt-2 text-sm text-red-700 dark:text-red-300">
+                        <p>
+                          Your account needs to be registered to access all
+                          dashboard features.
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
-            {isSignedIn && (
-              <div className="mt-4">
-                <h3 className="mb-2 text-lg font-medium">
-                  Account Registration
-                </h3>
-                <p className="mb-4 text-gray-600 dark:text-gray-400">
-                  {isRegistered
-                    ? "Your account is registered and has full access to all features."
-                    : "Register your account with our system to enable all features."}
-                </p>
-                <button
-                  onClick={() => setShowRegistration(true)}
-                  className={`flex items-center rounded-md px-4 py-2 text-white ${
-                    isRegistered
-                      ? "bg-green-600 hover:bg-green-700"
-                      : "bg-indigo-600 hover:bg-indigo-700"
-                  }`}
-                  disabled={isValidating}
-                >
-                  <UserPlus className="mr-2 size-4" />
-                  {isRegistered ? "Update Registration" : "Register Account"}
-                </button>
-              </div>
-            )}
-          </div>
-        );
+              )}
+              {isSignedIn && (
+                <div className="mt-4">
+                  <h3 className="mb-2 text-lg font-medium">
+                    Account Registration
+                  </h3>
+                  <p className="mb-4 text-gray-600 dark:text-gray-400">
+                    {isRegistered
+                      ? "Your account is registered and has full access to all features."
+                      : "Register your account with our system to enable all features."}
+                  </p>
+                  <button
+                    onClick={() => setShowRegistration(true)}
+                    className={`flex items-center rounded-md px-4 py-2 text-white ${
+                      isRegistered
+                        ? "bg-green-600 hover:bg-green-700"
+                        : "bg-blue-600 hover:bg-blue-700"
+                    }`}
+                  >
+                    <UserPlus className="mr-2 size-5" />
+                    {isRegistered ? "Update Registration" : "Register Account"}
+                  </button>
+                </div>
+              )}
+              {/* Email Entry Component - Only visible to Governing Body or HR Executive */}
+              {userData && (
+                (userData.Member_Type === "Governing Body" || 
+                (userData.Member_Type === "Executive" && userData.Portfolio === "Human Resource")) && (
+                  <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
+                    <h3 className="mb-4 text-lg font-medium">Email Management</h3>
+                    <p className="mb-4 text-gray-600 dark:text-gray-400">
+                      Add permitted email addresses for new members.
+                    </p>
+                    <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                      <EmailEntry/>
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
+          );
       default:
         return (
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
@@ -490,6 +576,36 @@ const DashboardPage = () => {
           </div>
         </main>
       </div>
+      {/* Permission Modal */}
+      {showPermissionModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+          <h2 className="mb-4 text-xl font-semibold text-gray-800">
+            Membership Required
+          </h2>
+          <div className="space-y-4">
+            <p className="text-gray-600">
+              You need to be an E-Cell member to access the dashboard features.
+              Join our community to get full access.
+            </p>
+            <div className="flex justify-end space-x-3">
+              <button
+                    onClick={() => setShowPermissionModal(false)}
+                    className="rounded-md border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50"
+                  >
+                Close
+              </button>
+              <button
+                    onClick={handleMembershipRedirect}
+                    className="rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700"
+                  >
+                Become a Member
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+        )}
       {/* Mobile sidebar backdrop */}
       {sidebarOpen && isMobile && (
         <div
