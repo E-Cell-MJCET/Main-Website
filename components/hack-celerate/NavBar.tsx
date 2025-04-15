@@ -9,6 +9,12 @@ import sidelogo from "@/public/assets/Logo/hack-celerate.png";
 import name from "@/public/assets/Logo/name-big-white.png";
 import thirdImage from "@/public/assets/Logo/hack-celerate__2.png";
 
+import mjcet from "../../public/assets/hack/mjcet.png";
+import india from "../../public/assets/hack/india.png";
+import naac from "../../public/assets/hack/naac.png";
+import nba from "../../public/assets/hack/nba.png";
+import ou from "../../public/assets/hack/ou_logo.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const sections = ["Home", "About", "Timeline", "FAQ", "Contact"];
@@ -123,6 +129,43 @@ export default function Navbar() {
           >
             <Image src={thirdImage} alt="Third Logo" width={200} />
           </div>
+        </div>
+        <div className="-ml-96  hidden flex-row items-center justify-center space-x-10 md:flex">
+          <Image
+            src={mjcet}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={naac}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={india}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={nba}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={ou}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
         </div>
         {/* Hamburger */}
         <button

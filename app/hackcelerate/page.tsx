@@ -6,6 +6,7 @@ import SponsorUs from "@/components/hack-celerate/sponsor-contact-us";
 import TimeLine1 from "@/components/hack-celerate/TimeLine1";
 import Cursor from "@/components/ui/cursor";
 import Footer from "@/components/hack-celerate/Footer";
+import TimelineMB from "@/components/hack-celerate/TimeLineMB";
 
 export default function HackceleratePage() {
   return (
@@ -20,7 +21,11 @@ export default function HackceleratePage() {
       </div>
       <div id="Timeline">
         <TimeLine1 />
+        <TimelineMB />
       </div>
+      {/* <div id="Timeline" className="block md:hidden">
+        <TimelineMB />
+      </div> */}
       <div id="FAQ">
         <FaqSection />
       </div>
