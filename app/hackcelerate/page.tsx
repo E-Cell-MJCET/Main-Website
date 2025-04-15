@@ -23,9 +23,7 @@ export default function HackceleratePage() {
         <TimeLine1 />
         <TimelineMB />
       </div>
-      {/* <div id="Timeline" className="block md:hidden">
-        <TimelineMB />
-      </div> */}
+      </div>
       <div id="FAQ">
         <FaqSection />
       </div>

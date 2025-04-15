@@ -3,6 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { animate } from "animejs";
 import Link from "next/link";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
+
 import Image from "next/image";
 
 import mjcet from "../../public/assets/hack/mjcet.png";
@@ -11,11 +12,14 @@ import naac from "../../public/assets/hack/naac.png";
 import nba from "../../public/assets/hack/nba.png";
 import ou from "../../public/assets/hack/ou_logo.png";
 
+
 const Footer = () => {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+
     const text = "Hackcelerate";
+
     const container = textRef.current;
 
     if (container) {
