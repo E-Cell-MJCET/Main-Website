@@ -23,11 +23,9 @@ export default function HackceleratePage() {
         <TimeLine1 />
         <TimelineMB />
       </div>
-      </div>
       <div id="FAQ">
         <FaqSection />
       </div>
-      {/* <Organisers /> */}
       <div id="Contact">
         <SponsorUs />
       </div>
