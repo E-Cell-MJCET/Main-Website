@@ -9,12 +9,9 @@ import {
   Nanum_Pen_Script,
 } from "next/font/google";
 // import localFont from "next/font/local";
-<<<<<<< HEAD
-import { ClerkProvider } from "@clerk/nextjs";
-=======
 import localFont from "next/font/local";
 import { ReactLenis } from "lenis/react";
->>>>>>> 7f9be36db6b6214b39b1a8bb9e4dd15b0567b8f6
+import { ClerkProvider } from "@clerk/nextjs";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -76,29 +73,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-<<<<<<< HEAD
     <ClerkProvider>
       <html lang="en">
         <body
-          className={`${playfair.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
-          >
-          {children}
+        className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
+        >
+          <ReactLenis root={true}>
+            {/* <LoadingScreen /> */}
+            {children}
+          </ReactLenis>
           <Toaster />
         </body>
       </html>
     </ClerkProvider>
-=======
-    <html lang="en">
-      <body
-        className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
-      >
-        <ReactLenis root={true}>
-          {/* <LoadingScreen /> */}
-          {children}
-        </ReactLenis>
-        <Toaster />
-      </body>
-    </html>
->>>>>>> 7f9be36db6b6214b39b1a8bb9e4dd15b0567b8f6
   );
 }
