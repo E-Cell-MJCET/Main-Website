@@ -464,8 +464,8 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="flex items-center space-x-5">
-          <Link href="/" className="hidden text-gray-500 md:block dark:text-gray-400">
-            <HomeIcon className="hidden size-6 text-gray-500 md:block dark:text-gray-400" />
+          <Link href="/" className="hidden text-gray-500 dark:text-gray-400 md:block">
+            <HomeIcon className="hidden size-6 text-gray-500 dark:text-gray-400 md:block" />
           </Link>
           <button
             onClick={() => setDarkMode(!darkMode)}
@@ -494,7 +494,7 @@ const DashboardPage = () => {
         <aside
           className={`${
             sidebarOpen ? "w-full md:w-64" : "w-0 md:w-16"
-          } fixed inset-y-0 left-0 top-16 z-10 border-r border-gray-200 bg-white transition-all duration-300 ease-in-out md:static md:top-0 md:translate-x-0 dark:border-gray-700 dark:bg-gray-800 ${
+          } fixed inset-y-0 left-0 top-16 z-10 border-r border-gray-200 bg-white transition-all duration-300 ease-in-out dark:border-gray-700 dark:bg-gray-800 md:static md:top-0 md:translate-x-0 ${
             !sidebarOpen && !isMobile
               ? "translate-x-0"
               : !sidebarOpen

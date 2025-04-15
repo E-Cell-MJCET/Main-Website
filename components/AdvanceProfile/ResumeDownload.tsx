@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import { useEffect } from 'react';
-// eslint-disable-next-line import/no-named-as-default
-import jsPDF from 'jspdf';
+import {jsPDF} from 'jspdf';
 // import autoTable from 'jspdf-autotable';
 
 // Enhanced UserData interface to include all possible fields
