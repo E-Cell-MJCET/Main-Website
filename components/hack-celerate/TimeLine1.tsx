@@ -375,7 +375,7 @@ function TimeLine1() {
       dayNumber: "3",
     },
     {
-      date: "14th May",
+      date: "14th/15th May",
       title: "Quiz",
       description: "Test your technical knowledge",
       color: "purple",
@@ -402,7 +402,7 @@ function TimeLine1() {
 
   return (
     <div
-      className="min-h-screen overflow-hidden bg-black px-4 py-12 md:px-8"
+      className="hidden min-h-screen overflow-hidden bg-black px-4 py-12 md:block md:px-8"
       id="Timeline"
     >
       {/* Add some floating particles in the background for sci-fi effect */}
