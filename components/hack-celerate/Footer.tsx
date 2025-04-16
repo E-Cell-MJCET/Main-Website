@@ -3,12 +3,20 @@ import React, { useEffect, useRef } from "react";
 import { animate } from "animejs";
 import Link from "next/link";
 import { FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import Image from "next/image";
+
+import mjcet from "../../public/assets/hack/mjcet.png";
+import india from "../../public/assets/hack/india.png";
+import naac from "../../public/assets/hack/naac.png";
+import nba from "../../public/assets/hack/nba.png";
+import ou from "../../public/assets/hack/ou_logo.png";
 
 const Footer = () => {
   const textRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const text = "Hack-Celerate";
+    const text = "Hackcelerate";
+
     const container = textRef.current;
 
     if (container) {
@@ -104,6 +112,50 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+        <Image
+          src={mjcet}
+          className="h-20 w-fit justify-center md:hidden"
+          alt="MJCET"
+          width={1000}
+          height={1000}
+        />
+        <div className="flex flex-row items-start justify-between space-x-2 md:items-center md:space-x-10">
+          <Image
+            src={mjcet}
+            className="hidden h-12 w-fit md:block"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={naac}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={india}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={nba}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={ou}
+            className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+        </div>
         {/* <div>
           <h4 className="mb-4 font-semibold text-white">Resources</h4>
           <ul className="space-y-2 text-sm">
@@ -152,9 +204,9 @@ const Footer = () => {
         </div> */}
       </div>
       <div className="mt-12 text-center text-xs text-gray-500">
-        Designed with ❤️ by the{" "}
-        <Link href={"https://ecellmjcet.com"}> E-Cell MJCET </Link> Tech Team |
-        Powered by innovation and creativity
+        Designed with ❤️ by{" "}
+        <Link href={"https://ecellmjcet.com"}> Tech Team </Link> of Ecell MJCET
+        | Powered by innovation and creativity
       </div>
     </footer>
   );

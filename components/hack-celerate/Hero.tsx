@@ -115,9 +115,14 @@ export default function Hero() {
         >
           <div className="flex flex-row items-center justify-center space-x-2">
             <FaInstagram className="size-8 text-[#7BF1A7]" />
-            <p className="font-block text-xl">@ecellmjcet</p>
+            <p className="font-block text-xl underline">@ecellmjcet</p>
           </div>
         </a>
+      </div>
+      <div className="mt-20 flex flex-col items-center space-y-3 md:-mb-36">
+        <p className="text-center font-silkscreen text-2xl tracking-wide text-white md:text-3xl">
+          Cash prizes will be announced soon
+        </p>
       </div>
     </section>
   );

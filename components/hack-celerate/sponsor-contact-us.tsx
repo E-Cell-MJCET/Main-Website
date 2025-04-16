@@ -179,10 +179,10 @@ function SponsorUs() {
                 Syed Shujauddin, Chief Coordinator
               </p>
               <a
-                href="tel:+91955130124"
+                href="tel:+919515130124"
                 className="text-[#7BF1A7] underline hover:text-[#65D18F]"
               >
-                +91 955130124
+                +91 9515130124
               </a>
               <br /> <br />{" "}
               <p className="text-sm text-gray-400 sm:text-base">
