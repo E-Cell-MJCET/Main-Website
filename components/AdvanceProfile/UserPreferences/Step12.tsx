@@ -104,7 +104,7 @@ const Step12Welcome = ({
       // save data to supabase
       const { error } = await supabase
         .from("Team")
-        .update({ causes: validCauses })
+        .update({ Causes: validCauses })
         .eq("clerk_user_id", user?.id);
         alert("Causes saved successfully!");
       if (error){

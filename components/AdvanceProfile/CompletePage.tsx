@@ -128,6 +128,7 @@ export default function CompleteProfilePage({
       {userData.Services?.length > 0 && (
         <Services services={userData.Services} theme={userData.theme} />
       )}
+      {console.log("Causes is coming in here is ", userData.Causes)}
       {userData.Causes?.length > 0 && (
         <Causes causes={userData.Causes} theme={userData.theme} />
       )}

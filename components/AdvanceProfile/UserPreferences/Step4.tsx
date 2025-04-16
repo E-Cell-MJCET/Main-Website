@@ -356,7 +356,10 @@ const Step4Welcome = ({
           Portfolio: secondaryPreference,
           SocialLinks: socialLinks,
           Contact_Info: contactInfo,
-          Location: locationInfo
+          Location: {
+            city: locationInfo.city,
+            state: locationInfo.state
+          }
         })
         .eq("clerk_user_id", user?.id);
         console.log(error)

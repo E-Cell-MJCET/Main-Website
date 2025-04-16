@@ -101,10 +101,29 @@ const formatContactInfo = (contactInfo: UserData["Contact_Info"]) => {
     phoneDisplay: formattedPhone,
   };
 };
+function parseLocationData(dataString: string): { city: string; state: string } | null {
+  try {
+    const parsedData = JSON.parse(dataString);
+    const { city, state } = parsedData;
+
+    if (typeof city === 'string' && typeof state === 'string') {
+      return { city, state };
+    } else {
+      console.error("Invalid types for city or state.");
+      
+      return null;
+    }
+  } catch (error) {
+    console.error("Failed to parse data string:", error);
+    
+    return null;
+  }
+}
 
 const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const location = parseLocationData(userData.Location);
 
   // Function to open the popup
   const openPopup = () => setIsPopupOpen(true);
@@ -200,7 +219,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
         </h1>
         <p className={themeStyles.taglineText}>{userData.Tagline}</p>
         <div className="flex items-center space-x-2">
-          <span className={themeStyles.locationText}>{userData.Location}</span>
+          <span className={themeStyles.locationText}>{location?.city},{location?.state}</span>
         </div>
         {/* Member Type and Portfolio Badges - Now displayed in a flex row */}
         <div className="flex flex-wrap items-center gap-2">
@@ -387,7 +406,7 @@ const Header: React.FC<{ userData: UserData }> = ({ userData }) => {
                   }}
                   style={{ backgroundSize: "200% 200%" }}
                 >
-                  {userData.Location}
+                  {location?.city},{location?.state}
                 </motion.span>
               </div>
             </motion.div>

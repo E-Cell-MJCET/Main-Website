@@ -59,10 +59,17 @@ const Step15Welcome = ({
   useEffect(() => {
     const sessionId = localStorage.getItem("personalized_session_id");
     if (sessionId) {
-      const savedVolunteerItems = localStorage.getItem(`${sessionId}_volunteer_experiences`);
+      const savedVolunteerItems = localStorage.getItem(`${sessionId}_volunteer_experience`);
       
       if (savedVolunteerItems && savedVolunteerItems !== "[]") {
-        setVolunteerItems(JSON.parse(savedVolunteerItems));
+        try {
+          const parsedItems = JSON.parse(savedVolunteerItems);
+          if (Array.isArray(parsedItems) && parsedItems.length > 0) {
+            setVolunteerItems(parsedItems);
+          }
+        } catch (error) {
+          console.error("Error parsing volunteer experiences from localStorage:", error);
+        }
       }
     }
   }, []);
