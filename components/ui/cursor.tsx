@@ -25,7 +25,8 @@ export default function Cursor() {
         target.tagName === "H3" ||
         target.tagName === "A" ||
         // target.tagName === "SPAN" ||
-        target.tagName === "BUTTON"
+        target.tagName === "BUTTON" ||
+        target.id === "github"
       ) {
         scale.set(3);
       } else if (target.tagName === "H6") {

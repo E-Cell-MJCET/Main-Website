@@ -8,18 +8,20 @@ import JoinUs from "./JoinUs";
 import Footer from "./Footer";
 import About from "./About";
 import { BentoGridDemo } from "./Bento";
+import HackCelerate from "./HackCelerate";
 
 const LandingPage = () => {
   return (
     <div className="">
       {/* <Dummy /> */}
+      <HackCelerate />
       <About />
       <BentoGridDemo />
       <Hero />
       <div className="joinUsBox h-fit bg-slate-500">
         <JoinUs />
       </div>
-      <Footer /> 
+      <Footer />
     </div>
   );
 };
