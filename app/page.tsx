@@ -5,7 +5,6 @@ import DummyPage from "@/components/LandingPage/DummyPage";
 import LandingPage from "@/components/LandingPage/LandingPage";
 import Navbar from "@/components/LandingPage/Navbar";
 import { SmoothScrollHero } from "@/components/LandingPage/NewHero";
-import { LaJoker } from "@/components/LandingPage/LaJoker";
 import Cursor from "@/components/ui/cursor";
 
 export default function Home() {
@@ -30,9 +29,9 @@ export default function Home() {
       <div className="overflow-hidden ">
         <LandingPage />
       </div>
-      <div className="bg-black">
+      {/* <div className="bg-black">
         <LaJoker />
-      </div>
+      </div> */}
     </div>
   );
 }

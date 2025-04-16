@@ -6,7 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
-import {ReactLenis} from "lenis/react";
+import { ReactLenis } from "lenis/react";
 import Image from "next/image";
 
 import team2 from "@/public/assets/team2.webp";
@@ -20,9 +20,8 @@ export const SmoothScrollHero = () => {
         options={{
           // Learn more -> https://github.com/darkroomengineering/lenis?tab=readme-ov-file#instance-settings
           lerp: 0.5,
-            infinite: true,
-            syncTouch: true,
-          
+          infinite: false,
+          syncTouch: true,
         }}
       >
         <Hero />
@@ -138,8 +137,20 @@ const ParallaxImages = () => {
   );
 };
 
-const ParallaxImg = ({ className, alt, src, start, end }:{className:any, alt:any,src:any, start:any,end:any}) => {
-  const ref = useRef(null); 
+const ParallaxImg = ({
+  className,
+  alt,
+  src,
+  start,
+  end,
+}: {
+  className: any;
+  alt: any;
+  src: any;
+  start: any;
+  end: any;
+}) => {
+  const ref = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: ref,
