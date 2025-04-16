@@ -23,6 +23,7 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showThirdImage, setShowThirdImage] = useState(false);
   const [activeSection, setActiveSection] = useState("Home");
+  const logosRef = useRef<HTMLDivElement>(null);
 
   const logoRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLDivElement>(null);
@@ -31,6 +32,18 @@ export default function Navbar() {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   useEffect(() => {
+    gsap.to(logosRef.current, {
+      opacity: 0,
+      ease: "power4.in",
+      scrollTrigger: {
+        trigger: document.body,
+        start: "top top",
+        end: "top+=150 top",
+        scrub: true,
+        markers: true,
+      },
+    });
+
     const ctx = gsap.context(() => {
       ScrollTrigger.create({
         trigger: document.body,
@@ -105,7 +118,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#121212] p-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-around">
         {/* Logos */}
         <div className="relative z-20 flex h-12 w-40 items-center justify-center space-x-4">
           <main ref={logoRef} className="absolute left-0 top-0 size-12">
@@ -130,7 +143,10 @@ export default function Navbar() {
             <Image src={thirdImage} alt="Third Logo" width={200} />
           </div>
         </div>
-        <div className="-ml-96  hidden flex-row items-center justify-center space-x-10 md:flex">
+        <div
+          ref={logosRef}
+          className="ml-10 hidden flex-row items-center justify-center space-x-10 md:flex"
+        >
           <Image
             src={mjcet}
             className="h-12 w-fit"
