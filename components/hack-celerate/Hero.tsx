@@ -12,7 +12,7 @@ export default function Hero() {
   const [seconds, setSeconds] = useState("00");
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-05-11T00:00:00").getTime();
+  const targetDate = new Date("2025-04-17T12:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
