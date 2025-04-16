@@ -40,7 +40,6 @@ export default function Navbar() {
         start: "top top",
         end: "top+=150 top",
         scrub: true,
-        markers: true,
       },
     });
 
@@ -145,7 +144,7 @@ export default function Navbar() {
         </div>
         <div
           ref={logosRef}
-          className="ml-10 hidden flex-row items-center justify-center space-x-10 md:flex"
+          className="ml-10 hidden flex-row items-center justify-center space-x-10 lg:flex"
         >
           <Image
             src={mjcet}
@@ -185,7 +184,7 @@ export default function Navbar() {
         </div>
         {/* Hamburger */}
         <button
-          className="z-20 focus:outline-none md:hidden"
+          className="z-20 focus:outline-none lg:hidden"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
@@ -196,7 +195,7 @@ export default function Navbar() {
           )}
         </button>
         {/* Desktop Nav */}
-        <nav className="hidden md:flex">
+        <nav className="hidden lg:flex">
           <ul className="flex space-x-10 px-5">
             {sections.map((item) => {
               const id = item.replace(/\s+/g, "");
@@ -230,7 +229,7 @@ export default function Navbar() {
       <div
         className={`fixed inset-0 z-10 bg-black/90 transition-transform duration-300 ease-in-out${
           isMenuOpen ? " translate-x-0" : "hidden translate-x-full"
-        } md:hidden`}
+        } lg:hidden`}
       >
         <nav className="flex h-full flex-col items-center justify-center">
           <ul className="flex flex-col items-center space-y-6">
