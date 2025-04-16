@@ -39,6 +39,20 @@ export interface ExtracurricularActivity {
   duration: string;
 }
 
+interface ContactInfo {
+  email: string;
+  number: string;
+}
+
+export interface HeaderProps{
+  name:string;
+  Tagline:string;
+  member_Type:string;
+  Location:string;
+  Personal_url:string;
+  contact_info: ContactInfo;
+}
+
 export interface ProfileFormData {
   // Required fields
   name: string;

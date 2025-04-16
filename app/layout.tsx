@@ -11,6 +11,7 @@ import {
 // import localFont from "next/font/local";
 import localFont from "next/font/local";
 import { ReactLenis } from "lenis/react";
+import { ClerkProvider } from "@clerk/nextjs";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -72,16 +73,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
+    <ClerkProvider>
+      <html lang="en">
+        <body
         className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
-      >
-        <ReactLenis root={true}>
-          {/* <LoadingScreen /> */}
-          {children}
-        </ReactLenis>
-        <Toaster />
-      </body>
-    </html>
+        >
+          <ReactLenis root={true}>
+            {/* <LoadingScreen /> */}
+            {children}
+          </ReactLenis>
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

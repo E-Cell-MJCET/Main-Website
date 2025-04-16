@@ -30,7 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # env files (can opt-in for committing if needed)
+.env
 .env.local
+.env.original
+## Local development env variables for cloudflare workers instead of wrangler.toml
+.dev.vars 
 
 # vercel
 .vercel
@@ -38,3 +42,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+/.next
+# clerk configuration (can include secrets)
+/.clerk/
