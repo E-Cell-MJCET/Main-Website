@@ -12,6 +12,8 @@
     "deploy": "bun run pages:build && wrangler pages deploy"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.787.0",
+    "@aws-sdk/s3-request-presigner": "^3.787.0",
     "@cloudflare/next-on-pages": "^1.13.5",
     "@eslint/js": "^9.17.0",
     "@gsap/react": "^2.1.1",
