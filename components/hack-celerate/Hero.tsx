@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FaInstagram } from "react-icons/fa";
-
+import { RegistrationModal } from "./registration-modal";
 import { RetroGrid } from "../ui/retro-grid";
 
 export default function Hero() {
@@ -10,7 +10,7 @@ export default function Hero() {
   const [hours, setHours] = useState("00");
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   // Target date: April 17th, 2025
   const targetDate = new Date("2025-05-11T00:00:00").getTime();
 
@@ -41,7 +41,9 @@ export default function Hero() {
   }, [calculateTimeLeft]);
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16">
+    <section
+      className={`relative flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16`}
+    >
       {/* Hack-celerate Logo */}
       <RetroGrid />
       <div className="mb-12 text-center md:mb-16">
@@ -102,6 +104,25 @@ export default function Hero() {
           </div>
         ))}
       </div>
+
+      {/* registration button */}
+      <button
+        className="bg-white/10 text-[#E0F7FF] font-silkscreen rounded-xl 
+           text-lg sm:text-xl md:text-2xl 
+           px-6 py-3 sm:px-8 sm:py-4 
+           shadow-[4px_4px_#E0F7FF] 
+           hover:shadow-[8px_8px_#E0F7FF] 
+           active:shadow-[2px_2px_#E0F7FF] 
+           active:translate-y-1 
+           transition-all duration-200 ease-in-out"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Register Now
+      </button>
+
+      {/* Pass the modal state to the RegistrationModal component */}
+      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+
       {/* Follow us section */}
       <div className="mt-20 flex flex-col items-center space-y-3">
         <p className="text-center font-silkscreen text-xl tracking-wide text-white">
