@@ -70,7 +70,7 @@ export function RegistrationModal({
     success: boolean;
     message: string;
   } | null>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLFormElement>(null);
 
   const formSchema = z.object({
     teamName: z.string().min(2, { message: "Team name is required" }),
@@ -989,6 +989,7 @@ export function RegistrationModal({
                       control={form.control}
                       name="abstract"
                       render={({
+                        // eslint-disable-next-line no-unused-vars
                         field: { value, onChange, ...fieldProps },
                       }) => (
                         <FormItem className="space-y-2">
