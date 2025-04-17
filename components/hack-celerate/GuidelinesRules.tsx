@@ -28,10 +28,10 @@ export default function GuidelinesRules() {
             industry and academia.
           </p>
           <div>
-            <p className="mb-2 text-[#7BF1A7] font-silkscreen">
+            <p className="mb-2 font-silkscreen text-[#7BF1A7]">
               Evaluation criteria include:
             </p>
-            <ul className="list-disc pl-6 space-y-1 text-[#E0F7FF]">
+            <ul className="list-disc space-y-1 pl-6 text-[#E0F7FF]">
               <li>Novelty of the idea</li>
               <li>Technical complexity and clarity</li>
               <li>Feasibility and sustainability</li>
@@ -53,7 +53,7 @@ export default function GuidelinesRules() {
       title: "Final Registration for Shortlisted Teams",
       content: (
         <div className="space-y-4">
-          <ul className="list-disc pl-6 space-y-2 text-[#E0F7FF]">
+          <ul className="list-disc space-y-2 pl-6 text-[#E0F7FF]">
             <li>
               Shortlisted teams will be notified via their registered email IDs.
             </li>
@@ -70,7 +70,7 @@ export default function GuidelinesRules() {
       title: "Prizes & Perks",
       content: (
         <div className="space-y-4">
-          <ul className="list-disc pl-6 space-y-2 text-[#E0F7FF]">
+          <ul className="list-disc space-y-2 pl-6 text-[#E0F7FF]">
             <li>Attractive Cash Prizes across all tracks.</li>
             <li>
               Direct Entry to Industry Finale Venue for shortlisted teams.
@@ -108,7 +108,7 @@ export default function GuidelinesRules() {
       title: "Finale Attendance Requirements",
       content: (
         <div className="space-y-4">
-          <ul className="list-disc pl-6 space-y-2 text-[#E0F7FF]">
+          <ul className="list-disc space-y-2 pl-6 text-[#E0F7FF]">
             <li>
               All team members must be physically present during the final
               round.
@@ -129,10 +129,9 @@ export default function GuidelinesRules() {
   return (
     <section className="relative bg-[#121212] px-4 py-16 md:py-24">
       <div className="absolute inset-0 bg-[url('/placeholder.svg?height=100&width=100')] bg-repeat opacity-5"></div>
-
-      <div className="container mx-auto max-w-4xl relative z-10">
+      <div className="container relative z-10 mx-auto max-w-4xl">
         <h2
-          className="text-center font-silkscreen text-4xl md:text-5xl lg:text-6xl mb-12"
+          className="mb-12 text-center font-silkscreen text-4xl md:text-5xl lg:text-6xl"
           style={{
             textShadow: "-3px -3px 0 #3A6695, -6px -6px 0 #3A6695",
           }}
@@ -142,12 +141,11 @@ export default function GuidelinesRules() {
           <span className="text-[#7BF1A7]"> & </span>
           <span className="text-white">RULES</span>
         </h2>
-
         <div className="space-y-6">
           {sections.map((section) => (
             <motion.div
               key={section.id}
-              className="rounded-xl bg-white/5 backdrop-blur-sm overflow-hidden"
+              className="overflow-hidden rounded-xl bg-white/5 backdrop-blur-sm"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
@@ -155,18 +153,17 @@ export default function GuidelinesRules() {
             >
               <button
                 onClick={() => toggleSection(section.id)}
-                className="w-full px-6 py-4 flex justify-between items-center border-l-4 border-[#7BF1A7] hover:bg-white/10 transition-colors duration-200"
+                className="flex w-full items-center justify-between border-l-4 border-[#7BF1A7] px-6 py-4 transition-colors duration-200 hover:bg-white/10"
               >
-                <h3 className="font-silkscreen text-xl md:text-2xl text-white text-left">
+                <h3 className="text-left font-silkscreen text-xl text-white md:text-2xl">
                   {section.title}
                 </h3>
                 {expandedSection === section.id ? (
-                  <ChevronUp className="h-6 w-6 text-[#7BF1A7]" />
+                  <ChevronUp className="size-6 text-[#7BF1A7]" />
                 ) : (
-                  <ChevronDown className="h-6 w-6 text-[#7BF1A7]" />
+                  <ChevronDown className="size-6 text-[#7BF1A7]" />
                 )}
               </button>
-
               {expandedSection === section.id && (
                 <motion.div
                   initial={{ height: 0, opacity: 0 }}
@@ -181,7 +178,6 @@ export default function GuidelinesRules() {
             </motion.div>
           ))}
         </div>
-
         <div className="mt-12 text-center"></div>
       </div>
     </section>
