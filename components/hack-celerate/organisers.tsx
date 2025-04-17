@@ -28,40 +28,43 @@ const InfiniteMovingCards = ({
   const [start, setStart] = useState(false);
 
   useEffect(() => {
+    function addAnimation() {
+      if (containerRef.current && scrollerRef.current) {
+        const scrollerContent = Array.from(scrollerRef.current.children);
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true);
+          scrollerRef.current?.appendChild(duplicatedItem);
+        });
+        getDirection();
+        getSpeed();
+        setStart(true);
+      }
+    }
+
+    const getDirection = () => {
+      if (containerRef.current) {
+        // Set CSS variable for direction. Your CSS keyframes can use this variable.
+        containerRef.current.style.setProperty(
+          "--animation-direction",
+          direction === "left" ? "forwards" : "reverse"
+        );
+      }
+    };
+
+    const getSpeed = () => {
+      if (containerRef.current) {
+        // Set CSS variable for duration (e.g., "20s", "40s", "80s")
+        const duration =
+          speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
+        containerRef.current.style.setProperty(
+          "--animation-duration",
+          duration
+        );
+      }
+    };
+
     addAnimation();
-  }, []);
-
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        scrollerRef.current?.appendChild(duplicatedItem);
-      });
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
-
-  const getDirection = () => {
-    if (containerRef.current) {
-      // Set CSS variable for direction. Your CSS keyframes can use this variable.
-      containerRef.current.style.setProperty(
-        "--animation-direction",
-        direction === "left" ? "forwards" : "reverse"
-      );
-    }
-  };
-
-  const getSpeed = () => {
-    if (containerRef.current) {
-      // Set CSS variable for duration (e.g., "20s", "40s", "80s")
-      const duration =
-        speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s";
-      containerRef.current.style.setProperty("--animation-duration", duration);
-    }
-  };
+  }, [direction, speed]);
 
   return (
     <div

@@ -2,18 +2,32 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FaInstagram } from "react-icons/fa";
+import Image from "next/image";
+
+import { useScrollLock } from "@/hooks/useScrollLock";
 
 import { RetroGrid } from "../ui/retro-grid";
+import github from "../../public/assets/Logo/github.png";
+
+import { RegistrationModal } from "./registration-modal";
 
 export default function Hero() {
   const [days, setDays] = useState("00");
   const [hours, setHours] = useState("00");
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  useScrollLock(isModalOpen);
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }, [isModalOpen]);
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-04-17T18:00:00").getTime();
-
+  const targetDate = new Date("2025-05-12T00:00:00").getTime();
+  
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
     const difference = targetDate - now;
@@ -41,7 +55,9 @@ export default function Hero() {
   }, [calculateTimeLeft]);
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16">
+    <section
+      className={`relative flex min-h-screen flex-col items-center justify-center bg-[#121212] px-4 py-8 md:py-12 lg:py-16`}
+    >
       {/* Hack-celerate Logo */}
       <RetroGrid />
       <div className="mb-12 text-center md:mb-16">
@@ -77,9 +93,35 @@ export default function Hero() {
             </div>
           </div>
         </h6>
+        <div className="mt-2 flex items-end justify-end gap-5">
+          <h1 className="font-block text-3xl text-white">Powered by</h1>
+          <Image
+            src={github}
+            width={150}
+            height={150}
+            alt="Github Logo"
+            id="github"
+          />
+        </div>
       </div>
-      <div className="mb-5 text-center font-block text-4xl text-white">
-        Registrations Opens in
+      {/* registration button */}
+      <button
+        className="rounded-xl bg-white/10 px-6 py-3 
+           font-silkscreen text-lg text-[#E0F7FF] 
+           shadow-[4px_4px_#E0F7FF] transition-all duration-200 ease-in-out 
+           hover:shadow-[8px_8px_#E0F7FF] 
+           active:translate-y-1 
+           active:shadow-[2px_2px_#E0F7FF] 
+           sm:px-8 
+           sm:py-4 sm:text-xl md:text-2xl"
+        onClick={() => setIsModalOpen(true)}
+      >
+        Register Now
+      </button>
+      {/* Pass the modal state to the RegistrationModal component */}
+      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      <div className="my-5 text-center font-block text-4xl text-white">
+        Registrations Ends in
       </div>
       {/* Countdown Section */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">

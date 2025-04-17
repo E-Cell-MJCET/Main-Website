@@ -1,6 +1,6 @@
 import React from "react";
-import { BsClockFill, BsLightbulbFill } from "react-icons/bs";
-import { FaFlagCheckered } from "react-icons/fa6";
+import { BsLightbulbFill } from "react-icons/bs";
+import { FaFlagCheckered, FaAward } from "react-icons/fa6";
 import { RiTeamFill } from "react-icons/ri";
 
 const About = () => {
@@ -18,7 +18,7 @@ const About = () => {
               Hackcelerate – Brought to you by E-Cell MJCET
             </p>
             <p className="text-lg text-gray-300">
-              In a world driven by ideas, it is not just about thinking big—it
+              In a world driven by ideas, it is not just about thinking big it
               is about building fast. As innovation becomes the currency of the
               future, the need for agile, impact-driven problem solvers is more
               important than ever. That’s where we come in.
@@ -47,9 +47,9 @@ const About = () => {
                 icon: <RiTeamFill className="size-8 text-[#7BF1A7]" />,
               },
               {
-                value: "24",
-                label: "Hours",
-                icon: <BsClockFill className="size-8 text-[#7BF1A7]" />,
+                value: "Win",
+                label: "Exciting Prizes",
+                icon: <FaAward className="size-8 text-[#7BF1A7]" />,
               },
               {
                 value: "3",
