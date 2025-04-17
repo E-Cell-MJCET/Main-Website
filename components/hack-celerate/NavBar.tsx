@@ -145,7 +145,7 @@ export default function Navbar() {
         </div>
         <div
           ref={logosRef}
-          className="ml-10 hidden flex-row items-center justify-center space-x-10 lg:flex"
+          className=" hidden flex-row items-center justify-center space-x-10 lg:flex"
         >
           <Image
             src={mjcet}

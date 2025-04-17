@@ -629,7 +629,14 @@ export function RegistrationModal({
                       </ul>
                     </div>
                   </div>
-                  <div className="mt-8 flex justify-end">
+                  <div className="mt-8 flex justify-around">
+                    <Link
+                      href={"https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"}
+                      type="button"
+                      className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                    >
+                      Need Help ?
+                    </Link>
                     <button
                       type="button"
                       onClick={nextStep}
@@ -711,7 +718,14 @@ export function RegistrationModal({
                       )}
                     />
                   </div>
-                  <div className="mt-8 flex justify-center">
+                  <div className="mt-8 flex justify-around">
+                    <Link
+                      href={"https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"}
+                      type="button"
+                      className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                    >
+                      Need Help ?
+                    </Link>
                     <button
                       type="button"
                       onClick={nextStep}
@@ -1028,71 +1042,231 @@ export function RegistrationModal({
                     />
                   </div>
                   {isTeam ? (
-                    <div className="mt-8 flex justify-between">
-                      <button
-                        type="button"
-                        onClick={prevStep}
-                        className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
-                      >
-                        <ChevronLeft size={18} />
-                        <span>BACK</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={nextStep}
-                        className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
-                      >
-                        <span>NEXT</span>
-                        <ChevronRight size={18} />
-                      </button>
-                    </div>
+                    <>
+                      <div className="mt-8 hidden flex-col items-center gap-4 md:flex md:flex-row md:justify-around">
+                        <button
+                          type="button"
+                          onClick={prevStep}
+                          className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                        >
+                          <ChevronLeft size={18} />
+                          <span>BACK</span>
+                        </button>
+                        <Link
+                          href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                          type="button"
+                          className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                        >
+                          Need Help ?
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={nextStep}
+                          disabled={isSubmitting}
+                          className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <svg
+                                className="mr-2 size-5 animate-spin text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                ></circle>
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                ></path>
+                              </svg>
+                              <span>SUBMITTING...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>SUBMIT</span>
+                              <ChevronRight size={18} />
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      <div className="mt-8 flex flex-col items-center gap-4 md:hidden md:flex-row md:justify-around">
+                        <div className="flex w-full items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={prevStep}
+                            className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                          >
+                            <ChevronLeft size={18} />
+                            <span>BACK</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={nextStep}
+                            disabled={isSubmitting}
+                            className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <svg
+                                  className="mr-2 size-5 animate-spin text-white"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  ></circle>
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  ></path>
+                                </svg>
+                                <span>SUBMITTING...</span>
+                              </>
+                            ) : (
+                              <>
+                                <span>SUBMIT</span>
+                                <ChevronRight size={18} />
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <Link
+                          href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                          type="button"
+                          className=" w-full space-x-2  rounded-lg bg-gray-700 px-6 py-3 text-center font-silkscreen text-white transition-all hover:bg-gray-600"
+                        >
+                          Need Help ?
+                        </Link>
+                      </div>
+                    </>
                   ) : (
-                    <div className="mt-8 flex justify-between">
-                      <button
-                        type="button"
-                        onClick={prevStep}
-                        className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
-                      >
-                        <ChevronLeft size={18} />
-                        <span>BACK</span>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={nextStep}
-                        className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <svg
-                              className="mr-2 size-5 animate-spin text-white"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                            >
-                              <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                              ></circle>
-                              <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                              ></path>
-                            </svg>
-                            <span>SUBMITTING...</span>
-                          </>
-                        ) : (
-                          <>
-                            <span>SUBMIT</span>
-                            <ChevronRight size={18} />
-                          </>
-                        )}
-                      </button>
-                    </div>
+                    <>
+                      <div className="mt-8 hidden flex-col items-center gap-4 md:flex md:flex-row md:justify-around">
+                        <button
+                          type="button"
+                          onClick={prevStep}
+                          className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                        >
+                          <ChevronLeft size={18} />
+                          <span>BACK</span>
+                        </button>
+                        <Link
+                          href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                          type="button"
+                          className="flex items-center space-x-2 rounded-lg bg-slate-800 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                        >
+                          Need Help ?
+                        </Link>
+                        <button
+                          type="button"
+                          onClick={nextStep}
+                          disabled={isSubmitting}
+                          className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <svg
+                                className="mr-2 size-5 animate-spin text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                              >
+                                <circle
+                                  className="opacity-25"
+                                  cx="12"
+                                  cy="12"
+                                  r="10"
+                                  stroke="currentColor"
+                                  strokeWidth="4"
+                                ></circle>
+                                <path
+                                  className="opacity-75"
+                                  fill="currentColor"
+                                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                ></path>
+                              </svg>
+                              <span>SUBMITTING...</span>
+                            </>
+                          ) : (
+                            <>
+                              <span>SUBMIT</span>
+                              <ChevronRight size={18} />
+                            </>
+                          )}
+                        </button>
+                      </div>
+                      <div className="mt-8 flex flex-col items-center gap-4 md:hidden md:flex-row md:justify-around">
+                        <div className="flex w-full items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={prevStep}
+                            className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                          >
+                            <ChevronLeft size={18} />
+                            <span>BACK</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={nextStep}
+                            disabled={isSubmitting}
+                            className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                          >
+                            {isSubmitting ? (
+                              <>
+                                <svg
+                                  className="mr-2 size-5 animate-spin text-white"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                  ></circle>
+                                  <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                  ></path>
+                                </svg>
+                                <span>SUBMITTING...</span>
+                              </>
+                            ) : (
+                              <>
+                                <span>SUBMIT</span>
+                                <ChevronRight size={18} />
+                              </>
+                            )}
+                          </button>
+                        </div>
+                        <Link
+                          href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                          type="button"
+                          className=" w-full space-x-2  rounded-lg bg-gray-700 px-6 py-3 text-center font-silkscreen text-white transition-all hover:bg-gray-600"
+                        >
+                          Need Help ?
+                        </Link>
+                      </div>
+                    </>
                   )}
                 </div>
               )}
@@ -1266,7 +1440,7 @@ export function RegistrationModal({
                       </div>
                     ))}
                   </div>
-                  <div className="mt-8 flex justify-between">
+                  <div className="center mt-8 hidden gap-4 md:flex md:flex-row md:justify-around">
                     <button
                       type="button"
                       onClick={prevStep}
@@ -1275,6 +1449,13 @@ export function RegistrationModal({
                       <ChevronLeft size={18} />
                       <span>BACK</span>
                     </button>
+                    <Link
+                      href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                      type="button"
+                      className="space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                    >
+                      Need Help ?
+                    </Link>
                     <button
                       type="button"
                       onClick={nextStep}
@@ -1312,6 +1493,62 @@ export function RegistrationModal({
                         </>
                       )}
                     </button>
+                  </div>
+                  <div className="mt-8 flex flex-col items-center gap-4 md:hidden md:flex-row md:justify-around">
+                    <div className="flex w-full items-center justify-between">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                      >
+                        <ChevronLeft size={18} />
+                        <span>BACK</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        disabled={isSubmitting}
+                        className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <svg
+                              className="mr-2 size-5 animate-spin text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
+                            </svg>
+                            <span>SUBMITTING...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>SUBMIT</span>
+                            <ChevronRight size={18} />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                    <Link
+                      href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+                      type="button"
+                      className=" w-full space-x-2  rounded-lg bg-gray-700 px-6 py-3 text-center font-silkscreen text-white transition-all hover:bg-gray-600"
+                    >
+                      Need Help ?
+                    </Link>
                   </div>
                 </div>
               )}

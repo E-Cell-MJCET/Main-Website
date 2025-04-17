@@ -7,6 +7,7 @@ import TimeLine1 from "@/components/hack-celerate/TimeLine1";
 import Cursor from "@/components/ui/cursor";
 import Footer from "@/components/hack-celerate/Footer";
 import TimelineMB from "@/components/hack-celerate/TimeLineMB";
+import GuidelinesRules from "@/components/hack-celerate/GuidelinesRules";
 
 export default function HackceleratePage() {
   return (
@@ -22,6 +23,9 @@ export default function HackceleratePage() {
       <div id="Timeline">
         <TimeLine1 />
         <TimelineMB />
+      </div>
+      <div id="Guidelines">
+        <GuidelinesRules />
       </div>
       <div id="FAQ">
         <FaqSection />
