@@ -21,6 +21,7 @@ import {
   Loader2,
 } from "lucide-react";
 import Link from "next/link";
+import { FaTasks } from "react-icons/fa";
 
 import {
   Dialog,
@@ -188,10 +189,13 @@ export function RegistrationModal({
 
   const nextStep = async () => {
     if (step === 1) {
+      setStep(2);
+    }
+    if (step === 2) {
       const teamFields = ["teamName", "team_type"];
       const teamValid = await form.trigger(teamFields as any);
-      if (teamValid) setStep(2);
-    } else if (step === 2) {
+      if (teamValid) setStep(3);
+    } else if (step === 3) {
       const leaderFields = [
         "leaderName",
         "college",
@@ -246,9 +250,9 @@ export function RegistrationModal({
             setIsSubmitting(false);
           });
       } else if (leaderValid) {
-        setStep(3);
+        setStep(4);
       }
-    } else if (step === 3) {
+    } else if (step === 4) {
       // Validate team members data
       const isValid = await form.trigger("members");
       if (!isValid) return;
@@ -285,12 +289,19 @@ export function RegistrationModal({
           setSubmissionStatus({
             success: true,
             message:
-              "Registration completed successfully! Your team has been registered for HACK-CELERATE.",
+              "Registration completed successfully! Your team has been registered for HackCelerate.",
           });
+          setTimeout(() => {
+            onOpenChange(false);
+          }, 3000);
         })
         .catch(() => {
           alert("Something went wrong try again!");
           setIsSubmitting(false);
+          setSubmissionStatus({
+            success: false,
+            message: "Registration failed. Please try again.",
+          });
         });
     }
   };
@@ -357,6 +368,44 @@ export function RegistrationModal({
               {/* Progress indicator */}
               {isTeam ? (
                 <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
+                  {[1, 2, 3, 4].map((stepNumber) => (
+                    <div
+                      key={stepNumber}
+                      className="flex flex-col items-center"
+                    >
+                      <div
+                        className={`flex size-10 items-center justify-center rounded-full border-2 
+                        ${
+                          step === stepNumber
+                            ? "border-white bg-gray-700 text-white"
+                            : step > stepNumber
+                              ? "border-gray-500 bg-gray-600 text-gray-300"
+                              : "border-gray-600 text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1 && <FileIcon size={18} />}
+                        {stepNumber === 2 && <FaTasks size={18} />}
+                        {stepNumber === 3 && <User size={18} />}
+                        {stepNumber === 4 && <Users size={18} />}
+                      </div>
+                      <span
+                        className={`mt-1 text-xs ${
+                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1
+                          ? "Guidelines"
+                          : stepNumber === 2
+                            ? "Team"
+                            : stepNumber === 3
+                              ? "Leader"
+                              : "Members"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
                   {[1, 2, 3].map((stepNumber) => (
                     <div
                       key={stepNumber}
@@ -372,9 +421,9 @@ export function RegistrationModal({
                               : "border-gray-600 text-gray-500"
                         }`}
                       >
-                        {stepNumber === 1 && <Users size={18} />}
-                        {stepNumber === 2 && <User size={18} />}
-                        {stepNumber === 3 && <School size={18} />}
+                        {stepNumber === 1 && <FileIcon size={18} />}
+                        {stepNumber === 2 && <FaTasks size={18} />}
+                        {stepNumber === 3 && <User size={18} />}
                       </div>
                       <span
                         className={`mt-1 text-xs ${
@@ -382,44 +431,10 @@ export function RegistrationModal({
                         }`}
                       >
                         {stepNumber === 1
-                          ? "Team"
+                          ? "Guidelines"
                           : stepNumber === 2
-                            ? "Leader"
-                            : "Members"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
-                  {[1, 2].map((stepNumber) => (
-                    <div
-                      key={stepNumber}
-                      className="flex flex-col items-center"
-                    >
-                      <div
-                        className={`flex size-10 items-center justify-center rounded-full border-2 
-                        ${
-                          step === stepNumber
-                            ? "border-white bg-gray-700 text-white"
-                            : step > stepNumber
-                              ? "border-gray-500 bg-gray-600 text-gray-300"
-                              : "border-gray-600 text-gray-500"
-                        }`}
-                      >
-                        {stepNumber === 1 && <Users size={18} />}
-                        {stepNumber === 2 && <User size={18} />}
-                      </div>
-                      <span
-                        className={`mt-1 text-xs ${
-                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
-                        }`}
-                      >
-                        {stepNumber === 1
-                          ? "Team"
-                          : stepNumber === 2
-                            ? "Leader"
-                            : "Members"}
+                            ? "Team"
+                            : "Leader"}
                       </span>
                     </div>
                   ))}
@@ -430,7 +445,7 @@ export function RegistrationModal({
                 <div
                   className="h-full bg-gray-400 transition-all duration-300"
                   style={{
-                    width: `${((step - 1) / (isTeam ? 2 : 1)) * 100}%`,
+                    width: `${((step - 1) / (isTeam ? 3 : 2)) * 100}%`,
                   }}
                 ></div>
               </div>
@@ -460,8 +475,174 @@ export function RegistrationModal({
                   </div>
                 </div>
               )}
-              {/* Step 1: Team Info */}
+              {/* Step 1: Guidelines */}
               {step === 1 && (
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <h3 className="font-silkscreen text-xl text-white">
+                      Guidelines & Instructions
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-400">
+                      Please read carefully before proceeding
+                    </p>
+                  </div>
+                  <div className="space-y-8">
+                    <div className="rounded-lg border-2 border-gray-600 bg-[#323232]/50 p-4">
+                      <h4 className="mb-4 font-silkscreen text-lg text-[#7BF1A7]">
+                        Abstract Submission Guidelines
+                      </h4>
+                      <ul className="space-y-3 text-gray-300">
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            1.
+                          </span>
+                          <span>
+                            <strong>Originality is Key:</strong> Submissions
+                            must present a fresh idea or solution—no reused or
+                            previously showcased work.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            2.
+                          </span>
+                          <span>
+                            <strong>Focus on Problem Solving:</strong> Clearly
+                            explain how your idea addresses a real-world problem
+                            with cost-effective, scalable solutions.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            3.
+                          </span>
+                          <span>
+                            <strong>No Code in Abstract:</strong> This is the
+                            ideation phase. Refrain from including any form of
+                            code.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            4.
+                          </span>
+                          <span>
+                            <strong>Workflow Visualization:</strong> Include a
+                            simple algorithm or flowchart outlining your
+                            solution.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            5.
+                          </span>
+                          <span>
+                            <strong>Tech Stack Transparency:</strong> Mention
+                            the tools, languages, platforms, or frameworks you
+                            plan to use.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="rounded-lg border-2 border-gray-600 bg-[#323232]/50 p-4">
+                      <h4 className="mb-4 font-silkscreen text-lg text-[#7BF1A7]">
+                        Team Specifications
+                      </h4>
+                      <ul className="space-y-3 text-gray-300">
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>Teams must consist of 1 to 6 members</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Cross-disciplinary teams welcome from any college or
+                            background
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Grand Finale will be held at a reputed company venue
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Travel and accommodation arrangements will be
+                            discussed for finalists
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="rounded-lg border-2 border-gray-600 bg-[#323232]/50 p-4">
+                      <h4 className="mb-4 font-silkscreen text-lg text-[#7BF1A7]">
+                        Registration Guidelines
+                      </h4>
+                      <ul className="space-y-3 text-gray-300">
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>One idea/abstract per team</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>Participants can only be part of one team</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Official PPT template must be used for submission
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Upon shortlisting for online round of Hackcelerate,
+                            teams will be charged Rs.70 per member and Rs. 100
+                            for solo participants
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Registration period: 17th April - 11th May 2025
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="mt-8 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={nextStep}
+                      className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                    >
+                      <span>NEXT</span>
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
+                </div>
+              )}
+              {/* Step 2: Team Info */}
+              {step === 2 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h3 className="font-silkscreen text-xl text-white">
@@ -542,8 +723,8 @@ export function RegistrationModal({
                   </div>
                 </div>
               )}
-              {/* Step 2: Team Leader Info */}
-              {step === 2 && (
+              {/* Step 3: Team Leader Info */}
+              {step === 3 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h3 className="font-silkscreen text-xl text-white">
@@ -914,8 +1095,8 @@ export function RegistrationModal({
                   )}
                 </div>
               )}
-              {/* Step 3: Team Members */}
-              {step === 3 && (
+              {/* Step 4: Team Members */}
+              {step === 4 && (
                 <div className="space-y-6">
                   <div className="text-center">
                     <h3 className="font-silkscreen text-xl text-white">

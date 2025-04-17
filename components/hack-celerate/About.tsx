@@ -18,7 +18,7 @@ const About = () => {
               Hackcelerate – Brought to you by E-Cell MJCET
             </p>
             <p className="text-lg text-gray-300">
-              In a world driven by ideas, it is not just about thinking big—it
+              In a world driven by ideas, it is not just about thinking big it
               is about building fast. As innovation becomes the currency of the
               future, the need for agile, impact-driven problem solvers is more
               important than ever. That’s where we come in.

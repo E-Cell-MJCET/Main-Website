@@ -10,6 +10,7 @@ import india from "../../public/assets/hack/india.png";
 import naac from "../../public/assets/hack/naac.png";
 import nba from "../../public/assets/hack/nba.png";
 import ou from "../../public/assets/hack/ou_logo.png";
+import light from "../../public/assets/Logo/light.png";
 
 const Footer = () => {
   const textRef = useRef<HTMLDivElement>(null);
@@ -114,6 +115,13 @@ const Footer = () => {
         </div>
         <Image
           src={mjcet}
+          className="h-20 w-fit justify-center md:hidden"
+          alt="MJCET"
+          width={1000}
+          height={1000}
+        />
+        <Image
+          src={light}
           className="h-20 w-fit justify-center md:hidden"
           alt="MJCET"
           width={1000}

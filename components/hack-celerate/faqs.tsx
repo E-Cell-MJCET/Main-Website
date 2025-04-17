@@ -24,12 +24,6 @@ const faqs = [
       "The hackathon is designed to bring together creative minds to solve real-world problems through innovation and collaboration. It's a platform to ideate, build, and present impactful solutions.",
   },
   {
-    id: "theme",
-    question: "What is the theme of the hackathon?",
-    answer:
-      "The hackathon follows an open innovation theme — participants are free to work on any project or problem statement of their choice.",
-  },
-  {
     id: "tracks",
     question: "Are there any specific tracks or domains?",
     answer:
@@ -77,6 +71,12 @@ const faqs = [
     question: "I'm from outside Hyderabad – can I still participate?",
     answer:
       "Yes! The online round is open to everyone, regardless of where you're from.",
+  },
+  {
+    id: "theme",
+    question: "⁠What is the theme of the hackathon?",
+    answer:
+      "The hackathon follows an open innovation theme — participants are free to work on any project or problem statement of their choice, provided it aligns with the broader intent of positive impact and responsible innovation.",
   },
   // {
   //   id: "registration-fee",

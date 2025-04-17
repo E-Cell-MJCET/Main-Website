@@ -2,10 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FaInstagram } from "react-icons/fa";
+import Image from "next/image";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
 
 import { RetroGrid } from "../ui/retro-grid";
+import github from "../../public/assets/Logo/github.png";
 
 import { RegistrationModal } from "./registration-modal";
 
@@ -91,6 +93,16 @@ export default function Hero() {
             </div>
           </div>
         </h6>
+        <div className="mt-2 flex items-end justify-end gap-5">
+          <h1 className="font-block text-3xl text-white">Powered by</h1>
+          <Image
+            src={github}
+            width={150}
+            height={150}
+            alt="Github Logo"
+            id="github"
+          />
+        </div>
       </div>
       {/* registration button */}
       <button
