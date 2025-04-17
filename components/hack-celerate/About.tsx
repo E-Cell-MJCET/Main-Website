@@ -1,6 +1,6 @@
 import React from "react";
-import { BsClockFill, BsLightbulbFill } from "react-icons/bs";
-import { FaFlagCheckered } from "react-icons/fa6";
+import { BsLightbulbFill } from "react-icons/bs";
+import { FaFlagCheckered, FaAward } from "react-icons/fa6";
 import { RiTeamFill } from "react-icons/ri";
 
 const About = () => {
@@ -47,9 +47,9 @@ const About = () => {
                 icon: <RiTeamFill className="size-8 text-[#7BF1A7]" />,
               },
               {
-                value: "24",
-                label: "Hours",
-                icon: <BsClockFill className="size-8 text-[#7BF1A7]" />,
+                value: "Win",
+                label: "Exciting Prizes",
+                icon: <FaAward className="size-8 text-[#7BF1A7]" />,
               },
               {
                 value: "3",

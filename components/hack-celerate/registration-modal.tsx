@@ -48,38 +48,6 @@ import { Team } from "@/types/TeamTypes";
 import { verifyEmail, verifyOTP } from "@/src/workers/verifyEmail";
 import resgiterNewTeam from "@/src/workers/register";
 
-const formSchema = z.object({
-  teamName: z.string().min(2, { message: "Team name is required" }),
-  numberOfParticipants: z
-    .string()
-    .min(1, { message: "Number of participants is required" }),
-  leaderName: z.string().min(2, { message: "Team leader name is required" }),
-  college: z.string().min(2, { message: "College name is required" }),
-  branch: z.string().min(2, { message: "Branch is required" }),
-  year: z.string().min(1, { message: "Year is required" }),
-  rollNo: z.string().min(1, { message: "Roll number is required" }),
-  mobileNo: z.string().min(10, { message: "Valid mobile number is required" }),
-  email: z.string().email({ message: "Valid email is required" }),
-  otp: z.string().length(6, { message: "OTP must be 6 digits" }).optional(),
-  abstract: z.instanceof(File).optional(),
-  team_type: z.string().min(1, { message: "Team type is required" }),
-  members: z
-    .array(
-      z.object({
-        name: z.string().min(2, { message: "Member name is required" }),
-        college: z.string().min(2, { message: "College name is required" }),
-        rollNo: z.string().min(1, { message: "Roll number is required" }),
-        phoneNo: z
-          .string()
-          .min(10, { message: "Valid mobile number is required" }),
-        email: z.string().email({ message: "Valid email is required" }),
-      })
-    )
-    .optional(),
-});
-
-type FormValues = z.infer<typeof formSchema>;
-
 interface RegistrationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -102,13 +70,50 @@ export function RegistrationModal({
     message: string;
   } | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const totalSteps = 3;
+
+  const formSchema = z.object({
+    teamName: z.string().min(2, { message: "Team name is required" }),
+    numberOfParticipants: z
+      .string()
+      .min(1, { message: "Number of participants is required" }),
+    leaderName: z.string().min(2, { message: "Team leader name is required" }),
+    college: z.string().min(2, { message: "College name is required" }),
+    branch: z.string().min(2, { message: "Branch is required" }),
+    year: z.string().min(1, { message: "Year is required" }),
+    rollNo: z.string().min(1, { message: "Roll number is required" }),
+    mobileNo: z
+      .string()
+      .min(10, { message: "Valid mobile number is required" }),
+    email: z.string().email({ message: "Valid email is required" }),
+    otp: z.string().length(6, { message: "OTP must be 6 digits" }).optional(),
+    abstract: z.instanceof(File).optional(),
+    team_type: z.string().min(1, { message: "Team type is required" }),
+    members: z
+      .array(
+        z.object({
+          name: z.string().min(2, { message: "Member name is required" }),
+          college: z.string().min(2, { message: "College name is required" }),
+          rollNo: z.string().min(1, { message: "Roll number is required" }),
+          phoneNo: z
+            .string()
+            .min(10, { message: "Valid mobile number is required" }),
+          email: z.string().email({ message: "Valid email is required" }),
+        })
+      )
+      .refine((val) => {
+        if (!isTeam) return true;
+
+        return val && val.length > 0;
+      }, "Team members are required for team registration"),
+  });
+
+  type FormValues = z.infer<typeof formSchema>;
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       teamName: "",
-      numberOfParticipants: "1",
+      numberOfParticipants: "",
       leaderName: "",
       college: "",
       branch: "",
@@ -181,79 +186,9 @@ export function RegistrationModal({
     });
   };
 
-  async function onSubmit(data: FormValues) {
-    if (isTeam) {
-      if (step !== 3) return;
-    }
-
-    setIsSubmitting(true);
-
-    const teamData: Omit<Team, "id" | "created_at"> = {
-      team_name: data.teamName,
-      no_of_participants: parseInt(data.numberOfParticipants),
-      team_leader_name: data.leaderName,
-      college: data.college,
-      branch: data.branch,
-      year: parseInt(data.year),
-      roll_no: data.rollNo,
-      phone_no: data.mobileNo,
-      email: data.email,
-      abstract: data.abstract!,
-      email_verified: emailVerified,
-      team_type: isTeam ? "team" : "solo",
-      team_members:
-        data.members?.map((m) => ({
-          name: m.name,
-          roll_no: m.rollNo,
-          phone_no: m.phoneNo,
-          email: m.email,
-          college: m.college,
-        })) || [],
-    };
-
-    console.log("Form data:", teamData);
-
-    //Send request here
-    await resgiterNewTeam(teamData)
-      .then(() => {
-        setIsSubmitting(false);
-        setSubmissionStatus({
-          success: true,
-          message:
-            "Registration completed successfully! Your team has been registered for HACK-CELERATE.",
-        });
-      })
-      .catch(() => {
-        alert("Something went wrong try again!");
-        setIsSubmitting(false);
-      });
-  }
-
-  const addMember = () => {
-    if (memberCount < 5) {
-      setMemberCount(memberCount + 1);
-      const currentMembers = form.getValues().members || [];
-      form.setValue("members", [
-        ...currentMembers,
-        { name: "", college: "", rollNo: "", phoneNo: "", email: "" },
-      ]);
-    }
-  };
-
-  const removeMember = () => {
-    if (memberCount > 1) {
-      setMemberCount(memberCount - 1);
-      const currentMembers = form.getValues().members || [];
-      form.setValue(
-        "members",
-        currentMembers.slice(0, currentMembers.length - 1)
-      );
-    }
-  };
-
   const nextStep = async () => {
     if (step === 1) {
-      const teamFields = ["teamName", "numberOfParticipants"];
+      const teamFields = ["teamName", "team_type"];
       const teamValid = await form.trigger(teamFields as any);
       if (teamValid) setStep(2);
     } else if (step === 2) {
@@ -275,16 +210,115 @@ export function RegistrationModal({
 
         return;
       }
-
       const leaderValid = await form.trigger(leaderFields as any);
-      if (leaderValid) setStep(3);
+
+      if (!isTeam && leaderValid) {
+        const data = form.getValues();
+        setIsSubmitting(true);
+
+        const teamData: Omit<Team, "id" | "created_at"> = {
+          team_name: data.teamName,
+          no_of_participants: 1,
+          team_leader_name: data.leaderName,
+          college: data.college,
+          branch: data.branch,
+          year: parseInt(data.year),
+          roll_no: data.rollNo,
+          phone_no: data.mobileNo,
+          email: data.email,
+          abstract: data.abstract!,
+          email_verified: emailVerified,
+          team_type: "solo",
+          team_members: [],
+        };
+
+        await resgiterNewTeam(teamData)
+          .then(() => {
+            setIsSubmitting(false);
+            setSubmissionStatus({
+              success: true,
+              message:
+                "Registration completed successfully! You have been registered for HACK-CELERATE.",
+            });
+          })
+          .catch(() => {
+            alert("Something went wrong try again!");
+            setIsSubmitting(false);
+          });
+      } else if (leaderValid) {
+        setStep(3);
+      }
     } else if (step === 3) {
-      form.handleSubmit(onSubmit)();
+      // Validate team members data
+      const isValid = await form.trigger("members");
+      if (!isValid) return;
+
+      const data = form.getValues();
+      setIsSubmitting(true);
+
+      const teamData: Omit<Team, "id" | "created_at"> = {
+        team_name: data.teamName,
+        no_of_participants: memberCount,
+        team_leader_name: data.leaderName,
+        college: data.college,
+        branch: data.branch,
+        year: parseInt(data.year),
+        roll_no: data.rollNo,
+        phone_no: data.mobileNo,
+        email: data.email,
+        abstract: data.abstract!,
+        email_verified: emailVerified,
+        team_type: "team",
+        team_members:
+          data.members?.map((m) => ({
+            name: m.name,
+            roll_no: m.rollNo,
+            phone_no: m.phoneNo,
+            email: m.email,
+            college: m.college,
+          })) || [],
+      };
+
+      await resgiterNewTeam(teamData)
+        .then(() => {
+          setIsSubmitting(false);
+          setSubmissionStatus({
+            success: true,
+            message:
+              "Registration completed successfully! Your team has been registered for HACK-CELERATE.",
+          });
+        })
+        .catch(() => {
+          alert("Something went wrong try again!");
+          setIsSubmitting(false);
+        });
     }
   };
 
   const prevStep = () => {
     if (step > 1) setStep(step - 1);
+  };
+
+  const addMember = () => {
+    if (memberCount < 5) {
+      setMemberCount(memberCount + 1);
+      const currentMembers = form.getValues().members || [];
+      form.setValue("members", [
+        ...currentMembers,
+        { name: "", college: "", rollNo: "", phoneNo: "", email: "" },
+      ]);
+    }
+  };
+
+  const removeMember = () => {
+    if (memberCount > 1) {
+      setMemberCount(memberCount - 1);
+      const currentMembers = form.getValues().members || [];
+      form.setValue(
+        "members",
+        currentMembers.slice(0, currentMembers.length - 1)
+      );
+    }
   };
 
   return (
@@ -375,7 +409,6 @@ export function RegistrationModal({
                       >
                         {stepNumber === 1 && <Users size={18} />}
                         {stepNumber === 2 && <User size={18} />}
-                        {/* {stepNumber === 3 && <School size={18} />} */}
                       </div>
                       <span
                         className={`mt-1 text-xs ${
@@ -396,7 +429,9 @@ export function RegistrationModal({
               <div className="mx-auto mt-4 h-1 w-full max-w-xs bg-gray-700">
                 <div
                   className="h-full bg-gray-400 transition-all duration-300"
-                  style={{ width: `${((step - 1) / (totalSteps - 1)) * 100}%` }}
+                  style={{
+                    width: `${((step - 1) / (isTeam ? 2 : 1)) * 100}%`,
+                  }}
                 ></div>
               </div>
             </div>
@@ -471,11 +506,8 @@ export function RegistrationModal({
                             <Select
                               onValueChange={(value) => {
                                 field.onChange(value);
-                                // Set memberCount to 1 for Solo, 2 for Team
-                                // setMemberCount(value === "solo" ? 1 : 2);
                                 setIsTeam(value === "team");
                               }}
-                              defaultValue={"team"}
                             >
                               <FormControl>
                                 <SelectTrigger className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500">
@@ -486,11 +518,7 @@ export function RegistrationModal({
                                 <SelectItem value="solo" className="text-white">
                                   Solo
                                 </SelectItem>
-                                <SelectItem
-                                  value="team"
-                                  className="text-white"
-                                  defaultChecked
-                                >
+                                <SelectItem value="team" className="text-white">
                                   Team
                                 </SelectItem>
                               </SelectContent>
@@ -847,9 +875,8 @@ export function RegistrationModal({
                         <span>BACK</span>
                       </button>
                       <button
-                        type="submit"
-                        onClick={form.handleSubmit(onSubmit)}
-                        disabled={isSubmitting}
+                        type="button"
+                        onClick={nextStep}
                         className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
                       >
                         {isSubmitting ? (
@@ -1067,8 +1094,8 @@ export function RegistrationModal({
                       <span>BACK</span>
                     </button>
                     <button
-                      type="submit"
-                      onClick={form.handleSubmit(onSubmit)}
+                      type="button"
+                      onClick={nextStep}
                       disabled={isSubmitting}
                       className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
                     >

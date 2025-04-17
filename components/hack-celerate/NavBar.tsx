@@ -14,6 +14,7 @@ import india from "../../public/assets/hack/india.png";
 import naac from "../../public/assets/hack/naac.png";
 import nba from "../../public/assets/hack/nba.png";
 import ou from "../../public/assets/hack/ou_logo.png";
+import light from "../../public/assets/Logo/light.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -149,6 +150,13 @@ export default function Navbar() {
           <Image
             src={mjcet}
             className="h-12 w-fit"
+            alt="MJCET"
+            width={1000}
+            height={1000}
+          />
+          <Image
+            src={light}
+            className="h-20 w-fit"
             alt="MJCET"
             width={1000}
             height={1000}
