@@ -2,8 +2,12 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FaInstagram } from "react-icons/fa";
-import { RegistrationModal } from "./registration-modal";
+
+import { useScrollLock } from "@/hooks/useScrollLock";
+
 import { RetroGrid } from "../ui/retro-grid";
+
+import { RegistrationModal } from "./registration-modal";
 
 export default function Hero() {
   const [days, setDays] = useState("00");
@@ -11,8 +15,16 @@ export default function Hero() {
   const [minutes, setMinutes] = useState("00");
   const [seconds, setSeconds] = useState("00");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useScrollLock(isModalOpen);
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add("overflow-y-hidden");
+    } else {
+      document.body.classList.remove("overflow-y-hidden");
+    }
+  }, [isModalOpen]);
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-05-11T00:00:00").getTime();
+  const targetDate = new Date("2025-05-12T00:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
@@ -80,50 +92,23 @@ export default function Hero() {
           </div>
         </h6>
       </div>
-      <div className="mb-5 text-center font-block text-4xl text-white">
-        Registrations Ends in
-      </div>
-      {/* Countdown Section */}
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
-        {[
-          { label: "DAYS", value: days },
-          { label: "HOURS", value: hours },
-          { label: "MINUTES", value: minutes },
-          { label: "SECONDS", value: seconds },
-        ].map((item, i) => (
-          <div
-            key={i}
-            className="rounded-xl bg-white/10 p-3 text-center backdrop-blur-sm"
-          >
-            <div className="text-xl font-medium text-white sm:text-2xl">
-              {item.value}
-            </div>
-            <div className="mt-1 text-xs tracking-wide text-gray-400">
-              {item.label}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {/* registration button */}
       <button
-        className="bg-white/10 text-[#E0F7FF] font-silkscreen rounded-xl 
-           text-lg sm:text-xl md:text-2xl 
-           px-6 py-3 sm:px-8 sm:py-4 
-           shadow-[4px_4px_#E0F7FF] 
+        className="rounded-xl bg-white/10 px-6 py-3 
+           font-silkscreen text-lg text-[#E0F7FF] 
+           shadow-[4px_4px_#E0F7FF] transition-all duration-200 ease-in-out 
            hover:shadow-[8px_8px_#E0F7FF] 
-           active:shadow-[2px_2px_#E0F7FF] 
            active:translate-y-1 
-           transition-all duration-200 ease-in-out"
+           active:shadow-[2px_2px_#E0F7FF] 
+           sm:px-8 
+           sm:py-4 sm:text-xl md:text-2xl"
         onClick={() => setIsModalOpen(true)}
       >
         Register Now
       </button>
-
       {/* Pass the modal state to the RegistrationModal component */}
       <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
-
-      <div className="mb-5 text-center font-block text-4xl text-white">
+      <div className="my-5 text-center font-block text-4xl text-white">
         Registrations Ends in
       </div>
       {/* Countdown Section */}

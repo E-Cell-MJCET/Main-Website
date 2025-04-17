@@ -20,7 +20,6 @@ import {
   Check,
   Loader2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -90,7 +89,6 @@ export function RegistrationModal({
   open,
   onOpenChange,
 }: RegistrationModalProps) {
-  const router = useRouter();
   const [memberCount, setMemberCount] = useState(1);
   const [step, setStep] = useState(1);
   const [isTeam, setIsTeam] = useState(true);
@@ -289,18 +287,13 @@ export function RegistrationModal({
     if (step > 1) setStep(step - 1);
   };
 
-  // Prevent scroll propagation to the background
-  const handleDialogContentClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
-
   return (
     <Dialog open={open} onOpenChange={onOpenChange} modal={true}>
       <DialogOverlay className="bg-black/50" />
       <DialogContent
         title="Hackcelerate Registration"
         className="max-w-[95vw] border-0 bg-transparent p-0 shadow-none md:max-w-4xl"
-        onClick={handleDialogContentClick}
+        onClick={(e) => e.stopPropagation()}
       >
         <DialogTitle>Hackcelerate</DialogTitle>
         <div className="relative rounded-xl border-2 border-gray-700 bg-[#282828] shadow-lg">
@@ -412,6 +405,7 @@ export function RegistrationModal({
             {/* This div now has the overflow-y-auto class for proper scrolling */}
             <form
               ref={contentRef}
+              onScroll={(e) => e.stopPropagation()}
               className="h-[60vh] overflow-y-auto px-6 py-8"
             >
               {/* Submission status message */}
