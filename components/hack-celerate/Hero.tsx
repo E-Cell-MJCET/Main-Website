@@ -12,7 +12,7 @@ export default function Hero() {
   const [seconds, setSeconds] = useState("00");
 
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-04-17T12:00:00").getTime();
+  const targetDate = new Date("2025-04-17T18:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
