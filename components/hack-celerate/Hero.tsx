@@ -12,7 +12,7 @@ export default function Hero() {
   const [seconds, setSeconds] = useState("00");
   const [isModalOpen, setIsModalOpen] = useState(false);
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-04-17T12:00:00").getTime();
+  const targetDate = new Date("2025-05-11T00:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
@@ -123,6 +123,30 @@ export default function Hero() {
       {/* Pass the modal state to the RegistrationModal component */}
       <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
 
+      <div className="mb-5 text-center font-block text-4xl text-white">
+        Registrations Ends in
+      </div>
+      {/* Countdown Section */}
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
+        {[
+          { label: "DAYS", value: days },
+          { label: "HOURS", value: hours },
+          { label: "MINUTES", value: minutes },
+          { label: "SECONDS", value: seconds },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="rounded-xl bg-white/10 p-3 text-center backdrop-blur-sm"
+          >
+            <div className="text-xl font-medium text-white sm:text-2xl">
+              {item.value}
+            </div>
+            <div className="mt-1 text-xs tracking-wide text-gray-400">
+              {item.label}
+            </div>
+          </div>
+        ))}
+      </div>
       {/* Follow us section */}
       <div className="mt-20 flex flex-col items-center space-y-3">
         <p className="text-center font-silkscreen text-xl tracking-wide text-white">
