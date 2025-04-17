@@ -12,7 +12,7 @@ export default function Hero() {
   const [seconds, setSeconds] = useState("00");
 
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-04-17T12:00:00").getTime();
+  const targetDate = new Date("2025-05-11T00:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
@@ -79,7 +79,7 @@ export default function Hero() {
         </h6>
       </div>
       <div className="mb-5 text-center font-block text-4xl text-white">
-        Registrations Opens in
+        Registrations Ends in
       </div>
       {/* Countdown Section */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
