@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useState, useEffect, useRef } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -15,12 +14,21 @@ import {
   Users,
   User,
   Laptop,
+  File as FileIcon,
   School,
   Mail,
   Check,
   Loader2,
 } from "lucide-react";
-import { Dialog, DialogContent, DialogOverlay } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogOverlay,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -37,7 +45,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useRouter } from "next/navigation";
+import { Team } from "@/types/TeamTypes";
+import { verifyEmail, verifyOTP } from "@/src/workers/verifyEmail";
+import resgiterNewTeam from "@/src/workers/register";
 
 const formSchema = z.object({
   teamName: z.string().min(2, { message: "Team name is required" }),
@@ -52,12 +62,18 @@ const formSchema = z.object({
   mobileNo: z.string().min(10, { message: "Valid mobile number is required" }),
   email: z.string().email({ message: "Valid email is required" }),
   otp: z.string().length(6, { message: "OTP must be 6 digits" }).optional(),
+  abstract: z.instanceof(File).optional(),
+  team_type: z.string().min(1, { message: "Team type is required" }),
   members: z
     .array(
       z.object({
         name: z.string().min(2, { message: "Member name is required" }),
         college: z.string().min(2, { message: "College name is required" }),
         rollNo: z.string().min(1, { message: "Roll number is required" }),
+        phoneNo: z
+          .string()
+          .min(10, { message: "Valid mobile number is required" }),
+        email: z.string().email({ message: "Valid email is required" }),
       })
     )
     .optional(),
@@ -77,6 +93,7 @@ export function RegistrationModal({
   const router = useRouter();
   const [memberCount, setMemberCount] = useState(1);
   const [step, setStep] = useState(1);
+  const [isTeam, setIsTeam] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [sendingOtp, setSendingOtp] = useState(false);
@@ -102,7 +119,17 @@ export function RegistrationModal({
       mobileNo: "",
       email: "",
       otp: "",
-      members: [{ name: "", college: "", rollNo: "" }],
+      team_type: "",
+      abstract: undefined,
+      members: [
+        {
+          name: "",
+          college: "",
+          rollNo: "",
+          phoneNo: "",
+          email: "",
+        },
+      ],
     },
   });
 
@@ -114,6 +141,7 @@ export function RegistrationModal({
         setEmailVerified(false);
         setShowOtpField(false);
         setSubmissionStatus(null);
+        setIsTeam(true);
         form.reset();
       }, 300);
     }
@@ -127,57 +155,80 @@ export function RegistrationModal({
     if (!isValid) return;
 
     setSendingOtp(true);
-
-    // Simulate API call to send OTP
-    setTimeout(() => {
+    await verifyEmail(email).then(() => {
       setSendingOtp(false);
       setShowOtpField(true);
       // In a real application, you would send the OTP to the user's email
       console.log(`OTP sent to: ${email}`);
-    }, 1500);
+    });
   };
 
   // Function to verify OTP
-  const verifyOTP = async () => {
+  const handleVerifyOTP = async () => {
     const otp = form.getValues("otp");
     if (!otp || otp.length !== 6) {
       form.setError("otp", { message: "Please enter a valid 6-digit OTP" });
+
       return;
     }
 
     setVerifyingOtp(true);
 
-    // Simulate API call to verify OTP
-    setTimeout(() => {
+    await verifyOTP(form.getValues("email"), otp).then(() => {
       setVerifyingOtp(false);
       setEmailVerified(true);
       setShowOtpField(false);
       // In a real application, you would verify the OTP with your backend
       console.log(`OTP verified: ${otp}`);
-    }, 1500);
+    });
   };
 
-  function onSubmit(data: FormValues) {
-    if (step !== 3) return;
+  async function onSubmit(data: FormValues) {
+    if (isTeam) {
+      if (step !== 3) return;
+    }
 
     setIsSubmitting(true);
-    console.log("Form data:", data);
 
-    // Simulate sending data to Supabase
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmissionStatus({
-        success: true,
-        message:
-          "Registration completed successfully! Your team has been registered for HACK-CELERATE.",
+    const teamData: Omit<Team, "id" | "created_at"> = {
+      team_name: data.teamName,
+      no_of_participants: parseInt(data.numberOfParticipants),
+      team_leader_name: data.leaderName,
+      college: data.college,
+      branch: data.branch,
+      year: parseInt(data.year),
+      roll_no: data.rollNo,
+      phone_no: data.mobileNo,
+      email: data.email,
+      abstract: data.abstract!,
+      email_verified: emailVerified,
+      team_type: isTeam ? "team" : "solo",
+      team_members:
+        data.members?.map((m) => ({
+          name: m.name,
+          roll_no: m.rollNo,
+          phone_no: m.phoneNo,
+          email: m.email,
+          college: m.college,
+        })) || [],
+    };
+
+    console.log("Form data:", teamData);
+
+    //Send request here
+    await resgiterNewTeam(teamData)
+      .then(() => {
+        setIsSubmitting(false);
+        setSubmissionStatus({
+          success: true,
+          message:
+            "Registration completed successfully! Your team has been registered for HACK-CELERATE.",
+        });
+      })
+      .catch(() => {
+        alert("Something went wrong try again!");
+        setIsSubmitting(false);
       });
-
-      // Close modal after showing success message
-      setTimeout(() => {
-        onOpenChange(false);
-        router.push("/");
-      }, 3000);
-    }, 2000);
   }
 
   const addMember = () => {
@@ -186,7 +237,7 @@ export function RegistrationModal({
       const currentMembers = form.getValues().members || [];
       form.setValue("members", [
         ...currentMembers,
-        { name: "", college: "", rollNo: "" },
+        { name: "", college: "", rollNo: "", phoneNo: "", email: "" },
       ]);
     }
   };
@@ -223,6 +274,7 @@ export function RegistrationModal({
         form.setError("email", {
           message: "Please verify your email before proceeding",
         });
+
         return;
       }
 
@@ -246,18 +298,19 @@ export function RegistrationModal({
     <Dialog open={open} onOpenChange={onOpenChange} modal={true}>
       <DialogOverlay className="bg-black/50" />
       <DialogContent
+        title="Hackcelerate Registration"
         className="max-w-[95vw] border-0 bg-transparent p-0 shadow-none md:max-w-4xl"
         onClick={handleDialogContentClick}
       >
+        <DialogTitle>Hackcelerate</DialogTitle>
         <div className="relative rounded-xl border-2 border-gray-700 bg-[#282828] shadow-lg">
           {/* Close button */}
           <button
             onClick={() => onOpenChange(false)}
-            className="absolute right-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-[#282828] text-white transition-all hover:bg-gray-700"
+            className="absolute right-4 top-4 z-10 flex size-8 items-center justify-center rounded-full bg-[#282828] text-white transition-all hover:bg-gray-700"
           >
             <X size={18} />
           </button>
-
           {/* Header */}
           <div className="relative bg-[#323232] px-6 py-8 text-center">
             <div className="absolute inset-0 opacity-30">
@@ -268,19 +321,22 @@ export function RegistrationModal({
               </div>
             </div>
             <div className="relative">
-              <h2 className="font-silkscreen text-3xl text-white md:text-4xl">
-                HACK<span className="text-gray-300">-CELERATE</span>
+              <h2 className="font-silkscreen text-3xl text-[#7BF1A7] md:text-4xl">
+                HACK<span className="text-gray-300">CELERATE</span>
               </h2>
               <p className="mt-2 font-silkscreen text-gray-300">
                 TEAM REGISTRATION
               </p>
-
               {/* Progress indicator */}
-              <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
-                {[1, 2, 3].map((stepNumber) => (
-                  <div key={stepNumber} className="flex flex-col items-center">
+              {isTeam ? (
+                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
+                  {[1, 2, 3].map((stepNumber) => (
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-full border-2 
+                      key={stepNumber}
+                      className="flex flex-col items-center"
+                    >
+                      <div
+                        className={`flex size-10 items-center justify-center rounded-full border-2 
                         ${
                           step === stepNumber
                             ? "border-white bg-gray-700 text-white"
@@ -288,24 +344,61 @@ export function RegistrationModal({
                               ? "border-gray-500 bg-gray-600 text-gray-300"
                               : "border-gray-600 text-gray-500"
                         }`}
-                    >
-                      {stepNumber === 1 && <Users size={18} />}
-                      {stepNumber === 2 && <User size={18} />}
-                      {stepNumber === 3 && <School size={18} />}
+                      >
+                        {stepNumber === 1 && <Users size={18} />}
+                        {stepNumber === 2 && <User size={18} />}
+                        {stepNumber === 3 && <School size={18} />}
+                      </div>
+                      <span
+                        className={`mt-1 text-xs ${
+                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1
+                          ? "Team"
+                          : stepNumber === 2
+                            ? "Leader"
+                            : "Members"}
+                      </span>
                     </div>
-                    <span
-                      className={`mt-1 text-xs ${step >= stepNumber ? "text-gray-300" : "text-gray-500"}`}
+                  ))}
+                </div>
+              ) : (
+                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
+                  {[1, 2].map((stepNumber) => (
+                    <div
+                      key={stepNumber}
+                      className="flex flex-col items-center"
                     >
-                      {stepNumber === 1
-                        ? "Team"
-                        : stepNumber === 2
-                          ? "Leader"
-                          : "Members"}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
+                      <div
+                        className={`flex size-10 items-center justify-center rounded-full border-2 
+                        ${
+                          step === stepNumber
+                            ? "border-white bg-gray-700 text-white"
+                            : step > stepNumber
+                              ? "border-gray-500 bg-gray-600 text-gray-300"
+                              : "border-gray-600 text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1 && <Users size={18} />}
+                        {stepNumber === 2 && <User size={18} />}
+                        {/* {stepNumber === 3 && <School size={18} />} */}
+                      </div>
+                      <span
+                        className={`mt-1 text-xs ${
+                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1
+                          ? "Team"
+                          : stepNumber === 2
+                            ? "Leader"
+                            : "Members"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
               {/* Progress line */}
               <div className="mx-auto mt-4 h-1 w-full max-w-xs bg-gray-700">
                 <div
@@ -315,7 +408,6 @@ export function RegistrationModal({
               </div>
             </div>
           </div>
-
           <Form {...form}>
             {/* This div now has the overflow-y-auto class for proper scrolling */}
             <form
@@ -333,13 +425,12 @@ export function RegistrationModal({
                 >
                   <div className="flex items-center justify-center">
                     {submissionStatus.success && (
-                      <Check className="mr-2 h-5 w-5" />
+                      <Check className="mr-2 size-5" />
                     )}
                     <p className="font-medium">{submissionStatus.message}</p>
                   </div>
                 </div>
               )}
-
               {/* Step 1: Team Info */}
               {step === 1 && (
                 <div className="space-y-6">
@@ -351,7 +442,6 @@ export function RegistrationModal({
                       Tell us about your team
                     </p>
                   </div>
-
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
@@ -369,7 +459,7 @@ export function RegistrationModal({
                                 className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                               />
                             </FormControl>
-                            <Users className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                            <Users className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                           </div>
                           <FormMessage className="text-red-400" />
                         </FormItem>
@@ -377,45 +467,47 @@ export function RegistrationModal({
                     />
                     <FormField
                       control={form.control}
-                      name="numberOfParticipants"
+                      name="team_type"
                       render={({ field }) => (
                         <FormItem className="space-y-2">
                           <FormLabel className="font-silkscreen text-gray-300">
-                            Number of Participants
+                            Type of Team
                           </FormLabel>
                           <div className="relative">
                             <Select
                               onValueChange={(value) => {
                                 field.onChange(value);
-                                setMemberCount(Number.parseInt(value));
+                                // Set memberCount to 1 for Solo, 2 for Team
+                                // setMemberCount(value === "solo" ? 1 : 2);
+                                setIsTeam(value === "team");
                               }}
-                              defaultValue={field.value}
+                              defaultValue={"team"}
                             >
                               <FormControl>
                                 <SelectTrigger className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500">
-                                  <SelectValue placeholder="Select number" />
+                                  <SelectValue placeholder="Select team type" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent className="border-gray-700 bg-[#323232]">
-                                {[1, 2, 3, 4, 5].map((num) => (
-                                  <SelectItem
-                                    key={num}
-                                    value={num.toString()}
-                                    className="text-white"
-                                  >
-                                    {num}
-                                  </SelectItem>
-                                ))}
+                                <SelectItem value="solo" className="text-white">
+                                  Solo
+                                </SelectItem>
+                                <SelectItem
+                                  value="team"
+                                  className="text-white"
+                                  defaultChecked
+                                >
+                                  Team
+                                </SelectItem>
                               </SelectContent>
                             </Select>
-                            <Users className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                            <Users className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                           </div>
                           <FormMessage className="text-red-400" />
                         </FormItem>
                       )}
                     />
                   </div>
-
                   <div className="mt-8 flex justify-center">
                     <button
                       type="button"
@@ -428,7 +520,6 @@ export function RegistrationModal({
                   </div>
                 </div>
               )}
-
               {/* Step 2: Team Leader Info */}
               {step === 2 && (
                 <div className="space-y-6">
@@ -440,7 +531,6 @@ export function RegistrationModal({
                       Information about the team leader
                     </p>
                   </div>
-
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <FormField
                       control={form.control}
@@ -458,13 +548,12 @@ export function RegistrationModal({
                                 className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                               />
                             </FormControl>
-                            <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                            <User className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                           </div>
                           <FormMessage className="text-red-400" />
                         </FormItem>
                       )}
                     />
-
                     {/* Email field with verification */}
                     <FormField
                       control={form.control}
@@ -489,20 +578,20 @@ export function RegistrationModal({
                                   className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500 disabled:opacity-80"
                                 />
                               </FormControl>
-                              <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                              <Mail className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                               {emailVerified && (
-                                <Check className="absolute right-3 top-1/2 h-5 w-5 -translate-y-1/2 text-green-400" />
+                                <Check className="absolute right-3 top-1/2 size-5 -translate-y-1/2 text-green-400" />
                               )}
                             </div>
                             {!emailVerified && (
                               <button
                                 type="button"
                                 onClick={handleSendOTP}
-                                disabled={sendingOtp || showOtpField}
+                                disabled={sendingOtp}
                                 className="rounded bg-gray-700 px-3 py-2 text-sm font-medium text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
                               >
                                 {sendingOtp ? (
-                                  <Loader2 className="h-4 w-4 animate-spin" />
+                                  <Loader2 className="size-4 animate-spin" />
                                 ) : showOtpField ? (
                                   "Resend"
                                 ) : (
@@ -515,7 +604,6 @@ export function RegistrationModal({
                         </FormItem>
                       )}
                     />
-
                     {/* OTP verification field - shows only when needed */}
                     {showOtpField && !emailVerified && (
                       <div className="col-span-1 md:col-span-2">
@@ -540,13 +628,13 @@ export function RegistrationModal({
                                 </div>
                                 <button
                                   type="button"
-                                  onClick={verifyOTP}
+                                  onClick={handleVerifyOTP}
                                   disabled={verifyingOtp}
                                   className="rounded bg-gray-700 px-4 py-2 text-sm font-medium text-white hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
                                 >
                                   {verifyingOtp ? (
                                     <div className="flex items-center">
-                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                      <Loader2 className="mr-2 size-4 animate-spin" />
                                       Verifying
                                     </div>
                                   ) : (
@@ -564,7 +652,6 @@ export function RegistrationModal({
                         />
                       </div>
                     )}
-
                     <FormField
                       control={form.control}
                       name="mobileNo"
@@ -605,7 +692,7 @@ export function RegistrationModal({
                                 className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                               />
                             </FormControl>
-                            <School className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                            <School className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                           </div>
                           <FormMessage className="text-red-400" />
                         </FormItem>
@@ -627,7 +714,7 @@ export function RegistrationModal({
                                 className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                               />
                             </FormControl>
-                            <Laptop className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                            <Laptop className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                           </div>
                           <FormMessage className="text-red-400" />
                         </FormItem>
@@ -695,30 +782,117 @@ export function RegistrationModal({
                         </FormItem>
                       )}
                     />
+                    <FormField
+                      control={form.control}
+                      name="abstract"
+                      render={({
+                        field: { value, onChange, ...fieldProps },
+                      }) => (
+                        <FormItem className="space-y-2">
+                          <FormLabel className="font-silkscreen text-gray-300">
+                            Abstract (PPTX)
+                          </FormLabel>
+                          <div className="relative">
+                            <FormControl>
+                              <Input
+                                accept=".pptx, .ppt"
+                                type="file"
+                                {...fieldProps}
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    onChange(file);
+                                  }
+                                }}
+                                className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500 dark:text-white"
+                              />
+                            </FormControl>
+                            <FileIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          </div>
+                          <Link
+                            href={
+                              "https://drive.google.com/drive/folders/1nf3CylHOaykjmq5VRlnnNYFPTfFjAimk?usp=sharing"
+                            }
+                            target="_blank"
+                            className="font-block text-xl text-white underline"
+                          >
+                            Download the template
+                          </Link>
+                          <FormMessage className="text-red-400" />
+                        </FormItem>
+                      )}
+                    />
                   </div>
-
-                  <div className="mt-8 flex justify-between">
-                    <button
-                      type="button"
-                      onClick={prevStep}
-                      className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
-                    >
-                      <ChevronLeft size={18} />
-                      <span>BACK</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={nextStep}
-                      className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
-                    >
-                      <span>NEXT</span>
-                      <ChevronRight size={18} />
-                    </button>
-                  </div>
+                  {isTeam ? (
+                    <div className="mt-8 flex justify-between">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                      >
+                        <ChevronLeft size={18} />
+                        <span>BACK</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={nextStep}
+                        className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600"
+                      >
+                        <span>NEXT</span>
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="mt-8 flex justify-between">
+                      <button
+                        type="button"
+                        onClick={prevStep}
+                        className="flex items-center space-x-2 rounded-lg border-2 border-gray-600 bg-transparent px-6 py-3 font-silkscreen text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700"
+                      >
+                        <ChevronLeft size={18} />
+                        <span>BACK</span>
+                      </button>
+                      <button
+                        type="submit"
+                        onClick={form.handleSubmit(onSubmit)}
+                        disabled={isSubmitting}
+                        className="flex items-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <svg
+                              className="mr-2 size-5 animate-spin text-white"
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                            >
+                              <circle
+                                className="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                strokeWidth="4"
+                              ></circle>
+                              <path
+                                className="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                              ></path>
+                            </svg>
+                            <span>SUBMITTING...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>SUBMIT</span>
+                            <ChevronRight size={18} />
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
-
               {/* Step 3: Team Members */}
               {step === 3 && (
                 <div className="space-y-6">
@@ -730,7 +904,6 @@ export function RegistrationModal({
                       Add your team members (up to 5)
                     </p>
                   </div>
-
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="font-silkscreen text-gray-300">
@@ -741,7 +914,7 @@ export function RegistrationModal({
                           type="button"
                           onClick={removeMember}
                           disabled={memberCount <= 1}
-                          className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-600 text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="flex size-8 items-center justify-center rounded-full border-2 border-gray-600 text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <Minus size={16} />
                         </button>
@@ -752,14 +925,13 @@ export function RegistrationModal({
                           type="button"
                           onClick={addMember}
                           disabled={memberCount >= 5}
-                          className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-600 text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
+                          className="flex size-8 items-center justify-center rounded-full border-2 border-gray-600 text-gray-300 transition-all hover:border-gray-500 hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                           <Plus size={16} />
                         </button>
                       </div>
                     </div>
                   </div>
-
                   <div className="space-y-6">
                     {Array.from({ length: memberCount }).map((_, index) => (
                       <div
@@ -789,7 +961,7 @@ export function RegistrationModal({
                                       className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                                     />
                                   </FormControl>
-                                  <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                                  <User className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                                 </div>
                                 <FormMessage className="text-red-400" />
                               </FormItem>
@@ -811,7 +983,7 @@ export function RegistrationModal({
                                       className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
                                     />
                                   </FormControl>
-                                  <School className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                                  <School className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
                                 </div>
                                 <FormMessage className="text-red-400" />
                               </FormItem>
@@ -841,11 +1013,56 @@ export function RegistrationModal({
                               </FormItem>
                             )}
                           />
+                          <FormField
+                            control={form.control}
+                            name={`members.${index}.phoneNo`}
+                            render={({ field }) => (
+                              <FormItem className="space-y-2">
+                                <FormLabel className="font-silkscreen text-gray-300">
+                                  Phone Number
+                                </FormLabel>
+                                <div className="relative">
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Enter phone number"
+                                      {...field}
+                                      className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
+                                    />
+                                  </FormControl>
+                                  <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                                    #
+                                  </div>
+                                </div>
+                                <FormMessage className="text-red-400" />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`members.${index}.email`}
+                            render={({ field }) => (
+                              <FormItem className="space-y-2">
+                                <FormLabel className="font-silkscreen text-gray-300">
+                                  Email
+                                </FormLabel>
+                                <div className="relative">
+                                  <FormControl>
+                                    <Input
+                                      placeholder="Enter email"
+                                      {...field}
+                                      className="border-2 border-gray-600 bg-[#323232] pl-10 text-white focus:border-gray-500"
+                                    />
+                                  </FormControl>
+                                  <Mail className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-gray-400" />
+                                </div>
+                                <FormMessage className="text-red-400" />
+                              </FormItem>
+                            )}
+                          />
                         </div>
                       </div>
                     ))}
                   </div>
-
                   <div className="mt-8 flex justify-between">
                     <button
                       type="button"
@@ -855,7 +1072,6 @@ export function RegistrationModal({
                       <ChevronLeft size={18} />
                       <span>BACK</span>
                     </button>
-
                     <button
                       type="submit"
                       onClick={form.handleSubmit(onSubmit)}
@@ -865,7 +1081,7 @@ export function RegistrationModal({
                       {isSubmitting ? (
                         <>
                           <svg
-                            className="mr-2 h-5 w-5 animate-spin text-white"
+                            className="mr-2 size-5 animate-spin text-white"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
                             viewBox="0 0 24 24"

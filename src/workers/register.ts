@@ -21,19 +21,24 @@ const uploadAbstract = async (file: File, email: string) => {
 
     const encodedKey = file.name.replace(/\s+/g, "");
 
+    // Convert File to Buffer
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
     const uploadParams = {
       Bucket: "hackcelerate",
       Key: `abstracts/${email}/${encodedKey}`,
-      Body: file,
+      Body: buffer, // Use buffer instead of file directly
       ContentType: file.type,
     };
 
     const command = new PutObjectCommand(uploadParams);
     await s3Client.send(command);
 
-    const s3Link = `https://${
-      uploadParams.Bucket
-    }.s3.amazonaws.com/${encodeURIComponent(uploadParams.Key)}`;
+    const s3Link = `https://${uploadParams.Bucket}.s3.amazonaws.com/${encodeURIComponent(
+      uploadParams.Key
+    )}`;
+    console.log("File uploaded successfully:", s3Link);
 
     return s3Link;
   } catch (error) {
@@ -44,7 +49,7 @@ const uploadAbstract = async (file: File, email: string) => {
 
 const sendTeamDataSupabase = async (teamData: Team, abstract_url: string) => {
   try {
-    const { data } = await supabase.from("hackcelerate").insert([
+    const { data, error } = await supabase.from("hackcelerate").insert([
       {
         team_name: teamData.team_name,
         no_of_participants: teamData.no_of_participants,
@@ -55,12 +60,47 @@ const sendTeamDataSupabase = async (teamData: Team, abstract_url: string) => {
         roll_no: teamData.roll_no,
         phone_no: teamData.phone_no,
         email: teamData.email,
-        team_members: JSON.stringify(teamData.team_members),
+
+        tm1_name: teamData.team_members?.[0]?.name || null,
+        tm1_rollno: teamData.team_members?.[0]?.roll_no || null,
+        tm1_college: teamData.team_members?.[0]?.college || null,
+        tm1_email: teamData.team_members?.[0]?.email || null,
+        tm1_phoneno: teamData.team_members?.[0]?.phone_no || null,
+
+        tm2_name: teamData.team_members?.[1]?.name || null,
+        tm2_rollno: teamData.team_members?.[1]?.roll_no || null,
+        tm2_college: teamData.team_members?.[1]?.college || null,
+        tm2_email: teamData.team_members?.[1]?.email || null,
+        tm2_phoneno: teamData.team_members?.[1]?.phone_no || null,
+
+        tm3_name: teamData.team_members?.[2]?.name || null,
+        tm3_rollno: teamData.team_members?.[2]?.roll_no || null,
+        tm3_college: teamData.team_members?.[2]?.college || null,
+        tm3_email: teamData.team_members?.[2]?.email || null,
+        tm3_phoneno: teamData.team_members?.[2]?.phone_no || null,
+
+        tm4_name: teamData.team_members?.[3]?.name || null,
+        tm4_rollno: teamData.team_members?.[3]?.roll_no || null,
+        tm4_college: teamData.team_members?.[3]?.college || null,
+        tm4_email: teamData.team_members?.[3]?.email || null,
+        tm4_phoneno: teamData.team_members?.[3]?.phone_no || null,
+
+        tm5_name: teamData.team_members?.[4]?.name || null,
+        tm5_rollno: teamData.team_members?.[4]?.roll_no || null,
+        tm5_college: teamData.team_members?.[4]?.college || null,
+        tm5_email: teamData.team_members?.[4]?.email || null,
+        tm5_phoneno: teamData.team_members?.[4]?.phone_no || null,
+
         abstract: abstract_url,
-        email_verified: true,
+        email_verified: teamData.email_verified,
+        team_type: teamData.team_type,
       },
     ]);
     console.log("Data inserted successfully:", data);
+    if (error) {
+      console.error("Error inserting data:", error);
+      throw error;
+    }
   } catch (error) {
     console.error("Error inserting data:", error);
     throw error;
@@ -79,6 +119,7 @@ const sendTeamLeaderData = async (teamData: Team) => {
         branch: teamData.branch,
         year: teamData.year,
         email: teamData.email,
+        team_type: teamData.team_type,
       },
     ]);
     console.log("Team leader data inserted successfully:", data);

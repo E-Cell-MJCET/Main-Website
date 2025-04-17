@@ -1,5 +1,4 @@
 export interface Team {
-  id: string;
   team_name: string;
   no_of_participants: number;
   team_leader_name: string;
@@ -10,8 +9,8 @@ export interface Team {
   phone_no: string;
   email: string;
   team_members: TeamMember[];
-  created_at: string;
   abstract: File;
+  team_type: string;
   email_verified: boolean;
 }
 
