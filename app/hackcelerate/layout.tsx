@@ -13,7 +13,7 @@ export const metadata = {
     url: "https://www.ecellmjcet.com/hackcelerate", 
     type: "website",
     image:
-      "https://ecellmjcet.com/assets/hackcel_banner site.png", 
+      "https://ecellmjcet.com/assets/hackcel_banner_site.png", 
   },
   twitter: {
     card: "summary_large_image",
@@ -22,7 +22,7 @@ export const metadata = {
     description:
       "Build, innovate, and launch your ideas at Hackcelerate 2025 — E-Cell MJCET's flagship hackathon for developers, designers, and aspiring entrepreneurs.",
     image:
-      "https://ecellmjcet.com/assets/hackcel_banner site.png", 
+      "https://ecellmjcet.com/assets/hackcel_banner_site.png", 
   },
   structuredData: {
     "@context": "https://schema.org",
@@ -43,7 +43,7 @@ export const metadata = {
         addressCountry: "IN",
       },
     },
-    image: "https://ecellmjcet.com/assets/hackcel_banner site.png",
+    image: "https://ecellmjcet.com/assets/hackcel_banner_site.png",
     description:
       "Hackcelerate 2025 is a national-level hackathon organized by E-Cell MJCET, where innovation meets execution. Participants build tech solutions with the potential to scale into impactful startups.",
     organizer: {
