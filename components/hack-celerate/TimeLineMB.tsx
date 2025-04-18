@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { ReactNode, useEffect, useRef } from "react";
 import {
   FaCalendarAlt,
   FaRegLightbulb,
@@ -25,7 +25,7 @@ type CardPosition = "left" | "right";
 type TimelineCardProps = {
   date: string;
   title: string;
-  description: string;
+  description: ReactNode;
   color: CardColor;
   icon: CardIcon;
   position: CardPosition;
@@ -251,9 +251,15 @@ const TIMELINE_DATA = [
     dayNumber: "5",
   },
   {
-    date: "24th/31st May",
+    date: "31st May",
     title: "Final Round",
-    description: "Present your projects to the judges",
+    description: (
+      <>
+        Present your projects to the judges
+        <br />
+        Venue: Microsoft India Development Center (IDC), Hyderabad
+      </>
+    ),
     color: "purple" as CardColor,
     icon: "final" as CardIcon,
     dayNumber: "6",
