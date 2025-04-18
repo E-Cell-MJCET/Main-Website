@@ -25,8 +25,8 @@ export const metadata = {
     images: [
       {
         url: "https://ecellmjcet.com/assets/hackcel_banner_site.png",
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 700,
         alt: "Ecell MJCET Hackcelerate 2025",
       }
     ]
