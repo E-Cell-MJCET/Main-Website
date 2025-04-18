@@ -13,7 +13,23 @@ export const metadata = {
     url: "https://www.ecellmjcet.com/hackcelerate", 
     type: "website",
     image:
-      "https://ecellmjcet.com/assets/hackcel_banner_site.png", 
+    "https://ecellmjcet.com/assets/hackcel_banner_site.png", 
+  },
+  openGraph: {
+    title: "Hackcelerate 2025 | Tech Innovation Hackathon by E-Cell MJCET",
+    description:
+      "Join Hackcelerate 2025, the ultimate student hackathon by E-Cell MJCET, where innovation meets execution. Collaborate, code, and create real-world solutions with startup potential.",
+    url: "https://www.ecellmjcet.com/hackcelerate", 
+    type: "website",
+    siteName: "Ecell MJCET",
+    images: [
+      {
+        url: "https://ecellmjcet.com/assets/hackcel_banner_site.png",
+        width: 800,
+        height: 600,
+        alt: "Ecell MJCET Hackcelerate 2025",
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
