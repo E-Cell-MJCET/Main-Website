@@ -1,3 +1,4 @@
+"use client";
 import About from "@/components/hack-celerate/About";
 import FaqSection from "@/components/hack-celerate/faqs";
 import Hero from "@/components/hack-celerate/Hero";
@@ -8,32 +9,53 @@ import Cursor from "@/components/ui/cursor";
 import Footer from "@/components/hack-celerate/Footer";
 import TimelineMB from "@/components/hack-celerate/TimeLineMB";
 import GuidelinesRules from "@/components/hack-celerate/GuidelinesRules";
+import { useState } from "react";
+import Preloader from "@/components/hack-celerate/preloader";
+import { motion, AnimatePresence } from "framer-motion";
+// import { Preloader } from "@/components/hack-celerate/preloader";
 
 export default function HackceleratePage() {
+  const [loading, setLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setLoading(false);
+  };
   return (
     <div className="bg-[#121212] ">
       <Cursor />
-      <Navbar />
-      <div id="Home">
-        <Hero />
-      </div>
-      <div id="About">
-        <About />
-      </div>
-      <div id="Timeline">
-        <TimeLine1 />
-        <TimelineMB />
-      </div>
-      <div id="Guidelines">
-        <GuidelinesRules />
-      </div>
-      <div id="FAQ">
-        <FaqSection />
-      </div>
-      <div id="Contact">
-        <SponsorUs />
-      </div>
-      <Footer />
+      <Preloader onLoadingComplete={handleLoadingComplete} />
+      <AnimatePresence>
+        {!loading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <Navbar />
+            <div id="Home">
+              <Hero />
+            </div>
+            <div id="About">
+              <About />
+            </div>
+            <div id="Timeline">
+              <TimeLine1 />
+              <TimelineMB />
+            </div>
+            <div id="Guidelines">
+              <GuidelinesRules />
+            </div>
+            <div id="FAQ">
+              <FaqSection />
+            </div>
+            <div id="Contact">
+              <SponsorUs />
+            </div>
+            <Footer />
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* </Preloader> */}
     </div>
   );
 }
