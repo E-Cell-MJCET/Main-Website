@@ -27,7 +27,7 @@ export default function Hero() {
   }, [isModalOpen]);
   // Target date: April 17th, 2025
   const targetDate = new Date("2025-05-12T00:00:00").getTime();
-  
+
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
     const difference = targetDate - now;
