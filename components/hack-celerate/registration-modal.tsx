@@ -553,7 +553,7 @@ export function RegistrationModal({
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •
                           </span>
-                          <span>Teams must consist of 1 to 6 members</span>
+                          <span>Teams must consist of 1 to 6 members.</span>
                         </li>
                         <li className="flex items-start">
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
@@ -561,7 +561,7 @@ export function RegistrationModal({
                           </span>
                           <span>
                             Cross-disciplinary teams welcome from any college or
-                            background
+                            background.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -569,7 +569,8 @@ export function RegistrationModal({
                             •
                           </span>
                           <span>
-                            Grand Finale will be held at a reputed company venue
+                            Grand Finale will be held at Microsoft IDC,
+                            Hyderabad Campus.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -578,7 +579,7 @@ export function RegistrationModal({
                           </span>
                           <span>
                             Travel and accommodation arrangements will be
-                            discussed for finalists
+                            discussed for finalists.
                           </span>
                         </li>
                       </ul>
@@ -592,20 +593,22 @@ export function RegistrationModal({
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •
                           </span>
-                          <span>One idea/abstract per team</span>
-                        </li>
-                        <li className="flex items-start">
-                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
-                            •
-                          </span>
-                          <span>Participants can only be part of one team</span>
+                          <span>One idea/abstract per team.</span>
                         </li>
                         <li className="flex items-start">
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •
                           </span>
                           <span>
-                            Official PPT template must be used for submission
+                            Participants can only be part of one team.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Official PPT template must be used for submission.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -615,7 +618,7 @@ export function RegistrationModal({
                           <span>
                             Upon shortlisting for online round of Hackcelerate,
                             teams will be charged Rs.70 per member and Rs. 100
-                            for solo participants
+                            for solo participants.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -623,7 +626,7 @@ export function RegistrationModal({
                             •
                           </span>
                           <span>
-                            Registration period: 17th April - 11th May 2025
+                            Registration period: 17th April - 11th May 2025.
                           </span>
                         </li>
                       </ul>
