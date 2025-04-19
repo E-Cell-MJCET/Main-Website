@@ -16,6 +16,7 @@ export default function Preloader({ onLoadingComplete }: PreloaderProps) {
     const interval = setInterval(() => {
       setProgress((prevProgress) => {
         const newProgress = prevProgress + Math.random() * 3 + 1;
+
         return newProgress >= 100 ? 100 : newProgress;
       });
     }, 100);
@@ -85,7 +86,6 @@ export default function Preloader({ onLoadingComplete }: PreloaderProps) {
               </div>
             </div>
           </motion.div>
-
           {/* Progress bar container */}
           <motion.div
             className="relative h-1 w-64 overflow-hidden rounded-full bg-white/10 md:w-80"
@@ -101,7 +101,6 @@ export default function Preloader({ onLoadingComplete }: PreloaderProps) {
               transition={{ duration: 0.3, ease: "easeOut" }}
             />
           </motion.div>
-
           {/* Progress percentage */}
           <motion.div
             className="mt-4 font-silkscreen text-lg text-[#E0F7FF]"
@@ -111,7 +110,6 @@ export default function Preloader({ onLoadingComplete }: PreloaderProps) {
           >
             {Math.round(progress)}%
           </motion.div>
-
           {/* Loading text */}
           <motion.div
             className="mt-2 font-block text-sm text-white/70"
