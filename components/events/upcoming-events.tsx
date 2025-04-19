@@ -5,12 +5,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const UpcomingEvents = () => {
   const events = [
     {
-      title: "Hack Revolution 2025",
-      date: "January 05, 2025",
+      title: "Hack-Celerate",
+      date: "May 11, 2025",
       description:
-        "Ecell and CSI are back again with Hack Revolution . This 15-hour journey is all about pushing boundaries, where teams come together to build something meaningful from the ground up. It’s not just an event; it’s an experience that challenges you to innovate with purpose and passion.",
-      image: "/assets/events/hackrev.png", // replace with actual image URL
-      link: "https://hackrevolution.in",
+        "Hackcelerate 2025 by E-Cell MJCET is a high-energy tech hackathon that brings developers, designers, and entrepreneurs together to innovate, solve real-world problems, and build scalable, revenue-generating solutions.",
+      image: "/assets/hackcel_banner_site.png", // replace with actual image URL
+      link: "https://ecellmjcet.com/hackcelerate",
     },
   ];
 

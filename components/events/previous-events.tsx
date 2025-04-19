@@ -5,6 +5,22 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const PreviousEvents = () => {
   const events = [
     {
+      title: "IPL Auction 2025",
+      date: "April 10, 2025",
+      description:
+        "The IPL Auction 2025 was an exciting event that brought together students in an intense battle of strategy and wit. The auction lasted for three thrilling hours, with each moment filled with suspense and excitement. A total of 16 teams participated, each vying for the best players while managing their resources, trying to put together the perfect squad within a fixed budget of Rs. 100 crores.",
+      image: "/assets/events/ipl25.jpg",
+      link: "#",
+    },
+    {
+      title: "Hack Revolution 2025",
+      date: "January 05, 2025",
+      description:
+        "Ecell and CSI are back again with Hack Revolution . This 15-hour journey is all about pushing boundaries, where teams come together to build something meaningful from the ground up. It’s not just an event; it’s an experience that challenges you to innovate with purpose and passion.",
+      image: "/assets/events/hackrev.png", // replace with actual image URL
+      link: "https://hackrevolution.in",
+    },
+    {
       title: "Beyond The Bench",
       date: "December 03, 2024",
       description:
