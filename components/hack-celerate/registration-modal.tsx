@@ -274,7 +274,11 @@ export function RegistrationModal({
             });
           })
           .catch(() => {
-            alert("Something went wrong try again!");
+            setSubmissionStatus({
+              success: false,
+              message:
+                "Registration failed check the error message, Please try again Or contact us.",
+            });
             setIsSubmitting(false);
           });
       } else if (leaderValid) {
@@ -328,7 +332,8 @@ export function RegistrationModal({
           setIsSubmitting(false);
           setSubmissionStatus({
             success: false,
-            message: "Registration failed. Please try again.",
+            message:
+              "Registration failed check the error message, Please try again Or contact us.",
           });
         });
     }
@@ -471,7 +476,7 @@ export function RegistrationModal({
               {/* Progress line */}
               <div className="mx-auto mt-4 h-1 w-full max-w-xs bg-gray-700">
                 <div
-                  className="h-full bg-gray-400 transition-all duration-300"
+                  className="h-full rounded-full bg-[#7BF1A7] transition-all duration-300"
                   style={{
                     width: `${((step - 1) / (isTeam ? 3 : 2)) * 100}%`,
                   }}
@@ -637,6 +642,15 @@ export function RegistrationModal({
                           </span>
                           <span>
                             Official PPT template must be used for submission.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Hardware participants kindly contact the organisers
+                            before submission.
                           </span>
                         </li>
                         <li className="flex items-start">

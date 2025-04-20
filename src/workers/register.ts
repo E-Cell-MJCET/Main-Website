@@ -1,4 +1,5 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { toast } from "sonner";
 
 import { Team } from "@/types/TeamTypes";
 import { supabase } from "@/utils/supabase";
@@ -42,6 +43,7 @@ const uploadAbstract = async (file: File, email: string) => {
 
     return s3Link;
   } catch (error) {
+    toast.error("Error uploading abstract: " + error);
     console.error("Error uploading file to S3:", error);
     throw error;
   }
@@ -99,6 +101,7 @@ const sendTeamDataSupabase = async (teamData: Team, abstract_url: string) => {
     console.log("Data inserted successfully:", data);
     if (error) {
       console.error("Error inserting data:", error);
+      toast.error("Error inserting data: " + error.message);
       throw error;
     }
   } catch (error) {
@@ -109,7 +112,7 @@ const sendTeamDataSupabase = async (teamData: Team, abstract_url: string) => {
 
 const sendTeamLeaderData = async (teamData: Team) => {
   try {
-    const { data } = await supabase.from("hackcelerate_leader").insert([
+    const { data, error } = await supabase.from("hackcelerate_leader").insert([
       {
         team_name: teamData.team_name,
         name: teamData.team_leader_name,
@@ -122,6 +125,11 @@ const sendTeamLeaderData = async (teamData: Team) => {
         team_type: teamData.team_type,
       },
     ]);
+    if (error) {
+      console.error("Error inserting team leader data:", error);
+      toast.error("Error inserting team leader data: " + error.message);
+      throw error;
+    }
     console.log("Team leader data inserted successfully:", data);
   } catch (error) {
     console.error("Error inserting team leader data:", error);
