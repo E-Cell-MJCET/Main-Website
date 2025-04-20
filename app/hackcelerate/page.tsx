@@ -9,10 +9,9 @@ import Navbar from "@/components/hack-celerate/NavBar";
 import SponsorUs from "@/components/hack-celerate/sponsor-contact-us";
 import Cursor from "@/components/ui/cursor";
 import Footer from "@/components/hack-celerate/Footer";
-import TimelineMB from "@/components/hack-celerate/TimeLineMB";
 import GuidelinesRules from "@/components/hack-celerate/GuidelinesRules";
 import Preloader from "@/components/hack-celerate/preloader";
-import TimeLine1 from "@/components/hack-celerate/TimeLine1";
+import TimelineNW from "@/components/hack-celerate/Tmnw.tsx";
 
 // import { Preloader } from "@/components/hack-celerate/preloader";
 
@@ -42,8 +41,7 @@ export default function HackceleratePage() {
               <About />
             </div>
             <div id="Timeline">
-              <TimeLine1 />
-              <TimelineMB />
+              <TimelineNW />
             </div>
             <div id="Guidelines">
               <GuidelinesRules />
