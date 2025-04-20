@@ -11,7 +11,7 @@ import Cursor from "@/components/ui/cursor";
 import Footer from "@/components/hack-celerate/Footer";
 import GuidelinesRules from "@/components/hack-celerate/GuidelinesRules";
 import Preloader from "@/components/hack-celerate/preloader";
-import TimelineNW from "@/components/hack-celerate/Tmnw.tsx";
+import TimelineNW from "@/components/hack-celerate/Tmnw";
 
 // import { Preloader } from "@/components/hack-celerate/preloader";
 
