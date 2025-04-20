@@ -87,7 +87,34 @@ export function RegistrationModal({
       .min(10, { message: "Valid mobile number is required" }),
     email: z.string().email({ message: "Valid email is required" }),
     otp: z.string().length(6, { message: "OTP must be 6 digits" }).optional(),
-    abstract: z.instanceof(File).optional(),
+    abstract: z
+      .custom<File>()
+      .refine((file) => file instanceof File, {
+        message: "Abstract is required",
+      })
+      .refine(
+        (file) => {
+          if (!file) return false;
+
+          return [
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            "application/vnd.ms-powerpoint",
+          ].includes(file.type);
+        },
+        {
+          message: "Only .ppt and .pptx files are allowed",
+        }
+      )
+      .refine(
+        (file) => {
+          if (!file) return false;
+
+          return file.size <= 10 * 1024 * 1024; // 10MB limit
+        },
+        {
+          message: "File size must be less than 10MB",
+        }
+      ),
     team_type: z.string().min(1, { message: "Team type is required" }),
     members: z
       .array(
@@ -204,6 +231,7 @@ export function RegistrationModal({
         "rollNo",
         "mobileNo",
         "email",
+        "abstract",
       ];
 
       // Email must be verified before proceeding
@@ -246,7 +274,11 @@ export function RegistrationModal({
             });
           })
           .catch(() => {
-            alert("Something went wrong try again!");
+            setSubmissionStatus({
+              success: false,
+              message:
+                "Registration failed check the error message, Please try again Or contact us.",
+            });
             setIsSubmitting(false);
           });
       } else if (leaderValid) {
@@ -300,7 +332,8 @@ export function RegistrationModal({
           setIsSubmitting(false);
           setSubmissionStatus({
             success: false,
-            message: "Registration failed. Please try again.",
+            message:
+              "Registration failed check the error message, Please try again Or contact us.",
           });
         });
     }
@@ -443,7 +476,7 @@ export function RegistrationModal({
               {/* Progress line */}
               <div className="mx-auto mt-4 h-1 w-full max-w-xs bg-gray-700">
                 <div
-                  className="h-full bg-gray-400 transition-all duration-300"
+                  className="h-full rounded-full bg-[#7BF1A7] transition-all duration-300"
                   style={{
                     width: `${((step - 1) / (isTeam ? 3 : 2)) * 100}%`,
                   }}
@@ -609,6 +642,15 @@ export function RegistrationModal({
                           </span>
                           <span>
                             Official PPT template must be used for submission.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
+                            Hardware participants kindly contact the organisers
+                            before submission.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -1029,6 +1071,9 @@ export function RegistrationModal({
                               />
                             </FormControl>
                             <FileIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          </div>
+                          <div className="text-sm text-gray-400">
+                            Max file size: 10MB. Allowed formats: .ppt, .pptx
                           </div>
                           <Link
                             href={

@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 import { supabase } from "@/utils/supabase";
 
 export const verifyEmail = async (email: string) => {
@@ -10,6 +12,7 @@ export const verifyEmail = async (email: string) => {
   });
   if (error) {
     console.error("Error sending OTP:", error);
+    toast.error("Error sending OTP: " + error.message);
     throw error;
   }
 };
@@ -22,6 +25,7 @@ export const verifyOTP = async (email: string, otp: string) => {
   });
   if (error) {
     console.error("Error verifying OTP:", error);
+    toast.error("Error verifying OTP: " + error.message);
     throw error;
   }
 };
