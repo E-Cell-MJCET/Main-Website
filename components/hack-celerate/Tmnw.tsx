@@ -5,6 +5,7 @@ import { BsMegaphone } from 'react-icons/bs';
 import { FaUserPlus, FaUserSlash, FaQuestionCircle } from 'react-icons/fa';
 import { BiCodeAlt } from 'react-icons/bi';
 import { AiOutlineTrophy } from 'react-icons/ai';
+import Link from 'next/link';
 
 // Types
 type CardColor = 'emerald' | 'teal';
@@ -23,7 +24,7 @@ const TIMELINE_DATA: TimelineItem[] = [
   {
     date: "14th April",
     title: "Announcement",
-    description: "Hackcelerate officially announced",
+    description: "Hackcelerate is officially live!",
     color: "emerald" as CardColor,
     icon: "announcement" as CardIcon,
     dayNumber: "1",
@@ -31,7 +32,7 @@ const TIMELINE_DATA: TimelineItem[] = [
   {
     date: "17th April",
     title: "Registrations Open",
-    description: "Start submitting your applications and abstracts",
+    description: "Submit your applications and project abstracts",
     color: "teal" as CardColor,
     icon: "register-open" as CardIcon,
     dayNumber: "2",
@@ -39,7 +40,13 @@ const TIMELINE_DATA: TimelineItem[] = [
   {
     date: "11th May",
     title: "Registrations Close",
-    description: "Last day to register your team",
+    description: (
+      <>
+        Last day to register your team
+        <br />
+        (Shortlisting will follow immediately)
+      </>
+    ),
     color: "emerald" as CardColor,
     icon: "register-close" as CardIcon,
     dayNumber: "3",
@@ -47,7 +54,7 @@ const TIMELINE_DATA: TimelineItem[] = [
   {
     date: "14th May",
     title: "Quiz",
-    description: "Test your technical knowledge",
+    description: "Test your knowledge — attendance is mandatory to qualify",
     color: "teal" as CardColor,
     icon: "quiz" as CardIcon,
     dayNumber: "4",
@@ -58,6 +65,8 @@ const TIMELINE_DATA: TimelineItem[] = [
     description: (
       <>
         Build your project in 24 hours
+        <br />
+        Build your project from scratch — collaborate virtually via <strong><Link href={"https://discord.com/download"} style={{ fontWeight: '900' }} >Discord</Link></strong>
       </>
     ),
     color: "emerald" as CardColor,
@@ -69,9 +78,9 @@ const TIMELINE_DATA: TimelineItem[] = [
     title: "Final Round",
     description: (
       <>
-        Present your projects to the judges
+        Pitch your project to top industry judges
         <br />
-        Venue: Microsoft India Development Center (IDC), Hyderabad
+        Venue: Microsoft India Development Center (IDC), Hyderabad
       </>
     ),
     color: "teal" as CardColor,
