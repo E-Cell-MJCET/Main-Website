@@ -163,7 +163,7 @@ export default function Hero() {
       </div>
       <div className="mt-20 flex flex-col items-center space-y-3 md:-mb-36">
         <p className="text-center font-silkscreen text-2xl tracking-wide text-white md:text-3xl">
-          Cash prizes will be announced soon
+          Win exciting cash prizes and more
         </p>
       </div>
     </section>
