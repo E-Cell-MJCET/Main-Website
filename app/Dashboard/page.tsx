@@ -350,134 +350,160 @@ return;
     };
   })();
 
-// Handle account registration
-const handleRegisterAccount = async () => {
-  setIsProcessing(true);
-  setRegistrationStatus({ success: false, message: "", show: false });
-  
-  try {
-    // Get session data
-    const sessionData = localStorage.getItem('ecellSession');
-    if (!sessionData) {
+  // Handle account registration
+  const handleRegisterAccount = async () => {
+    try {
       setRegistrationStatus({
+        show: false,
         success: false,
-        message: "Session not found. Please log in again.",
-        show: true
+        message: ""
       });
-      setIsProcessing(false);
-
-      return;
-    }
-    
-    const session = JSON.parse(sessionData);
-    const userId = session.userId;
-    const userEmail = session.email;
-    
-    // Generate a username from email
-    const username = generateUniqueUsername();
-    
-    // Check if user already exists in Team table
-    const { data: existingUser, error: checkError } = await supabase
-      .from("Team")
-      .select("*")
-      .eq("email", userEmail)
-      .single();
-    
-    if (checkError && checkError.code !== 'PGRST116') {
-      console.error("Error checking existing user:", checkError);
-      setRegistrationStatus({
-        success: false,
-        message: "Error checking user registration status.",
-        show: true
-      });
-      setIsProcessing(false);
-
-      return;
-    }
-    
-    if (existingUser) {
-      // User exists, update their data
-      const { error: updateError } = await supabase
+      
+      // Get session data
+      const sessionData = localStorage.getItem('ecellSession');
+      if (!sessionData) {
+        toast.error("Session expired. Please login again");
+        handleLogout();
+        
+        return;
+      }
+      
+      const session = JSON.parse(sessionData);
+      const userId = session.userId;
+      const userEmail = session.email;
+      
+      // Check if user already exists in Team table
+      const { data: existingUser, error: userCheckError } = await supabase
         .from("Team")
+        .select("*")
+        .eq("email", userEmail);
+      
+      if (userCheckError) {
+        console.error("Error checking user:", userCheckError);
+        toast.error("Failed to check user status");
+
+        return;
+      }
+      
+      // Get member data from PermittedMembers
+      const { data: memberData, error: memberError } = await supabase
+        .from("PermittedMembers")
+        .select("*")
+        .eq("email", userEmail)
+        .single();
+      
+      if (memberError || !memberData) {
+        console.error("Error fetching member data:", memberError);
+        toast.error("Failed to fetch member data");
+        
+        return;
+      }
+      
+      let result;
+      
+      if (existingUser && existingUser.length > 0) {
+        // Update existing user
+        const { error: updateError } = await supabase
+          .from("Team")
+          .update({
+            custom_auth_userID: userId,
+            avatar: session.avatar || memberData.avatar || null,
+            last_login: new Date().toISOString()
+          })
+          .eq("email", userEmail);
+        
+        if (updateError) {
+          console.error("Error updating user:", updateError);
+          toast.error("Failed to update registration");
+
+          return;
+        }
+        
+        result = "updated";
+      } else {
+        // Create new user
+        const { error: insertError } = await supabase
+          .from("Team")
+          .insert({
+            email: userEmail,
+            custom_auth_userID: userId,
+            // name: memberData.name || userEmail.split('@')[0],
+            // Member_Type: memberData.Member_Type || "Associate",
+            // Portfolio: memberData.Portfolio || "General",
+            last_login: new Date().toISOString()
+          });
+        
+        if (insertError) {
+          console.error("Error creating user:", insertError);
+          toast.error("Failed to complete registration");
+
+          return;
+        }
+        
+        result = "created";
+      }
+      
+      // Update PermittedMembers to mark as registered
+      const { error: updateMemberError } = await supabase
+        .from("PermittedMembers")
         .update({
-          custom_auth_userID: userId,
-          Username: username,
-          // Use updated_at instead of last_updated
-          updated_at: new Date().toISOString()
+          signedUp: true,
+          signup_date: new Date().toISOString()
         })
         .eq("email", userEmail);
       
-      if (updateError) {
-        console.error("Error updating user:", updateError);
-        setRegistrationStatus({
-          success: false,
-          message: "Failed to update registration. Please try again.",
-          show: true
-        });
-        setIsProcessing(false);
-
-        return;
+      if (updateMemberError) {
+        console.error("Error updating member status:", updateMemberError);
       }
       
-      setRegistrationStatus({
-        success: true,
-        message: "Registration updated successfully!",
-        show: true
-      });
-    } else {
-      // User doesn't exist, create new entry
-      const { error: insertError } = await supabase
-        .from("Team")
-        .insert({
-          custom_auth_userID: userId,
-          email: userEmail,
-          Username: username,
-          // Use created_at and updated_at instead of last_updated
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-          // Set Profile_Data_Created to true
-          Profile_Data_Created: true
-        });
-      
-      if (insertError) {
-        console.error("Error creating user:", insertError);
-        setRegistrationStatus({
-          success: false,
-          message: "Failed to complete registration. Please try again.",
-          show: true
-        });
-        setIsProcessing(false);
-
-        return;
-      }
-      
-      setRegistrationStatus({
-        success: true,
-        message: "Registration completed successfully!",
-        show: true
-      });
-      
-      // Update registration status
+      // Set user as registered
       setIsRegistered(true);
-      setUserProfileStat(true);
+      
+      // Send registration success email using the API route
+      try {
+        console.log(`Sending registration success email to ${userEmail}`);
+        
+        const response = await fetch('/api/registration-success-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: userEmail
+          }),
+        });
+        
+        const emailResult = await response.json();
+        
+        if (emailResult.success) {
+          console.log("Registration success email sent successfully");
+        } else {
+          console.error("Failed to send registration success email:", emailResult.error);
+        }
+      } catch (emailError) {
+        console.error("Error sending registration success email:", emailError);
+      }
+      
+      // Show success message
+      setRegistrationStatus({
+        show: true,
+        success: true,
+        message: result === "created" 
+          ? "Account registered successfully! You now have full access to all features."
+          : "Account registration updated successfully!"
+      });
+      
+      // Fetch updated user data
+      await fetchUserData(userId);
+    } catch (error) {
+      console.error("Registration error:", error);
+      setRegistrationStatus({
+        show: true,
+        success: false,
+        message: "Failed to register account. Please try again later."
+      });
     }
-    
-    // Fetch updated user data
-    await fetchUserData(userId);
-    
-    // Show success toast
-    toast.success("Account registered successfully!");
-  } catch (error) {
-    console.error("Error during registration:", error);
-    setRegistrationStatus({
-      success: false,
-      message: "An unexpected error occurred. Please try again.",
-      show: true
-    });
-  } finally {
-    setIsProcessing(false);
-  }
-};
+  };
 
   // Sidebar navigation items
   const navItems = [
@@ -918,8 +944,8 @@ const handleRegisterAccount = async () => {
         reader.readAsDataURL(file);
       }
     };
-    
-  // Send OTP
+   
+    // Send OTP
   const handleSendOtpClick = async () => {
     setLocalAuthError("");
     setIsProcessing(true);
@@ -953,10 +979,10 @@ const handleRegisterAccount = async () => {
       
       // Check if user has already signed up (for signup mode) or not signed up (for login mode)
       const { data: memberData, error: memberError } = await supabase
-      .from("PermittedMembers")
-      .select("signedUp")
-      .eq("email", normalizedEmail)
-      .single();
+        .from("PermittedMembers")
+        .select("signedUp")
+        .eq("email", normalizedEmail)
+        .single();
 
       if (authMode === 'signup') {
         // For signup: Check if already signed up
@@ -1005,10 +1031,35 @@ const handleRegisterAccount = async () => {
       // Update parent state with validated email
       setEmail(localEmail);
       
-      // In a real app, you would send this OTP to the user's email
-      // For development purposes only
-      console.log(`OTP for ${normalizedEmail}: ${generatedOTP}`);
-      toast.success("OTP sent successfully! Check console for development purposes");
+      // Send OTP email using the API route instead of direct client-side call
+      try {
+        console.log(`Sending OTP email to ${normalizedEmail} with code: ${generatedOTP}`);
+        
+        const response = await fetch('/api/otp-email-sender', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: normalizedEmail,
+            otp: generatedOTP
+          }),
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          console.log("Email sent successfully");
+          toast.success("OTP sent successfully! Please check your email");
+        } else {
+          throw new Error(result.error || 'Failed to send email');
+        }
+      } catch (emailError) {
+        console.error("Error sending email:", emailError);
+        // Still continue even if email fails, since we're showing OTP in console for development
+        toast.success("OTP sent successfully! Check console for development purposes");
+        console.log(`OTP for ${normalizedEmail}: ${generatedOTP}`);
+      }
       
       // Important: Set this state to true to show OTP input UI
       setLocalOtpSent(true);
