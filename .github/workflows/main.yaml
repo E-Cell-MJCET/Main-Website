@@ -6,6 +6,7 @@ on:
       - dev
       - test
       - main
+      - build/likeAnything
   pull_request:
     branches:
       - dev
