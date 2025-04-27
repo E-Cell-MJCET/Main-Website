@@ -31,6 +31,11 @@ import { toast, Toaster } from "react-hot-toast";
 
 import { supabase } from "@/utils/supabase";
 import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/MainDashboard";
+import Events from "@/components/AdvanceProfile/Dashboard/Events";
+import Team from "@/components/AdvanceProfile/Dashboard/Team";
+import Profile_Themes from "@/components/AdvanceProfile/Dashboard/ProfileThemes";
+import ProfileDashboard from "@/components/AdvanceProfile/Dashboard/ProfileDashboard";
+import UserPagePrefrences_Dashboard from "@/components/AdvanceProfile/Dashboard/CompleteUserPagePrefrences";
 
 // Session duration in milliseconds (36 hours)
 const SESSION_DURATION = 36 * 60 * 60 * 1000;
@@ -73,7 +78,12 @@ const DashboardPage = () => {
   // Session tracking
   const [lastLogin, setLastLogin] = useState<string | null>(null);
   const [loginLocation, setLoginLocation] = useState<string | null>(null);
-
+  const sessionData = localStorage.getItem("ecellSession");
+  let userId: string | null = null;
+  if (sessionData) {
+    const session = JSON.parse(sessionData);
+    userId = session.userId;
+  }
   // Check authentication status on mount
   useEffect(() => {
     const checkAuth = async () => {
@@ -91,13 +101,17 @@ const DashboardPage = () => {
         if (sessionData) {
           const session = JSON.parse(sessionData);
           const now = new Date().getTime();
+          userId = session.userId;
 
           // Check if session is still valid
           if (session && session.expiry > now) {
+            console.log("Session is valid:", session);
             setIsSignedIn(true);
             setEmail(session.email);
             setLastLogin(new Date(session.loginTime).toLocaleString());
             setLoginLocation(session.ipLocation || "Unknown location");
+            setIsPermittedMember(true);
+            setIsRegistered(true);
 
             // Check if user's email is permitted and fetch avatar
             const normalizedEmail = session.email.trim().toLowerCase();
@@ -121,7 +135,7 @@ const DashboardPage = () => {
                 localStorage.setItem("ecellSession", JSON.stringify(session));
               }
             } else {
-              setIsPermittedMember(false);
+              // setIsPermittedMember(false);
               setShowPermissionModal(true);
             }
 
@@ -277,6 +291,12 @@ const DashboardPage = () => {
 
     // Initial check
     checkIfMobile();
+
+    const sessionData = localStorage.getItem("ecellSession");
+    if (sessionData) {
+      const session = JSON.parse(sessionData);
+      userId = session.userId;
+    }
 
     // Add event listener
     window.addEventListener("resize", checkIfMobile);
@@ -607,15 +627,15 @@ const DashboardPage = () => {
       case "dashboard":
         return <Main_Dashboard />;
       case "events":
-        return <div>Events</div>;
+        return <Events user_id={userId} />;
       case "profile":
-        return <div>Profile</div>;
+        return <ProfileDashboard userId={userId} />;
       case "team":
-        return <div>Team</div>;
+        return <Team />;
       case "theme":
-        return <div>Theme</div>;
+        return <Profile_Themes userId={userId} />;
       case "forms":
-        return <div>Forms</div>;
+        return <UserPagePrefrences_Dashboard userId={userId} />;
       case "settings":
         return (
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
