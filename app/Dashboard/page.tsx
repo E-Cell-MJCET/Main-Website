@@ -407,8 +407,8 @@ return;
           .from("Team")
           .update({
             custom_auth_userID: userId,
-            avatar: session.avatar || memberData.avatar || null,
-            last_login: new Date().toISOString()
+            // avatar: session.avatar || memberData.avatar || null,
+            updated_at: new Date().toISOString()
           })
           .eq("email", userEmail);
         
