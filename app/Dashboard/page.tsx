@@ -219,7 +219,7 @@ const DashboardPage = () => {
       const { data, error } = await supabase
         .from("Team")
         .select("*")
-        .eq("clerk_user_id", userId)
+        .eq("custom_auth_userID", userId)
         .single();
 
       if (error) {

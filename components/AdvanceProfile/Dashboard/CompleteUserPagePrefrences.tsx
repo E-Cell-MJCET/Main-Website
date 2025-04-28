@@ -22,6 +22,8 @@ import Step14Welcome from "@/components/AdvanceProfile/UserPreferences/Step14";
 import Step15Welcome from "@/components/AdvanceProfile/UserPreferences/Step15";
 import Step16Welcome from "@/components/AdvanceProfile/UserPreferences/Step16";
 
+import EditUserProfile from "./EditUserProfile";
+
 // Initialize Supabase client with a single instance to prevent multiple GoTrueClient warnings
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
@@ -66,6 +68,7 @@ function UserPagePrefrences_Dashboard({ userId }: { userId: string }) {
   const [userID, setUserID] = useState<string | null>(null);
   const [existingUserData, setExistingUserData] = useState<any>(null);
   const [showStepper, setShowStepper] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
 
   const handleStepClick = (stepNumber: number) => {
     // Don't allow jumping to step 16 (final step) directly
@@ -83,21 +86,25 @@ function UserPagePrefrences_Dashboard({ userId }: { userId: string }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        setUserID(userID);
+        setUserID(userId);
 
         // Check if user exists in Team table
         const { data, error } = await supabase
           .from("Team")
           .select("*")
-          .eq("custom_auth_userID", userID)
+          .eq("custom_auth_userID", userId)
           .single();
 
+        console.log("Fetched user data:", data);
         if (error && error.code !== "PGRST116") {
           console.error("Error fetching user data:", error);
           toast.error("Error loading your profile data");
         } else if (data) {
           // Store the existing user data
           setExistingUserData(data);
+          if (data.Profile_Data_Created) {
+            setIsEditable(true);
+          }
           console.log("Found existing user data:", data);
 
           // If username exists in data but not in localStorage, set it
@@ -295,6 +302,7 @@ function UserPagePrefrences_Dashboard({ userId }: { userId: string }) {
         theme_feedback: userData.themeBackground || "",
         ProfileImageHeader: userData.profileHeaderImage || "",
         session_Info: updatedSessionInfo,
+        Profile_Data_Created: true,
         updated_at: new Date().toISOString(),
       };
 
@@ -565,141 +573,148 @@ function UserPagePrefrences_Dashboard({ userId }: { userId: string }) {
 
   return (
     <div className="relative">
-      {/* Main content */}
-      <div className="relative">{renderStepComponent()}</div>
-      {/* Stepper navigation */}
-      <div
-        className={`fixed left-0 top-0 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ${showStepper ? "translate-x-0" : "-translate-x-full"}`}
-        style={{ zIndex: 1000 }}
-      >
-        <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-gray-200 p-4">
-            <h2 className="text-xl font-bold text-gray-800">Navigation</h2>
-            <button
-              onClick={toggleStepper}
-              className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
-              aria-label="Close navigation"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-          <div className="flex-1 overflow-y-auto p-4">
-            {ALL_STEPS.map((step, index) => (
-              <div
-                key={index}
-                onClick={() => handleStepClick(step)}
-                className={`mb-3 cursor-pointer rounded-lg p-3 transition-colors ${
-                  currentStep === step
-                    ? "bg-teal-100 text-teal-800"
-                    : "bg-gray-50 text-gray-700 hover:bg-gray-100"
-                }`}
-              >
-                <div className="flex items-center">
+      {isEditable && userID ? (
+        <EditUserProfile userID={userID} />
+      ) : (
+        <>
+          {/* Main content */}
+          <div className="relative">{renderStepComponent()}</div>
+          {/* Stepper navigation */}
+          <div
+            className={`fixed left-0 top-0 h-full w-64 transform bg-white shadow-lg transition-transform duration-300 ${showStepper ? "translate-x-0" : "-translate-x-full"}`}
+            style={{ zIndex: 1000 }}
+          >
+            <div className="flex h-full flex-col">
+              <div className="flex items-center justify-between border-b border-gray-200 p-4">
+                <h2 className="text-xl font-bold text-gray-800">Navigation</h2>
+                <button
+                  onClick={toggleStepper}
+                  className="rounded-full p-2 text-gray-600 hover:bg-gray-100"
+                  aria-label="Close navigation"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4">
+                {ALL_STEPS.map((step, index) => (
                   <div
-                    className={`mr-3 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+                    key={index}
+                    onClick={() => handleStepClick(step)}
+                    className={`mb-3 cursor-pointer rounded-lg p-3 transition-colors ${
                       currentStep === step
-                        ? "bg-teal-500 text-white"
-                        : "bg-gray-300 text-gray-700"
+                        ? "bg-teal-100 text-teal-800"
+                        : "bg-gray-50 text-gray-700 hover:bg-gray-100"
                     }`}
                   >
-                    {index + 1}
+                    <div className="flex items-center">
+                      <div
+                        className={`mr-3 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full ${
+                          currentStep === step
+                            ? "bg-teal-500 text-white"
+                            : "bg-gray-300 text-gray-700"
+                        }`}
+                      >
+                        {index + 1}
+                      </div>
+                      <div>
+                        <p className="font-medium">
+                          {STEP_INFO[step]?.title || `Step ${step}`}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {STEP_INFO[step]?.description ||
+                            "Complete this section"}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium">
-                      {STEP_INFO[step]?.title || `Step ${step}`}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      {STEP_INFO[step]?.description || "Complete this section"}
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      {/* Toggle button for stepper */}
-      <button
-        onClick={toggleStepper}
-        className="fixed bottom-4 left-4 rounded-full bg-teal-500 p-3 text-white shadow-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300"
-        style={{ zIndex: 999 }}
-        aria-label="Toggle navigation"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
-      {/* Overlay to close stepper when clicked outside */}
-      {showStepper && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-20"
-          style={{ zIndex: 990 }}
-          onClick={() => setShowStepper(false)}
-        />
-      )}
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      {/* Overlay for saving state */}
-      {isSaving && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="rounded-lg bg-white p-8 shadow-xl">
-            <div className="flex flex-col items-center">
-              <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-teal-600"></div>
-              <p className="mb-2 text-center text-xl font-medium">
-                {getLoadingMessage()}
-              </p>
-              <p className="text-center text-sm text-gray-500">
-                Please wait while we save your information...
-              </p>
             </div>
           </div>
-        </div>
-      )}
-      {/* Debug info panel for developers - helpful for troubleshooting */}
-      {debugInfo && saveSuccess === false && (
-        <div className="fixed bottom-4 right-4 max-h-72 max-w-lg overflow-auto rounded-lg bg-white p-4 shadow-lg">
-          <h3 className="mb-2 font-bold">Debug Info</h3>
-          <pre className="text-xs">{debugInfo}</pre>
+          {/* Toggle button for stepper */}
           <button
-            onClick={() => setDebugInfo("")}
-            className="mt-2 rounded bg-gray-200 px-2 py-1 text-xs"
+            onClick={toggleStepper}
+            className="fixed bottom-4 left-4 rounded-full bg-teal-500 p-3 text-white shadow-lg hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-300"
+            style={{ zIndex: 999 }}
+            aria-label="Toggle navigation"
           >
-            Clear
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            </svg>
           </button>
-        </div>
+          {/* Overlay to close stepper when clicked outside */}
+          {showStepper && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-20"
+              style={{ zIndex: 990 }}
+              onClick={() => setShowStepper(false)}
+            />
+          )}
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
+          {/* Overlay for saving state */}
+          {isSaving && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+              <div className="rounded-lg bg-white p-8 shadow-xl">
+                <div className="flex flex-col items-center">
+                  <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-teal-600"></div>
+                  <p className="mb-2 text-center text-xl font-medium">
+                    {getLoadingMessage()}
+                  </p>
+                  <p className="text-center text-sm text-gray-500">
+                    Please wait while we save your information...
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Debug info panel for developers - helpful for troubleshooting */}
+          {debugInfo && saveSuccess === false && (
+            <div className="fixed bottom-4 right-4 max-h-72 max-w-lg overflow-auto rounded-lg bg-white p-4 shadow-lg">
+              <h3 className="mb-2 font-bold">Debug Info</h3>
+              <pre className="text-xs">{debugInfo}</pre>
+              <button
+                onClick={() => setDebugInfo("")}
+                className="mt-2 rounded bg-gray-200 px-2 py-1 text-xs"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

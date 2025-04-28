@@ -1,19 +1,26 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable import/order */
- 
+
 "use client";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useUser } from "@clerk/nextjs";
 import { createClient } from "@supabase/supabase-js";
 import Image from "next/image";
 
 // Import step components
-import { 
-  MdPerson, MdSchool, MdBuild, MdCode, 
-  MdVerified, MdStar, MdFeaturedPlayList, MdVolunteerActivism,
-  MdCardGiftcard, MdAssignment, MdShoppingCart
+import {
+  MdPerson,
+  MdSchool,
+  MdBuild,
+  MdCode,
+  MdVerified,
+  MdStar,
+  MdFeaturedPlayList,
+  MdVolunteerActivism,
+  MdCardGiftcard,
+  MdAssignment,
+  MdShoppingCart,
 } from "react-icons/md";
 
 import Step3Welcome from "@/components/AdvanceProfile/UserPreferences/Step3";
@@ -38,7 +45,7 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Define a type for the user data from Supabase
 interface UserData {
-  clerk_user_id?: string;
+  custom_auth_userID?: string;
   Username?: string;
   Name?: string;
   ProfileImageHeader?: string;
@@ -78,9 +85,8 @@ interface Section {
   localStorageKey?: string;
 }
 
-const EditUserProfile = () => {
+const EditUserProfile = ({ userID }: { userID: string }) => {
   const router = useRouter();
-  const { user, isLoaded: isClerkLoaded } = useUser();
   const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -95,7 +101,7 @@ const EditUserProfile = () => {
       description: "Choose which sections to display on your profile",
       icon: <MdFeaturedPlayList size={24} />,
       color: "bg-blue-500",
-      localStorageKey: "_core_sections"
+      localStorageKey: "_core_sections",
     },
     {
       id: 4,
@@ -103,7 +109,7 @@ const EditUserProfile = () => {
       description: "Name, tagline & about",
       icon: <MdPerson size={24} />,
       color: "bg-green-500",
-      localStorageKey: "_about"
+      localStorageKey: "_about",
     },
     {
       id: 5,
@@ -111,7 +117,7 @@ const EditUserProfile = () => {
       description: "Work experience",
       icon: <MdSchool size={24} />,
       color: "bg-purple-500",
-      localStorageKey: "_education"
+      localStorageKey: "_education",
     },
     {
       id: 6,
@@ -119,7 +125,7 @@ const EditUserProfile = () => {
       description: "Professional skills",
       icon: <MdBuild size={24} />,
       color: "bg-yellow-500",
-      localStorageKey: "_skills"
+      localStorageKey: "_skills",
     },
     {
       id: 7,
@@ -127,7 +133,7 @@ const EditUserProfile = () => {
       description: "Showcase your work and achievements",
       icon: <MdCode size={24} />,
       color: "bg-red-500",
-      localStorageKey: "_projects"
+      localStorageKey: "_projects",
     },
     {
       id: 8,
@@ -135,7 +141,7 @@ const EditUserProfile = () => {
       description: "Certifications & licenses",
       icon: <MdVerified size={24} />,
       color: "bg-indigo-500",
-      localStorageKey: "_licenses"
+      localStorageKey: "_licenses",
     },
     {
       id: 9,
@@ -143,7 +149,7 @@ const EditUserProfile = () => {
       description: "Testimonials from colleagues and clients",
       icon: <MdStar size={24} />,
       color: "bg-pink-500",
-      localStorageKey: "_recommendations"
+      localStorageKey: "_recommendations",
     },
     {
       id: 10,
@@ -151,7 +157,7 @@ const EditUserProfile = () => {
       description: "Recognition for your achievements",
       icon: <MdCardGiftcard size={24} />,
       color: "bg-teal-500",
-      localStorageKey: "_honors"
+      localStorageKey: "_honors",
     },
     {
       id: 11,
@@ -159,7 +165,7 @@ const EditUserProfile = () => {
       description: "Showcase your best work",
       icon: <MdFeaturedPlayList size={24} />,
       color: "bg-amber-500",
-      localStorageKey: "_featured"
+      localStorageKey: "_featured",
     },
     {
       id: 12,
@@ -167,7 +173,7 @@ const EditUserProfile = () => {
       description: "Social causes you support",
       icon: <MdVolunteerActivism size={24} />,
       color: "bg-cyan-500",
-      localStorageKey: "_causes"
+      localStorageKey: "_causes",
     },
     {
       id: 13,
@@ -175,7 +181,7 @@ const EditUserProfile = () => {
       description: "What you offer professionally",
       icon: <MdShoppingCart size={24} />,
       color: "bg-orange-500",
-      localStorageKey: "_products"
+      localStorageKey: "_products",
     },
     {
       id: 14,
@@ -183,7 +189,7 @@ const EditUserProfile = () => {
       description: "Your standardized test results",
       icon: <MdAssignment size={24} />,
       color: "bg-lime-500",
-      localStorageKey: "_test_scores"
+      localStorageKey: "_test_scores",
     },
     {
       id: 15,
@@ -191,120 +197,215 @@ const EditUserProfile = () => {
       description: "Your volunteer and community engagement experiences",
       icon: <HandHeart size={24} />,
       color: "bg-lime-500",
-      localStorageKey: "_volunteer_experiences"
+      localStorageKey: "_volunteer_experiences",
     },
   ];
 
   // Function to generate or retrieve session ID (similar to Step1)
   const getOrGenerateSessionId = () => {
-    if (typeof window === 'undefined') return null;
-    
+    if (typeof window === "undefined") return null;
+
     const existingSessionId = localStorage.getItem("personalized_session_id");
     if (existingSessionId) {
       console.log("Using existing Session ID:", existingSessionId);
-      
-return existingSessionId;
+
+      return existingSessionId;
     }
-    
+
     // If no session ID exists, generate a new one (same logic as Step1)
     const newSessionId = Array.from({ length: 20 }, () =>
       Math.random().toString(36).charAt(2)
     ).join("");
-    
+
     localStorage.setItem("personalized_session_id", newSessionId);
     console.log("Generated new Session ID:", newSessionId);
-    
-return newSessionId;
+
+    return newSessionId;
   };
 
   // Function to fetch user data from Supabase
-  const fetchUserData = async (clerkUserId: string): Promise<UserData | null> => {
+  const fetchUserData = async (
+    clerkUserId: string
+  ): Promise<UserData | null> => {
     try {
       const { data, error } = await supabase
         .from("Team")
         .select("*")
-        .eq("clerk_user_id", clerkUserId)
+        .eq("custom_auth_userID", clerkUserId)
         .single();
 
       if (error) {
         console.error("Error fetching user data:", error);
-        
-return null;
+
+        return null;
       }
 
       return data as UserData;
     } catch (error) {
       console.error("Error in fetchUserData:", error);
-      
-return null;
+
+      return null;
     }
   };
 
   // Function to save user data to localStorage using personalized_session_id
-  const saveUserDataToLocalStorage = (personalizedSessionId: string, data: UserData) => {
+  const saveUserDataToLocalStorage = (
+    personalizedSessionId: string,
+    data: UserData
+  ) => {
     try {
       // Save core sections data
       if (data.CoreSections) {
-        localStorage.setItem(`${personalizedSessionId}_core_sections`, JSON.stringify(data.CoreSections));
+        localStorage.setItem(
+          `${personalizedSessionId}_core_sections`,
+          JSON.stringify(data.CoreSections)
+        );
       }
       if (data.RecommendedSections) {
-        localStorage.setItem(`${personalizedSessionId}_recommended_sections`, JSON.stringify(data.RecommendedSections));
+        localStorage.setItem(
+          `${personalizedSessionId}_recommended_sections`,
+          JSON.stringify(data.RecommendedSections)
+        );
       }
       if (data.AdditionalSections) {
-        localStorage.setItem(`${personalizedSessionId}_additional_sections`, JSON.stringify(data.AdditionalSections));
+        localStorage.setItem(
+          `${personalizedSessionId}_additional_sections`,
+          JSON.stringify(data.AdditionalSections)
+        );
       }
-      
+
       // Save profile header image
       if (data.ProfileImageHeader) {
-        localStorage.setItem(`${personalizedSessionId}_profile_header_image`, data.ProfileImageHeader);
+        localStorage.setItem(
+          `${personalizedSessionId}_profile_header_image`,
+          data.ProfileImageHeader
+        );
       }
-      
+
       // Save basic info (Step 4)
-      if (data.Name) localStorage.setItem(`${personalizedSessionId}_fullName`, data.Name);
-      if (data.Tagline) localStorage.setItem(`${personalizedSessionId}_tagline`, data.Tagline);
-      if (data.Username) localStorage.setItem(`${personalizedSessionId}_username`, data.Username);
-      if (data.About) localStorage.setItem(`${personalizedSessionId}_about`, data.About);
-      if (data.SocialLinks) localStorage.setItem(`${personalizedSessionId}_socialLinks`, JSON.stringify(data.SocialLinks));
-      if (data.Contact_Info) localStorage.setItem(`${personalizedSessionId}_contactInfo`, JSON.stringify(data.Contact_Info));
-      if (data.Location) localStorage.setItem(`${personalizedSessionId}_locationInfo`, JSON.stringify(data.Location));
-      
+      if (data.Name)
+        localStorage.setItem(`${personalizedSessionId}_fullName`, data.Name);
+      if (data.Tagline)
+        localStorage.setItem(`${personalizedSessionId}_tagline`, data.Tagline);
+      if (data.Username)
+        localStorage.setItem(
+          `${personalizedSessionId}_username`,
+          data.Username
+        );
+      if (data.About)
+        localStorage.setItem(`${personalizedSessionId}_about`, data.About);
+      if (data.SocialLinks)
+        localStorage.setItem(
+          `${personalizedSessionId}_socialLinks`,
+          JSON.stringify(data.SocialLinks)
+        );
+      if (data.Contact_Info)
+        localStorage.setItem(
+          `${personalizedSessionId}_contactInfo`,
+          JSON.stringify(data.Contact_Info)
+        );
+      if (data.Location)
+        localStorage.setItem(
+          `${personalizedSessionId}_locationInfo`,
+          JSON.stringify(data.Location)
+        );
+
       // Save education and experience (Step 5)
-      if (data.Education) localStorage.setItem(`${personalizedSessionId}_education`, JSON.stringify(data.Education));
-      if (data.Experience) localStorage.setItem(`${personalizedSessionId}_experiences`, JSON.stringify(data.Experience));
-      
+      if (data.Education)
+        localStorage.setItem(
+          `${personalizedSessionId}_education`,
+          JSON.stringify(data.Education)
+        );
+      if (data.Experience)
+        localStorage.setItem(
+          `${personalizedSessionId}_experiences`,
+          JSON.stringify(data.Experience)
+        );
+
       // Save skills (Step 6)
-      if (data.Skills) localStorage.setItem(`${personalizedSessionId}_skills`, JSON.stringify(data.Skills));
-      
+      if (data.Skills)
+        localStorage.setItem(
+          `${personalizedSessionId}_skills`,
+          JSON.stringify(data.Skills)
+        );
+
       // Save projects (Step 7)
-      if (data.Projects) localStorage.setItem(`${personalizedSessionId}_projects`, JSON.stringify(data.Projects));
-      
+      if (data.Projects)
+        localStorage.setItem(
+          `${personalizedSessionId}_projects`,
+          JSON.stringify(data.Projects)
+        );
+
       // Save licenses and certifications (Step 8)
-      if (data.Licenses) localStorage.setItem(`${personalizedSessionId}_licenses`, JSON.stringify(data.Licenses));
-      if (data.Certifications) localStorage.setItem(`${personalizedSessionId}_certifications`, JSON.stringify(data.Certifications));
-      
+      if (data.Licenses)
+        localStorage.setItem(
+          `${personalizedSessionId}_licenses`,
+          JSON.stringify(data.Licenses)
+        );
+      if (data.Certifications)
+        localStorage.setItem(
+          `${personalizedSessionId}_certifications`,
+          JSON.stringify(data.Certifications)
+        );
+
       // Save recommendations/testimonials (Step 9)
-      if (data.Testimonials) localStorage.setItem(`${personalizedSessionId}_recommendations`, JSON.stringify(data.Testimonials));
-      
+      if (data.Testimonials)
+        localStorage.setItem(
+          `${personalizedSessionId}_recommendations`,
+          JSON.stringify(data.Testimonials)
+        );
+
       // Save honors (Step 10)
-      if (data.Honors) localStorage.setItem(`${personalizedSessionId}_honors`, JSON.stringify(data.Honors));
-      
+      if (data.Honors)
+        localStorage.setItem(
+          `${personalizedSessionId}_honors`,
+          JSON.stringify(data.Honors)
+        );
+
       // Save featured (Step 11)
-      if (data.Featured) localStorage.setItem(`${personalizedSessionId}_featured`, JSON.stringify(data.Featured));
-      
+      if (data.Featured)
+        localStorage.setItem(
+          `${personalizedSessionId}_featured`,
+          JSON.stringify(data.Featured)
+        );
+
       // Save causes (Step 12)
-      if (data.Causes) localStorage.setItem(`${personalizedSessionId}_causes`, JSON.stringify(data.Causes));
-      
+      if (data.Causes)
+        localStorage.setItem(
+          `${personalizedSessionId}_causes`,
+          JSON.stringify(data.Causes)
+        );
+
       // Save products and services (Step 13)
-      if (data.Products) localStorage.setItem(`${personalizedSessionId}_products`, JSON.stringify(data.Products));
-      if (data.Services) localStorage.setItem(`${personalizedSessionId}_services`, JSON.stringify(data.Services));
-      
+      if (data.Products)
+        localStorage.setItem(
+          `${personalizedSessionId}_products`,
+          JSON.stringify(data.Products)
+        );
+      if (data.Services)
+        localStorage.setItem(
+          `${personalizedSessionId}_services`,
+          JSON.stringify(data.Services)
+        );
+
       // Save test scores (Step 14)
-      if (data.TestScores) localStorage.setItem(`${personalizedSessionId}_test_scores`, JSON.stringify(data.TestScores));
-      
+      if (data.TestScores)
+        localStorage.setItem(
+          `${personalizedSessionId}_test_scores`,
+          JSON.stringify(data.TestScores)
+        );
+
       // Save volunteer experience (Step 15)
-      if (data.VolunteerExperience) localStorage.setItem(`${personalizedSessionId}_volunteer_experience`, JSON.stringify(data.VolunteerExperience));
-      
-      console.log("User data saved to localStorage with personalized session ID:", personalizedSessionId);
+      if (data.VolunteerExperience)
+        localStorage.setItem(
+          `${personalizedSessionId}_volunteer_experience`,
+          JSON.stringify(data.VolunteerExperience)
+        );
+
+      console.log(
+        "User data saved to localStorage with personalized session ID:",
+        personalizedSessionId
+      );
     } catch (error) {
       console.error("Error saving user data to localStorage:", error);
     }
@@ -313,39 +414,63 @@ return null;
   // Function to check if data exists in localStorage
   const checkLocalStorageData = (personalizedSessionId: string): boolean => {
     // Check for at least some essential data
-    const hasCoreSections = localStorage.getItem(`${personalizedSessionId}_core_sections`);
+    const hasCoreSections = localStorage.getItem(
+      `${personalizedSessionId}_core_sections`
+    );
     const hasName = localStorage.getItem(`${personalizedSessionId}_fullName`);
-    
+
     return !!(hasCoreSections || hasName);
   };
 
   // Function to load data from localStorage
-  const loadDataFromLocalStorage = (personalizedSessionId: string): UserData | null => {
+  const loadDataFromLocalStorage = (
+    personalizedSessionId: string
+  ): UserData | null => {
     try {
       const userData: UserData = {};
-      
+
       // Load core sections
-      const coreSections = localStorage.getItem(`${personalizedSessionId}_core_sections`);
-      const recommendedSections = localStorage.getItem(`${personalizedSessionId}_recommended_sections`);
-      const additionalSections = localStorage.getItem(`${personalizedSessionId}_additional_sections`);
-      
+      const coreSections = localStorage.getItem(
+        `${personalizedSessionId}_core_sections`
+      );
+      const recommendedSections = localStorage.getItem(
+        `${personalizedSessionId}_recommended_sections`
+      );
+      const additionalSections = localStorage.getItem(
+        `${personalizedSessionId}_additional_sections`
+      );
+
       if (coreSections) userData.CoreSections = JSON.parse(coreSections);
-      if (recommendedSections) userData.RecommendedSections = JSON.parse(recommendedSections);
-      if (additionalSections) userData.AdditionalSections = JSON.parse(additionalSections);
-      
+      if (recommendedSections)
+        userData.RecommendedSections = JSON.parse(recommendedSections);
+      if (additionalSections)
+        userData.AdditionalSections = JSON.parse(additionalSections);
+
       // Load profile header image
-      const profileImage = localStorage.getItem(`${personalizedSessionId}_profile_header_image`);
+      const profileImage = localStorage.getItem(
+        `${personalizedSessionId}_profile_header_image`
+      );
       if (profileImage) userData.ProfileImageHeader = profileImage;
-      
+
       // Load basic info
-      const fullName = localStorage.getItem(`${personalizedSessionId}_fullName`);
+      const fullName = localStorage.getItem(
+        `${personalizedSessionId}_fullName`
+      );
       const tagline = localStorage.getItem(`${personalizedSessionId}_tagline`);
-      const username = localStorage.getItem(`${personalizedSessionId}_username`);
+      const username = localStorage.getItem(
+        `${personalizedSessionId}_username`
+      );
       const about = localStorage.getItem(`${personalizedSessionId}_about`);
-      const socialLinks = localStorage.getItem(`${personalizedSessionId}_socialLinks`);
-      const contactInfo = localStorage.getItem(`${personalizedSessionId}_contactInfo`);
-      const locationInfo = localStorage.getItem(`${personalizedSessionId}_locationInfo`);
-      
+      const socialLinks = localStorage.getItem(
+        `${personalizedSessionId}_socialLinks`
+      );
+      const contactInfo = localStorage.getItem(
+        `${personalizedSessionId}_contactInfo`
+      );
+      const locationInfo = localStorage.getItem(
+        `${personalizedSessionId}_locationInfo`
+      );
+
       if (fullName) userData.Name = fullName;
       if (tagline) userData.Tagline = tagline;
       if (username) userData.Username = username;
@@ -353,23 +478,45 @@ return null;
       if (socialLinks) userData.SocialLinks = JSON.parse(socialLinks);
       if (contactInfo) userData.Contact_Info = JSON.parse(contactInfo);
       if (locationInfo) userData.Location = JSON.parse(locationInfo);
-      
+
       // Load other data
-      const education = localStorage.getItem(`${personalizedSessionId}_education`);
-      const experiences = localStorage.getItem(`${personalizedSessionId}_experiences`);
+      const education = localStorage.getItem(
+        `${personalizedSessionId}_education`
+      );
+      const experiences = localStorage.getItem(
+        `${personalizedSessionId}_experiences`
+      );
       const skills = localStorage.getItem(`${personalizedSessionId}_skills`);
-      const projects = localStorage.getItem(`${personalizedSessionId}_projects`);
-      const licenses = localStorage.getItem(`${personalizedSessionId}_licenses`);
-      const certifications = localStorage.getItem(`${personalizedSessionId}_certifications`);
-      const recommendations = localStorage.getItem(`${personalizedSessionId}_recommendations`);
+      const projects = localStorage.getItem(
+        `${personalizedSessionId}_projects`
+      );
+      const licenses = localStorage.getItem(
+        `${personalizedSessionId}_licenses`
+      );
+      const certifications = localStorage.getItem(
+        `${personalizedSessionId}_certifications`
+      );
+      const recommendations = localStorage.getItem(
+        `${personalizedSessionId}_recommendations`
+      );
       const honors = localStorage.getItem(`${personalizedSessionId}_honors`);
-      const featured = localStorage.getItem(`${personalizedSessionId}_featured`);
+      const featured = localStorage.getItem(
+        `${personalizedSessionId}_featured`
+      );
       const causes = localStorage.getItem(`${personalizedSessionId}_causes`);
-      const products = localStorage.getItem(`${personalizedSessionId}_products`);
-      const services = localStorage.getItem(`${personalizedSessionId}_services`);
-      const testScores = localStorage.getItem(`${personalizedSessionId}_test_scores`);
-      const volunteerExperience = localStorage.getItem(`${personalizedSessionId}_volunteer_experience`);
-      
+      const products = localStorage.getItem(
+        `${personalizedSessionId}_products`
+      );
+      const services = localStorage.getItem(
+        `${personalizedSessionId}_services`
+      );
+      const testScores = localStorage.getItem(
+        `${personalizedSessionId}_test_scores`
+      );
+      const volunteerExperience = localStorage.getItem(
+        `${personalizedSessionId}_volunteer_experience`
+      );
+
       if (education) userData.Education = JSON.parse(education);
       if (experiences) userData.Experience = JSON.parse(experiences);
       if (skills) userData.Skills = JSON.parse(skills);
@@ -383,54 +530,58 @@ return null;
       if (products) userData.Products = JSON.parse(products);
       if (services) userData.Services = JSON.parse(services);
       if (testScores) userData.TestScores = JSON.parse(testScores);
-      if (volunteerExperience) userData.VolunteerExperience = JSON.parse(volunteerExperience);
-      
+      if (volunteerExperience)
+        userData.VolunteerExperience = JSON.parse(volunteerExperience);
+
       // Set profile created flag
       userData.Profile_Data_Created = true;
-      
+
       return userData;
     } catch (error) {
       console.error("Error loading data from localStorage:", error);
-      
-return null;
+
+      return null;
     }
   };
 
   // Initialize data on component mount
   useEffect(() => {
     const initializeData = async () => {
-      if (!isClerkLoaded || !user) {
+      if (!userID) {
         setIsLoading(false);
-        
-return;
+
+        return;
       }
 
       // Get or generate personalized session ID (same as Step1)
       const personalizedSessionId = getOrGenerateSessionId();
       if (!personalizedSessionId) {
         setIsLoading(false);
-        
-return;
+
+        return;
       }
-      
+
       setSessionId(personalizedSessionId);
 
       // First check if data exists in localStorage
       if (checkLocalStorageData(personalizedSessionId)) {
-        console.log("Loading data from localStorage with personalized session ID:", personalizedSessionId);
+        console.log(
+          "Loading data from localStorage with personalized session ID:",
+          personalizedSessionId
+        );
         const localData = loadDataFromLocalStorage(personalizedSessionId);
         if (localData) {
           setUserData(localData);
           setIsLoading(false);
-          
-return;
+
+          return;
         }
       }
 
       // If no data in localStorage, fetch from Supabase
       console.log("Fetching data from Supabase");
       setIsLoading(true);
-      const data = await fetchUserData(user.id);
+      const data = await fetchUserData(userID);
       setUserData(data);
       setDataFetchedFromSupabase(true);
 
@@ -443,7 +594,7 @@ return;
     };
 
     initializeData();
-  }, [isClerkLoaded, user]);
+  }, [userID]);
 
   // Handle section click
   const handleSectionClick = (sectionId: number) => {
@@ -458,10 +609,10 @@ return;
   // Handle save complete (return to grid view)
   const handleSaveComplete = () => {
     setActiveSection(null);
-    
+
     // Refresh data from Supabase to ensure we have the latest
-    if (user && sessionId) {
-      fetchUserData(user.id).then(data => {
+    if (userID && sessionId) {
+      fetchUserData(userID).then((data) => {
         if (data) {
           setUserData(data);
           saveUserDataToLocalStorage(sessionId, data);
@@ -483,16 +634,18 @@ return;
   }
 
   // Render login prompt if no user
-  if (!user) {
+  if (!userID) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-gray-900 p-4">
         <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-          <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">Sign In Required</h2>
+          <h2 className="mb-6 text-center text-2xl font-bold text-gray-800">
+            Sign In Required
+          </h2>
           <p className="mb-6 text-center text-gray-600">
             Please sign in to access your profile dashboard.
           </p>
           <button
-            onClick={() => router.push('/sign-in')}
+            onClick={() => router.push("/sign-in")}
             className="w-full rounded-lg bg-blue-500 px-4 py-3 font-semibold text-white transition hover:bg-blue-600"
           >
             Sign In
@@ -513,6 +666,7 @@ return;
             profileCreated={true}
             userData={userData}
             onSaveComplete={handleSaveComplete}
+            userId={userID}
           />
         );
       case 4:
@@ -520,6 +674,7 @@ return;
           <Step4Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -530,6 +685,7 @@ return;
           <Step5Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -540,6 +696,7 @@ return;
           <Step6Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -550,6 +707,7 @@ return;
           <Step7Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -560,6 +718,7 @@ return;
           <Step8Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -570,6 +729,7 @@ return;
           <Step9Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -580,6 +740,7 @@ return;
           <Step10Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -590,6 +751,7 @@ return;
           <Step11Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -600,6 +762,7 @@ return;
           <Step12Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -610,6 +773,7 @@ return;
           <Step13Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -620,6 +784,7 @@ return;
           <Step14Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -630,6 +795,7 @@ return;
           <Step15Welcome
             onNext={handleBackClick}
             onPrevious={handleBackClick}
+            userId={userID}
             // profileCreated={true}
             // userData={userData}
             // onSaveComplete={handleSaveComplete}
@@ -646,10 +812,10 @@ return;
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 text-center">
           <h1 className="mb-2 text-3xl font-bold text-white md:text-4xl">
-            {userData?.Name ? `${userData.Name}'s Profile` : 'Your Profile'}
+            {userData?.Name ? `${userData.Name}'s Profile` : "Your Profile"}
           </h1>
           <p className="text-lg text-gray-300">
-            {userData?.Tagline || 'Customize your professional portfolio'}
+            {userData?.Tagline || "Customize your professional portfolio"}
           </p>
         </div>
         {userData?.ProfileImageHeader && (
@@ -667,36 +833,42 @@ return;
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sections.map((section) => {
             // Check if this section has data
-            const hasData = userData && section.localStorageKey && 
+            const hasData =
+              userData &&
+              section.localStorageKey &&
               localStorage.getItem(`${sessionId}${section.localStorageKey}`);
-            
-return (
-  <motion.div
+
+            return (
+              <motion.div
                 key={section.id}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className={`cursor-pointer rounded-lg bg-gray-800 p-6 shadow-lg transition hover:shadow-xl ${
-                  hasData ? 'border-l-4 border-green-500' : ''
+                  hasData ? "border-l-4 border-green-500" : ""
                 }`}
                 onClick={() => handleSectionClick(section.id)}
               >
-    <div className={`mb-4 flex size-12 items-center justify-center rounded-full ${section.color}`}>
-      {section.icon}
-    </div>
-    <h3 className="mb-2 text-xl font-semibold text-white">{section.title}</h3>
-    <p className="text-gray-300">{section.description}</p>
-    {hasData && (
-    <div className="mt-3 text-sm text-green-400">
-      ✓ Data added
-    </div>
+                <div
+                  className={`mb-4 flex size-12 items-center justify-center rounded-full ${section.color}`}
+                >
+                  {section.icon}
+                </div>
+                <h3 className="mb-2 text-xl font-semibold text-white">
+                  {section.title}
+                </h3>
+                <p className="text-gray-300">{section.description}</p>
+                {hasData && (
+                  <div className="mt-3 text-sm text-green-400">
+                    ✓ Data added
+                  </div>
                 )}
-  </motion.div>
+              </motion.div>
             );
           })}
         </div>
         <div className="mt-8 flex justify-center">
           <button
-            onClick={() => router.push('/dashboard')}
+            onClick={() => router.push("/dashboard")}
             className="rounded-lg bg-gray-700 px-6 py-3 font-semibold text-white transition hover:bg-gray-600"
           >
             Back to Dashboard
