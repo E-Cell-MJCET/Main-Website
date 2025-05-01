@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import Image from "next/image";
 
 import { ParticleCanvas } from "@/hooks/particle";
@@ -20,6 +20,11 @@ interface EducationProps {
 }
 
 const Education: React.FC<EducationProps> = ({ educationData }) => {
+  // Early return if no education data
+  if (!educationData?.length) {
+    return null;
+  }
+
   return (
     <div className="relative min-h-10 w-full overflow-hidden bg-black py-4">
       {/* Particle Canvas for Experience Background */}
@@ -42,7 +47,9 @@ const Education: React.FC<EducationProps> = ({ educationData }) => {
                   />
                 )}
                 <div>
-                  <h2 className="text-xl font-semibold">{education.institution_name}</h2>
+                  <h2 className="text-xl font-semibold">
+                    {education.institution_name}
+                  </h2>
                   {/* <p className="text-gray-600">{company.location}</p> */}
                 </div>
               </div>
@@ -51,16 +58,17 @@ const Education: React.FC<EducationProps> = ({ educationData }) => {
                   {education.degree} - {education.field_of_study}
                 </h3>
                 <p className="text-gray-500">
-                  {education.start_date} - {education.end_date ? education.end_date : "Present"}
+                  {education.start_date} -{" "}
+                  {education.end_date ? education.end_date : "Present"}
                 </p>
                 {/* Skills/Highlights */}
                 {education.skills.length > 0 && (
-                <ul className="list-disc pl-5 text-gray-600">
-                  {education.skills.map((skill, skillIndex) => (
-                    <li key={skillIndex}>{skill}</li>
-                  ))}
-                </ul>
-              )}
+                  <ul className="list-disc pl-5 text-gray-600">
+                    {education.skills.map((skill, skillIndex) => (
+                      <li key={skillIndex}>{skill}</li>
+                    ))}
+                  </ul>
+                )}
               </div>
               {/* Separator for Multiple Companies */}
               {index < educationData.length - 1 && (

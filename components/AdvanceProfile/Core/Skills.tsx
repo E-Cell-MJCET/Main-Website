@@ -26,7 +26,6 @@ interface SkillsProps {
 }
 
 const Skills: React.FC<SkillsProps> = ({ skills, theme = "Default" }) => {
-  // Default theme to 'Default'
   const styles = getSkillsThemeStyles(theme); // Get styles based on theme
 
   // Group skills by category for better organization
@@ -55,6 +54,11 @@ const Skills: React.FC<SkillsProps> = ({ skills, theme = "Default" }) => {
   // Determine if we should show the "View All" button
   const totalSkillCount = skills.length;
   const shouldShowViewAll = totalSkillCount > 12;
+
+  // Early return if no skills
+  if (!skills?.length) {
+    return null;
+  }
 
   // Function to get the proficiency percentage
   const getProficiencyPercentage = (proficiency: ProficiencyLevel): number => {

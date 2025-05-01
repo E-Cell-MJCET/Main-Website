@@ -24,6 +24,11 @@ const Services: React.FC<ServicesProps> = ({
 }) => {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
+  // Early return if no services
+  if (!services?.length) {
+    return null;
+  }
+
   // Get theme styles
   const styles = getServicesThemeStyles(theme);
 
@@ -66,130 +71,114 @@ const Services: React.FC<ServicesProps> = ({
           >
             My Services
           </h2>
-          {services.length > 0 ? (
-            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
-              Professional services tailored to meet your specific needs with
-              expertise and precision.
-            </p>
-          ) : (
-            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
-              No services have been added yet.
-            </p>
-          )}
+          <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
+            Professional services tailored to meet your specific needs with
+            expertise and precision.
+          </p>
         </motion.div>
-        {services.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={`flex h-48 items-center justify-center rounded-lg ${styles.emptyContainer} text-center ${styles.emptyText}`}
-          >
-            <p>No services to display yet. Check back soon!</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className={`grid ${styles.cardContainer}`}
-          >
-            {services.map((service, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className={`group flex h-full flex-col overflow-hidden rounded-xl ${styles.card} shadow-xl backdrop-blur-sm transition-all duration-300`}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className={`grid ${styles.cardContainer}`}
+        >
+          {services.map((service, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+              className={`group flex h-full flex-col overflow-hidden rounded-xl ${styles.card} shadow-xl backdrop-blur-sm transition-all duration-300`}
+            >
+              {/* Service Icon */}
+              <div
+                className={`flex h-32 items-center justify-center ${styles.cardIconContainer}`}
               >
-                {/* Service Icon */}
-                <div
-                  className={`flex h-32 items-center justify-center ${styles.cardIconContainer}`}
+                <svg
+                  className={`size-16 ${styles.cardIcon}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    className={`size-16 ${styles.cardIcon}`}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
+                  <path
+                    d="M10.5 13.5C10.5 13.5 11 15.5 13.5 15.5C16 15.5 16.5 13 16.5 13"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16.5 7.5C16.5 7.5 16 10 13.5 10C11 10 10.5 7.5 10.5 7.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
+                  <path
+                    d="M7.5 10.5C7.5 10.5 9 10 9 7.5C9 5 7 4.5 7 4.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M7 13.5C7 13.5 5 14 5 16.5C5 19 7.5 19.5 7.5 19.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M17 4.5C17 4.5 15 5 15 7.5C15 10 16.5 10.5 16.5 10.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16.5 19.5C16.5 19.5 19 19 19 16.5C19 14 17 13.5 17 13.5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+              {/* Service Content */}
+              <div className="flex flex-1 flex-col p-6">
+                <div className="flex items-center justify-between">
+                  <h3
+                    className={`mb-2 text-xl font-bold ${styles.cardTitle} ${styles.cardTitleHover} md:text-2xl`}
                   >
-                    <path
-                      d="M10.5 13.5C10.5 13.5 11 15.5 13.5 15.5C16 15.5 16.5 13 16.5 13"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M16.5 7.5C16.5 7.5 16 10 13.5 10C11 10 10.5 7.5 10.5 7.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                    <path
-                      d="M7.5 10.5C7.5 10.5 9 10 9 7.5C9 5 7 4.5 7 4.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M7 13.5C7 13.5 5 14 5 16.5C5 19 7.5 19.5 7.5 19.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M17 4.5C17 4.5 15 5 15 7.5C15 10 16.5 10.5 16.5 10.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                    <path
-                      d="M16.5 19.5C16.5 19.5 19 19 19 16.5C19 14 17 13.5 17 13.5"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                    {service.name}
+                  </h3>
+                  {/* Price Badge */}
+                  <span
+                    className={`rounded-full ${styles.priceBadge} px-3 py-1 text-xs font-semibold ${styles.priceBadgeText}`}
+                  >
+                    {service.pricing}
+                  </span>
                 </div>
-                {/* Service Content */}
-                <div className="flex flex-1 flex-col p-6">
-                  <div className="flex items-center justify-between">
-                    <h3
-                      className={`mb-2 text-xl font-bold ${styles.cardTitle} ${styles.cardTitleHover} md:text-2xl`}
-                    >
-                      {service.name}
-                    </h3>
-                    {/* Price Badge */}
-                    <span
-                      className={`rounded-full ${styles.priceBadge} px-3 py-1 text-xs font-semibold ${styles.priceBadgeText}`}
-                    >
-                      {service.pricing}
-                    </span>
-                  </div>
-                  <p
-                    className={`mb-4 line-clamp-3 flex-1 text-sm ${styles.cardDescription}`}
-                  >
-                    {service.description}
-                  </p>
-                  {/* Action Button */}
-                  <button
-                    onClick={() => toggleServiceDetail(service)}
-                    className={`mt-auto w-full rounded-lg ${styles.detailsButton} px-4 py-2 text-center text-sm font-medium transition-all ${styles.detailsButtonHover}`}
-                  >
-                    View Service Details
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
+                <p
+                  className={`mb-4 line-clamp-3 flex-1 text-sm ${styles.cardDescription}`}
+                >
+                  {service.description}
+                </p>
+                {/* Action Button */}
+                <button
+                  onClick={() => toggleServiceDetail(service)}
+                  className={`mt-auto w-full rounded-lg ${styles.detailsButton} px-4 py-2 text-center text-sm font-medium transition-all ${styles.detailsButtonHover}`}
+                >
+                  View Service Details
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
       {/* Service Detail Modal */}
       <AnimatePresence>

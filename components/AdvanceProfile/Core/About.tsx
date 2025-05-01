@@ -18,6 +18,11 @@ const About: React.FC<AboutProps> = ({ aboutText, theme = "Default" }) => {
     return getAboutThemeStyles(theme);
   }, [theme]);
 
+  // Early return if no about text
+  if (!aboutText?.trim()) {
+    return null;
+  }
+
   // Create title words for the typewriter effect with theme-specific styles
   const titleWords = [
     { text: "About", className: themeStyles.title.primary },

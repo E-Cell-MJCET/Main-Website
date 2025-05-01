@@ -1,4 +1,3 @@
-/* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import { motion } from "framer-motion";
 
 import { HoverEffect } from "@/components/ui/card-hover-effect";
@@ -21,6 +20,11 @@ export function Recommendations({
   recommendations = [],
   theme = "default",
 }: RecommendationsProps) {
+  // Early return if no recommendations
+  if (!recommendations?.length) {
+    return null;
+  }
+
   const styles: RecommendationsThemeStyles =
     recommendationsThemeMap[theme] || recommendationsThemeMap["Default"]; // Get styles based on theme
 
@@ -56,34 +60,17 @@ export function Recommendations({
         >
           <h2 className={styles.heading}>Recommendations</h2>{" "}
           {/* Apply theme styles */}
-          {recommendations.length > 0 ? (
-            <p className={styles.description}>
-              What others have to say about my work, skills, and collaborations.
-            </p>
-          ) : (
-            <p className={styles.description}>
-              No recommendations have been added yet.
-            </p>
-          )}
+          <p className={styles.description}>
+            What others have to say about my work, skills, and collaborations.
+          </p>
         </motion.div>
-        {/* Display recommendations using HoverEffect or show empty state */}
-        {recommendations.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400"
-          >
-            <p>No recommendations to display. Check back later!</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <HoverEffect items={formattedRecommendations} />
-          </motion.div>
-        )}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <HoverEffect items={formattedRecommendations} />
+        </motion.div>
       </div>
     </div>
   );
@@ -95,6 +82,11 @@ export function RecommendationsAlternative({
   recommendations = [],
   theme = "Default",
 }: RecommendationsProps) {
+  // Early return if no recommendations
+  if (!recommendations?.length) {
+    return null;
+  }
+
   const styles: RecommendationsThemeStyles =
     recommendationsThemeMap[theme] || recommendationsThemeMap["Default"]; // Get styles based on theme
 
@@ -121,60 +113,48 @@ export function RecommendationsAlternative({
         <div className="mb-12 text-center">
           <h2 className={styles.heading}>Recommendations</h2>{" "}
           {/* Apply theme styles */}
-          {recommendations.length > 0 ? (
-            <p className={styles.description}>
-              What others have to say about my work, skills, and collaborations.
-            </p>
-          ) : (
-            <p className={styles.description}>
-              No recommendations have been added yet.
-            </p>
-          )}
+          <p className={styles.description}>
+            What others have to say about my work, skills, and collaborations.
+          </p>
         </div>
-        {recommendations.length === 0 ? (
-          <div className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400">
-            <p>No recommendations to display. Check back later!</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {recommendations.map((recommendation, index) => (
-              <div
-                key={index}
-                className={`group rounded-xl ${styles.recommendationCard.background} p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:bg-gray-700/50`}
-              >
-                <h3 className={styles.recommendationCard.title}>
-                  {recommendation.title || "Anonymous"}
-                </h3>
-                <p className={styles.recommendationCard.description}>
-                  {recommendation.description || "No description provided"}
-                </p>
-                {recommendation.link && (
-                  <a
-                    href={recommendation.link}
-                    className={`inline-flex items-center text-sm font-medium ${styles.recommendationCard.badge}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {recommendations.map((recommendation, index) => (
+            <div
+              key={index}
+              className={`group rounded-xl ${styles.recommendationCard.background} p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:bg-gray-700/50`}
+            >
+              <h3 className={styles.recommendationCard.title}>
+                {recommendation.title || "Anonymous"}
+              </h3>
+              <p className={styles.recommendationCard.description}>
+                {recommendation.description || "No description provided"}
+              </p>
+              {recommendation.link && (
+                <a
+                  href={recommendation.link}
+                  className={`inline-flex items-center text-sm font-medium ${styles.recommendationCard.badge}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  View more
+                  <svg
+                    className="ml-1 size-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    View more
-                    <svg
-                      className="ml-1 size-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M14 5l7 7m0 0l-7 7m7-7H3"
-                      ></path>
-                    </svg>
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3"
+                    ></path>
+                  </svg>
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

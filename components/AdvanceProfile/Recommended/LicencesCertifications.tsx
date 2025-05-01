@@ -35,10 +35,6 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
   certifications = [],
   theme = "Default", // Default theme to 'Default'
 }) => {
-  const styles: LicencesCertificationsThemeStyles =
-    licencesCertificationsThemeMap[theme || "Default"]; // Get styles based on theme
-
-  // State for active tab
   const [activeTab, setActiveTab] = useState<"licenses" | "certifications">(
     licenses.length > 0 ? "licenses" : "certifications"
   );
@@ -47,6 +43,16 @@ const LicencesCertifications: React.FC<LicencesCertificationsProps> = ({
   const [selectedItem, setSelectedItem] = useState<
     License | Certification | null
   >(null);
+
+  // Early return if no credentials exist
+  if (licenses.length === 0 && certifications.length === 0) {
+    return null;
+  }
+
+  const styles: LicencesCertificationsThemeStyles =
+    licencesCertificationsThemeMap[theme || "Default"]; // Get styles based on theme
+
+  // State for active tab
 
   // Count totals
   const licenseCount = licenses.length;

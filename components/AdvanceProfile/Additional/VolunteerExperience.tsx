@@ -20,6 +20,10 @@ const VolunteerExperience: React.FC<VolunteerExperienceProps> = ({
   const [selectedItem, setSelectedItem] = useState<VolunteerContent | null>(
     null
   );
+  // Early return if no volunteer experiences
+  if (!volunteerExperiences?.length) {
+    return null;
+  }
 
   // Get theme styles
   const styles = getVolunteerExperienceThemeStyles(theme);
@@ -68,99 +72,83 @@ const VolunteerExperience: React.FC<VolunteerExperienceProps> = ({
           >
             Volunteer Experience
           </h2>
-          {volunteerExperiences.length > 0 ? (
-            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
-              Community involvement and social impact through volunteer work.
-            </p>
-          ) : (
-            <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
-              No volunteer experiences have been added yet.
-            </p>
-          )}
+          <p className={`mx-auto max-w-2xl ${styles.mainDescription}`}>
+            Community involvement and social impact through volunteer work.
+          </p>
         </motion.div>
-        {volunteerExperiences.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={`flex h-48 items-center justify-center rounded-lg ${styles.emptyContainer} text-center ${styles.emptyText}`}
-          >
-            <p>No volunteer experiences to display yet.</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className={`grid ${styles.cardContainer}`}
-          >
-            {volunteerExperiences.map((volunteer, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -5, transition: { duration: 0.3 } }}
-                className={`group cursor-pointer overflow-hidden rounded-xl ${styles.card} p-6 shadow-xl backdrop-blur-sm transition-all duration-300`}
-                onClick={() => openDetail(volunteer)}
-              >
-                <div className="mb-2 flex items-center justify-between">
-                  <h3
-                    className={`text-xl font-bold ${styles.cardTitle} ${styles.cardTitleHover} md:text-2xl`}
-                  >
-                    {volunteer.title || "Untitled Experience"}
-                  </h3>
-                  {/* Volunteer icon */}
-                  <svg
-                    className={`size-6 ${styles.cardIcon}`}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M16.5 11.5C16.5 7.5 12.5 7 12 9C11.5 11 16.5 10.5 16.5 14.5C16.5 16.5 14.5 17.5 12.5 17.5C10.5 17.5 8.5 16 8.5 14"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <path
-                      d="M12 6V9"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                </div>
-                <p
-                  className={`mt-3 line-clamp-3 text-sm ${styles.cardDescription}`}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className={`grid ${styles.cardContainer}`}
+        >
+          {volunteerExperiences.map((volunteer, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              whileHover={{ y: -5, transition: { duration: 0.3 } }}
+              className={`group cursor-pointer overflow-hidden rounded-xl ${styles.card} p-6 shadow-xl backdrop-blur-sm transition-all duration-300`}
+              onClick={() => openDetail(volunteer)}
+            >
+              <div className="mb-2 flex items-center justify-between">
+                <h3
+                  className={`text-xl font-bold ${styles.cardTitle} ${styles.cardTitleHover} md:text-2xl`}
                 >
-                  {volunteer.description || "No description provided."}
-                </p>
-                <div
-                  className={`mt-4 inline-flex items-center text-sm font-medium ${styles.cardLink}`}
+                  {volunteer.title || "Untitled Experience"}
+                </h3>
+                {/* Volunteer icon */}
+                <svg
+                  className={`size-6 ${styles.cardIcon}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  Read more
-                  <svg
-                    className="ml-1 size-4"
-                    fill="none"
+                  <path
+                    d="M22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12Z"
                     stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M19 9l-7 7-7-7"
-                    ></path>
-                  </svg>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M16.5 11.5C16.5 7.5 12.5 7 12 9C11.5 11 16.5 10.5 16.5 14.5C16.5 16.5 14.5 17.5 12.5 17.5C10.5 17.5 8.5 16 8.5 14"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M12 6V9"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
+              <p
+                className={`mt-3 line-clamp-3 text-sm ${styles.cardDescription}`}
+              >
+                {volunteer.description || "No description provided."}
+              </p>
+              <div
+                className={`mt-4 inline-flex items-center text-sm font-medium ${styles.cardLink}`}
+              >
+                Read more
+                <svg
+                  className="ml-1 size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
       {/* Detail Modal */}
       <AnimatePresence>

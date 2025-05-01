@@ -23,10 +23,14 @@ const Projects: React.FC<ProjectsProps> = ({
   projects = [],
   theme = "Default",
 }) => {
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  // Early return if no projects exist
+  if (!projects?.length) {
+    return null;
+  }
+
   const styles: ProjectsThemeStyles =
     projectsThemeMap[theme] || projectsThemeMap["Default"]; // Get styles based on theme
-
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   if (!Array.isArray(projects)) {
     console.error("Projects data is not an array:", projects);
@@ -73,83 +77,67 @@ const Projects: React.FC<ProjectsProps> = ({
         >
           <h2 className={styles.heading}>Projects</h2>{" "}
           {/* Apply theme styles */}
-          {projects.length > 0 ? (
-            <p className={styles.description}>
-              Explore my portfolio of projects that showcase my skills and
-              passion.
-            </p>
-          ) : (
-            <p className={styles.description}>
-              No projects have been added yet.
-            </p>
-          )}
+          <p className={styles.description}>
+            Explore my portfolio of projects that showcase my skills and
+            passion.
+          </p>
         </motion.div>
-        {projects.length === 0 ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="flex h-48 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-center text-gray-400"
-          >
-            <p>No projects to display. Check back later!</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className="group cursor-pointer overflow-hidden rounded-xl bg-gray-800 shadow-xl transition-all duration-300"
-                onClick={() => openProjectDetails(project)}
-              >
-                <div className="relative h-48 overflow-hidden">
-                  {project.image ? (
-                    <>
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {projects.map((project, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              whileHover={{ y: -10, transition: { duration: 0.3 } }}
+              className="group cursor-pointer overflow-hidden rounded-xl bg-gray-800 shadow-xl transition-all duration-300"
+              onClick={() => openProjectDetails(project)}
+            >
+              <div className="relative h-48 overflow-hidden">
+                {project.image ? (
+                  <>
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"></div>
+                  </>
+                ) : (
+                  <div className="flex size-full items-center justify-center bg-gradient-to-r from-purple-900 to-gray-800">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="size-16 text-gray-500"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"></div>
-                    </>
-                  ) : (
-                    <div className="flex size-full items-center justify-center bg-gradient-to-r from-purple-900 to-gray-800">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="size-16 text-gray-500"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0h10a2 2 0 010 4H7a2 2 0 010-4z"
-                        />
-                      </svg>
-                    </div>
-                  )}
-                </div>
-                <div className="p-6">
-                  <h3 className={styles.projectCard.title}>
-                    {project.title || "Untitled Project"}
-                  </h3>
-                  <p className={styles.projectCard.description}>
-                    {project.description || "No description available"}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        )}
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div className="p-6">
+                <h3 className={styles.projectCard.title}>
+                  {project.title || "Untitled Project"}
+                </h3>
+                <p className={styles.projectCard.description}>
+                  {project.description || "No description available"}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
       {/* Project Details Modal */}
       <AnimatePresence>

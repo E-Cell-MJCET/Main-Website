@@ -22,19 +22,22 @@ interface HonorsAwardsProps {
 const HonorsAwards: React.FC<HonorsAwardsProps> = ({
   honors = [],
   awards = [],
-  theme = "Default", // Default theme
+  theme = "Default",
 }) => {
   const [selectedItem, setSelectedItem] = useState<HonorAwardContent | null>(
     null
   );
   const [selectedType, setSelectedType] = useState<"honor" | "award">("honor");
+  // Early return if no content
+  if (!honors?.length && !awards?.length) {
+    return null;
+  }
 
   const styles = getHonorsAwardsThemeStyles(theme);
 
-  // Check if we have data to display
+  // Simplified content checks
   const hasHonors = honors.length > 0;
   const hasAwards = awards.length > 0;
-  const hasContent = hasHonors || hasAwards;
 
   // Animation variants
   const containerVariants = {
@@ -57,11 +60,6 @@ const HonorsAwards: React.FC<HonorsAwardsProps> = ({
   const closeDetail = () => {
     setSelectedItem(null);
   };
-
-  // Early return if no content at all
-  if (!hasContent) {
-    return null;
-  }
 
   return (
     <div
