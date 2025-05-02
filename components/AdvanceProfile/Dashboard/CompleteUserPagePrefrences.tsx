@@ -126,7 +126,7 @@ function UserPagePrefrences_Dashboard({ userId }: { userId: string }) {
     };
 
     fetchUserData();
-  }, [userID]);
+  }, [userId]);
 
   const handleNext = () => {
     // Special case for Step 3 (section selection)

@@ -57,11 +57,15 @@ interface UserData {
 const HeaderDashboard = () => {
   const { user, isLoaded: isClerkLoaded } = useUser();
   const [isLoading, setIsLoading] = useState(true);
-  const [saveStatus, setSaveStatus] = useState<null | "saving" | "saved" | "error">(null);
-  const [profileImage, setProfileImage] = useState<string>("/assets/Team/Execom/Technical/Adnan/trial_logo.jpg");
+  const [saveStatus, setSaveStatus] = useState<
+    null | "saving" | "saved" | "error"
+  >(null);
+  const [profileImage, setProfileImage] = useState<string>(
+    "/assets/Team/Execom/Technical/Adnan/trial_logo.jpg"
+  );
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  
+
   // User data state
   const [userData, setUserData] = useState<UserData>({
     Name: "",
@@ -85,7 +89,7 @@ const HeaderDashboard = () => {
       phone: "",
       countryCode: "",
       countryDialCode: "",
-    }
+    },
   });
 
   // Selected theme for preview
@@ -96,8 +100,8 @@ const HeaderDashboard = () => {
     const fetchUserData = async () => {
       if (!isClerkLoaded || !user) {
         setIsLoading(false);
-        
-return;
+
+        return;
       }
 
       try {
@@ -136,13 +140,13 @@ return;
               phone: "",
               countryCode: "",
               countryDialCode: "",
-            }
+            },
           });
-          
+
           if (data.ProfileImageHeader) {
             setProfileImage(data.ProfileImageHeader);
           }
-          
+
           if (data.theme) {
             setSelectedTheme(data.theme);
           }
@@ -155,51 +159,73 @@ return;
             const savedTagline = localStorage.getItem(`${sessionId}_tagline`);
             const savedUsername = localStorage.getItem(`${sessionId}_username`);
             const savedAbout = localStorage.getItem(`${sessionId}_about`);
-            const savedIndustryPreference = localStorage.getItem(`${sessionId}_industryPreference`);
-            const savedSecondaryPreference = localStorage.getItem(`${sessionId}_secondaryPreference`);
-            
+            const savedIndustryPreference = localStorage.getItem(
+              `${sessionId}_industryPreference`
+            );
+            const savedSecondaryPreference = localStorage.getItem(
+              `${sessionId}_secondaryPreference`
+            );
+
             // Load social media links
-            const savedSocialLinks = localStorage.getItem(`${sessionId}_socialLinks`);
-            
+            const savedSocialLinks = localStorage.getItem(
+              `${sessionId}_socialLinks`
+            );
+
             // Load contact info
-            const savedContactInfo = localStorage.getItem(`${sessionId}_contactInfo`);
-            
+            const savedContactInfo = localStorage.getItem(
+              `${sessionId}_contactInfo`
+            );
+
             // Load location info
-            const savedLocationInfo = localStorage.getItem(`${sessionId}_locationInfo`);
-            
+            const savedLocationInfo = localStorage.getItem(
+              `${sessionId}_locationInfo`
+            );
+
             // Load theme
             const savedTheme = localStorage.getItem(`${sessionId}_theme`);
-            
+
             // Set state with saved values
-            if (savedFullName) setUserData(prev => ({ ...prev, Name: savedFullName }));
-            if (savedTagline) setUserData(prev => ({ ...prev, Tagline: savedTagline }));
-            if (savedUsername) setUserData(prev => ({ ...prev, Username: savedUsername }));
-            if (savedAbout) setUserData(prev => ({ ...prev, About: savedAbout }));
-            if (savedIndustryPreference) setUserData(prev => ({ ...prev, IndustryPreference: savedIndustryPreference }));
-            if (savedSecondaryPreference) setUserData(prev => ({ ...prev, SecondaryPreference: savedSecondaryPreference }));
-            
+            if (savedFullName)
+              setUserData((prev) => ({ ...prev, Name: savedFullName }));
+            if (savedTagline)
+              setUserData((prev) => ({ ...prev, Tagline: savedTagline }));
+            if (savedUsername)
+              setUserData((prev) => ({ ...prev, Username: savedUsername }));
+            if (savedAbout)
+              setUserData((prev) => ({ ...prev, About: savedAbout }));
+            if (savedIndustryPreference)
+              setUserData((prev) => ({
+                ...prev,
+                IndustryPreference: savedIndustryPreference,
+              }));
+            if (savedSecondaryPreference)
+              setUserData((prev) => ({
+                ...prev,
+                SecondaryPreference: savedSecondaryPreference,
+              }));
+
             if (savedSocialLinks) {
-              setUserData(prev => ({ 
-                ...prev, 
-                SocialLinks: JSON.parse(savedSocialLinks) 
+              setUserData((prev) => ({
+                ...prev,
+                SocialLinks: JSON.parse(savedSocialLinks),
               }));
             }
-            
+
             if (savedContactInfo) {
-              setUserData(prev => ({ 
-                ...prev, 
-                Contact_Info: JSON.parse(savedContactInfo) 
+              setUserData((prev) => ({
+                ...prev,
+                Contact_Info: JSON.parse(savedContactInfo),
               }));
             }
-            
+
             if (savedLocationInfo && JSON.parse(savedLocationInfo).city) {
               const locationInfo = JSON.parse(savedLocationInfo);
-              setUserData(prev => ({ 
-                ...prev, 
-                Location: `${locationInfo.city}, ${locationInfo.country}` 
+              setUserData((prev) => ({
+                ...prev,
+                Location: `${locationInfo.city}, ${locationInfo.country}`,
               }));
             }
-            
+
             if (savedTheme) setSelectedTheme(savedTheme);
           }
         }
@@ -218,7 +244,7 @@ return;
     const file = e.target.files?.[0];
     if (file) {
       setImageFile(file);
-      
+
       // Create a preview URL
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -229,23 +255,27 @@ return;
   };
 
   // Handle form input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    
+
     // Handle nested properties
-    if (name.includes('.')) {
-      const [parent, child] = name.split('.');
-      setUserData(prev => ({
+    if (name.includes(".")) {
+      const [parent, child] = name.split(".");
+      setUserData((prev) => ({
         ...prev,
         [parent]: {
-          ...prev[parent as keyof UserData],
-          [child]: value
-        }
+          ...((prev[parent as keyof UserData] as Record<string, string>) || {}),
+          [child]: value,
+        },
       }));
     } else {
-      setUserData(prev => ({
+      setUserData((prev) => ({
         ...prev,
-        [name]: value
+        [name]: value,
       }));
     }
   };
@@ -254,37 +284,37 @@ return;
   const saveUserData = async () => {
     if (!user) {
       toast.error("You must be logged in to save profile settings");
-      
-return;
+
+      return;
     }
 
     setSaveStatus("saving");
-    
+
     try {
       let profileImageUrl = userData.ProfileImageHeader;
-      
+
       // Upload image if a new one was selected
       if (imageFile) {
         const fileName = `${user.id}_profile_${Date.now()}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('profile-images')
+          .from("profile-images")
           .upload(fileName, imageFile);
-          
+
         if (uploadError) {
           console.error("Error uploading image:", uploadError);
           toast.error("Failed to upload profile image");
         } else {
           // Get the public URL for the uploaded image
           const { data: urlData } = await supabase.storage
-            .from('profile-images')
+            .from("profile-images")
             .getPublicUrl(fileName);
-            
+
           if (urlData) {
             profileImageUrl = urlData.publicUrl;
           }
         }
       }
-      
+
       // Prepare data for Supabase
       const dataToSave = {
         Name: userData.Name,
@@ -297,82 +327,89 @@ return;
         ProfileImageHeader: profileImageUrl,
         SocialLinks: userData.SocialLinks,
         Contact_Info: userData.Contact_Info,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       };
-      
+
       // Check if user exists in the database
       const { data: existingUser, error: checkError } = await supabase
         .from("Team")
         .select("*")
         .eq("clerk_user_id", user.id)
         .single();
-        
+
       if (checkError && checkError.code !== "PGRST116") {
         console.error("Error checking user existence:", checkError);
         setSaveStatus("error");
         toast.error("Failed to save profile settings");
-        
-return;
+
+        return;
       }
-      
+
       let saveError;
-      
+
       if (existingUser) {
         // Update existing user
         const { error } = await supabase
           .from("Team")
           .update(dataToSave)
           .eq("clerk_user_id", user.id);
-          
+
         saveError = error;
       } else {
         // Insert new user
-        const { error } = await supabase
-          .from("Team")
-          .insert([{
+        const { error } = await supabase.from("Team").insert([
+          {
             ...dataToSave,
-            clerk_user_id: user.id
-          }]);
-          
+            clerk_user_id: user.id,
+          },
+        ]);
+
         saveError = error;
       }
-      
+
       if (saveError) {
         console.error("Error saving data to Supabase:", saveError);
         setSaveStatus("error");
         toast.error("Failed to save profile settings");
-        
-return;
+
+        return;
       }
-      
+
       // Also save to localStorage for redundancy
-      const sessionId = localStorage.getItem("personalized_session_id") || 
+      const sessionId =
+        localStorage.getItem("personalized_session_id") ||
         (() => {
           const newId = `session_${Date.now()}`;
           localStorage.setItem("personalized_session_id", newId);
-          
-return newId;
+
+          return newId;
         })();
-        
+
       localStorage.setItem(`${sessionId}_fullName`, userData.Name);
       localStorage.setItem(`${sessionId}_tagline`, userData.Tagline);
       localStorage.setItem(`${sessionId}_username`, userData.Username || "");
       localStorage.setItem(`${sessionId}_about`, userData.About);
-      localStorage.setItem(`${sessionId}_socialLinks`, JSON.stringify(userData.SocialLinks));
-      localStorage.setItem(`${sessionId}_contactInfo`, JSON.stringify(userData.Contact_Info));
-      
+      localStorage.setItem(
+        `${sessionId}_socialLinks`,
+        JSON.stringify(userData.SocialLinks)
+      );
+      localStorage.setItem(
+        `${sessionId}_contactInfo`,
+        JSON.stringify(userData.Contact_Info)
+      );
+
       // Update the profile image in state if it was changed
       if (profileImageUrl && profileImageUrl !== userData.ProfileImageHeader) {
         setProfileImage(profileImageUrl);
-        setUserData(prev => ({
+        setUserData((prev) => ({
           ...prev,
-          ProfileImageHeader: profileImageUrl
+          ProfileImageHeader: profileImageUrl,
         }));
       }
-      
+
       setSaveStatus("saved");
       toast.success("Profile settings saved successfully!");
-      
+
       // Reset status after showing success
       setTimeout(() => {
         setSaveStatus(null);
@@ -414,12 +451,12 @@ return newId;
           onClick={saveUserData}
           disabled={saveStatus === "saving" || !user}
           className={`rounded-md px-4 py-2 font-medium text-white transition-colors ${
-            !user 
+            !user
               ? "cursor-not-allowed bg-gray-400"
-              : saveStatus === "saving" 
-                ? "bg-gray-400" 
-                : saveStatus === "saved" 
-                  ? "bg-green-500" 
+              : saveStatus === "saving"
+                ? "bg-gray-400"
+                : saveStatus === "saved"
+                  ? "bg-green-500"
                   : saveStatus === "error"
                     ? "bg-red-500"
                     : "bg-indigo-600 hover:bg-indigo-700"
@@ -427,10 +464,10 @@ return newId;
         >
           {!user
             ? "Login Required"
-            : saveStatus === "saving" 
-              ? "Saving..." 
-              : saveStatus === "saved" 
-                ? "Saved!" 
+            : saveStatus === "saving"
+              ? "Saving..."
+              : saveStatus === "saved"
+                ? "Saved!"
                 : saveStatus === "error"
                   ? "Error!"
                   : "Save Changes"}
@@ -444,7 +481,10 @@ return newId;
             <h3 className="mb-4 text-lg font-medium">Basic Information</h3>
             <div className="space-y-4">
               <div>
-                <label htmlFor="Name" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Name"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Full Name *
                 </label>
                 <input
@@ -458,7 +498,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="Username" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Username"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Username
                 </label>
                 <input
@@ -471,7 +514,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="Tagline" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Tagline"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Tagline *
                 </label>
                 <input
@@ -485,7 +531,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="Member_Type" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Member_Type"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Member Type
                 </label>
                 <select
@@ -502,7 +551,10 @@ return newId;
                 </select>
               </div>
               <div>
-                <label htmlFor="Location" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Location"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Location
                 </label>
                 <input
@@ -516,7 +568,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="Portfolio" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Portfolio"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Portfolio
                 </label>
                 <input
@@ -529,7 +584,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="About" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="About"
+                  className="mb-1 block text-sm font-medium"
+                >
                   About
                 </label>
                 <textarea
@@ -578,7 +636,10 @@ return newId;
             <h3 className="mb-4 text-lg font-medium">Social Links</h3>
             <div className="space-y-4">
               <div>
-                <label htmlFor="SocialLinks.website" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="SocialLinks.website"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Website
                 </label>
                 <input
@@ -592,7 +653,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="SocialLinks.linkedin" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="SocialLinks.linkedin"
+                  className="mb-1 block text-sm font-medium"
+                >
                   LinkedIn Username
                 </label>
                 <input
@@ -606,7 +670,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="SocialLinks.github" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="SocialLinks.github"
+                  className="mb-1 block text-sm font-medium"
+                >
                   GitHub Username
                 </label>
                 <input
@@ -620,7 +687,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="SocialLinks.twitter" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="SocialLinks.twitter"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Twitter Username
                 </label>
                 <input
@@ -634,7 +704,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="SocialLinks.instagram" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="SocialLinks.instagram"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Instagram Username
                 </label>
                 <input
@@ -653,7 +726,10 @@ return newId;
             <h3 className="mb-4 text-lg font-medium">Contact Information</h3>
             <div className="space-y-4">
               <div>
-                <label htmlFor="Contact_Info.email" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Contact_Info.email"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Email
                 </label>
                 <input
@@ -666,7 +742,10 @@ return newId;
                 />
               </div>
               <div>
-                <label htmlFor="Contact_Info.phone" className="mb-1 block text-sm font-medium">
+                <label
+                  htmlFor="Contact_Info.phone"
+                  className="mb-1 block text-sm font-medium"
+                >
                   Phone Number
                 </label>
                 <div className="flex">
@@ -696,16 +775,22 @@ return newId;
         <div className="space-y-6">
           <h3 className="text-lg font-medium">Profile Header Preview</h3>
           <div className="overflow-hidden rounded-lg border border-gray-200 bg-white p-4 shadow-md">
-            <div className={themeStyles.container + " max-h-[500px] overflow-auto"}>
+            <div
+              className={themeStyles.container + " max-h-[500px] overflow-auto"}
+            >
               {/* Left Content Section */}
               <div className="flex w-full flex-col items-start space-y-4 md:w-1/2">
                 <h1 className={themeStyles.headingText}>
                   Hi! 👋
                   <br /> I`m {userData.Name || "Your Name"}
                 </h1>
-                <p className={themeStyles.taglineText}>{userData.Tagline || "Your Tagline"}</p>
+                <p className={themeStyles.taglineText}>
+                  {userData.Tagline || "Your Tagline"}
+                </p>
                 <div className="flex items-center space-x-2">
-                  <span className={themeStyles.locationText}>{userData.Location || "Your Location"}</span>
+                  <span className={themeStyles.locationText}>
+                    {userData.Location || "Your Location"}
+                  </span>
                 </div>
                 {/* Member Type and Portfolio Badges */}
                 <div className="flex flex-wrap items-center gap-2">
@@ -838,10 +923,16 @@ return newId;
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-md">
             <h3 className="mb-4 text-lg font-medium">Theme Selection</h3>
             <p className="mb-4 text-sm text-gray-600">
-              Select a theme to see how your profile header will look. You can change this anytime.
+              Select a theme to see how your profile header will look. You can
+              change this anytime.
             </p>
             <div className="space-y-3">
-              {["Default", "Gradient Theme", "Monochromatic Theme", "Dark Theme with accent colors"].map((theme) => (
+              {[
+                "Default",
+                "Gradient Theme",
+                "Monochromatic Theme",
+                "Dark Theme with accent colors",
+              ].map((theme) => (
                 <div key={theme} className="flex items-center">
                   <input
                     type="radio"
@@ -852,7 +943,10 @@ return newId;
                     onChange={() => setSelectedTheme(theme)}
                     className="size-4 text-indigo-600 focus:ring-indigo-500"
                   />
-                  <label htmlFor={`theme-${theme}`} className="ml-2 block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor={`theme-${theme}`}
+                    className="ml-2 block text-sm font-medium text-gray-700"
+                  >
                     {theme}
                   </label>
                 </div>
@@ -863,10 +957,22 @@ return newId;
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
             <h4 className="mb-2 font-medium">Preview Notes:</h4>
             <ul className="list-inside list-disc space-y-1 text-sm text-gray-600">
-              <li>This is a simplified preview of how your profile header will appear.</li>
-              <li>Interactive elements like buttons are not functional in the preview.</li>
-              <li>The actual header may have slight variations based on screen size and device.</li>
-              <li>Save your changes to see the updated header on your profile page.</li>
+              <li>
+                This is a simplified preview of how your profile header will
+                appear.
+              </li>
+              <li>
+                Interactive elements like buttons are not functional in the
+                preview.
+              </li>
+              <li>
+                The actual header may have slight variations based on screen
+                size and device.
+              </li>
+              <li>
+                Save your changes to see the updated header on your profile
+                page.
+              </li>
             </ul>
           </div>
         </div>

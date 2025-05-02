@@ -1,9 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable tailwindcss/migration-from-tailwind-2 */
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import {
   Menu,
   ChevronRight,
@@ -30,25 +26,25 @@ import Image from "next/image";
 import { toast, Toaster } from "react-hot-toast";
 
 import { supabase } from "@/utils/supabase";
-import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/MainDashboard";
 import Events from "@/components/AdvanceProfile/Dashboard/Events";
 import Team from "@/components/AdvanceProfile/Dashboard/Team";
 import Profile_Themes from "@/components/AdvanceProfile/Dashboard/ProfileThemes";
 import ProfileDashboard from "@/components/AdvanceProfile/Dashboard/ProfileDashboard";
 import UserPagePrefrences_Dashboard from "@/components/AdvanceProfile/Dashboard/CompleteUserPagePrefrences";
 
+// import Main_Dashboard from "@/components/AdvanceProfile/Dashboard/MainDashboard";
+
 // Session duration in milliseconds (36 hours)
 const SESSION_DURATION = 36 * 60 * 60 * 1000;
 
 const DashboardPage = () => {
-  const router = useRouter();
   const [userData, setUserData] = useState<any | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [darkMode, setDarkMode] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [userProfileStat, setUserProfileStat] = useState(false);
-  const [showRegistration, setShowRegistration] = useState(false);
+  // const [showRegistration, setShowRegistration] = useState(false);
   const [registrationStatus, setRegistrationStatus] = useState<{
     success: boolean;
     message: string;
@@ -58,7 +54,7 @@ const DashboardPage = () => {
 
   // Authentication states
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // const [isLoaded, setIsLoaded] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -73,7 +69,7 @@ const DashboardPage = () => {
 
   // New state for permitted member check
   const [isPermittedMember, setIsPermittedMember] = useState(false);
-  const [showPermissionModal, setShowPermissionModal] = useState(false);
+  // const [showPermissionModal, setShowPermissionModal] = useState(false);
 
   // Session tracking
   const [lastLogin, setLastLogin] = useState<string | null>(null);
@@ -87,7 +83,7 @@ const DashboardPage = () => {
   // Check authentication status on mount
   useEffect(() => {
     const checkAuth = async () => {
-      setIsLoaded(false);
+      // setIsLoaded(false);
       setIsValidating(true);
       setValidationMessage("Checking authentication status...");
 
@@ -136,7 +132,7 @@ const DashboardPage = () => {
               }
             } else {
               // setIsPermittedMember(false);
-              setShowPermissionModal(true);
+              // setShowPermissionModal(true);
             }
 
             // Fetch user data
@@ -157,7 +153,7 @@ const DashboardPage = () => {
         console.error("Error checking authentication:", error);
         setShowAuthModal(true);
       } finally {
-        setIsLoaded(true);
+        // setIsLoaded(true);
         setIsValidating(false);
       }
     };
@@ -314,99 +310,99 @@ const DashboardPage = () => {
     }
   }, [darkMode]);
 
-  // Handle registration completion
-  const handleRegistrationComplete = async (
-    success: boolean,
-    message: string
-  ) => {
-    setShowRegistration(false);
-    setRegistrationStatus({ success, message, show: true });
+  // // Handle registration completion
+  // const handleRegistrationComplete = async (
+  //   success: boolean,
+  //   message: string
+  // ) => {
+  //   setShowRegistration(false);
+  //   setRegistrationStatus({ success, message, show: true });
 
-    // If registration was successful, update isRegistered state
-    if (success) {
-      setIsRegistered(true);
-    }
+  //   // If registration was successful, update isRegistered state
+  //   if (success) {
+  //     setIsRegistered(true);
+  //   }
 
-    // Hide status message after 5 seconds
-    setTimeout(() => {
-      setRegistrationStatus((prev) => ({ ...prev, show: false }));
-    }, 5000);
-  };
+  //   // Hide status message after 5 seconds
+  //   setTimeout(() => {
+  //     setRegistrationStatus((prev) => ({ ...prev, show: false }));
+  //   }, 5000);
+  // };
 
   // Function to generate a unique random username
-  const generateUniqueUsername = (() => {
-    // Closure to store previously generated usernames
-    const usedUsernames = new Set();
+  // const generateUniqueUsername = (() => {
+  //   // Closure to store previously generated usernames
+  //   const usedUsernames = new Set();
 
-    // More variety in word choices
-    const adjectives = [
-      "Happy",
-      "Clever",
-      "Brave",
-      "Bright",
-      "Swift",
-      "Calm",
-      "Bold",
-      "Smart",
-      "Witty",
-      "Nimble",
-      "Agile",
-      "Mighty",
-      "Noble",
-      "Keen",
-      "Vivid",
-      "Jovial",
-    ];
-    const nouns = [
-      "Eagle",
-      "Tiger",
-      "Dolphin",
-      "Falcon",
-      "Wolf",
-      "Lion",
-      "Hawk",
-      "Fox",
-      "Raven",
-      "Panda",
-      "Lynx",
-      "Bear",
-      "Shark",
-      "Owl",
-      "Cobra",
-      "Dragon",
-    ];
+  //   // More variety in word choices
+  //   const adjectives = [
+  //     "Happy",
+  //     "Clever",
+  //     "Brave",
+  //     "Bright",
+  //     "Swift",
+  //     "Calm",
+  //     "Bold",
+  //     "Smart",
+  //     "Witty",
+  //     "Nimble",
+  //     "Agile",
+  //     "Mighty",
+  //     "Noble",
+  //     "Keen",
+  //     "Vivid",
+  //     "Jovial",
+  //   ];
+  //   const nouns = [
+  //     "Eagle",
+  //     "Tiger",
+  //     "Dolphin",
+  //     "Falcon",
+  //     "Wolf",
+  //     "Lion",
+  //     "Hawk",
+  //     "Fox",
+  //     "Raven",
+  //     "Panda",
+  //     "Lynx",
+  //     "Bear",
+  //     "Shark",
+  //     "Owl",
+  //     "Cobra",
+  //     "Dragon",
+  //   ];
 
-    return () => {
-      let username;
-      let attempts = 0;
+  //   return () => {
+  //     let username;
+  //     let attempts = 0;
 
-      do {
-        // Get current timestamp in milliseconds
-        const timestamp = Date.now().toString().slice(-5);
+  //     do {
+  //       // Get current timestamp in milliseconds
+  //       const timestamp = Date.now().toString().slice(-5);
 
-        const randomAdjective =
-          adjectives[Math.floor(Math.random() * adjectives.length)];
-        const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+  //       const randomAdjective =
+  //         adjectives[Math.floor(Math.random() * adjectives.length)];
+  //       const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
 
-        // Add more entropy with both timestamp and random number
-        const randomNumber = Math.floor(Math.random() * 10000);
+  //       // Add more entropy with both timestamp and random number
+  //       const randomNumber = Math.floor(Math.random() * 10000);
 
-        username = `${randomAdjective}${randomNoun}${randomNumber}${timestamp}`;
-        attempts++;
+  //       username = `${randomAdjective}${randomNoun}${randomNumber}${timestamp}`;
+  //       attempts++;
 
-        // Safety valve to prevent infinite loops (extremely unlikely)
-        if (attempts > 100) {
-          username += `_${Math.random().toString(36).substring(2, 8)}`;
-          break;
-        }
-      } while (usedUsernames.has(username));
+  //       // Safety valve to prevent infinite loops (extremely unlikely)
+  //       if (attempts > 100) {
+  //         username += `_${Math.random().toString(36).substring(2, 8)}`;
+  //         break;
+  //       }
+  //     } while (usedUsernames.has(username));
 
-      // Store this username to prevent future duplicates
-      usedUsernames.add(username);
+  //     // Store this username to prevent future duplicates
+  //     usedUsernames.add(username);
 
-      return username;
-    };
-  })();
+  //     return username;
+  //   };
+  // })();
 
   // Handle account registration
   const handleRegisterAccount = async () => {
@@ -601,9 +597,9 @@ const DashboardPage = () => {
       if (isMobile) setSidebarOpen(false);
     }
     // Check if user is a permitted member
-    else if (!isPermittedMember) {
-      setShowPermissionModal(true);
-    }
+    // else if (!isPermittedMember) {
+    //   setShowPermissionModal(true);
+    // }
     // Check if user is registered
     else if (isSignedIn && !isRegistered) {
       // Show registration prompt if trying to access restricted tabs
@@ -617,349 +613,360 @@ const DashboardPage = () => {
   };
 
   // Handle redirect to membership page
-  const handleMembershipRedirect = () => {
-    router.push("/membership");
-  };
+  // const handleMembershipRedirect = () => {
+  //   router.push("/membership");
+  // };
 
   // Render content based on active tab
   const renderContent = () => {
-    switch (activeTab) {
-      case "dashboard":
-        return <Main_Dashboard />;
-      case "events":
-        return <Events user_id={userId} />;
-      case "profile":
-        return <ProfileDashboard userId={userId} />;
-      case "team":
-        return <Team />;
-      case "theme":
-        return <Profile_Themes userId={userId} />;
-      case "forms":
-        return <UserPagePrefrences_Dashboard userId={userId} />;
-      case "settings":
-        return (
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-bold">Settings</h2>
-            {isSignedIn && (
-              <div className="mb-6 space-y-6">
-                {/* Account Information */}
-                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 text-lg font-medium">
-                    Account Information
-                  </h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">
-                        Email:
-                      </span>
-                      <span className="font-medium">{email}</span>
-                    </div>
-                    {lastLogin && (
+    if (userId) {
+      switch (activeTab) {
+        // case "dashboard":
+        //   return <Main_Dashboard />;
+        case "events":
+          return <Events userId={userId} />;
+        case "profile":
+          return <ProfileDashboard userId={userId} />;
+        case "team":
+          return <Team />;
+        case "theme":
+          return <Profile_Themes userId={userId} />;
+        case "forms":
+          return <UserPagePrefrences_Dashboard userId={userId} />;
+        case "settings":
+          return (
+            <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 text-xl font-bold">Settings</h2>
+              {isSignedIn && (
+                <div className="mb-6 space-y-6">
+                  {/* Account Information */}
+                  <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                    <h3 className="mb-3 text-lg font-medium">
+                      Account Information
+                    </h3>
+                    <div className="space-y-2">
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Last Login:
+                          Email:
+                        </span>
+                        <span className="font-medium">{email}</span>
+                      </div>
+                      {lastLogin && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600 dark:text-gray-400">
+                            Last Login:
+                          </span>
+                          <div className="flex items-center">
+                            <Clock className="mr-1 size-4 text-gray-500" />
+                            <span>{lastLogin}</span>
+                          </div>
+                        </div>
+                      )}
+                      {loginLocation && (
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600 dark:text-gray-400">
+                            Login Location:
+                          </span>
+                          <span>{loginLocation}</span>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">
+                          Account Status:
                         </span>
                         <div className="flex items-center">
-                          <Clock className="mr-1 size-4 text-gray-500" />
-                          <span>{lastLogin}</span>
+                          {isRegistered ? (
+                            <>
+                              <CheckCircle className="mr-1 size-4 text-green-500" />
+                              <span className="text-green-600 dark:text-green-400">
+                                Registered
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <XCircle className="mr-1 size-4 text-amber-500" />
+                              <span className="text-amber-600 dark:text-amber-400">
+                                Not Registered
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
-                    )}
-                    {loginLocation && (
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">
-                          Login Location:
+                          Member Status:
                         </span>
-                        <span>{loginLocation}</span>
+                        <div className="flex items-center">
+                          {isPermittedMember ? (
+                            <>
+                              <Shield className="mr-1 size-4 text-blue-500" />
+                              <span className="text-blue-600 dark:text-blue-400">
+                                Permitted Member
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <AlertCircle className="mr-1 size-4 text-red-500" />
+                              <span className="text-red-600 dark:text-red-400">
+                                Not a Member
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Registration Section */}
+                  <div className="mt-4">
+                    <h3 className="mb-2 text-lg font-medium">
+                      Account Registration
+                    </h3>
+                    <p className="mb-4 text-gray-600 dark:text-gray-400">
+                      {isRegistered
+                        ? "Your account is registered and has full access to all features."
+                        : "Register your account with our system to enable all features."}
+                    </p>
+                    <button
+                      onClick={handleRegisterAccount}
+                      className={`flex items-center rounded-md px-4 py-2 text-white ${
+                        isRegistered
+                          ? "bg-green-600 hover:bg-green-700"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      }`}
+                      disabled={isProcessing}
+                    >
+                      <UserPlus className="mr-2 size-5" />
+                      {isRegistered
+                        ? "Update Registration"
+                        : "Register Account"}
+                    </button>
+                    {/* Registration Status Message */}
+                    {registrationStatus.show && (
+                      <div
+                        className={`mt-4 rounded-md p-3 text-sm ${
+                          registrationStatus.success
+                            ? "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                            : "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                        }`}
+                      >
+                        {registrationStatus.message}
                       </div>
                     )}
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">
-                        Account Status:
-                      </span>
-                      <div className="flex items-center">
-                        {isRegistered ? (
-                          <>
-                            <CheckCircle className="mr-1 size-4 text-green-500" />
-                            <span className="text-green-600 dark:text-green-400">
-                              Registered
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="mr-1 size-4 text-amber-500" />
-                            <span className="text-amber-600 dark:text-amber-400">
-                              Not Registered
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 dark:text-gray-400">
-                        Member Status:
-                      </span>
-                      <div className="flex items-center">
-                        {isPermittedMember ? (
-                          <>
-                            <Shield className="mr-1 size-4 text-blue-500" />
-                            <span className="text-blue-600 dark:text-blue-400">
-                              Permitted Member
-                            </span>
-                          </>
-                        ) : (
-                          <>
-                            <AlertCircle className="mr-1 size-4 text-red-500" />
-                            <span className="text-red-600 dark:text-red-400">
-                              Not a Member
-                            </span>
-                          </>
-                        )}
-                      </div>
-                    </div>
                   </div>
-                </div>
-                {/* Registration Section */}
-                <div className="mt-4">
-                  <h3 className="mb-2 text-lg font-medium">
-                    Account Registration
-                  </h3>
-                  <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    {isRegistered
-                      ? "Your account is registered and has full access to all features."
-                      : "Register your account with our system to enable all features."}
-                  </p>
-                  <button
-                    onClick={handleRegisterAccount}
-                    className={`flex items-center rounded-md px-4 py-2 text-white ${
-                      isRegistered
-                        ? "bg-green-600 hover:bg-green-700"
-                        : "bg-blue-600 hover:bg-blue-700"
-                    }`}
-                    disabled={isProcessing}
-                  >
-                    <UserPlus className="mr-2 size-5" />
-                    {isRegistered ? "Update Registration" : "Register Account"}
-                  </button>
-                  {/* Registration Status Message */}
-                  {registrationStatus.show && (
-                    <div
-                      className={`mt-4 rounded-md p-3 text-sm ${
-                        registrationStatus.success
-                          ? "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                          : "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                      }`}
-                    >
-                      {registrationStatus.message}
-                    </div>
-                  )}
-                </div>
-                {/* Theme Settings */}
-                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 text-lg font-medium">Theme Settings</h3>
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      Dark Mode
-                    </span>
-                    <button
-                      onClick={() => setDarkMode(!darkMode)}
-                      className="flex h-6 w-11 items-center rounded-full bg-gray-200 p-1 transition-colors duration-300 focus:outline-none dark:bg-gray-700"
-                      aria-pressed={darkMode}
-                    >
-                      <div
-                        className={`size-4 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
-                          darkMode ? "translate-x-5" : ""
-                        }`}
-                      />
-                    </button>
-                  </div>
-                  <div className="mt-3 flex items-center justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">
-                      Sidebar Default
-                    </span>
-                    <button
-                      onClick={() => {
-                        if (!isMobile) {
-                          setSidebarOpen(!sidebarOpen);
-                          localStorage.setItem(
-                            "sidebarOpen",
-                            (!sidebarOpen).toString()
-                          );
-                        }
-                      }}
-                      className="flex h-6 w-11 items-center rounded-full bg-gray-200 p-1 transition-colors duration-300 focus:outline-none dark:bg-gray-700"
-                      aria-pressed={sidebarOpen}
-                      disabled={isMobile}
-                    >
-                      <div
-                        className={`size-4 transform rounded-full bg-white shadow-md transition-transform duration-300 ${
-                          sidebarOpen ? "translate-x-5" : ""
-                        } ${isMobile ? "opacity-50" : ""}`}
-                      />
-                    </button>
-                  </div>
-                </div>
-                {/* Account Security */}
-                <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                  <h3 className="mb-3 text-lg font-medium">Account Security</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="mb-2 text-gray-600 dark:text-gray-400">
-                        Your session will expire after 36 hours of inactivity.
-                      </p>
-                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
-                        <Clock className="mr-1 size-4" />
-                        <span>
-                          {lastLogin
-                            ? `Last active: ${lastLogin}`
-                            : "No recent activity"}
-                        </span>
-                      </div>
-                    </div>
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center justify-center rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
-                    >
-                      <LogOut className="mr-2 size-5" />
-                      Logout
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Email Management - Only visible to Governing Body or HR Executive */}
-            {userData &&
-              (userData.Member_Type === "Governing Body" ||
-                (userData.Member_Type === "Executive" &&
-                  userData.Portfolio === "Human Resource")) && (
-                <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
-                  <h3 className="mb-4 text-lg font-medium">Email Management</h3>
-                  <p className="mb-4 text-gray-600 dark:text-gray-400">
-                    Add permitted email addresses for new members.
-                  </p>
+                  {/* Theme Settings */}
                   <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
-                    <div className="space-y-4">
-                      <div>
-                        <label
-                          htmlFor="newEmail"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          New Member Email
-                        </label>
-                        <input
-                          type="email"
-                          id="newEmail"
-                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                          placeholder="Enter email address"
+                    <h3 className="mb-3 text-lg font-medium">Theme Settings</h3>
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Dark Mode
+                      </span>
+                      <button
+                        onClick={() => setDarkMode(!darkMode)}
+                        className="flex h-6 w-11 items-center rounded-full bg-gray-200 p-1 transition-colors duration-300 focus:outline-none dark:bg-gray-700"
+                        aria-pressed={darkMode}
+                      >
+                        <div
+                          className={`size-4 rounded-full bg-white shadow-md transition-transform duration-300${
+                            darkMode ? "translate-x-5" : ""
+                          }`}
                         />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor="memberType"
-                          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                        >
-                          Member Type
-                        </label>
-                        <select
-                          id="memberType"
-                          className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-                        >
-                          <option value="Executive">Executive</option>
-                          <option value="Associate">Associate</option>
-                          <option value="Governing Body">Governing Body</option>
-                        </select>
-                      </div>
-                      <button className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
-                        <UserPlus className="mr-2 size-5" />
-                        Add Member
+                      </button>
+                    </div>
+                    <div className="mt-3 flex items-center justify-between">
+                      <span className="text-gray-600 dark:text-gray-400">
+                        Sidebar Default
+                      </span>
+                      <button
+                        onClick={() => {
+                          if (!isMobile) {
+                            setSidebarOpen(!sidebarOpen);
+                            localStorage.setItem(
+                              "sidebarOpen",
+                              (!sidebarOpen).toString()
+                            );
+                          }
+                        }}
+                        className="flex h-6 w-11 items-center rounded-full bg-gray-200 p-1 transition-colors duration-300 focus:outline-none dark:bg-gray-700"
+                        aria-pressed={sidebarOpen}
+                        disabled={isMobile}
+                      >
+                        <div
+                          className={`size-4 rounded-full bg-white shadow-md transition-transform duration-300${
+                            sidebarOpen ? "translate-x-5" : ""
+                          } ${isMobile ? "opacity-50" : ""}`}
+                        />
                       </button>
                     </div>
                   </div>
-                  <div className="mt-6">
-                    <h4 className="text-md mb-2 font-medium">
-                      Current Permitted Members
-                    </h4>
-                    <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700">
-                      <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                        <thead className="bg-gray-50 dark:bg-gray-800">
-                          <tr>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
-                            >
-                              Email
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
-                            >
-                              Status
-                            </th>
-                            <th
-                              scope="col"
-                              className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
-                            >
-                              Actions
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                          {permittedEmails.map((email, index) => (
-                            <tr key={index}>
-                              <td className="whitespace-nowrap px-6 py-4">
-                                <div className="text-sm text-gray-900 dark:text-gray-200">
-                                  {email}
-                                </div>
-                              </td>
-                              <td className="whitespace-nowrap px-6 py-4">
-                                <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                                  Active
-                                </span>
-                              </td>
-                              <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                  Remove
-                                </button>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                  {/* Account Security */}
+                  <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                    <h3 className="mb-3 text-lg font-medium">
+                      Account Security
+                    </h3>
+                    <div className="space-y-4">
+                      <div>
+                        <p className="mb-2 text-gray-600 dark:text-gray-400">
+                          Your session will expire after 36 hours of inactivity.
+                        </p>
+                        <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                          <Clock className="mr-1 size-4" />
+                          <span>
+                            {lastLogin
+                              ? `Last active: ${lastLogin}`
+                              : "No recent activity"}
+                          </span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center justify-center rounded-md bg-red-600 px-4 py-2 text-white hover:bg-red-700"
+                      >
+                        <LogOut className="mr-2 size-5" />
+                        Logout
+                      </button>
                     </div>
                   </div>
                 </div>
               )}
-            {/* System Information */}
-            <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
-              <h3 className="mb-3 text-lg font-medium">System Information</h3>
-              <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                <div className="flex items-center justify-between">
-                  <span>Version:</span>
-                  <span>1.0.0</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Last Updated:</span>
-                  <span>{new Date().toLocaleDateString()}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span>Environment:</span>
-                  <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                    Production
-                  </span>
+              {/* Email Management - Only visible to Governing Body or HR Executive */}
+              {userData &&
+                (userData.Member_Type === "Governing Body" ||
+                  (userData.Member_Type === "Executive" &&
+                    userData.Portfolio === "Human Resource")) && (
+                  // eslint-disable-next-line react/jsx-indent
+                  <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
+                    <h3 className="mb-4 text-lg font-medium">
+                      Email Management
+                    </h3>
+                    <p className="mb-4 text-gray-600 dark:text-gray-400">
+                      Add permitted email addresses for new members.
+                    </p>
+                    <div className="rounded-lg border border-gray-200 p-4 dark:border-gray-700">
+                      <div className="space-y-4">
+                        <div>
+                          <label
+                            htmlFor="newEmail"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                          >
+                            New Member Email
+                          </label>
+                          <input
+                            type="email"
+                            id="newEmail"
+                            className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                            placeholder="Enter email address"
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="memberType"
+                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                          >
+                            Member Type
+                          </label>
+                          <select
+                            id="memberType"
+                            className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                          >
+                            <option value="Executive">Executive</option>
+                            <option value="Associate">Associate</option>
+                            <option value="Governing Body">
+                              Governing Body
+                            </option>
+                          </select>
+                        </div>
+                        <button className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
+                          <UserPlus className="mr-2 size-5" />
+                          Add Member
+                        </button>
+                      </div>
+                    </div>
+                    <div className="mt-6">
+                      <h4 className="text-md mb-2 font-medium">
+                        Current Permitted Members
+                      </h4>
+                      <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-200 dark:border-gray-700">
+                        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                          <thead className="bg-gray-50 dark:bg-gray-800">
+                            <tr>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                              >
+                                Email
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                              >
+                                Status
+                              </th>
+                              <th
+                                scope="col"
+                                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400"
+                              >
+                                Actions
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
+                            {permittedEmails.map((email, index) => (
+                              <tr key={index}>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <div className="text-sm text-gray-900 dark:text-gray-200">
+                                    {email}
+                                  </div>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4">
+                                  <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                    Active
+                                  </span>
+                                </td>
+                                <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
+                                  <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                    Remove
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              {/* System Information */}
+              <div className="mt-8 border-t border-gray-200 pt-6 dark:border-gray-700">
+                <h3 className="mb-3 text-lg font-medium">System Information</h3>
+                <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="flex items-center justify-between">
+                    <span>Version:</span>
+                    <span>1.0.0</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Last Updated:</span>
+                    <span>{new Date().toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Environment:</span>
+                    <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                      Production
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        );
-      default:
-        return (
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mb-4 text-xl font-bold">
-              Welcome to E-Cell Dashboard
-            </h2>
-            <p>Select an option from the sidebar to get started.</p>
-          </div>
-        );
+          );
+        default:
+          return (
+            <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-800">
+              <h2 className="mb-4 text-xl font-bold">
+                Welcome to E-Cell Dashboard
+              </h2>
+              <p>Select an option from the sidebar to get started.</p>
+            </div>
+          );
+      }
     }
   };
 
@@ -980,7 +987,7 @@ const DashboardPage = () => {
     const [localOtp, setLocalOtp] = useState("");
     const [localAuthError, setLocalAuthError] = useState("");
     const [localOtpSent, setLocalOtpSent] = useState(false);
-    const [isProcessing, setIsProcessing] = useState(false);
+    // const [isProcessing, setIsProcessing] = useState(false);
     const [avatarImage, setAvatarImage] = useState<string | null>(null);
     const [otpExpiry, setOtpExpiry] = useState<number | null>(null);
     const [timeLeft, setTimeLeft] = useState<number>(0);
@@ -1396,7 +1403,7 @@ const DashboardPage = () => {
     };
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
         <div className="w-full max-w-md rounded-lg bg-white p-6 shadow-xl dark:bg-gray-800 dark:text-gray-200">
           <h2 className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-200">
             {authMode === "login"
