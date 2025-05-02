@@ -560,7 +560,7 @@ export function RegistrationModal({
                             4.
                           </span>
                           <span>
-                            <strong>Workflow Visualization:</strong> Include a
+                            <strong>Workflow Visualization (optional):</strong> Include a
                             simple algorithm or flowchart outlining your
                             solution.
                           </span>
