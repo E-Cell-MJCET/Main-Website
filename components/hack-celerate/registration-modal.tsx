@@ -19,6 +19,7 @@ import {
   Mail,
   Check,
   Loader2,
+  CheckCircle,
 } from "lucide-react";
 import Link from "next/link";
 import { FaTasks } from "react-icons/fa";
@@ -48,6 +49,8 @@ import {
 import { Team } from "@/types/TeamTypes";
 import { verifyEmail, verifyOTP } from "@/src/workers/verifyEmail";
 import resgiterNewTeam from "@/src/workers/register";
+
+import RegistrationSuccessEnhanced from "./registration-success-enhanced";
 
 interface RegistrationModalProps {
   open: boolean;
@@ -210,7 +213,7 @@ export function RegistrationModal({
       setEmailVerified(true);
       setShowOtpField(false);
       // In a real application, you would verify the OTP with your backend
-      console.log(`OTP verified: ${otp}`);
+      // console.log(`OTP verified: ${otp}`);
     });
   };
 
@@ -267,6 +270,7 @@ export function RegistrationModal({
         await resgiterNewTeam(teamData)
           .then(() => {
             setIsSubmitting(false);
+            setStep(5);
             setSubmissionStatus({
               success: true,
               message:
@@ -291,10 +295,10 @@ export function RegistrationModal({
 
       const data = form.getValues();
       setIsSubmitting(true);
-
+      const participants = memberCount + 1; //members + team ka leader (1)
       const teamData: Omit<Team, "id" | "created_at"> = {
         team_name: data.teamName,
-        no_of_participants: memberCount,
+        no_of_participants: participants,
         team_leader_name: data.leaderName,
         college: data.college,
         branch: data.branch,
@@ -318,14 +322,12 @@ export function RegistrationModal({
       await resgiterNewTeam(teamData)
         .then(() => {
           setIsSubmitting(false);
+          setStep(5);
           setSubmissionStatus({
             success: true,
             message:
               "Registration completed successfully! Your team has been registered for HackCelerate.",
           });
-          setTimeout(() => {
-            onOpenChange(false);
-          }, 3000);
         })
         .catch(() => {
           alert("Something went wrong try again!");
@@ -401,25 +403,66 @@ export function RegistrationModal({
               {/* Progress indicator */}
               {isTeam ? (
                 <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
-                  {[1, 2, 3, 4].map((stepNumber) => (
+                  {[1, 2, 3, 4, 5].map((stepNumber) => (
                     <div
                       key={stepNumber}
                       className="flex flex-col items-center"
                     >
                       <div
-                        className={`flex size-10 items-center justify-center rounded-full border-2 
-                        ${
-                          step === stepNumber
-                            ? "border-white bg-gray-700 text-white"
-                            : step > stepNumber
-                              ? "border-gray-500 bg-gray-600 text-gray-300"
-                              : "border-gray-600 text-gray-500"
-                        }`}
+                        className={`flex size-10 items-center justify-center rounded-full border-2 transition-all duration-300
+        ${
+          step === stepNumber
+            ? "border-white bg-gray-700 text-white"
+            : step > stepNumber
+              ? "border-gray-500 bg-gray-600 text-gray-300"
+              : "border-gray-600 text-gray-500"
+        }`}
                       >
                         {stepNumber === 1 && <FileIcon size={18} />}
                         {stepNumber === 2 && <FaTasks size={18} />}
                         {stepNumber === 3 && <User size={18} />}
                         {stepNumber === 4 && <Users size={18} />}
+                        {stepNumber === 5 && <CheckCircle size={18} />}
+                      </div>
+                      <span
+                        className={`mt-1 text-xs transition-colors duration-300 ${
+                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
+                        }`}
+                      >
+                        {stepNumber === 1
+                          ? "Guidelines"
+                          : stepNumber === 2
+                            ? "Team"
+                            : stepNumber === 3
+                              ? "Leader"
+                              : stepNumber === 4
+                                ? "Members"
+                                : "Confirm"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
+                  {[1, 2, 3, 5].map((stepNumber) => (
+                    <div
+                      key={stepNumber}
+                      className="flex flex-col items-center"
+                    >
+                      <div
+                        className={`flex size-10 items-center justify-center rounded-full border-2 transition-all duration-300
+        ${
+          step === stepNumber
+            ? "border-white bg-gray-700 text-white"
+            : step > stepNumber
+              ? "border-gray-500 bg-gray-600 text-gray-300"
+              : "border-gray-600 text-gray-500"
+        }`}
+                      >
+                        {stepNumber === 1 && <FileIcon size={18} />}
+                        {stepNumber === 2 && <FaTasks size={18} />}
+                        {stepNumber === 3 && <User size={18} />}
+                        {stepNumber === 5 && <CheckCircle size={18} />}
                       </div>
                       <span
                         className={`mt-1 text-xs ${
@@ -432,42 +475,7 @@ export function RegistrationModal({
                             ? "Team"
                             : stepNumber === 3
                               ? "Leader"
-                              : "Members"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="mx-auto mt-6 flex max-w-xs items-center justify-between">
-                  {[1, 2, 3].map((stepNumber) => (
-                    <div
-                      key={stepNumber}
-                      className="flex flex-col items-center"
-                    >
-                      <div
-                        className={`flex size-10 items-center justify-center rounded-full border-2 
-                        ${
-                          step === stepNumber
-                            ? "border-white bg-gray-700 text-white"
-                            : step > stepNumber
-                              ? "border-gray-500 bg-gray-600 text-gray-300"
-                              : "border-gray-600 text-gray-500"
-                        }`}
-                      >
-                        {stepNumber === 1 && <FileIcon size={18} />}
-                        {stepNumber === 2 && <FaTasks size={18} />}
-                        {stepNumber === 3 && <User size={18} />}
-                      </div>
-                      <span
-                        className={`mt-1 text-xs ${
-                          step >= stepNumber ? "text-gray-300" : "text-gray-500"
-                        }`}
-                      >
-                        {stepNumber === 1
-                          ? "Guidelines"
-                          : stepNumber === 2
-                            ? "Team"
-                            : "Leader"}
+                              : "Confirm"}
                       </span>
                     </div>
                   ))}
@@ -478,7 +486,7 @@ export function RegistrationModal({
                 <div
                   className="h-full rounded-full bg-[#7BF1A7] transition-all duration-300"
                   style={{
-                    width: `${((step - 1) / (isTeam ? 3 : 2)) * 100}%`,
+                    width: `${((step - 1) / 4) * 100}%`,
                   }}
                 ></div>
               </div>
@@ -560,9 +568,9 @@ export function RegistrationModal({
                             4.
                           </span>
                           <span>
-                            <strong>Workflow Visualization (optional):</strong> Include a
-                            simple algorithm or flowchart outlining your
-                            solution.
+                            <strong>Workflow Visualization (optional):</strong>{" "}
+                            Include a simple algorithm or flowchart outlining
+                            your solution.
                           </span>
                         </li>
                         <li className="flex items-start">
@@ -1600,6 +1608,8 @@ export function RegistrationModal({
                   </div>
                 </div>
               )}
+              {/* Sted 5: Registration Done */}
+              {step === 5 && <RegistrationSuccessEnhanced />}
             </form>
           </Form>
         </div>
