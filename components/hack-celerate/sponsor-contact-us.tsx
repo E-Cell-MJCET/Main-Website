@@ -28,6 +28,7 @@ function SponsorUs() {
           subject: formData.get("subject"),
           message: formData.get("message"),
           created_at: new Date().toISOString(),
+          phone: formData.get("phone"),
         },
       ]);
 
@@ -105,6 +106,13 @@ function SponsorUs() {
                   className="w-full rounded-lg bg-gray-800 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#7BF1A7]"
                 />
               </div>
+              <input
+                  type="phone"
+                  name="phone"
+                  placeholder="Enter your phone number"
+                  required
+                  className="w-full rounded-lg bg-gray-800 px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#7BF1A7]"
+                />
               <select
                 name="subject"
                 required
