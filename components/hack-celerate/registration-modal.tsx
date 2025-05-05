@@ -268,9 +268,105 @@ export function RegistrationModal({
         };
 
         await resgiterNewTeam(teamData)
-          .then(() => {
+          .then(async () => {
             setIsSubmitting(false);
+
             setStep(5);
+            await fetch("/api/email-confirmation", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                to: data.email,
+                subject: "✅🎉Hackcelerate Registration Successfull🎉✅",
+                html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hackcelerate Submission Confirmation</title>
+  <style>
+    body {
+      font-family: 'Silkscreen', sans-serif;
+      background-color: #121212;
+      color: #e5ffe9; /* brighter greenish-white */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #7BF1A7;
+      text-align: center;
+      text-shadow: -4px -4px 0 #3A6695, -8px -8px 0 #3A6695;
+    }
+    p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      text-align: center;
+      color: #e5ffe9;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #7BF1A7;
+      color: #121212;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px auto;
+      box-shadow: 4px 4px 0 #3A6695;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 8px 8px 0 #3A6695;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #B3FFE2;
+      margin-top: 30px;
+    }
+    a {
+      color: #7BF1A7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Hackcelerate Submission Confirmed!</h1>
+    <p>Dear <strong>${data.leaderName}</strong> – Team <strong>${data.teamName}</strong>,</p>
+    <p>Thank you for being a part of <strong>Hackcelerate</strong>! We're excited to have your team onboard with your incredible ideas.</p>
+    <p>✅🎉Your submission has been successfully received.🎉✅</p>
+    <p>If shortlisted we will contact the team leader, till then, Stay tuned for upcoming updates — this is just the beginning!</p>
+    <div class="btn">
+    <a href="https://www.instagram.com/ecellmjcet" class="cta-button" target="_blank" rel="noopener noreferrer">
+      Follow Us on Instagram
+    </a>
+     </div>
+    <div class="footer">
+      <p>🔔 Don’t miss out! Follow <a href="https://www.instagram.com/ecellmjcet" target="_blank">@ecellmjcet</a> for all updates.</p>
+    </div>
+  </div>
+</body>
+</html>
+`,
+              }),
+            });
             setSubmissionStatus({
               success: true,
               message:
@@ -320,9 +416,104 @@ export function RegistrationModal({
       };
 
       await resgiterNewTeam(teamData)
-        .then(() => {
+        .then(async () => {
           setIsSubmitting(false);
           setStep(5);
+          await fetch("/api/email-confirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              to: data.email,
+              subject: "✅🎉Hackcelerate Registration Successful🎉✅",
+              html: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hackcelerate Submission Confirmation</title>
+  <style>
+    body {
+      font-family: 'Silkscreen', sans-serif;
+      background-color: #121212;
+      color: #e5ffe9; /* brighter greenish-white */
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #7BF1A7;
+      text-align: center;
+      text-shadow: -4px -4px 0 #3A6695, -8px -8px 0 #3A6695;
+    }
+    p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      text-align: center;
+      color: #e5ffe9;
+    }
+    .btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #7BF1A7;
+      color: #121212;
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      border-radius: 8px;
+      text-align: center;
+      margin: 20px auto;
+      box-shadow: 4px 4px 0 #3A6695;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+    .cta-button:hover {
+      transform: scale(1.05);
+      box-shadow: 8px 8px 0 #3A6695;
+    }
+    .footer {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #B3FFE2;
+      margin-top: 30px;
+    }
+    a {
+      color: #7BF1A7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Hackcelerate Submission Confirmed!</h1>
+    <p>Dear <strong>${data.leaderName}</strong> – Team <strong>${data.teamName}</strong>,</p>
+    <p>Thank you for being a part of <strong>Hackcelerate</strong>! We're excited to have your team onboard with your incredible ideas.</p>
+    <p>✅🎉Your submission has been successfully received.🎉✅</p>
+    <p>If shortlisted we will contact the team leader, till then, Stay tuned for upcoming updates — this is just the beginning!</p>
+    <div class="btn">
+    <a href="https://www.instagram.com/ecellmjcet" class="cta-button" target="_blank" rel="noopener noreferrer">
+      Follow Us on Instagram
+    </a>
+     </div>
+    <div class="footer">
+      <p>🔔 Don’t miss out! Follow <a href="https://www.instagram.com/ecellmjcet" target="_blank">@ecellmjcet</a> for all updates.</p>
+    </div>
+  </div>
+</body>
+</html>
+`,
+            }),
+          });
           setSubmissionStatus({
             success: true,
             message:
