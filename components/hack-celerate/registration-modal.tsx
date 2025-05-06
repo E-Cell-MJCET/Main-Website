@@ -852,7 +852,7 @@ export function RegistrationModal({
                             before submission.
                           </span>
                         </li>
-{/*                         <li className="flex items-start">
+                        {/*                         <li className="flex items-start">
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •
                           </span>
