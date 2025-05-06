@@ -7,6 +7,8 @@ interface EmailRequestBody {
   html: string;
 }
 
+export const runtime = "edge";
+
 export async function POST(req: NextRequest) {
   try {
     const { to, subject, html }: EmailRequestBody = await req.json();
