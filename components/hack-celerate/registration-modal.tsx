@@ -854,7 +854,7 @@ export function RegistrationModal({
                             before submission.
                           </span>
                         </li>
-                        <li className="flex items-start">
+                        {/*                         <li className="flex items-start">
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •
                           </span>
@@ -863,7 +863,7 @@ export function RegistrationModal({
                             teams will be charged Rs.70 per member and Rs. 100
                             for solo participants.
                           </span>
-                        </li>
+                        </li> */}
                         <li className="flex items-start">
                           <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
                             •

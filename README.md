@@ -216,15 +216,15 @@ These are the open source projects used to build E-Cell MJCET Website
 
 <!--Markdown Links-->
 
-[contributors-shield]: https://img.shields.io/github/contributors/E-Cell-MJCET/Website.svg?style=for-the-badge
-[contributors-url]: https://github.com/E-Cell-MJCET/Website/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/E-Cell-MJCET/Website.svg?style=for-the-badge
-[forks-url]: https://github.com/E-Cell-MJCET/Website/network/members
-[stars-shield]: https://img.shields.io/github/stars/E-Cell-MJCET/Website.svg?style=for-the-badge
-[stars-url]: https://github.com/E-Cell-MJCET/Website/stargazers
-[issues-shield]: https://img.shields.io/github/issues/E-Cell-MJCET/Website.svg?style=for-the-badge
-[issues-url]: https://github.com/E-Cell-MJCET/Website/issues
-[license-shield]: https://img.shields.io/github/license/E-Cell-MJCET/Website.svg?style=for-the-badge
-[license-url]: https://github.com/E-Cell-MJCET/Website/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/E-Cell-MJCET/Main-Website.svg?style=for-the-badge
+[contributors-url]: https://github.com/E-Cell-MJCET/Main-Website/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/E-Cell-MJCET/Main-Website.svg?style=for-the-badge
+[forks-url]: https://github.com/E-Cell-MJCET/Main-Website/network/members
+[stars-shield]: https://img.shields.io/github/stars/E-Cell-MJCET/Main-Website.svg?style=for-the-badge
+[stars-url]: https://github.com/E-Cell-MJCET/Main-Website/stargazers
+[issues-shield]: https://img.shields.io/github/issues/E-Cell-MJCET/Main-Website.svg?style=for-the-badge
+[issues-url]: https://github.com/E-Cell-MJCET/Main-Website/issues
+[license-shield]: https://img.shields.io/github/license/E-Cell-MJCET/Main-Website.svg?style=for-the-badge
+[license-url]: https://github.com/E-Cell-MJCET/Main-Website/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/company/e-cell-mjcet/
