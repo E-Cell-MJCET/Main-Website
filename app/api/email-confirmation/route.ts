@@ -1,5 +1,5 @@
+import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 
 interface EmailRequestBody {
   to: string;
@@ -7,29 +7,22 @@ interface EmailRequestBody {
   html: string;
 }
 
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 export async function POST(req: NextRequest) {
   try {
     const { to, subject, html }: EmailRequestBody = await req.json();
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "ecellmjcet@mjcollege.ac.in",
-        pass: "xkehbygqtafwfvkp", // Prefer using environment variables
-      },
-    });
-
-    const mailOptions = {
-      from: "ecellmjcet@mjcollege.ac.in",
+    const response = await resend.emails.send({
+      from: "noreply@ecellmjcet.com",
       to,
       subject,
       html,
-    };
-
-    await transporter.sendMail(mailOptions);
+    });
+    console.log("Email sent successfully:", response);
 
     return NextResponse.json(
-      { message: "Email sent successfully" },
+      { message: "Email sent", response },
       { status: 200 }
     );
   } catch (error) {

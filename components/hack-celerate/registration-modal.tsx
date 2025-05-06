@@ -208,13 +208,15 @@ export function RegistrationModal({
 
     setVerifyingOtp(true);
 
-    await verifyOTP(form.getValues("email"), otp).then(() => {
-      setVerifyingOtp(false);
-      setEmailVerified(true);
-      setShowOtpField(false);
-      // In a real application, you would verify the OTP with your backend
-      // console.log(`OTP verified: ${otp}`);
-    });
+    await verifyOTP(form.getValues("email"), otp)
+      .then(() => {
+        setVerifyingOtp(false);
+        setEmailVerified(true);
+        setShowOtpField(false);
+        // In a real application, you would verify the OTP with your backend
+        // console.log(`OTP verified: ${otp}`);
+      })
+      .catch(() => setSendingOtp(false));
   };
 
   const nextStep = async () => {
