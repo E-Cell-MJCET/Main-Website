@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
       service: "gmail",
       auth: {
         user: "ecellmjcet@mjcollege.ac.in",
-        pass: "xkehbygqtafwfvkp", // Prefer using environment variables
+        pass: process.env.EMAIL_PASSOWRD, // Prefer using environment variables
       },
     });
 
