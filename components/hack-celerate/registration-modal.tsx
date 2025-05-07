@@ -666,6 +666,14 @@ export function RegistrationModal({
                             •
                           </span>
                           <span>
+                            Upon being shortlisted for the online round of Hackcelerate, teams will be charged ₹70 per member, and solo participants will be charged ₹100.
+                          </span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="mr-2 mt-1 shrink-0 text-[#7BF1A7]">
+                            •
+                          </span>
+                          <span>
                             Registration period: 17th April - 11th May 2025.
                           </span>
                         </li>
