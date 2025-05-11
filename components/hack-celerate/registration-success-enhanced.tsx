@@ -51,10 +51,10 @@ export default function RegistrationSuccessEnhanced() {
       {/* Buttons */}
       <div className="mt-8 flex animate-[fadeIn_1s_ease-in_1.2s_both] flex-col gap-4 sm:flex-row sm:justify-around">
         <Link
-          href="https://chat.whatsapp.com/DOViTi8NHvH0LnapNsznoX"
+          href="https://www.instagram.com/ecellmjcet/"
           className="flex w-full items-center justify-center space-x-2 rounded-lg bg-gray-700 px-6 py-3 font-silkscreen text-white transition-all hover:scale-105 hover:bg-gray-600 sm:w-auto"
         >
-          <span>Join Community</span>
+          <span>Follow for updates</span>
         </Link>
       </div>
       {/* CSS Animations */}
