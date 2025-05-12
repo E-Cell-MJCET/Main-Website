@@ -324,7 +324,7 @@ async function checkResultFromSupabase(email: string): Promise<TeamResult> {
     const { data: leaderData, error: leaderError } = await supabase
       .from("hackcelerate")
       .select("*")
-      .eq("email", email)
+      .eq("email", email.toLowerCase())
       .single();
     // console.log("Leader email:", email);
     // console.log("Leader Data:", leaderData);
