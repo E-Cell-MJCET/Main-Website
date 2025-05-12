@@ -52,7 +52,7 @@ const TIMELINE_DATA: TimelineItem[] = [
     dayNumber: "3",
   },
   {
-    date: "14th May",
+    date: "15th May",
     title: "Quiz",
     description: "Test your knowledge — attendance is mandatory to qualify",
     color: "teal" as CardColor,
