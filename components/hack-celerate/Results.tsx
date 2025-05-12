@@ -215,6 +215,10 @@ export default function ResultsModal({
                           </h3>
                           <p className="mt-2 text-lg text-white">
                             You have been selected for HACK-CELERATE! 🚀
+                            <span className="block font-mono text-sm text-gray-400">
+                              &quot;Your team leader has been contacted,
+                              deadline to confirm is 14th May,11:59pm&quot;
+                            </span>
                           </p>
                         </div>
                         {result.teamName && (
