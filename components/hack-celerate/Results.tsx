@@ -328,7 +328,7 @@ async function checkResultFromSupabase(email: string): Promise<TeamResult> {
       .single();
     // console.log("Leader email:", email);
     // console.log("Leader Data:", leaderData);
-    // console.log("Leader Error:", leaderError);
+    console.log("Leader Error:", leaderError);
     if (rejectedEmails.includes(email)) {
       return {
         found: false,
