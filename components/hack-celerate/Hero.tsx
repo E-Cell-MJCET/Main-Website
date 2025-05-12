@@ -26,7 +26,7 @@ export default function Hero() {
     }
   }, [isModalOpen]);
   // Target date: April 17th, 2025
-  const targetDate = new Date("2025-05-12T00:00:00").getTime();
+  const targetDate = new Date("2025-05-17T10:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
@@ -114,14 +114,14 @@ export default function Hero() {
            active:shadow-[2px_2px_#E0F7FF] 
            sm:px-8 
            sm:py-4 sm:text-xl md:text-2xl"
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => setIsModalOpen(false)}
       >
-        Register Now
+        Registeration closed
       </button>
       {/* Pass the modal state to the RegistrationModal component */}
       <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
       <div className="my-5 text-center font-block text-4xl text-white">
-        Registrations Ends in
+        Hackathon starts in
       </div>
       {/* Countdown Section */}
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
