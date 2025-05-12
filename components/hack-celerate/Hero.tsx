@@ -5,11 +5,10 @@ import { FaInstagram } from "react-icons/fa";
 import Image from "next/image";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
+import ResultsModal from "@/components/hack-celerate/Results";
 
 import { RetroGrid } from "../ui/retro-grid";
 import github from "../../public/assets/Logo/github.png";
-
-import { RegistrationModal } from "./registration-modal";
 
 export default function Hero() {
   const [days, setDays] = useState("00");
@@ -114,12 +113,12 @@ export default function Hero() {
            active:shadow-[2px_2px_#E0F7FF] 
            sm:px-8 
            sm:py-4 sm:text-xl md:text-2xl"
-        onClick={() => setIsModalOpen(false)}
+        onClick={() => setIsModalOpen(true)}
       >
-        Registeration closed
+        View Results
       </button>
       {/* Pass the modal state to the RegistrationModal component */}
-      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      <ResultsModal open={isModalOpen} onOpenChange={setIsModalOpen} />
       <div className="my-5 text-center font-block text-4xl text-white">
         Hackathon starts in
       </div>
