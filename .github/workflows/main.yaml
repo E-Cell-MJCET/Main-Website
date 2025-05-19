@@ -17,6 +17,7 @@ env:
     CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
     RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
     NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+    CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
 jobs:
   lint:
