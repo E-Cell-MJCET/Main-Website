@@ -100,9 +100,7 @@ export default function Top16Modal({ open, onOpenChange }: Top16ModalProps) {
                         className="flex items-center justify-between border-b border-gray-700 p-2"
                       >
                         <div className="flex items-center space-x-2 sm:space-x-3">
-                          <span className="w-5 font-silkscreen text-sm text-[#7BF1A7] sm:w-8 sm:text-base">
-                            {team.id}
-                          </span>
+                          <span className="w-5 font-silkscreen text-sm text-[#7BF1A7] sm:w-8 sm:text-base"></span>
                           <span className="max-w-[150px] truncate text-sm font-medium text-white sm:max-w-none sm:text-base">
                             {team.name}
                           </span>
