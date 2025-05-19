@@ -10,6 +10,8 @@
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun run pages:build && wrangler pages dev",
     "deploy": "bun run pages:build && wrangler pages deploy",
+    "typecheck": "tsc -p tsconfig.json",
+    "format": "prettier --write --cache .",
     "prepare": "husky"
   },
   "dependencies": {
