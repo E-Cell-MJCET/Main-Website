@@ -16,5 +16,7 @@
   "[handlebars]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
-  "tailwindCSS.lint.cssConflict": "ignore"
+  "tailwindCSS.lint.cssConflict": "ignore",
+  "git.enableSmartCommit": true,
+  "git.inputValidation": true
 }

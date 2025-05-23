@@ -9,7 +9,10 @@
     "lint": "next lint",
     "pages:build": "bunx @cloudflare/next-on-pages",
     "preview": "bun run pages:build && wrangler pages dev",
-    "deploy": "bun run pages:build && wrangler pages deploy"
+    "deploy": "bun run pages:build && wrangler pages deploy",
+    "typecheck": "tsc -p tsconfig.json",
+    "format": "prettier --write --cache .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.787.0",
@@ -65,12 +68,15 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.3.0",
     "globals": "^15.14.0",
+    "husky": "^9.1.7",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
