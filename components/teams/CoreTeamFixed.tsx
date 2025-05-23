@@ -174,7 +174,7 @@ const CoreTeamCard = ({ member }: { member: CoreTeamMember }) => {
           }}
         >
           <div className="flex h-full flex-col items-center justify-center px-3">
-            <h3 className="text-md font-semibold leading-tight text-gray-800 px-1">
+            <h3 className="text-md px-1 font-semibold leading-tight text-gray-800">
               {member.name}
             </h3>
             <p className="mt-1 text-sm text-gray-600">{member.role}</p>
