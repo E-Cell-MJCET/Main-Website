@@ -6,7 +6,6 @@ import {
   Pixelify_Sans,
   Silkscreen,
   Staatliches,
-  Nanum_Pen_Script,
 } from "next/font/google";
 // import localFont from "next/font/local";
 import localFont from "next/font/local";
@@ -55,12 +54,6 @@ const staatliches = Staatliches({
   variable: "--font-staatliches",
 });
 
-const nanum_pen_script = Nanum_Pen_Script({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-nanum-pen-script",
-});
-
 const getBlockFont = localFont({
   src: "../app/fonts/block.woff2",
   variable: "--font-block",
@@ -74,7 +67,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable}  ${staatliches.variable} ${nanum_pen_script.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
+        className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable} ${staatliches.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
       >
         {/* <ReactLenis root={true}> */}
         {/* <LoadingScreen /> */}
