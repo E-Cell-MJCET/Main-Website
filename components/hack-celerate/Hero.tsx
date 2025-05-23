@@ -5,10 +5,11 @@ import { FaInstagram } from "react-icons/fa";
 import Image from "next/image";
 
 import { useScrollLock } from "@/hooks/useScrollLock";
-import ResultsModal from "@/components/hack-celerate/Results";
 
 import { RetroGrid } from "../ui/retro-grid";
 import github from "../../public/assets/Logo/github.png";
+
+import Top16Modal from "./top16";
 
 export default function Hero() {
   const [days, setDays] = useState("00");
@@ -24,8 +25,8 @@ export default function Hero() {
       document.body.classList.remove("overflow-y-hidden");
     }
   }, [isModalOpen]);
-  // Target date: April 17th, 2025
-  const targetDate = new Date("2025-05-17T10:00:00").getTime();
+  // Target date: may 31th, 2025
+  const targetDate = new Date("2025-05-31T00:00:00").getTime();
 
   const calculateTimeLeft = useCallback(() => {
     const now = new Date().getTime();
@@ -105,7 +106,7 @@ export default function Hero() {
       </div>
       {/* registration button */}
       <button
-        className="rounded-xl bg-white/10 px-6 py-3 
+        className="my-10 rounded-xl bg-white/10 px-6 py-3
            font-silkscreen text-lg text-[#E0F7FF] 
            shadow-[4px_4px_#E0F7FF] transition-all duration-200 ease-in-out 
            hover:shadow-[8px_8px_#E0F7FF] 
@@ -115,14 +116,10 @@ export default function Hero() {
            sm:py-4 sm:text-xl md:text-2xl"
         onClick={() => setIsModalOpen(true)}
       >
-        View Results
+        View TOP 16
       </button>
       {/* Pass the modal state to the RegistrationModal component */}
-      <ResultsModal open={isModalOpen} onOpenChange={setIsModalOpen} />
-      <div className="my-5 text-center font-block text-4xl text-white">
-        Hackathon starts in
-      </div>
-      {/* Countdown Section */}
+      <Top16Modal open={isModalOpen} onOpenChange={setIsModalOpen} />
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
         {[
           { label: "DAYS", value: days },
@@ -142,6 +139,12 @@ export default function Hero() {
             </div>
           </div>
         ))}
+      </div>
+      {/* Microsoft Countdown */}
+      <div className="mt-8 text-center">
+        <div className="font-block text-4xl text-white">
+          <span className="text-[#7BF1A7]"></span> left for Microsoft
+        </div>
       </div>
       {/* Follow us section */}
       <div className="mt-20 flex flex-col items-center space-y-3">
