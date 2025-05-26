@@ -22,9 +22,9 @@
     <br />
     <a href="https://ecellmjcet.com">View Website</a>
     ·
-    <a href="https://github.com/E-Cell-MJCET/Website/blob/main/.github/ISSUE_TEMPLATE/bug_report.md">Report Bug</a>
+    <a href="https://github.com/E-Cell-MJCET/Main-Website/blob/main/.github/ISSUE_TEMPLATE/bug_report.md">Report Bug</a>
     ·
-    <a href="https://github.com/E-Cell-MJCET/Website/blob/main/.github/ISSUE_TEMPLATE/feature_request.md">Request Feature</a>
+    <a href="https://github.com/E-Cell-MJCET/Main-Website/blob/main/.github/ISSUE_TEMPLATE/feature_request.md">Request Feature</a>
   </p>
 </div>
 
