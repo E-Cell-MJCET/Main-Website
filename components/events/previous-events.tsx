@@ -5,6 +5,14 @@ import { FaArrowRightLong } from "react-icons/fa6";
 const PreviousEvents = () => {
   const events = [
     {
+          title: "Hack-Celerate",
+          date: "May 11, 2025",
+          description:
+            "Hackcelerate 2025 by E-Cell MJCET is a high-energy tech hackathon that brings developers, designers, and entrepreneurs together to innovate, solve real-world problems, and build scalable, revenue-generating solutions.",
+          image: "/assets/hackcel_banner_site.png", // replace with actual image URL
+          link: "https://ecellmjcet.com/hackcelerate",
+    },
+    {
       title: "IPL Auction 2025",
       date: "April 10, 2025",
       description:
