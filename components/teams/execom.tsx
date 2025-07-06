@@ -232,6 +232,7 @@ const teamMembers: TeamMember[] = [
 export default function TeamComponent() {
   const [filter, setFilter] = useState<Category>("All");
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
+  // eslint-disable-next-line no-unused-vars
   const [showGif, setShowGif] = useState(false);
 
   useEffect(() => {
@@ -309,9 +310,7 @@ export default function TeamComponent() {
                         height={320}
                         unoptimized
                         src={
-                          hoveredMember === member.name && showGif
-                            ? member.gif
-                            : member.image
+                          member.image
                         }
                         alt={member.name}
                         className="h-[320px] w-full object-cover transition-transform duration-500 group-hover:scale-110"
