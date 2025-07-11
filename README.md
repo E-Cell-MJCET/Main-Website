@@ -205,7 +205,7 @@ This project is licensed under GPL-3.0 <a href="https://github.com/E-Cell-MJCET/
 
 Email - ecellmjcet@mjcollege.ac.in
 
-Send a message = www.ecellmjcet.com/contact
+Send a message = www.ecellmjcet.com/contactus
 
 # Acknowledgements
 
