@@ -1,0 +1,113 @@
+{
+  "year": "2025-2026",
+  "governingBody": [
+    {
+      "name": "John Doe",
+      "role": "Chief Coordinator",
+      "imageUrl": "/assets/placeholder.jpg",
+      "bgColor": "bg-gradient-to-br from-purple-600 to-indigo-800",
+      "quote": "Innovation drives success"
+    },
+    {
+      "name": "Jane Smith",
+      "role": "Chief Coordinator",
+      "imageUrl": "/assets/placeholder.jpg",
+      "bgColor": "bg-gradient-to-br from-amber-600 to-orange-800",
+      "quote": "Empowering tomorrow's leaders"
+    },
+    {
+      "name": "Mike Johnson",
+      "role": "Chief Technology Officer",
+      "imageUrl": "/assets/placeholder.jpg",
+      "bgColor": "bg-gradient-to-br from-emerald-600 to-teal-800",
+      "quote": "Technology shapes the future"
+    }
+  ],
+  "categories": [
+    "All",
+    "Technical",
+    "Relations and Outreach",
+    "Human Resource",
+    "Events",
+    "Entrepreneurship Coordinator",
+    "Design",
+    "Editorial and Research",
+    "Media",
+    "Marketing",
+    "Operations"
+  ],
+  "execomMembers": [
+    {
+      "name": "Alex Wilson",
+      "role": "Technical Team Head",
+      "department": "Technical",
+      "image": "/assets/placeholder.jpg",
+      "gif": "/assets/placeholder.gif",
+      "link": ""
+    },
+    {
+      "name": "Sarah Davis",
+      "role": "Design Head",
+      "department": "Design",
+      "image": "/assets/placeholder.jpg",
+      "gif": "/assets/placeholder.gif",
+      "link": ""
+    },
+    {
+      "name": "Chris Brown",
+      "role": "Events Head",
+      "department": "Events",
+      "image": "/assets/placeholder.jpg",
+      "gif": "/assets/placeholder.gif",
+      "link": ""
+    },
+    {
+      "name": "Emma Thompson",
+      "role": "Marketing Head",
+      "department": "Marketing",
+      "image": "/assets/placeholder.jpg",
+      "gif": "/assets/placeholder.gif",
+      "link": ""
+    },
+    {
+      "name": "David Lee",
+      "role": "Media Head",
+      "department": "Media",
+      "image": "/assets/placeholder.jpg",
+      "gif": "/assets/placeholder.gif",
+      "link": ""
+    }
+  ],
+  "coreTeamMembers": [
+    {
+      "name": "Ryan Miller",
+      "role": "Technical",
+      "image": "/assets/placeholder.jpg",
+      "color": "from-yellow-200 to-yellow-100"
+    },
+    {
+      "name": "Lisa Garcia",
+      "role": "Design",
+      "image": "/assets/placeholder.jpg",
+      "color": "from-pink-200 to-pink-100"
+    },
+    {
+      "name": "Tom Anderson",
+      "role": "Marketing",
+      "image": "/assets/placeholder.jpg",
+      "color": "from-blue-200 to-blue-100"
+    },
+    {
+      "name": "Anna Martinez",
+      "role": "Events",
+      "image": "/assets/placeholder.jpg",
+      "color": "from-orange-200 to-orange-100"
+    },
+    {
+      "name": "Kevin White",
+      "role": "Media",
+      "image": "/assets/placeholder.jpg",
+      "color": "from-purple-200 to-purple-100"
+    }
+  ]
+}
