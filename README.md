@@ -192,7 +192,7 @@ The PR can then be approved by the CTO alone, bypassing the usual workflow.
 # Top Contributers
 
 <a href="https://github.com/E-Cell-MJCET/Website/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=E-Cell-MJCET/website" alt="contrib.rocks image" />
+  <img src="https://contrib.rocks/image?repo=E-Cell-MJCET/Main-Website" alt="contrib.rocks image" />
 </a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
