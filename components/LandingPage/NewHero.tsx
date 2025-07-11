@@ -6,7 +6,6 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
-import { ReactLenis } from "lenis/react";
 import Image from "next/image";
 
 import team2 from "@/public/assets/team2.webp";
@@ -15,17 +14,7 @@ import execom2 from "@/public/assets/execomTH.webp";
 export const SmoothScrollHero = () => {
   return (
     <div className="bg-zinc-950 ">
-      <ReactLenis
-        root
-        options={{
-          // Learn more -> https://github.com/darkroomengineering/lenis?tab=readme-ov-file#instance-settings
-          lerp: 0.5,
-          infinite: false,
-          syncTouch: true,
-        }}
-      >
-        <Hero />
-      </ReactLenis>
+      <Hero />
     </div>
   );
 };

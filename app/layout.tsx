@@ -9,7 +9,6 @@ import {
 } from "next/font/google";
 // import localFont from "next/font/local";
 import localFont from "next/font/local";
-// import { ReactLenis } from "lenis/react";
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -69,10 +68,8 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${getBlockFont.variable} ${doto.variable} ${inter.variable} ${staatliches.variable} ${pixelify.variable} ${silkscreen.variable} antialiased`}
       >
-        {/* <ReactLenis root={true}> */}
         {/* <LoadingScreen /> */}
         {children}
-        {/* </ReactLenis> */}
         <Toaster />
       </body>
     </html>

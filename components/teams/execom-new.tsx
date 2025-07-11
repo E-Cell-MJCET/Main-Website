@@ -18,7 +18,12 @@ type TeamMember = {
   link: string;
 };
 
-const categories: Category[] = [
+interface TeamComponentProps {
+  categories?: Category[];
+  teamMembers?: TeamMember[];
+}
+
+const defaultCategories: Category[] = [
   "All",
   "Technical",
   "Relations and Outreach",
@@ -32,7 +37,7 @@ const categories: Category[] = [
   "Operations",
 ];
 
-const teamMembers: TeamMember[] = [
+const defaultTeamMembers: TeamMember[] = [
   // Technical Department
   {
     name: "Aayan Sayed",
@@ -227,12 +232,18 @@ const teamMembers: TeamMember[] = [
     gif: "/assets/Team/Execom/Operations/Umar/Umar.gif",
     link: "",
   },
-]
+];
 
-export default function TeamComponent() {
+export default function TeamComponent({
+  categories,
+  teamMembers,
+}: TeamComponentProps) {
   const [filter, setFilter] = useState<Category>("All");
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
   const [showGif, setShowGif] = useState(false);
+
+  const activeCategories = categories || defaultCategories;
+  const activeTeamMembers = teamMembers || defaultTeamMembers;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -261,27 +272,29 @@ export default function TeamComponent() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-black to-[#685797] px-4 py-12 text-gray-100">
+    <div className="min-h-screen bg-gradient-to-b from-black via-black to-black px-4 py-12 text-gray-100">
       <div className="mx-auto max-w-7xl">
-        {/* Header Section with updated gradient effect */}
+        {/* Header Section */}
         <div className="mb-16 text-center">
-          <h1 className=" mb-4 text-6xl font-bold tracking-tight">Execom</h1>
-          <p className="text-xl text-gray-400">
-            These are the people that make the magic happen.
+          <h1 className="mb-4 text-5xl font-bold tracking-tight">
+            Executive Committee
+          </h1>
+          <p className="text-xl text-gray-300">
+            Meet our dedicated executive committee who lead various departments
           </p>
         </div>
-        {/* Filter Buttons */}
-        <div className="mb-16 flex flex-wrap justify-center gap-2">
-          <div className="flex flex-wrap justify-center gap-2 rounded-lg bg-gray-800/50 p-2">
-            {categories.map((category) => (
+        {/* Filter Section */}
+        <div className="mb-12">
+          <div className="flex flex-wrap justify-center gap-4">
+            {activeCategories.map((category) => (
               <Button
                 key={category}
+                variant={filter === category ? "default" : "outline"}
                 onClick={() => setFilter(category)}
-                variant={filter === category ? "default" : "secondary"}
                 className={`rounded-full transition-all duration-300 ${
                   filter === category
-                    ? "bg-blue-600 hover:bg-blue-700"
-                    : "hover:bg-gray-400"
+                    ? "bg-white text-black hover:bg-gray-200"
+                    : "border-gray-500 bg-transparent text-gray-300 hover:border-white hover:bg-white hover:text-black"
                 }`}
               >
                 {category}
@@ -291,7 +304,7 @@ export default function TeamComponent() {
         </div>
         {/* Team Members Grid */}
         <div className="flex flex-wrap justify-center gap-8">
-          {teamMembers
+          {activeTeamMembers
             .filter(
               (member) => filter === "All" || member.department === filter
             )

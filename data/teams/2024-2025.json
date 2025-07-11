@@ -1,0 +1,325 @@
+{
+  "year": "2024-2025",
+  "governingBody": [
+    {
+      "name": "Syed Shujauddin",
+      "role": "Chief Coordinator",
+      "imageUrl": "/assets/Team/GB/shuja.jpeg",
+      "bgColor": "bg-gradient-to-br from-purple-600 to-indigo-800",
+      "quote": "Break boundaries, build legacies"
+    },
+    {
+      "name": "Ayesha Fatima",
+      "role": "Chief Coordinator",
+      "imageUrl": "/assets/Team/GB/ayesha.jpeg",
+      "bgColor": "bg-gradient-to-br from-amber-600 to-orange-800",
+      "quote": "You are not the work you do, you are the person you are."
+    },
+    {
+      "name": "Mohammed Irfan",
+      "role": "Chief Information Officer",
+      "imageUrl": "/assets/Team/GB/irfan.jpeg",
+      "bgColor": "bg-gradient-to-br from-emerald-600 to-teal-800",
+      "quote": "I see challenges as opportunities to innovate and grow."
+    },
+    {
+      "name": "Maliha Ishaq",
+      "role": "Chief Operating Officer",
+      "imageUrl": "/assets/Team/GB/maliha.jpeg",
+      "bgColor": "bg-gradient-to-br from-rose-600 to-pink-800",
+      "quote": "Believe and achieve."
+    },
+    {
+      "name": "Abid Nafi",
+      "role": "Chief Technology Officer",
+      "imageUrl": "/assets/Team/GB/abid.png",
+      "bgColor": "bg-gradient-to-br from-blue-600 to-cyan-800",
+      "quote": "Have an attitude that you can do anything, only then you will go and try anything."
+    }
+  ],
+  "categories": [
+    "All",
+    "Technical",
+    "Relations and Outreach",
+    "Human Resource",
+    "Events",
+    "Entrepreneurship Coordinator",
+    "Design",
+    "Editorial and Research",
+    "Media",
+    "Marketing",
+    "Operations"
+  ],
+  "execomMembers": [
+    {
+      "name": "Aayan Sayed",
+      "role": "Technical Team Head",
+      "department": "Technical",
+      "image": "/assets/Team/Execom/Technical/Aayan/Aayan.jpg",
+      "gif": "/assets/Team/Execom/Technical/Aayan/gif.gif",
+      "link": ""
+    },
+    {
+      "name": "Syed Abdul Muneeb",
+      "role": "Technical Team Head",
+      "department": "Technical",
+      "image": "/assets/Team/Execom/Technical/Muneeb/Muneeb.jpeg",
+      "gif": "/assets/Team/Execom/Technical/Muneeb/Muneeb.gif",
+      "link": ""
+    },
+    {
+      "name": "Syed Adnan Ali",
+      "role": "Technical Team Head",
+      "department": "Technical",
+      "image": "/assets/Team/Execom/Technical/Adnan/Adnan.jpg",
+      "gif": "/assets/Team/Execom/Technical/Adnan/Adnan.gif",
+      "link": ""
+    },
+    {
+      "name": "Neha Anjum",
+      "role": "Technical Team Head",
+      "department": "Technical",
+      "image": "/assets/Team/Execom/Technical/Neha/Neha.jpg",
+      "gif": "/assets/Team/Execom/Technical/Neha/Neha.gif",
+      "link": ""
+    },
+    {
+      "name": "Saifuddin Syed",
+      "role": "Entrepreneurship Coordinator Head",
+      "department": "Entrepreneurship Coordinator",
+      "image": "/assets/Team/Execom/Entrepreneurship/Saif/Saif.jpg",
+      "gif": "/assets/Team/Execom/Entrepreneurship/Saif/Saifuddin.webp",
+      "link": ""
+    },
+    {
+      "name": "Saleha Baseer",
+      "role": "Entrepreneurship Coordinator Head",
+      "department": "Entrepreneurship Coordinator",
+      "image": "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.jpg",
+      "gif": "/assets/Team/Execom/Entrepreneurship/Saleha/Saleha.webp",
+      "link": ""
+    },
+    {
+      "name": "Nooria Yousuf",
+      "role": "Entrepreneurship Coordinator Head",
+      "department": "Entrepreneurship Coordinator",
+      "image": "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.jpeg",
+      "gif": "/assets/Team/Execom/Entrepreneurship/Nooria/Nooria.webp",
+      "link": ""
+    },
+    {
+      "name": "Mohammed Rayyan Ali",
+      "role": "Entrepreneurship Coordinator Head",
+      "department": "Entrepreneurship Coordinator",
+      "image": "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.jpg",
+      "gif": "/assets/Team/Execom/Entrepreneurship/Rayyan/Rayyan.webp",
+      "link": ""
+    },
+    {
+      "name": "Afra Ahmed",
+      "role": "Human Resource Head",
+      "department": "Human Resource",
+      "image": "/assets/Team/Execom/HR/Afra/Afra.jpg",
+      "gif": "/assets/Team/Execom/HR/Afra/Afra.gif",
+      "link": ""
+    },
+    {
+      "name": "Md. Faizullah Shareef",
+      "role": "Human Resource Head",
+      "department": "Human Resource",
+      "image": "/assets/Team/Execom/HR/Faizullah/Faizullah.jpg",
+      "gif": "/assets/Team/Execom/HR/Faizullah/Faizullah.gif",
+      "link": ""
+    },
+    {
+      "name": "Syed Alyan Ahmed",
+      "role": "Relations and Outreach Head",
+      "department": "Relations and Outreach",
+      "image": "/assets/Team/Execom/Relations/Alyan/Alyan.jpg",
+      "gif": "/assets/Team/Execom/Relations/Alyan/Alyan.gif",
+      "link": ""
+    },
+    {
+      "name": "Faiz Ali",
+      "role": "Relations and Outreach Head",
+      "department": "Relations and Outreach",
+      "image": "/assets/Team/Execom/Relations/Faiz/Faiz.jpg",
+      "gif": "/assets/Team/Execom/Relations/Faiz/Faiz.gif",
+      "link": ""
+    },
+    {
+      "name": "Afzal Hashmi",
+      "role": "Design Head",
+      "department": "Design",
+      "image": "/assets/Team/Execom/Design/Afzal/Afzal2.jpg",
+      "gif": "/assets/Team/Execom/Design/Afzal/Afzal.gif",
+      "link": ""
+    },
+    {
+      "name": "Shafiya Khanam",
+      "role": "Design Head",
+      "department": "Design",
+      "image": "/assets/Team/Execom/Design/Shafiya/Shafiya.webp",
+      "gif": "/assets/Team/Execom/Design/Shafiya/Shafiya.gif",
+      "link": ""
+    },
+    {
+      "name": "Namirah Fathima",
+      "role": "Design Head",
+      "department": "Design",
+      "image": "/assets/Team/Execom/Design/Namirah/Namirah.jpg",
+      "gif": "/assets/Team/Execom/Design/Namirah/Namirah.gif",
+      "link": ""
+    },
+    {
+      "name": "Rukhaiya Begum",
+      "role": "Editorial and Research Head",
+      "department": "Editorial and Research",
+      "image": "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.jpg",
+      "gif": "/assets/Team/Execom/Editorial/Rukhaiya/Rukhaiya.gif",
+      "link": "/profile/rukhaiya"
+    },
+    {
+      "name": "Nazmeen Sultana",
+      "role": "Editorial and Research Head",
+      "department": "Editorial and Research",
+      "image": "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.jpg",
+      "gif": "/assets/Team/Execom/Editorial/Nazmeen/Nazmeen.gif",
+      "link": "/profile/nazmeen"
+    },
+    {
+      "name": "Noor Asad",
+      "role": "Media Head",
+      "department": "Media",
+      "image": "/assets/Team/Execom/Media/Noor/Noor.JPG",
+      "gif": "/assets/Team/Execom/Media/Noor/Noor.gif",
+      "link": ""
+    },
+    {
+      "name": "Farzeen Naveed",
+      "role": "Media Head",
+      "department": "Media",
+      "image": "/assets/Team/Execom/Media/Farzeen/Farzeen.jpg",
+      "gif": "/assets/Team/Execom/Media/Farzeen/Farzeen.gif",
+      "link": ""
+    },
+    {
+      "name": "Safwan Nisar Ahmed",
+      "role": "Marketing Head",
+      "department": "Marketing",
+      "image": "/assets/Team/Execom/Marketing/Safwan/Safwan.jpeg",
+      "gif": "/assets/Team/Execom/Marketing/Safwan/Safwan.gif",
+      "link": ""
+    },
+    {
+      "name": "Amena Wajiha",
+      "role": "Events Head",
+      "department": "Events",
+      "image": "/assets/Team/Execom/Events/Amena/Amena.jpg",
+      "gif": "/assets/Team/Execom/Events/Haseeb/Amena.gif",
+      "link": ""
+    },
+    {
+      "name": "Haseeb Rahman",
+      "role": "Events Head",
+      "department": "Events",
+      "image": "/assets/Team/Execom/Events/Haseeb/Haseeb.jpg",
+      "gif": "/assets/Team/Execom/Events/Haseeb/Haseeb.gif",
+      "link": ""
+    },
+    {
+      "name": "Md. Umar Salam",
+      "role": "Operations Head",
+      "department": "Operations",
+      "image": "/assets/Team/Execom/Operations/Umar/Umar.jpeg",
+      "gif": "/assets/Team/Execom/Operations/Umar/Umar.gif",
+      "link": ""
+    }
+  ],
+  "coreTeamMembers": [
+    {
+      "name": "Mohammed Aqib Khan",
+      "role": "Technical",
+      "image": "/assets/Team/Core/1.jpeg",
+      "color": "from-yellow-200 to-yellow-100"
+    },
+    {
+      "name": "Mohammad AbdulBaseer",
+      "role": "Technical",
+      "image": "/assets/Team/Core/2.jpg",
+      "color": "from-pink-200 to-pink-100"
+    },
+    {
+      "name": "Sadia Fatima",
+      "role": "Technical",
+      "image": "/assets/Team/Core/3.jpg",
+      "color": "from-blue-200 to-blue-100"
+    },
+    {
+      "name": "Juwairiyyah Ahmed",
+      "role": "Design",
+      "image": "/assets/Team/Core/4.jpg",
+      "color": "from-orange-200 to-orange-100"
+    },
+    {
+      "name": "Sobia Amena Aijaz",
+      "role": "Design",
+      "image": "/assets/Team/Core/5.jpg",
+      "color": "from-purple-200 to-purple-100"
+    },
+    {
+      "name": "Mohammed Imran",
+      "role": "Media",
+      "image": "/assets/Team/Core/6.jpg",
+      "color": "from-green-200 to-green-100"
+    },
+    {
+      "name": "Mohammed Omer",
+      "role": "Media",
+      "image": "/assets/Team/Core/7.jpeg",
+      "color": "from-red-200 to-red-100"
+    },
+    {
+      "name": "Rida Ahmed",
+      "role": "Media",
+      "image": "/assets/Team/Core/8.jpeg",
+      "color": "from-teal-200 to-teal-100"
+    },
+    {
+      "name": "Syeda Shahakaar",
+      "role": "Marketing",
+      "image": "/assets/Team/Core/9.jpg",
+      "color": "from-indigo-200 to-indigo-100"
+    },
+    {
+      "name": "Omar Alam Gir",
+      "role": "Marketing",
+      "image": "/assets/Team/Core/10.jpeg",
+      "color": "from-amber-200 to-amber-100"
+    },
+    {
+      "name": "Mohammed Farhan",
+      "role": "Editorial and Research",
+      "image": "/assets/Team/Core/11.jpg",
+      "color": "from-cyan-200 to-cyan-100"
+    },
+    {
+      "name": "Hajrah Tahreem",
+      "role": "Human Resources",
+      "image": "/assets/Team/Core/12.jpg",
+      "color": "from-lime-200 to-lime-100"
+    },
+    {
+      "name": "Rehmath Unnisa",
+      "role": "Events",
+      "image": "/assets/Team/Core/13.jpg",
+      "color": "from-fuchsia-200 to-fuchsia-100"
+    },
+    {
+      "name": "Syed Usaid Minhaj",
+      "role": "Entrepreneurship Coordinator",
+      "image": "/assets/Team/Core/14.jpg",
+      "color": "from-rose-200 to-rose-100"
+    }
+  ]
+}

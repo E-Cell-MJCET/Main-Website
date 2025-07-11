@@ -1,6 +1,5 @@
 // import { ReactLenis } from "lenis/dist/lenis-react";
 
-import { ReactLenis } from "lenis/react";
 import Image from "next/image";
 
 import team2 from "@/public/assets/team2.webp";
@@ -9,17 +8,7 @@ import execom2 from "@/public/assets/execomTH.webp";
 export const LaJoker = () => {
   return (
     <div className="h-screen overflow-y-hidden bg-zinc-950">
-      <ReactLenis
-        root
-        options={{
-          // Learn more -> https://github.com/darkroomengineering/lenis?tab=readme-ov-file#instance-settings
-          lerp: 0.5,
-          //  infinite: true,
-          //   syncTouch: true,
-        }}
-      >
-        <Hero />
-      </ReactLenis>
+      <Hero />
     </div>
   );
 };
@@ -33,14 +22,13 @@ const Hero = () => {
       className="relative w-full "
     >
       <CenterImage />
-      
     </div>
   );
 };
 const CenterImage = () => {
   const clipPath = "polygon(25% 25%, 75% 25%, 75% 75%, 25% 75%)"; // Static clip path
-  const backgroundSize = "100%"; 
-  const opacity = 1; 
+  const backgroundSize = "100%";
+  const opacity = 1;
 
   return (
     <div

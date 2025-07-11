@@ -9,6 +9,10 @@ interface MemberCardProps {
   quote: string;
 }
 
+interface GoverningBodyProps {
+  data?: MemberCardProps[];
+}
+
 const MemberCard: React.FC<MemberCardProps> = ({
   name,
   role,
@@ -50,7 +54,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
   );
 };
 
-const members = [
+const defaultMembers = [
   {
     name: "Syed Shujauddin",
     role: "Chief Coordinator",
@@ -89,14 +93,15 @@ const members = [
   },
 ];
 
-const GoverningBody: React.FC = () => {
+const GoverningBody: React.FC<GoverningBodyProps> = ({ data }) => {
+  const members = data || defaultMembers;
   const topRow = members.slice(0, 2);
   const bottomRow = members.slice(2);
 
   // bg-gradient-to-b from-gray-900 via-gray-800 to-black
 
   return (
-    <div className="min-h-screen bg-black px-4 py-20 pt-40 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black px-4 py-20 pt-10 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="mb-16 text-center">
           <h1 className="mb-4 bg-white bg-clip-text text-4xl font-extrabold text-transparent md:text-5xl">
